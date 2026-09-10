@@ -1,0 +1,150 @@
+<<<PAGE 4>>>
+[PART II-—SEC. 3(ii)]
+THEGAZETTEOFINDIA:EXTRAORDINARY
+4
+MINISTRY OF CONSUMERAFFAIRS,FOODANDPUBLICDISTRIBUTION
+Department of Consumer Affairs)
+NOTIFICATION
+New Delhi,the19th March,2014
+S.O.824（E).In exercise of the powers conferred by rule 3,rule 4and rule 5 of the Legal
+Metrology（Approval of Models)Rules,2011,theDirector(Legal Metrology)herebynotifies and authorises the
+principal officersof therecognized Laboratories toreceive the applicationsfrom themanufacturers ofweights
+andmeasuresof theirregions directly for testing ofmodels for which the facility is availablewith that
+laboratory.
+2. The format of application for making an application for approval of model shall be as specified in the First
+Format annexed hereto.
+3. The format of application for making an application to the Director for recognition under these rules for
+carrying out tests for the approval of the model of any weight or measure under sub-rule (1) of rule 4 of the
+said rules shall be as specified in the Second Format annexed hereto.
+4. This notification shall come into force from the date of its publication in the Official Gazette.
+[F. No. WM-9(4)/2014]
+MANOJ KUMAR PARIDA, Jt. Secy.
+First Format
+[See para 2]
+Application for Approval of Model
+(To be submitted in duplicate)
+1 (a) Full name and address of the applicant (where the applicant is not resident of India, specify the name and
+address of his representative in India)
+(b) A brief description of the weight or measure, the class to which it belongs and the probable use for which the
+weight or measure is intended to be produced.
+(c) Data regarding metrological and technical characteristics and qualities of the weight or measure.
+(d) Test procedure followed by the manufacturer.
+(e) Trade name or type of the weight or measure.
+(f) If the weight or measure is provided with supplementary or additional devices, full information with regard to
+such supplementary or additional devices, such as drawing, descriptions in relation to the said weight or
+measures.
+2. Application shall be accompanied with two copies of the following; namely:--
+(a) A sketch and section wise drawing of general arrangements and installation of such weight or measure
+including the details of construction of the weight or measure in such manner so as to enable the visualisation of
+the weight or measure in the finished form.
+(b) Document describing the following, namely:-
+(i) the principles of construction and the method of operation of the weight or measure:
+(ii) the safety devices provided to prevent any fraudulent or inaccurate operation of the weight or measure:
+(i) the manner in which and the extent to which the weight or measure may be adjusted or corrected:
+(iv) the place where the verification stamp or seal of both may be affixed:
+wherenecessary
+<<<PAGE 5>>>
+：
+[ I1-g 3(i)]
+(vi) Photographs for publication along with the approval of model:
+(vii) Any other informiation, which the applicant may consider to be useful for assessing the performance and
+facilitating the approval of the model.
+Signature of applicant
+Note: The expression 'weight or measure’ includes a weighing or measuring instrument.
+Note: The application in duplicate with all the technical particulars and circuit diagram (if applicable) as given
+below shall be sent to the Director, Legal Metrology, 461A, Krishi Bhawan, New Delhi-110001 or to the
+respective Regional Reference Standards laboratories for testing:
+Operating manual in English:
+Circuit diagram of each printed circuit board:
+Wiring diagram:
+Instruction manual in the English language:
+Calibration procedure in the English language:
+Components layout of each printed circuit board and the matching parts lists:
+Block diagram of the software:
+Mechanical diagram (exploded views of all types):
+A list with all applied interfaces:
+A drawing with location where and how the instrument can be secured against dismantling and calibration
+by the user:
+Specifications of all possible devices.
+Second Format
+[See para 3]
+Application for Recognition of Laboratory under the Legal Metrology
+(Approval of Models) Rules, 2011
+hereby make application to the Director, Legal
+ on behalf of .
+IWe....
+Metrology, Government of India under Rule 4 of the Legal Metrology (Approval of Models) Rules, 2011 for
+granting recognition to this laboratory for carrying out of model approval test in the following field.
+...hereby undertake to comply with the Legal Metrology (Approval of Models) Rules,
+IWe .........
+2011 as in force for the time being.
+....hereby agree to abide by the terms and conditions that may be specified by the
+I/We
+Director, Legal Metrology in this behalf.
+..hereby declare that the particulars of my/our laboratory given below are correct.
+IWe.....
+Signature.....
+Date..
+<<<PAGE 6>>>
+[PART II-SEC. 3(ii)]
+THEGAZETTEOFINDIA:EXTRAORDINARY
+6
+PARTICULARS OFLABORATORY
+Moder of Weight orMeastire for which
+Field of use
+Equipment
+application is made
+Sr.No.
+f,19,2014
+<<<PAGE 7>>>
+13（]
+NOTIFICATION
+New Delhi, the 19th March, 2014
+S.O. 825(E).-In exercise of the powers conferred by rule 3 of the Legal Metrology (Approval of
+Models) Rules, 2011, the Director (Legal Metrology) hereby recognizes and notifies the laboratories specified in
+column (2) of the Table as the Laboratories for testing the models of Weights and Measures specified in column
+(3) of the said Table, namely:--
+TABLE
+(3)
+(2)
+Models of Weights and Measures
+(1)
+Laboratories
+(i)Mechanical andelectronicweighing instruments
+SI.No.
+Regional Reference Standards Laboratory,
+likeNon-Automatic weighing instruments,
+1.
+(i)Automatic GravimetricFillingInstrument,
+Ahmadabad,
+Regional Reference Standards Laboratory,
+(ii) Counter Machine,
+2.
+(iv) Fuel dispensing pumps,
+Bangalore,
+Regional Reference Standards Laboratory,
+(v) Measuring tapes,
+3.
+(vi)  Volumetric capacity measures of  higher
+Bhubaneswar,
+Regional Reference Standards Laboratory,
+capacities,
+4.
+(vii) Auto rickshaw and taxi meters,
+Faridabad
+(viii) Clinical thermometers,
+Regional Reference Standards Laboratory,
+5.
+(ix) Sphygmomanometers (B P Meters)
+Guwahati
+(x) Liquor measures
+(Xi) Any other Weight or Measure, forwarded by
+Director,Legal Metroiogy.
+2. (1) The Laboratories referred to in column (2) of the said Table shall conduct the testing in accordance with the
+provisions of the Legal Metrology Act, 2009 (1 of 2010) and the rules made thereunder.
+(2) The Laboratories shall also follow the technical recommendation of the International Organization of Legal
+Metrology regarding format and check list and comply with the provisions of International Organisation for
+Standardisation or International Electrotechnical Committee 17025.
+3. The Head of Office recognised by the Department shall be construed as the ‘Principal Officer' of the Laboratory.
+[F. No. WM-9(4)/2014]
+MANOJ KUMAR PARIDA, Jt. Secy.

@@ -1,0 +1,2095 @@
+<<<PAGE 41>>>
+[3（）]
+aehD
+11
+26.0160
+2.02.0
+205010325
+1元le
+10
+0.1410
+3.40.0
+[..9（6）/2010-]
+MINISTRY OF CONSUMER AFFAIRS,FOOD AND PUBLIC DISTRIBUTION
+(Department of Consumer Affairs)
+NOTIFICATION
+NewDelhi,the31stJanuary,2011
+with clauses (a),（b),（d) and （e)of sub-section (2)of section 52of the Legal
+Metrology Act,2009 (1 of 2010),the Central Government hereby makes the
+following rules,namely:
+CHAPTER1
+PRELIMINARY
+1.Short title and commencement-(1) These rules may be called the Legal
+Metrology （National Standards) Rules,2011.
+(2)They shall come into force on the 1st day of April, 2011.
+34411)-6
+<<<PAGE 42>>>
+42
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART 1ISEC.3（(i)]
+2.
+Definitions-In these rules,unless the context otherwise requires:-
+(a)“Act"means the Legal Metrology Act,2009(1of 2010);
+(b)co-efficient”means those parameters without physical dimension or
+ratios of quantities of the same kind,which are necessary for particular
+measurementsor for characterisingpropertiesof substances or mixturesofcertain
+substances;
+ILLUSTRATION:Degree of alcoholic strength,percentage of Sugar and
+hardnessof materials,areexamplesofco-efficients.
+（c)derived units”means units,expressed algebraically in terms of base
+units,or in terms of base and supplementary units of weights or measures,by
+meansofmathematical symbolsof multiplication ordivision,orboth.
+Explanation I.-Derived units having special names and symbols (such as
+'Newton',with symbol N') may,by themselves,be used to expressother derived
+units ina simplerway than in termsof thebase unitsofweightsand measures.
+Explanation II.-The values of dimensionless quantities (such as,refractive
+index,specificgravity,relative permeability orrelative permittivity)are expressed
+by numbers.In such cases the corresponding unit shall be the ratio of the
+relevant two units andmaybeexpressed by a number;
+(d)"General Conference on Weights and Measures"means the conference
+General des Poids et Mesures established under the Metre Convention to which
+India acceded in 1957;
+（e)“International Bureau of Weights and Measures" means the Bureau
+International des Poids et Mesures established under the Convention du Metre,at
+Sevres in France;
+(f)"International Organisation of Legal Metrology"means the Organisation
+Internationale de Metrologie Legale established under the Convention Instituant
+<<<PAGE 43>>>
+[可（]
+43
+Une Organisation Internationale de Metrologie Legale in 1955 to which India
+acceded in 1956;
+(g)"International prototype of thekilogram”means theprototype sanctioned
+by the First General Conference on Weights and Measures held in Paris in 1889
+and deposited at the International Bureau ofWeights and measures;
+(h)International System of Units"of weights and measures meansLe
+System International dUnits'with the international abbreviation'SI',established
+by the General Conference on Weights and Measures;Explanation.-'Sr'is divided
+into three classes of units,namely:
+(i) base units,and
+（ii)derived units;and
+(ili) supplementary units;
+(i)permitted units"means the units which though not part of the SI,are
+recognised andpermittedby theGeneral ConferenceonWeights andMeasuresfor
+general use alongwithSI units;
+(j)“physical constants”means those constants which express the value of
+physical invariant in a given system of units and these constants include;
+(i) those which correlate two or more physical quantities to expressa
+physical phenomenon in quantitative terms independent of any material
+properties;for example,gravitational constant,velocity of light etc.
+(i) those which correlate the microscopic properties of elementary
+particles（atoms,molecules etc.)to the corresponding microscopic properties;for
+example;Avogadro constant,Faraday constantetc.
+（ii) those conversion factors used to express the same parameter in
+terms of independently defined units for example,the conversion factor relating
+the astronomical unit ofparsecto the metre and atomicmassunit tokilogram.
+<<<PAGE 44>>>
+44
+THE GAZETTEOF INDIA:EXTRAORDINARY
+[PARr II--SEC.3(i)]
+(iv) those which describe the material properties of pure substances,for
+example,thermal conductivity,specific resistance,etc;
+(k)"Schedule”means the Schedule appended to these rules;
+(1)SI prefix”means the name and symbol of a prefix used for forming
+decimal multiples and sub-multiples of SI units,and of such other units as are
+permitted subject to any exception or modification by the General Conference on
+Weights and Measures or the International Organisation of Legal Metrology,or
+both,to be used along with theSI units;
+（m)“special units”mean units,outside, the SI which are ordinarily used in
+specialised fields ofscientificresearch and the values of those unitsexpressed in
+SI units can only be obtained by experiment,and are,therefore,not known
+exactly.
+Explanation:The value of electron volt （the unit of energy) depends
+upon theexperimentally determinedvalue of the chargeof an electron;
+(n)“supplementary units"mean the units of weight or measure which have
+been specified assuchby the General Conference onWeights and Measures.
+Explanation:Supplementary unitsmay be used to form derived units;
+specified manner for the convenient representation of a unit or a group of units;
+"temporarily accepted units"means the unit ofweight ofmeasure which
+have been recognised for the time being by the General Conference of weights
+and measures foruse along with SI units.
+<<<PAGE 45>>>
+[（]
+ahe:hL4
+CHAPTER II
+UNITS OF WEIGHT OR MEASURE
+3.Units of Weight or Measure to be based on metric system
+(1) Every unit ofweightor measure shall bebased on the unitsof the metric
+systems.
+(2)Forthepurpose of sub-rule(1)
+(a) the international system of unitsasrecommendedbyGeneral
+Conference onweights and measures,and
+(b)such additional units as may be recommended by the International
+Organisation of Legal Metrology,
+shall be the unitsof metricsystems.
+4.
+(1) Base units of Length-The base unit of length shall be the metre.
+(2)Themetre”is the lengthequal to 1650763.73wavelength invacuumof
+theradiation corresponding to the transition between the levels 2po and 5dsof
+the krypton-86atom.
+5.(1) Base units of Mass- The Base unit of mass shall be the kilogram.
+(2) The “kilogram”is the unit of mass;equal to the mass of international
+prototypeofkilogram.
+6.(1) Base unit of time- The base unit of time shall be the second.
+(2) The“second"is the duration of 9 192 631 770 periods of radiation
+corresponding to the transition between the two hyperfine levels of the ground
+stateofthecaesium-133atom.
+<<<PAGE 46>>>
+46
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART I-SC.S（i）
+7.
+(1) The base unit of electric current -The base unit of electric current
+shall be the ampere.
+(2) Theampere"is that constant current which if maintained in two straight
+parallel conductorsof infinite length of negligible circular cross-section,and placed
+one metre apart in vacuum,would produce between these conductors a force
+equal to2x10newtonpermetreof length.
+8.
+（1) Base unit of thermodynamic temperature- The Base unit of
+thermodynamic temperature shall be the kelvin.
+(2) Thekelvin"is the fraction 1/273.16of the thermodynamic temperature
+oftriplepointofwater.
+(3) The Kelvin shall also be used for expressing the interval or difference of
+temperature.
+(4) Zero degree Celsius corresponds to 273.15 kelvin.
+(5) The degree Celsius may also be used for expressing the interval or
+differenceof temperature,unitdegreeCelsiusbeing equal to unitKelvin.
+9.(1) Base unit of luminous intensity.- The base unit of luminous intensity
+shall be the candela.
+(2)Thecandela”is the luminous intensity,in the perpendicular direction,of
+a surface of 1/600,000 square metre ofa blackbody at the temperatureof
+freezingplatinum underapressureof101325newtonspersquaremetre.
+<<<PAGE 47>>>
+[-可3（ii）]
+Inhle:hLDh
+47
+10.(1) Base unit of amount of substance.- The base unit of amount of
+substance shall be themole.
+(2) The"mole”is the amount of substance of a system which contains as many
+elementary entities as there are atomsin0.012kilogram of carbon 12.
+(3)When the mole isused,the elementary entities shall invariablybespecified
+and maybe atoms,molecules,ions,electrons,other particles,or specified groups
+ofsuch particles
+11.Rules of Construction.- In these rules,wherever the expression 'weight
+has been used as symbolising the quantity of matter,such expression shall be
+construed asrepresenting mass.
+12.Supplementary Units.- The units defined and specified in the First
+Schedule shall be the supplementary units and the symbol assigned to each such
+unitsin thatSchedule shall be thesymbol of thatunit.
+13.
+Derived units.- The units defined and specified in the Second Schedule
+shall be derived units and the symbol assigned to each such unit in that Schedule
+shall be the symbol of that unit and no other units shall be used for the entities
+specified in the Second Schedule except for the purpose of scientificor
+technological research.
+14.Decimal multiples and sub-multiples of units.-(1) Decimal multiples
+and sub-multiples of base,supplementary,derived or other units shall be formed,
+<<<PAGE 48>>>
+48
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART II-SEC.3(i)I
+unless otherwise specified,by using either the fullname,or symbol of the SI-prefix
+specified in the Third Schedule.
+(2) The SI-prefixes shall be used in the manner specified in the Third
+Schedule.
+15.Permitted units.（1) The units specified in the Fourth Schedule may
+beused alongwith the SI units,subject to such limitations as are specified in that
+Schedule.
+(2) The multiples and sub-multiples of the units of time and plane angle
+specified in the Fourth Schedule shall be formed only in the manner specified in
+the Schedule.
+16.Special units.-(1) The units specified in the Fifth Schedule shall be used in
+such manner that their values may be expressed in terms of such SI units or
+combination ofSIunits,asmay beappropriate.
+(2)The multiples and sub-multiples of the units specified in the Fifth
+Schedule shall be formed with the help of SI prefixes specified in the Third
+Schedule.
+17.Temporarily accepted units.- The unit of weight or measure specified in
+the Sixth Schedule may also be used,subject to the condition that the Central
+Government shall,at least once in every ten years after the commencement of
+these rules,review the need,or otherwise,for the continuance for general use of
+such units:
+<<<PAGE 49>>>
+[—3（）]
+49
+Provided that such review may be undertaken earlier by the Central
+Governmenteitheron itsown motion or on the basisofarecommendation made
+by the General Conference on Weights and Measures,or the International
+Organisation of Legal Metrology.
+18. Units which should be progressively discontinued.-(1) Subject to sub-
+rule(2),the centimetre or gram or second units specified in the Seventh Schedule,
+and the units of weights and measures specified in the Eighth Schedule(being
+units outside the SI),shall not ordinarily be used except for the purpose of
+scientific and technological research andno such unit shall ordinarily be used for
+thepurposeofimparting education.
+(2) The use of the units specified in the Seventh Schedule or,as the case
+may be,in the Eighth Schedule,shall notbeused in any field except in the field of
+scientificand technological research.
+(3)While using the units specified in the Seventh Schedule,or,as the case
+may be,the Eighth Schedule for the purpose of scientific and technological
+research,such units shall be used only with the corresponding symbols specified in
+the Schedules aforesaid.
+19.Physical constants.-The physical constants specified in the Ninth Schedule
+and their correspondingnumerical values shall beused forallpurposesexceptfor
+thepurposeofresearch connectedwith thedetermination of theirvalues.
+34461f1-7
+<<<PAGE 50>>>
+50
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART1I—SEC.3()I
+20.Coefficient and symbol.-(1) Coefficients include the terms defined and
+specified in the Tenth Schedule;the symbol assigned to any such coefficient in
+thatSchedule shall be the symbol ofsuch coefficient.
+(2) Ordinarily, the coefficient and their respective symbols specified in
+the Tenth Scheduleshall be used:
+Provided thatanycoefficientwhichisnotspecified in the Tenth Schedule
+but which corresponds to any coefficient specified in that Schedule,may be used
+foraperiodoffiveyearsfromthecommencementoftheserules:
+Schedule,any coefficient corresponding to the coefficient so added may be used
+foraperiodoffiveyearsfrom thedateof additionofsuchcoefficient.
+(3) On the expiry of the period of aforesaid five years,the use of
+coefficientand theirrespectivesymbolsasspecified in the TenthScheduleshall be
+compulsory
+Explanation-In the case of a coefficient the useofwhich ispermissible
+under any of the provisos to sub-rule (2),the symbol,if any,attached to such
+coefficient may also be used for the same period for which the corresponding
+coefficientispermitted tobeused.
+21.Formation of new units.- No new unit or weight or measure shall be
+formed or used except for the purpose of scientific and technological research,
+without thepreviousapproval of theCentral Government.
+<<<PAGE 51>>>
+[—3（）]
+51
+CHAPTER III
+NATIONALSTANDARDS
+22.National prototypes.-（1) The Central Government shall,for the purpose of
+deriving thevalue of kilogram,cause to be prepared a national prototype of the
+kilogram andshall cause itsaccuracyto becertifiedbytheInternational Bureauof
+Weights and Measures equivalent to the international prototype of kilogram and
+shall thereupon deposit the same in the custody of the National Physical
+Laboratory,NewDelhi.
+(2) The Central Government shall, for the purpose of deriving the value of
+metre,cause tobe prepared a national prototype of the metre and shall cause its
+accuracy tobecertifiedby theInternational Bureau ofWeights and Measuresand
+shall thereupon deposit the same in the custody of the National Physical
+Laboratory,New Delhi.
+23. Custody,maintenance,etc. of national standards of weights and
+measures.-(1) The work relating to the realisation,establishment, custody,
+maintenance,determination,reproduction and updating of national standards of
+weights and measures shal,on the commencement of these rules,be the
+responsibility of theNational Physical Laboratory.
+(2) The Central Government may call for such reports from,or issue such
+directions to,the National Physical Laboratory as it may think fit,in relation to all
+or anyof themattersspecified insub-rule(1).
+<<<PAGE 52>>>
+52
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PARTIISEC3（iD)
+24. Realisation and establishment of the national standards of weights
+and measures based on SI units.-(1) The National Physical Laboratory shall
+discharge theresponsibilityofrealisingandestablishing thenationalstandardsof
+weights andmeasureson thebasisof recommendationsmadefrom time to time,
+by the General Conference on Weights and Measuresor the International
+Organisation of Legal Metrology,as the case may be.
+(2) The standards of weights and measures,so realised and established,
+shall be self-consistent.
+(3) For the purpose of establishing the national standards for the base units
+other than ofmass,theNational Physical Laboratory shall--
+(a)prepare or cause to be prepared such objects or equipments,or
+reproduce such phenomena,or both,as may be necessary for the purpose;and
+(b)determine or cause to be determined the value of the national
+standards as recommended by the General Conference on Weights and Measures
+and inter compare them,or cause to be inter compared,with the corresponding
+internationalstandards
+(4)For the purpose of deriving the value of the kilogram,the National
+Physical Laboratory shall arrange the periodical determination of the value of the
+national prototypeofthekilogramandthevalueof which isso determined,shall
+bethenational standardsofmass.
+(5) For the purpose of establishing the national standards for the derived
+and supplementary units the National Physical Laboratory shall prepare such
+standards,orobjectsorequipments,orboth and determineperiodically theirvalue
+andaccuracyinrelationtothenationalstandardsofbaseunits.
+<<<PAGE 53>>>
+[HPIII——gG3（)]
+S3
+25.Custody and maintenance of prototype standards.-(1) The national
+prototype of the kilogram and other standards,equipments and objects shall
+remain in the custody of the National Physical Laboratory, New Delhi.
+(2)The national prototype of the kilogram and every other national
+standard,standard equipments and objects shall be maintained and realised
+periodically in accordance with such instructions as the General Conference on
+Weights and Measures or theInternational Organisation of Legal etrology or any
+organisation constitutedby eitherofthemmayissuefrom timeto time.
+(3) Where no instructions have been issued by the International Organisation
+instructions for the proper maintenance of national prototype,national standards,
+standardsequipments and objects.
+（4) The National Physical Laboratory shall arrange,where necessary,to have
+the national prototype and national standards ofphysical measurements realised
+and established in accordance with the recommendations of the General
+Conference onWeights and Measures and to get themcalibrated on inter
+compared with reference to the appropriate international standards of physical
+measurements atperiodical intervalofnotmorethantenyears.
+(5)The valueof thenational prototype and other national standardsshall be
+the value determined by the National Physical Laboratory or assigned by the
+National Physical Laboratoryon the basisofthe technical information provided by
+the International Bureau of Weights and Measures and the National Physical
+<<<PAGE 54>>>
+S4
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART II-SEC.3(ii)]
+Laboratory shall publish such values periodically but in any case at least once in
+every five years.
+(6) The value determined in accordance with sub-rule (5) shall be deemed to
+represent thehigher obtainable accuracy ofsuchvalue in the country.
+CHAPTER IV
+REFERENCE,SECONDARY AND WORKING STANDARDS
+26.Reference Standard.-The expression "reference standard"means set of
+standardweightormeasurewhich ismadeormanufacturedbyoronbehalfof the
+Central Government for the verification of any secondary standard.
+27.Secondary Standard.-The expression secondary standard"means set of
+standardweightormeasurewhich ismadeormanufacturedby or on behalfof the
+Central Government or State Government for the verification of any working
+standard.
+28.Working Standard.-The expression working standard”means set of
+standardweightormeasurewhich ismadeormanufacturedbyoronbehalfof the
+Central Government or State Government for the verification of any standard
+weight or measure,other than national prototype,reference standard or
+secondary standards.
+29. Standards which are to be fabricated by the Mint.- Unless otherwise
+specified by the Central Government,all the reference, secondary and working
+<<<PAGE 55>>>
+55
+[3（]
+standards of mass and length and secondary and working standards of capacity
+shall be fabricated by theMetrological Wing of the Governmentof India Mint in
+Mumbai.
+30. Places where reference, secondary and working standards be kept.
+(1) There shall be established by the Central Government,at such places as
+it may think fit,Reference Standard Laboratories for maintaining such reference,
+secondary and working standardsasmay be needed by the Central Government
+for thepurpose of theAct.
+(2) The Indian Institute of Legal Metrology or any other Laboratory specified
+by the Central Government for this purpose may also maintain such reference,
+secondary and working standards,as may benecessary,for their functioning asa
+Metrological Laboratory of thelevel ofaReferenceStandard Laboratory.
+(3) The Government of India Mint at Mumbai may also maintain such
+reference,secondary and working standards asmay benecessary for carrying out
+theworkreferredto inrule29.
+31.Period and manner of verification of reference,secondary and
+working standards-
+(1)Every reference standard shall be verified and certified in termsof the
+National Standards by the National Physical Laboratory, at an interval not
+exceeding threeyears:
+Providedthatinthe caseoflengthmeasuressuchinterval shallnotexceed
+fiveyears.
+<<<PAGE 56>>>
+S6
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART1l SEC.3（D）]
+(2) Every secondary standard shall be verified against the appropriate
+reference standard by the Reference Standard Laboratory,at an interval not
+exceeding twoyears.
+(3) Every working standard shall be verified against the appropriate
+secondary standard,by any of the laboratories where secondary standards are
+maintained,at an interval not exceeding one year.
+32. Maintenance of Reference, Secondary and Working Standards.-Every
+reference standard, every secondary standard and every working standard,
+irrespective of the place where they are kept, shall be maintained as far as
+practicable in accordance with the guidelines issued by the National Physical
+Laboratoryfrom timeto time.
+33.Repeal and savings.-(1) The Standards of Weights and Measures (National
+Standards) Rules,1988 (herein under referred to as the said rules) are hereby
+repealed.
+Provided that suchrepeal shall not affect:
+(a) the previous operations of the said rules or anything done or omitted to be
+doneor suffered therein;or
+(b) any right, privilege,obligation or liability acquired,accrued or incurred under
+the said rules;or
+committed againstthe saidrules;or
+<<<PAGE 57>>>
+[3（]
+LohleKhLePh
+57
+(d） any investigation,legal proceedings or remedy in respect of any such right,
+privilege,obligation,liability,penalty,forfeiture orpunishment as aforesaid.
+And any such investigation,legal proceedings or remedy may be instituted,
+continued or enforced and any such penalty,forfeiture or punishment may be
+imposed as if the said ruleshadnotbeenrescinded.
+(2)Notwithstanding such repeal anything done or any action taken orpurported to
+have been done or taken including approval of letter,exemption granted,fees
+collected,any adjudication, enquiry or investigation commenced,license and
+registration of manufacturers,dealers,importers of weights and measures,or
+show cause notice,decision,determination,approval,authorisation issued,given
+or done under the said rules shall if in force atthe commencement of the said
+rules continue to be in force and have effect as if issued,given or done under the
+correspondingprovisions of these rules.
+(3) The provisions of these rules shall apply to any application made to the
+Central Governmentor as the case may be the State Government under the said
+rules for licence,registration of manufacturers,importers,dealers,repairers of
+weights and measures pending at the commencement of these rules and to any
+thereof.
+(4) Any legal proceeding pending in any court under the said rules at the
+commencementof these rules may be continued in thatcourt as if theserules had
+notbeen framed.
+(5)Any appeal preferred to the Central Government or as the case may be the
+StateGovernmentunder thesaid rules andpending shall be deemed tohavebeen
+made under thecorrespondingprovisions of theserules.
+34411-8
+<<<PAGE 58>>>
+58
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART 1I-—SEC.3(ii)]
+THE FIRST SCHEDULE
+(See rule 12)
+Supplementary Units and their symbols
+1.Unit of plane angle-The unit of plain angle shall be the radian.(symbol:rad)
+The radian is the plane angle between two radii of a circle which cutoff,on the
+circumference,an arc equal in length to theradius.
+2.Unit of solid-angle- The unit of solid angle shall be the steradian.(symbol:sr)
+The steradian is the solid angle which,having its vertex in the centre of a sphere,
+cuts off an area of the surface of the sphere equal to thatof a square with sidesof
+length equal to theradiusof the sphere.
+THE SECOND SCHEDULE
+(See rule 13)
+Derived Units and Their Symbols
+PartI
+Derived Unit in relation to Space and Time
+1.Unit of Area: The unit of area shall be the square metre.(Symbol: m²）)
+The square metre is the area of a squarewith sidesofone metre each.
+2.Unit of Volume:The unit of volume shallbe the cubic metre.(Symbol:m3)
+The cubicmetre is thevolume of a cubewith sidesof one metre each.
+3.Unit of frequency:The unit of frequency shall be the hertz.（Symbol:Hz)
+The hertz is the frequencyof a periodicphenomenon,theperiod of which is one
+second.
+1Hz= 1/1s.
+4.Unit of angular velocity:The unit of angular velocity shall be the radian per
+second.(Symbol:rad/s)
+The radian per second is the angular velocity of a body,rotating around thefixed
+axis,which rotates through one radian in one second,when set in uniform
+rotation.
+<<<PAGE 59>>>
+[113（i]
+59
+5.Unit of angular acceleration:The unit of angular acceleration shall be the radian
+persecondsquare.(Symbol:rad/s²)
+The radian per second squared is the angular acceleration of a body,rotating
+around thefixed axis,whichwhensetinuniformvaryingrotation,changesangular
+velocity attherateofoneradianpersecond inonesecond.
+6.Unitofspeed andvelocity:Theunitofspeed and velocity shall bethemetreper
+second.(Symbol:m/s orms1)
+Themetreper second isthevelocity(speed)ofabody,in motion which traversea
+distance ofone metre inonesecondwhen setin uniform motion.
+7.Unit of acceleration:The unit of acceleration shall be the metre per second
+squared.(Symbol:m/sorms²2)
+The metreper secondsquared isthe accelerationof abody in motion which,when
+set in uniformly varying motion,changes itsvelocity at the rate of one metre per
+second inonesecond.
+8.Unit of rotational frequency:The unit of rotational frequency shall be the
+second raised to the powerminus one.(Symbol:s1)
+The secondraised to thepower minusone is therotational frequency of a uniform
+rotatorymovementwhichproducesonecompleterevolution in onesecond.
+9.Unitofwavenumber:Theunitofwavenumbershallbe themetreraised to the
+power minus one.(Symbol:m1)
+Themetre raised to the powerminus one is thenumber ofwaves ofa
+monochromatic radiation which can be accommodated,in the direction of its
+propagation,in a length equal to one metre.
+10.Unitofvergencyofoptical system:The unitofvergencyof optical system shall
+be themetreraised to the power minusone.(Symbol:m)
+Themetreraised to thepower minus one is thevergencyof an optical system,the
+focal distance ofwhich is onemetre in a medium having refractive indexof unit.
+<<<PAGE 60>>>
+60
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART II-—SEC.3()]
+Note 1:This unit is also calledper metre'or`dioptre'
+Note 2:Themetreraised to thepower minus one symbol mis the unit of wave
+number aswell as that of vergency of optical system.The context in which the
+said unit isused will indicate whether the unitrelates to the wave number or
+vergency ofoptical system.
+PARTII
+Derived Units in Relation of Mechanics
+1
+Unit of density and mass density -The unit of densityand mass
+density shall be the kilogram per cubic metre.(Symbol:kg/mor Kgm3)
+The kilogram per cubic metre is the density or mass density of a
+homogenousbodyhaving a massofonekilogram and a volume ofone
+cubic metre.
+2.
+Unit of concentration-The unit of concentration shall be the kilogram
+per cubicmetre(Symbol:kg/morKgm3)
+The kilogram per cubic metre is the concentration of a homogenous
+solution having a total volume of one cubic metre and containing a
+massofonekilogram of the given substance.
+3.
+Unit of force-The unit of force shall be the newton(Symbol:N)
+The newton is the force which gives to a mass of one kilogram an
+acceleration ofone metreper second squared.
+1N=1kg.1m/s²
+4
+Unitofmoment of force-The unitof moment of force shall be the
+newton metre.
+(Symbol:Nm)
+The newton metre is the moment of force produced in a body by a
+force of one newton acting ata perpendicular distance of one metre
+from thefixed axisaroundwhich thebody turns.
+1N.m=m².kg.s2
+Note: The unit of moment of force shall not be written as joule (J)
+because itis Nm.
+5.
+Unit of Pressure-The unit of pressure shall be the Pascal (Symbol:
+Pa)
+The Pascal is the pressure which,acting on plane surface of one
+squaremetre exertson thatarea a total forceofonenewton.
+1Pa=1N/m²or1N.m²
+6.
+Unit of tensile strength -The unit of tensile strength shall be Mega
+Pascal.(Symbol:MPa or MN/m²)
+The tensile strength is the highest force,when applied normal to the
+cross-section of a test piece which it can withstand,divided by the
+original area of the cross section.
+7
+Unit of dynamic viscosity -The unit of dynamic viscosity shall be the
+Pascal second.(Symbol:Pa.S)
+<<<PAGE 61>>>
+[可3（）]
+61
+The Pascal second is the dynamicviscosity ofa homogenous liquid in
+which the straight and uniform movement of a plane surface of one
+square metre produces a retarding force of one newton,when there is
+a velocity difference ofonemetre per second between two parallel
+planes separated by one metre.
+1Pa.s=
+1Pa.1m
+1m/s
+8.
+Unit of kinematicviscosity-The unit of kinematicviscosity shall be the
+square metre per second.(Symbol:m²/s or m².s1)
+The square metre per second is the kinematic viscosity of a liquid
+which has a dynamicviscosity of one Pascal second and a density of
+onekilogram per cubic metre.
+1m²=1Pa.1s
+1s
+1kg/m3
+9.
+Unit of surface tension - The unit of surface tension shall be the
+newton per metre.(Symbol:N/m).
+The newton permetre is the surface tension produced when a force of
+one newton acts over a length of one metre on the surface of a liquid
+separating that liquidfrom thematerial surrounding it.
+10.
+Unit of work,energy and quantity of heat-The unit of energy,work
+and quantity of heat shall be the joule.(Symbol:J)
+The joule is the work done when the point of application ofone newton
+movesa distance ofone metre in the direction of the force.
+1J=1N.1m.
+11.
+Unit of power,radiant flux and heat flux-The unit of power,radiant
+flux and heat flux shall be thewatt. (Symbol:W)
+is uniformly transferred in one second.
+1W=1J/1s.
+12.
+Unit ofvolume flow-The unit of volume flow shall be cubic metre per
+second. (Symbol:m²/s or m.s-1)
+The cubic metre per sacond is the volume delivered by the uniform
+discharge of one cubicmetre traversing the given cross-section in one
+second.
+13.
+Unit of mass flow -The unit of mass flow shall be the kilogram per
+second.(Symbol:kg/s or kg.s)
+The kilogram per second is the mass delivered by the uniform
+discharge of a mass of one kilogram traversing the given cross-section
+in one second.
+14.
+Unitof specificvolume-The unitof specificvolume shall be the cubic
+metreperkilogram.(Symbol:m/kg)
+The cubicmetre per kilogram is the specific volume of a homogenous
+body having avolume of one cubicmetre and a mass of onekilogram.
+<<<PAGE 62>>>
+62
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PARTIISEC.3（i）
+PARTII
+Derived Units in Relation to Heat
+1.
+Unit ofentropy-The unit of entropy shall be the jouleperkelvin
+(Symbol:J/K)
+The joule perkelvin is the increase of entropy of a systemreceiving a
+quantityofheatequal toone joule at theconstantthermodynamic
+temperature ofonekelvin,provided thatno irreversible change takes
+place in the system.
+2.
+Unit of specific entropy-The unit of specific entropy shall be the joule
+perkilogramkelvin.[Symbol:J/(kg.K)].
+The joule per kilogram kelvin is the specific entropy ofa system of
+homogenous mass of one kilogram receiving a quantity of-heat equal
+toone joule at the constant thermodynamic temperature ofonekelvin,
+provided thatno irreversiblechange takesplace in the system.
+3.
+Unit of heat capacity-The unit of heat capacity shall be the joule per
+kelvin.(Symbol:J/K).
+The joule per kelvin is the heat capacity of a homogenous body in
+which a quantity of heat equal to one jouleproduces an increase of one
+kelvinin the thermodynamic temperature.
+4.
+Unit of specific heat capacity-The unit of specific heat capacity shall
+be the joule perkilogram kelvin.[Symbol:J/ (kg.K)].
+The joule per kilogram kelvin is the specific heat capacity ofa
+homogenous body having a mass of one kilogram in which quantity of
+heat equal to one joule produces an increase of one kelvin in the
+thermodynamictemperature.
+5.
+Unit of latent heat-The unit of latentheat shallbe the joule per
+kilogram.(Symbol:J/kg)
+The joule per kilogram is the heat exchanged by one kg of substance
+to change from onephase to another at the temperature of its changing
+phase.
+6.
+Unit of specific energy-The unit of specific energy shall be the joule
+perkilogram.(Symbol:J/kg)
+The joule per.kilogram is the specific energy of a system of
+homogenous mass of one kilogram having the internal energy of one
+joule.
+7.
+Unit of thermal conductivity -The unit of thermal conductivity shall be
+the wattper metre kelvin.[Symbol:W/(m.K)]
+The watt permetre kelvin is the thermal conductivity of a homogenous
+body in which a difference of one kelvin in the thermodynamic
+temperatureproduces a radiant flux ofone wattbetween two parallel
+planes,each having an area of one square metre,placed one metre
+apart.
+1W/m.K=1W/m²
+1K/1m
+<<<PAGE 63>>>
+[（]
+h
+63
+8.
+Unit of energy density -The unit of energy density shall be the joule
+per cubic metre.(Symbol:J/m²)
+The joule per cubic metre is the energy density of a.system of
+homogenous mass of volume one cubic metre and having the radiant
+energyofone joule.
+9.
+Unit of heat flux density-Theunit of heat flux density shall be the watt
+per square metre.(Symbol:W/m²)
+The watt per square metre is heat flux density of a surface of one
+square metre in area radiating out energy at the rate of one joule per
+second.
+PARTIV
+Derived units in relation of Electricity and Magnetism
+1.
+Unit of quantity of electricity and electric charge-The unit ofquantity
+ofelectricity and electric charge shallbe the coulomb.(Symbol:C)
+The coulomb is the quantity of electricity carried in one second by a
+currentofone ampere.
+1C=1A.1s
+2.
+Unit of electric charge density-The unit of electriccharge density shall
+be the coulomb per cubic metre.(Symbol:C/m)
+The coulomb per cubic metre is the electric charge density ofa
+homogenousmass or system of volume one cubic metre and having a
+charge ofone coulomb.
+3.
+Unit of electric flux density-The unit of electric flux density shall be
+coulomb per square metre.(Symbol:C/m²)
+The coulomb per square metre is the electric flux density when a
+condenser,having plates of infinite area/size,parallel to each other,is
+charged,invacuum,with aquantityofelectricity equal toonecoulomb
+perone squaremetreofarea of theplates.
+4
+Unit ofelectric tension,electricpotential and electromotive force-The
+unit ofelectric tension,electricpotential and electromotive force shall
+be the volt.(Symbol:V).
+The volt is thepotential difference between two pointsofa conducting
+wire carrying a constant currentof one ampere,when the power
+dissipated between thesepoints is equal to one watt.
+1V=1W/1A.
+5.
+Unit ofelectricfield strength-The unit of electricfield strength shall be
+the volt per metre.(Symbol:V/m)
+Thevoltpermetreis the electricfield strength of an electricfieldwhich
+produces a force equal to one newton ina body charge with a quantity
+ofelectricity equal toonecoulomb.
+1V=1N
+1m
+1C
+<<<PAGE 64>>>
+64
+THE GAZETTEOFINDIA:EXTRAORDINARY
+[PART I—SEC.3(i)]
+6.
+Unit of electric resistance-The unit ofelectric resistance shall be the
+ohm.
+(Symbol:Ω)
+The ohm is the electric resistance between two points of a conductor
+when a constant potential difference of one volt,applied to these
+points, produces in the conductor a current of one ampere,the
+conductor notbeing the seat of any electromotive force.
+1Q=1V/1A.
+7.
+Unit of conductance -The unit of conductance shall be the siemens.
+(Symbol:S)
+The siemens is the conductance of a conductor having a resistance of
+one ohm.
+1S=1Q1=
+U
+8.
+Unit of capacitance - The unit of capacitance shall be the farad.
+(Symbol:F)
+The farad is the capacitance between the conductors of a capacitor
+across which there appears a potential difference of one voltwhen it is
+charged by a quantity of electricity of one coulomb.
+1F=1C/1V
+9.
+Unitofpermittivity-Theunitofpermittivityshall be faradpermetre.
+(Symbol:F/m).
+The farad per metre is the permittivity of the medium which gives a
+platesseparated by a distance of onemetre.
+10.
+Unit of inductance - The unit of inductance shall be the henry.
+(Symbol:H)
+The henry is the inductance of a closed circuit inwhich an
+electromotive force of one volt isproduced when the electric current in
+the circuit variesuniformly at the rate of one ampere per second
+1H=1V.1s
+1A
+11.
+Unit ofpermeability-The unit ofpermeability shall be the henry per
+metre.(Symbol:H/m)
+Thehenrypermetre is thepermeability of a material surrounded bya
+single turnofflat sheetconductor
+metre and length one metre which gives an inductance of one henry.
+12.
+Unit of magnetic flux and flux of magnetic induction-The unit of
+magnetic flux and flux of magnetic induction shall be the weber.
+(Symbol:Wb)
+The weber is the magnetic flux which,linking a circuit of one turn,
+wouldproduce in it an electromotive forceofonevolt ifitwerereduced
+tozero ata uniform rate inone second.
+1Wb=1V.1s
+<<<PAGE 65>>>
+[（]
+lnle:hLelh
+65
+13.
+Unit of magnetic induction and magnetic flux density-The unit of
+magnetic induction and magnetic flux density shall be the tesla.
+(Symbol:T)
+The tesla is the uniform magnetic induction which,distributed evenly
+over a surface of one square metre,produces a total magnetic flux of
+one weber while passing over the surface.
+1T=1Wb/1m²
+14.
+Unit of magnetic field strength-The unit of magnetic field strength
+shall be the ampereper metre.(Symbol:A/m orA.m)
+The ampere per metre is the magnetic field strength produced in
+vacuumalong the surfaceofa circular cylinderwith acircumferenceof
+one metre,by a current of intensity of one ampere,maintained in a
+straight conductor of infinite length,of negligible circular cross-section,
+whichforms the axisof thesaid cylinder.
+15.
+Unit of current density-The unit of current density shall be the ampere
+persquaremetre.(Symbol:A/m²)
+The ampere per square metre is the current density in a linear
+conductor when a current of intensity one ampere flows uniformly
+through a cross-section of the conductor equal to one square metre,
+perpendicular to thedirection offlow of the
+current.
+PARTV
+Derived Units in Relation to Electromagnetic Radiation and Light
+Unit of radiant intensity-The unit of radiant intensity shall be the watt
+persteradian.(Symbol:W/sr).
+The watt per steradian is the radiant intensity of a point source
+uniformly emitting aradiantfluxofonewattwithin a solid angleofone
+steradian.
+2.
+Unit of irradiance-The unit ofirradiance shallbe thewattpersquare
+metre.(Symbol:W/m²)
+Thewatt per squaremetre is the irradianceproduced by aradiant flux
+ofone watt,distributed uniformly over anelement having a surface of
+onesquare metre
+[See also(1) above]
+3.
+Unitofradiance-The unitof radianceshall be thewattper square
+metre steradian.(Symbol:W/m².sr)
+Thewattpersquaremetre steradian is theradiance ofa source
+radiating onewattpersteradianper square metreofprojected area.
+4
+Unitofluminance-Theunitofluminanceshallbethecandelaper
+square metre.(Symbol:cd/m²)
+344611-9
+<<<PAGE 66>>>
+66
+THEGAZETTEOFINDIA:EXTRAORIDINARY
+[PARII S.S（i）I
+The candela per square metre is the luminance perpendicular to the
+plane surface of one square metre of a source, the luminous intensity
+ofwhichperpendicular to this source is one candela.
+5.
+Unit of luminous flux-The unit of luminous flux shall be the lumen.
+(Symbol:Im)
+Thelumen is the luminousfluxemitted in a solid angleofonesteradian
+bya uniformpoint sourcehaving a luminousintensityofone candela
+1lm=1cd.1sr
+6.
+Unit of illuminance -The unit of illuminance shall be the lux.(Symbol:
+1x)
+The lux is the illuminance produced by a luminous flux of one lumen,
+uniformly distributed overa surface ofarea one squaremetre.
+11x=1lm/1m²
+PARTVI
+Derived Unit in Relation to ionizing Radiations
+Unit of activity（radioactivity)-The unit of activity（ofa radioactive
+source) shall be the becqueral.(Symbol:Bq)
+The becqueral is the activity of a radioactive source in which one
+transformation or one transition takesplace in one second
+1Bq=1/1.s
+2.
+Unit of absorbed dose-The unit of absorbed dose shall begray which
+is equivalent to one joule per kilogram.(Symbol:Gy)
+The gray is the dose absorbed in an element of substance of mass one
+kilogram to which an energy ofone joule is communicated by an
+ionizing radiation,having a constantdensityof radiantflux,
+1Gy=1J/1kg
+PART VII
+Derived Units in Relation to Physical Chemistry and Molecular
+Physics
+Unit of concentration （of amount of substance)-The unit of
+concentration （of amount of substance) shall be the mole per cubic
+metre.(Symbol:mol/m3)
+The mole per cubic metre is the concentration of a homogenous
+solution having a total volume of one cubic metre and containing one
+mole of the given substance.
+2.
+Unit of molar energy-The unit of molar energy shall be the joule per
+mole.(Symbol:J/mol)
+The joule per mole is the molar energy of one mole of substance
+having the energy of one joule.
+<<<PAGE 67>>>
+[-3（]
+eh 
+67
+3.
+Unit of molar entropy -The unit of molar entropy shall be the joule per
+molekelvin.(Symbol:J/mol.K)
+The joule per mole kelvin is the molar entropy of a system of
+homogenous mass having a substance equal to one mole receiving a
+quantity of heat equal to one joule at the constant thermodynamic
+temperature of one kelvin provided that no irreversible change takes
+place in the system.
+4
+Unit of molar heat capacity -The unit of molar heat capacity shall be
+the joule per mole kelvin.(Symbol:J/mol.K)
+The joule per mole kelvin is the molar heat capacity of a homogenous
+body having an amount of substance equal to one mole,in which a
+quantity ofheat equal to one joule produces an increase ofonekelvin
+in the thermodynamic temperature.
+THE THIRD SCHEDULE
+(See rule 14)
+NAMES,MAGNITUDES AND SYMBOLS OF SIPREFIXES
+AND PRINCIPLES OF USE OFSI PREFIXES
+Names,Magnitudes and Symbols of Sl Prefixes-The names of
+prefixes,their magnitudes and symbols shall be as given in Table 1
+TABLE1
+Names of Prefixes, their Magnitudes and Symbols
+Name ofPrefix
+Magnitude of Prefix
+Symbol ofPrefix
+exa
+1018
+E
+peta
+1015
+P
+tera
+1012
+T
+giga
+109
+G
+mega
+106
+M
+kilo
+103
+k
+hecta
+102
+h
+deca
+101
+da
+deci
+10-1
+d
+centi
+10-
+C
+milli
+10-3
+m
+micro
+10-6
+nano
+10-9
+n
+pico
+10-12
+P
+femto
+10-15
+f
+atto
+10-18
+a
+Explanation:The unit of length is metre with symbol m:after adding a
+prefixc'for centi we get“cm”as new unit symbol.This can beraised to
+a positive exponent 3 to give the unit of volume.Similarly this can be
+combined with another unit say kg'and by giving it negative exponent
+3 to indicate density inkg per cm
+<<<PAGE 68>>>
+68
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PARTIISEC.3（ii)]
+Kg/cm²=kg/10-6m²=106kg/m²
+Similarly g/cm3=1000kg/m3
+2
+Symbol how tobe combined with units-(a) The symbol of the prefix
+shall be placed before the unit symbol without any intermediary space
+ordot.
+(b) The combination shall form the symbol of the multiple and sub-
+multipleofthe
+unit.
+(c)The symbol for the prefix shall be considered to be combined with
+the symbol of the unit to which it is directly linked together,forming a
+new unit symbol,which can be combined with other unit symbols to
+form composite unit symbols.
+3.
+Errors how to be avoided -To avoid errors in calculations,all
+quantities shall be expressed in Sl units,and powers of 10 shall be
+used.
+4.
+Exponents -An exponent affixed to a symbol containing a prefix
+indicates that the multiple or sub-multiple of the unit is raised to the
+power expressedby the exponent.
+ILLUSTRATION
+1 cm=10²mgives 1 cm²=106m²and1cm1=10²m-1
+5.
+Compound unitshow to be formed -Only one prefix shall be used in
+forming the multiples of a compound unit,and compound prefixes shall
+notbeused
+ILLUSTRATION
+Write nm (nano metre),instead of mum.
+6.
+Use ofprefixes with unit mass-Notwithstanding that the base unit of
+mass contains a prefix,names of decimal multiples or sub-multiples of
+the unit of mass shall be formed by attaching prefixes to the word
+gram.
+ILLUSTRATION
+Write milligram (mg) but not micro kilogram(μkg)
+7
+Printing:(1) Symbols of units-
+(a) Shall beprinted in roman(upright) type irrespective of the type used
+in therest of the text;
+(b) Shall remain unaltered in the plural;
+(c)Shall be written,without a final full stop (period) unless the context
+otherwiserequires:and
+(d) shall beplaced after the complete numerical value in the expression
+fora quantity,leaving a space between the numerical value and the
+unit.
+(2)The symbol for units of weight or measure shall be printed in lower
+case lettersexcept that the first lettershallbeprinted in upper case
+when thenameoftheunitisderived fromapropername.
+<<<PAGE 69>>>
+[3（]
+69
+ILLUSTRATION
+m-metre
+s-second
+A-Ampere
+Wb-weber
+8
+Multiplication of units-(1) When a compound unit isformed by
+multiplication of two or more units,the multiplication may be indicated
+in one of the following ways:
+m,N,N.m,Nm
+(2) In using a symbol ofa unit of weight or measure which coincides
+with the symbol foraprefix,special care shall be takento avoid
+confusion.
+ILLUSTRATION
+The unitnewton metre'shall be written Nm or m.N to avoid confusion
+withmN,themillinewton.
+9.
+Division of Units-(1).When a compound is formed by dividing one
+unit by another the division shall be indicated in one of the following
+ways:-
+m/s or by writing the product of m and s1 asms-1
+(2).The letter p shall not be used to denote division.
+ILLUSTRATION
+Do not writekmph,write km/h or km.h
+(3).In no case shall more than one solidus (oblique stroke)on the
+same line be included in such a combination unless a parenthesis is
+inserted to avoid ambiguity:
+ILLUSTRATION
+Write m/s²or m.s²butnotm/s/sl
+(4).In complicated cases,negative powers or parenthesis shall be
+used.
+ILLUSTRATION
+Writem.kg/(s.A) or m.kg.sA-1but not m.kg/s²A
+10.
+Expression of results-(1) The appropriate integral multiple and sub-
+multiple towhich a unit is tobe expressed shall be selected in such a
+manner thatthenumerical value tobeexpressed isbetween0.1and
+1000
+ILLUSTRATION
+1.2x104Nmaybewrittenas12kN
+0.00394 m maybewritten as3.94 mm
+1401Pamaybewritten as1.401kPa
+3.1x10smaybewritten as31ns
+(2) In a tableofvaluesfor thesame quantityorina discussion ofsuch
+valueswithin a given context the sameintegral multiple orsub-multiple
+of a unit may be used for all items,even when some of thenumerical
+valuesmaybeoutside therange of0.1 to 1000.
+(3) For the purpose of expression of dimensions in mechanical
+engineering drawingsonly themillimetreshall be used
+<<<PAGE 70>>>
+70
+THE GAZETTE OFINDIA:EXTRAORDINARY
+[PART IISEC.3（)
+11.
+ExpressionofNumbers-
+(1) To express numbers in connection with units of weights and
+measures,the dot shall be used to separate the integral part of
+numbersfrom the decimalpart.
+(2) Numbers shall be divided ingroupsof three starting from the
+decimal point in order to facilitateregarding and neither dots nor
+commasshall be inserted in the spacebetween such group of
+numbers.
+ILLUSTRATION
+Write3211468.02282
+Not 3.211.468.022.82
+or3,211,468.022.82
+THEFOURTH SCHEDULE
+(Seerule 15)
+Units Permitted to be used with base,Supplementary or Derived
+Units
+Permitted units of time-(1) The permitted units inrelation to time shall
+be as follows,namely:-
+(i)the minute,equal to 60 second(Symbol:min),
+(ii) the hour,equal to 3600 seconds or60 minutes(Symbol:h),and
+（ii) the day,equal to 86,000 seconds or24hours(Symbol:d)
+The week,month and year shall correspond to the saka Calendar or
+the Gregoriancalendar.
+2
+Permitted unitsofplane angle-Thepermitted units inrelation toplane
+angle shall be as follows,namely:-
+(i)The degree,equal to T/180 radian (Symbol:°),
+(i)The minute,equal to T/10800radian or(1/60)°(Symbol:).and
+(ili) The second equal to /648000radianor(1/60)(Symbol:).
+3.
+Permitted unit of volume-(1) Thepermitted unit of volume shallbe
+litre(Symbol:I).The litre shall be equal to one thousandpart of the
+cubic metre.
+11=1dm²=10²m²
+(2) The litre shall notbe used forwork involving precise
+measurements.
+4.
+Permitted unit of mass-(1) The permitted unit of mass shall be the
+tonne.(Symbol:t). The tonne shall be equal to 10o0 kilograms
+(2)Only the prefixes “kilo”,“mega
+yiga and“tera”specified in the
+Third Schedulemaybeusedwith the tonne.
+THEFIFTH SCHEDULE
+(See Rule 16)
+Special Units and their Symbols
+1.
+electron shall be the electron volt.(Symbol:eV)
+The electron volt is the energy acquired by an electron in passing
+throughapotential difference ofonevolt invacuum.
+1eV=1.60217733x10-19J
+<<<PAGE 71>>>
+71
+nhEKh
+[（]
+2.
+Specialunitofatomicmass-Thespecial unitofmassofan atom shall
+be unified atomicmassunit.(Symbol:u)
+The unified atomicmass unit is equal to the fraction 1/12of the massof
+an atom of the nucleus 1c
+1u=1.6605402×10-27kg
+3.
+Special units of stellar distance -(1) The first special unit of stellar
+distance shall be the astronomical unit.(Symbol:AU)
+The astronomical unit of distance is the length of.the radius of the
+unperturbed circular orbit ofa body ofnegligible massmoving round
+theSunwithasiderealangularvelocityof0.017202098950radian
+perdayof86400 ephemerisseconds.
+1AU=149600×10°m
+Note: The symbol for stellar distance is notinternationally uniform,for
+example the symbol used for stellar distance is UA in France,Au in
+England and AEin Germany.
+(2) The second special unit of stellar distance shall be parsec.(Symbol:
+pc)
+The parsec is the distance at which one astronomical unit subtends an
+angle ofone second of arc.
+1pc=206265AU=30857x1012m.
+THE SIXTH SCHEDULE
+(See Rule 17)
+Temporarily accepted Units
+1.
+Unit of nautical distance-The unit of distance for use in marine and
+aerial navigation shall be the nautical mile is equal toa distance of
+1852metres.
+2.
+Unit ofnautical velocity-The unit ofnautical velocity for use in marine
+andaerial navigationshall betheknot.Theknotisthevelocityequal to
+onenauticalmileperhour.
+1kont=（1852/3600)m/s,i.e.0.514444m/s.
+3.
+Unit of wavelength of light-(1)The unit of wavelength of light shall be
+the angstrom.(Symbol:A).The angstrom is equal to 0.1 nanometre.
+1A=0.1nm=10-10m
+4.
+Unit of land measurement -(1) The first unit formeasurement of land
+area shall be the'are'(Symbol:a)
+The'are'is the area of a square with sidesof length 10 metres.
+1a=dam²=10²m²
+(2) The second unit for measurement of land area shall be hectare.
+(Symbol:ha) The hectare is the area of a square with sides of length
+100 metres.
+1ha=1hm²=104m²
+(3)The prefixes specified in the Third Schedule shall not be used with
+the'are'or hectare.
+<<<PAGE 72>>>
+72
+THEGAZETTE OF INDIA:EXTRAORDINARY
+[PART IISEC.3（）
+5.
+Unit of nuclear cross-section-The unit of nuclear cross-section shall be
+the barn.(Symbol:b) The barn is the nuclear cross-section area equal
+to100 square femtometres.
+1b=10-28m²
+6.
+Unit ofpressure of fluid-The unit ofpressure of fluid shall be the bar
+(Symbol:bar)
+Thebar shall be equal to100000pascals
+7.
+Unitof standard atmosphere-Theunit of standard atmosphere shall
+be 101325pascals
+The standard atmosphere is the pressure exerted by airatmean sea
+level under the standard conditions specified by the General
+Conferenceon Weights and Measures
+8.
+Special unit for acceleration due to gravity-The special unit for
+acceleration due to gravity for use in geodesey and geophysics shall
+be the gal. (Symbol: Gal).
+The gal is equal to 1/100metreper second square.
+9.
+Unit of activity ofradio-nuclides-The unit of activity of radio-nuclides
+shall be the curie.(Symbol:Ci)
+The curie is the quantity of anyradioactive nuclide in which the number
+of disintegrations per second is3.7x 101or
+1Ci=3.7x100Bq
+10.
+Unit of exposure dose-The unit of exposure dose shall be the
+roentgen.(Symbol:R)
+The roentgen is the exposure dose of an ionizing radiation which can
+produce in a quantity of air having a mass ofonekilogram,ions of the
+same sign carrying a total charge 2.58x 104 coulomb, the density of
+energy fluxbeing the same throughout thequantity of air taken.
+R=2.58x104C/kg
+11.
+Unit of velocity-The unit of velocity shall be kilometre per hour.
+(Symbol:km/h) The kilometre per hour is the velocity of a body in
+motion which when setin a uniform traverses a distance of one
+kilometre in one hour.
+12.
+Unit of mass of special value-The unit of mass of special value shall
+be the caret.(Symbol:c)
+The caret is equal to five thousandth part of the kilogram.lt shall be
+used for commercial transactions in diamonds,pearls and precious
+stones..
+1c=200mg
+13.
+Unit of mass for special use-The unit of mass for special use shall be
+the quintal.(Symbol:q)
+The quintal is equal to 1ookilograms. The quintal may be used in large
+commercial transactions in food grain,farm produce and other
+consumer commodities.
+<<<PAGE 73>>>
+[3（]
+73
+THE SEVENTH SCHEDULE
+(See rule 18)
+C.G.S units with special names
+Name ofUnit
+Symbol
+Value intermsofbase,supplementaryorderived
+unit
+(1)erg
+erg
+1erg=10-J
+(2)dyne
+dyn
+1dyn=10-5N
+(3)poise
+P
+1 P-1dyns/cm²=0.1 Pa.s
+(4)stokes
+st
+1st=1cm²/s=104m²/s
+(5)gauss
+Gs
+1Gs=104T
+(6)oersted
+Oe
+10e=1000A/m
+4TT
+(7)maxwell
+Mx
+1Mx=10Wb
+(8)stilb
+sb
+1sb=1cd/cm²=104cd/m²
+(9）phot
+ph
+1ph=10lx
+THE EIGHT SCHEDULE
+(See rule 18)
+Units outside the International System
+NameofUnit
+Valueintermsofbase,supplementaryor
+derived units
+(1)
+fermi
+1fermi=1fm=10-5m
+(2)
+1torr=101325Pa
+760
+(3)
+kilogram-force(kgf)
+1kgf=9.80665N
+(4)
+calorie (cal)
+1cal=4.1868J
+(5)
+micron （μ)
+1μ=1μm=106m
+(6)
+Xunit
+1Xunit=1.002=10nmapproximately
+(7)
+stere(st)
+1st=1m²
+(8)
+gamma(y)
+1y=1nT=109T
+(6)
+Y
+1y=1pg=109kg
+(10)
+入
+1A=1ul=106
+*is value is that of theIT'calorie （5th International Conference on
+Propertiesof Steam,London,1956)
+**This special unit was employed to express wavelengths of X-rays.
+***This special unit was used tomeasure firewood
+344110
+<<<PAGE 74>>>
+THE GAZETTE OFINDIA:EXTRAORDINARY
+THE NINTH SCHEDULE
+(See Rule 19)
+ImportantPhysical Constants
+74
+Quantity
+Symbol
+speed of light in vacuum
+C
+permeabilityofvacuum
+Ho
+permittivityofvacuum
+Eo
+Newtonian constant of
+G
+gravitation
+Planck constant
+h
+in electron volts,h/{e}
+h/(2TT)
+方
+in electron voltsh/{e}
+Planck mass,
+mp
+(hc/G)1/2
+Plancklength
+lp
+h/mc=(hG/c3)12
+Plancktime
+tp
+tp/c=（hG/c5）1/2
+elementary charge
+e
+e/h
+Magnetic flux quantum,
+h/2e
+Josephson
+frequency-
+2e/h
+voltage ratio
+quantized Hall conductance
+e²/h
+quantized Hall resistance,
+RH
+h/e²=1/2uog/a
+Bohr magneton,
+μB
+en/2me
+in electron volts,
+μB/{e)
+inhertz,μB/h
+inwavenumbers,uB/hc
+in kelvins,μB/k
+nuclearmagneton,eh/2mp
+uN
+in electon volts,uN/{e}
+in hertz,uN/h
+in wavenumbers,μN/hc
+in kelvins,μN/k
+[PART 1I—SEc.3(i）]
+Value
+Units
+Relative
+Uncertainty
+(ppm)
+299792458
+ms-1
+(exact)
+4TTX107
+NA-2
+(exact)
+=12.566370614..
+10-7NA2
+1/μoC²
+10-12Fm-1
+(exact)
+=8.854187817.
+6.67259(85)
+10-11
+128
+m3kg-1
+6.6260755(40)
+10-34Js
+0.60
+4.1356692(12)
+10-15eVs
+0.30
+1.05457266(63)
+10-34Js
+0.60
+6.5821220(20)
+10-16eVs
+0.30
+2.17671(14)
+10-8kg
+64
+1.61605(10)
+10-35m
+64
+5.39056(34)
+10-44s
+64
+1.60217733(49)
+10-19C
+0.30
+2.41798836(72)
+1014AJ
+0.30
+2.06783461(61)
+10-15wb
+0.30
+4.8359767(14)
+10-14HzV-1
+0.30
+3.87404614(17)
+10-S
+0.045
+25812.8056(12)
+U
+0.045
+9.2740154(31)
+10-24JT-1
+0.34
+5.78838263(52)
+10-eVT-1
+0.089
+1.39962418(42)
+10-10
+HzT
+0.30
+46.686437(14)
+0.30
+0.6717099(57)
+KT-1
+8.5
+5.0507866(17)
+10-27JT-1
+0.34
+3.15245166(28)
+10eVT
+0.089
+7.6225914(23)
+MHzT-1
+0.30
+2.54262281(77)
+10²m-T-1
+0.30
+3.658246(31)
+104KT1
+8.5
+GENERAL CONSTANTS
+Universal Constants
+ELECTROMAGNETICCONSTANTS
+ATOMIC CONSTANTS
+<<<PAGE 75>>>
+[——3（）]
+fine-structure
+constant,
+a
+V2uoce²/h
+inverse
+fine-structure
+aT
+constant
+Rydberg
+constant,
+R
+12meca/h
+in hertz,Rc
+in joules,Rhc
+ineV,Rhc/{e}
+Bohrradius,a/4πR
+a。
+Hartree energy,e/4TTEa。=
+En
+2Rhc
+in eV,Eh/{e}
+quantum ofcirculation
+h/2me
+h/me
+electron mass
+me
+in electron volts,mec²/{e}
+electron-muon mass ratio
+me/my
+electron-proton mass ratio
+me/mp
+electron-deuteron
+mass
+me/mg
+ratio
+electron-a-particle
+mass
+me/ma
+ratio
+electron specific charge
+-e/me
+electron molarmass
+M(e),Me
+Compton wavelength,
+h/mec
+入/2πT=aa。=a²/4TR
+classical
+electron radius,
+re
+a²ao
+Thomson
+cross-section,
+Oe
+(81/3）r²e
+electron magneticmoment
+Pe
+inBohar magnetons
+He/UB
+in nuclear magnetons
+He/uN
+electron magneticmoment
+ae
+anomaly,μe/uB-1
+electron g-factor,2(1+ae)
+ge
+electron-muonmagnetic
+He/uu
+momentratio
+electron-proton
+magnetic
+ue/up
+momentratio
+s
+my
+in electron volts,muc/e}
+75
+7.29735308(33)
+10-3
+0.045
+137.0359895(61)
+0.045
+10973731.534(13)
+m
+0.0012
+3.2898419499(39)
+1015Hz
+0.0012
+2.1798741(13)
+10-18J
+0.60
+13.6056981(81)
+eV
+0.30
+0.529177249(24)
+10-10m
+0.045
+4.3597482(26)
+10-J
+0.60
+27.2113961(81)
+eV
+0.30
+3.63694807(33)
+10m²s!
+0.089
+7.27389614(65)
+10ms-1
+0.089
+ELECTRON
+9.1093897(54)
+10-31kg
+0.59
+5.48579903(13)
+10-4u
+0.023
+0.51099906(15)
+MeV
+0.30
+4.83633218(71)
+10-3
+0.15
+5.44617013(11)
+10.4
+0.020
+2.72443707(6)
+10-4
+0.020
+1.37093354(3)
+10-4
+0.021
+-1.75881962(53）
+10"Ckg
+0.30
+5.48579903(13)
+10"kg/mol
+0.023
+2.42631058(22)
+10-12m
+0.089
+3.86159323（35）
+10-13m
+0.089
+2.81794092(38)
+10-1m
+0.13
+0.66524616(18)
+10-23m2
+0.27
+928.47701(31)
+10-26JT-1
+0.34
+1.001
+159.652
+1x10-5
+193(10)
+1838.282000(37)
+0.020
+1.159652193(10)
+10-5
+0.0086
+2.002319304386(20)
+1x103
+206.766967(30)
+0.15
+658.2106881(66)
+0.010
+MUON
+1.8835327(11)
+10-26kg
+0.61
+0.113428913(17)
+u
+0.15
+105.658389(34)
+MeV
+0.32
+<<<PAGE 76>>>
+TIIE GAZETTEOFINDIA:EXTRAORDINARY
+76
+muon-electron mass ratio
+my/me
+muonmolarmass
+M(μ),Mu
+muonmagneticmoment
+Pu
+in Bohrmagnetons
+μu/UB
+in nuclear magnetons
+HU/UN
+muonmagneticmoment
+au
+anomaly [μy/（eh/2mμ)]-1
+muon g-factor,2（1+ay)
+gu
+muon-proton
+magnetic
+μu/Up
+moment ratio
+proton mass
+mp
+in electron volts,m,c/{e}
+proton-electron mass ratio
+mp/me
+proton-muon mass ratio
+mp/mu
+proton specific charge
+e/mp
+proton molarmass
+M(p),Mp
+proton
+Compton
+入cp
+wavelength,
+h/mpc
+Acp
+ACp/2TT
+proton magnetic moment
+μp
+in Bohrmagnetons
+in nuclear magnetons
+Ho/UN
+diamagnetic
+shielding
+oH20
+correction for protons in
+pure
+water,spherical
+sample,25°℃,1-p/μp
+shieldedproton
+moment
+up
+(HO,sph.25°C)
+in Bohar magnetons
+μp/u
+in nuclear magnetons
+μP/UN
+protongyromagneticratio
+Yp
+Yp/2TT
+uncorrected(HO,sph.
+YP
+25℃)
+Yp/2TT
+neutron mass
+mn
+in electron volts,mnc²/{e}
+neutron-electron mass ratio
+mn/me
+neutron-proton mass ratio
+mn/mp
+neutronmolar mass
+M(n),Mn
+neutron Compton
+Ac.n
+wavelength,h/mnc
+Ac.n/2TT
+入c，n
+neutron magneticmoment
+μn
+in Bohr magnetons
+μn/μB
+[PRII S.(
+206.768262(30)
+0.15
+1.13428913（17)
+10-4kg/mol
+0.15
+4.4904514（15)
+10-20jT-1
+0.33
+4.84197097(71)
+10-3
+0.15
+8.8905981(13)
+0.15
+1.1659230(84)
+10:3
+7.2
+2.002331846(17)
+0.0084
+3.18334547(47)
+0.15
+PROTON
+1.6726231（10)
+10-27kg
+0.59
+1.007276470（12)
+u
+0.012
+938.27231(28)
+MeV
+0.30
+1836.152701(37)
+0.020
+8.8802444（13)
+0.15
+9.5788309(29)
+10′Ckg
+0.30
+1.007276470(12)
+10kg/mol
+0.012
+1.32141002（12)
+10-15m
+0.089
+2.10308937(19)
+10-16m
+0.089
+1.41060761(47)
+10-26JT-1
+0.34
+1.521032202（15)
+10-23
+0.010
+2.792847386(63)
+0.023
+25.689(15)
+10-6
+1.41057138(47)
+10-26
+JT-1
+0.34
+1.520993129（17)
+10-3
+0.011
+2.792775642(64)
+0.023
+26752.2128(81)
+104s-1T1
+0.30
+42.577469(13)
+MHzT1
+0.30
+26751.5255(81)
+104s-T-1
+0.30
+42.576375(13)
+MHzT1
+0.30
+1.6749286(10)
+10-27
+kg
+0.59
+1.008664904(14)
+u
+0.014
+939.56563(28)
+Mev
+0.30
+1838.683662(40）
+0.022
+1.001378404(9)
+0.009
+1.008664904(14)
+10kg/mol
+0.014
+10-15
+m
+0.089
+10
+m
+0.089
+10-26JT-1
+0.41
+10-3
+0.24
+NEUTRON
+1.31959110(12)
+2.10019445（19）
+0.96623707(40)
+1.04187563(25)
+<<<PAGE 77>>>
+[—3（]
+in nuclear magnetons
+Un/uN
+neutron-electron magnetic
+Hn/ue
+momentratio
+neutron-proton magnetic
+μn/μp
+momentratio
+deuteron mass
+md
+in electron mass,mg c²/{e}
+deuteron-electron mass
+ma/me
+ratio
+deuteron-proton mass
+mg/mp
+ratio
+deuteron molarmass
+M(d),Ma
+deuteron magneticmoment
+μd
+in Bohr magnetons
+Ud/μB
+in nuclear magnetons
+μd/UN
+deutron-electron magnetic
+Pa/μe
+momentratio
+deutron-proton magnetic
+Ha/μp
+momentratio
+Avogadro constant
+NA.L
+atomic mass constant
+mu
+mu=1/12m（1²C)
+in electron volts,mu c²/{e}
+Faraday constant
+F
+molarPlanck constant
+NAh
+NAhc
+molar gas constant
+R
+Boltznann constant R/NA
+k
+in electron volts,k/{e}
+inhertz,k/h
+in wavenumbers.k/hc
+molar volume(ideal gas),
+Vm
+RT/p
+T=273.15K
+p=101325Pa
+Loschmidt constant,
+n。
+NANm
+T=273.15K,p=100kPa
+Vm
+Sackur-Tetrode constant
+SR
+(absolute entropy
+constant)
+5/2+In{(2TmukT/h2)3/2
+kT/po}
+T=1k,
+Po=100kPa
+77
+1.91304275(45)
+0.24
+1.04066882(25)
+10-3
+0.24
+0.68497934(16)
+0.24
+DEUTRERON
+3.3435860(20)
+10-27kg
+0.59
+2.013553214(24)
+u
+0.012
+1875.61339(57)
+MeV
+0.30
+3670.483014(75)
+0.020
+1.999007496(6)
+0.003
+2.013553214(24)
+10:27kg/mol
+0.012
+0.43307375（15)
+10-26JT
+0.34
+0.4669754479(91)
+10-°
+0.019
+0.857438230(24)
+0.028
+0.4664345460(91)
+10-3
+0.019
+0.3070122035(51)
+0.017
+4
+6.02213367(36)
+1023
+molt
+0.59
+1.6605402(10)
+10-27kg
+0.59
+931.49432(28）
+Mev
+0.30
+96485.309(29)
+Cmol-1
+0.30
+3.99031323(36)
+10-1Jsmol
+0.089
+0.11962658(11)
+Jmmol-
+0.089
+8.314510(70)
+Jmol'K-1
+8.4
+1.380658(12)
+10-23JK-
+8.5
+8.617385(73)
+10-5eVK-1
+8.4
+2.083674(18)
+1010HzK-1
+8.4
+69.50387(59)
+mK1
+8.4
+22.41410(19)
+L/mol
+8.4
+2.686763(23)
+10-25m3
+8.5
+22.71108(19）
+L/mol
+8.4
+-1.151693(21)
+18
+-1.164856(21)
+18
+PHYSICO-CHEMICAL CONSTANTS
+<<<PAGE 78>>>
+78
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART IL-SHC.3（i)]
+p=101325Pa
+Stefan-Boltzmann constant,
+a
+5.67051(19)
+10-8Wm-K4
+(T²/60）k4/h²c2
+34
+firstradiation constant
+5
+3.7417749(22)
+10-16Wm
+2TThc²
+0.60
+secondradiation constant,
+C2
+0.01438769(12)
+mK
+hc/k
+8.4
+Wien displacementlaw
+b
+2.897756(24)
+10mK
+constant,
+8.4
+b=△maxT=
+C2/4.96511423
+The scalarmagnitudeof theneutron moment is listed
+magnetic dipole is directed oppositely to that of theproton.and corresponds
+to the dipole associated with a spinning negative charge distribution.The
+vector sumμa=μp+μn.is approximately satisfied
+The entropyof an ideal monoatomicgas ofrelative atomicweight Ais given
+byS=S。+3/2RhA-RIn（p/p。)+3/2RIn（T/K)
+THE TENTH SCHEDULE
+(See Rule 20)
+Thefollowing co-efficients shall beused for thepurposeof these rules:-
+1.Alcoholic strength-（a) The“alcoholic strength by volume”of a mixture of
+water and alcohol is the ratio of the volume of alcohol,measured at 20°c,
+contained in the mixture to the total volume of the mixture measured at the
+same temperature. The symbol is“%Vol"
+(b) The“alcoholic strength by mass”of a mixture of water and alcohol is the
+ratio of the mass of alcohol contained in themixture to the total mass of the
+mixture.The symbol is“%mass"
+For the purpose of the inter-relation between these two strengths and
+between the density of the aqueous solution of alcohol,the International
+Recommendation No.22 on Alcoholometry.together with the International
+Alcoholometric Tables,shall be used.
+2.Hardness numbers for materials -(a) Brinell Hardness Number -A
+number related to the size of the permanent impression made by a ball
+indenter of specified size,pressed into the surface of the material under a
+specified load.The surface area of the impression is determined from the
+average measured diameterof the rim of the impression and from the ball
+diameter.In reporting Brinell hardness number,the International
+Recommendation No.9,on Verification and Calibration of Brinell Hardness
+Standards Blocks,shall be used.
+(b)Diamond Pyramid orVickers Hardness Number-A number obtained by
+dividing the load inkilograms applied to a square-based pyramidal diamond
+indenter having included face angles of 136°by the surface area of the
+impression calculated from the measured diagonal of the impression.In
+reporting diamond pyramid hardness,the International Recommendation No.
+10,on Verification and Calibration of Vickers Hardness Standards Blocks,
+shall be used.
+(c)Rockwell Hardness Number-A number derived from net increase in
+depth of impression as the load on an indenter is increased from a fixed
+minimum load to high load and then returned to the minimum load.In
+<<<PAGE 79>>>
+[3（）]
+79
+reporting Rockwell hardness number on Rockwell B scale,the International
+Recommendation No.11,on Verification and Calibration of Rockwell B
+Hardness Standardised Blocks,shall be used.
+Similarly,inreporting Rockwell hardness number on Rockwell C scale
+the International Recommendation No.12,on Verification and Calibration of
+Rockwell C Hardness Standardised Blocks,shall be used.
+3.For the purpose of determining the sugar content present in the sugar
+solutions either of the two following coefficients may be used.Degree Brix or
+sugar degree (°s):-
+(a) Degree Brix is the percentage of sucrose present by mass in the sugar
+solution.In reporting the degree Brix,Indian Standard specification for Brix
+hydrometers:（IS:7324-1974) shall be used,till such time,the Director of
+Legal Metrology or the International Organisation of Legal Metrology prepares
+such document.
+(b) Sugar degree on the international sugar scale is defined as follows:-
+The 1oo°S point of the International Sugar Scale is fixed by the optical
+rotationp'undergoneby the polarized lightof the green line of the mercury
+isotope 198（u-546.2271 mm invacuum).When passing through a200.000
+mm length of sucrose solution in pure water,kept at a temperature of
+20.00°c,and containing 26.0160 g.weighed in a vacuum ofpure sucrose per
+100.oo0 cmofsolution‘normalsugarsolution.
+A mass of26.0160g ofsucrosecorresponds to 26.000 gwhen this
+sucrose isweighed in airby meansofweightswith adensity of8oookg/min
+air,ata standard pressureof 101325 Pascal,at a temperature of20°Cand a
+relative humidity of 50%,the density of this air therefore being 1.2kg/m.
+4.Relative Humidity-It is the ratio of the actual vapour pressure of water
+vapours present in air at the temperature of measurement of the saturation
+vapour pressure over a plane liquid water surface at the same temperature.
+This is expressed as a pure number aspercentage.
+5.ph is thelogarithm to thebase 10 of theinverse ofthehydrogen ion
+concentration in a dilute ionic solution.
+Explanation:
+A O.o4 molar hydrochloric acid solution will have hydrogen ion
+concentration of 1o-1.4
+4molanditsph valueis1.4.Similarly.0.001mol
+hydrochloric acid solution will have the hydrogen ion concentration of 1omol
+and itsph value is3.
+[F.No.WM-9(6)/2010-Pt]
+RAKESHKACKER,AddI.Secy.
+Printed by the Manager,Government of India Press.Ring Road.Mayapuri.New Delhi-110064
+and Published by the Controller of Publications.Delhi-1l0054.

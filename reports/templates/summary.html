@@ -1,0 +1,151 @@
+{#
+  Violation summary. AKSHAR.md sections 13a and 11.
+
+  The printable form of the dashboard, over the same `api.analytics` functions
+  the screen uses. Nothing is counted here and nothing is formatted here either:
+  a null rate is already an em dash by the time it reaches this file, because
+  `reports/summary_model.py` decided that once for both renderers.
+
+  Print CSS only. No JavaScript, no web fonts, no external URL — same rule as
+  the per-product report, and the same reason.
+#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AKSHAR — Violation summary</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 14mm 20mm 14mm;
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font: 8pt "DejaVu Sans", sans-serif;
+      color: #666;
+    }
+  }
+  body { font: 10pt/1.45 "DejaVu Sans", "Noto Sans", sans-serif; color: #1a1a1a; }
+  h1 { font-size: 15pt; margin: 0 0 2mm; }
+  h2 { font-size: 11pt; margin: 7mm 0 2mm; border-bottom: 1px solid #999; padding-bottom: 1mm; }
+  .sub { color: #555; font-size: 8.5pt; margin: 0 0 4mm; }
+  .headline { border-left: 3px solid #333; padding: 2.5mm 3mm; background: #f6f6f6; margin: 3mm 0 4mm; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 2mm; }
+  th, td { text-align: left; vertical-align: top; padding: 1.5mm 2mm; font-size: 9pt; }
+  thead th { background: #eee; border-bottom: 1px solid #999; font-size: 8.5pt; }
+  tbody tr { border-bottom: 0.5px solid #ddd; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .note { font-size: 8.5pt; color: #444; }
+  .rule { font-size: 8pt; color: #555; }
+  .tiles { width: 100%; border-collapse: collapse; margin: 0 0 3mm; }
+  .tiles td { border: 0.5px solid #ccc; padding: 2.5mm; width: 16.6%; }
+  .tiles .v { font-size: 14pt; font-weight: bold; display: block; }
+  .tiles .k { font-size: 7.5pt; color: #555; text-transform: uppercase; letter-spacing: 0.3pt; }
+  .counting { background: #fbfbf4; border: 0.5px solid #ddd8bc; padding: 3mm; font-size: 8.5pt; }
+  .counting dt { font-weight: bold; margin-top: 1.5mm; }
+  .counting dd { margin: 0.5mm 0 0; color: #333; }
+  .sign { margin-top: 10mm; }
+  .sign td { padding-top: 14mm; border-top: 0.5px solid #333; width: 45%; font-size: 8.5pt; }
+  /* A table row must never straddle a page break, and a section heading must
+     never be the last thing on a page. */
+  tbody tr { page-break-inside: avoid; }
+  h2 { page-break-after: avoid; }
+</style>
+</head>
+<body>
+
+<h1>Violation summary</h1>
+<p class="sub">
+  Legal Metrology (Packaged Commodities) Rules, 2011 —
+  {{ report.scope }}<br>
+  Period: {{ report.period }} ·
+  Prepared {{ report.generated_at.strftime("%d %B %Y, %H:%M") }}
+  {% if report.office %}· {{ report.office }}{% endif %}
+</p>
+
+<div class="headline">
+  <strong>{{ report.headline }}</strong>
+  {% if report.coverage_note %}
+  <div class="note">{{ report.coverage_note }}</div>
+  {% endif %}
+</div>
+
+{# ------------------------------------------------------------------- tiles #}
+<table class="tiles">
+  <tr>
+    <td><span class="v">{{ report.scans }}</span><span class="k">Scans</span></td>
+    <td><span class="v">{{ report.conclusive }}</span><span class="k">Checked</span></td>
+    <td><span class="v">{{ report.unique_skus }}</span><span class="k">Products</span></td>
+    <td><span class="v">{{ report.non_compliance_rate }}</span><span class="k">Contravention rate</span></td>
+    <td><span class="v">{{ report.high_severity }}</span><span class="k">High severity</span></td>
+    <td><span class="v">{{ report.awaiting_review }}</span><span class="k">For examination</span></td>
+  </tr>
+</table>
+
+{# ------------------------------------------------------------------ tables #}
+{% for table in report.tables %}
+<h2>{{ table.title }}</h2>
+{% if table.rows %}
+<table>
+  <thead>
+    <tr>
+      <th>{{ table.headers[0] }}</th>
+      {% for header in table.headers[1:] %}
+      <th class="n">{{ header }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+  {% for row in table.rows %}
+    <tr>
+      <td>{{ row.label }}{% if row.note %}<div class="rule">{{ row.note }}</div>{% endif %}</td>
+      {% for cell in row.cells %}
+      <td class="n">{{ cell }}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if table.footnote %}
+<p class="note">{{ table.footnote }}</p>
+{% endif %}
+{% else %}
+<p class="note">{{ table.empty_note }}</p>
+{% endif %}
+{% endfor %}
+
+{# ------------------------------------------- how these numbers were counted #}
+<h2>How these figures were counted</h2>
+<div class="counting">
+  <dl>
+  {% for title, explanation in report.counting_rules %}
+    <dt>{{ title }}</dt>
+    <dd>{{ explanation }}</dd>
+  {% endfor %}
+  </dl>
+</div>
+<p class="note">
+  Every figure above is produced by the same computation that serves the live
+  dashboard, so this document and the screen cannot report different numbers for
+  the same period. Mean coverage of the label text read across these scans:
+  {{ report.mean_coverage }}.
+</p>
+<p class="note">
+  This summary reports declarations as printed on packages, checked from
+  photographs. No package was opened, weighed or measured for net quantity, so
+  nothing here is a finding about the quantity actually contained in a package.
+</p>
+
+{# -------------------------------------------------------------- signatures #}
+<h2>Signature</h2>
+<table class="sign">
+  <tr>
+    <td>
+      {{ report.prepared_by or "" }}<br>
+      Authorised officer, Legal Metrology Department
+    </td>
+    <td>Countersigned — Controller / Assistant Controller</td>
+  </tr>
+</table>
+
+</body>
+</html>

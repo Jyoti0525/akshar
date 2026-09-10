@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://akshar.local/schemas/test_split/ground_truth.json",
+  "title": "AKSHAR ruler ground truth",
+  "description": "One row per photograph of the sealed test split. Describes the CSV at data/test_split/ground_truth.csv, whose columns are these properties in this order. Tracked in git although the CSV itself is not, so the shape of the set survives where the set does not.",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["filename", "product", "field", "measured_mm"],
+    "properties": {
+      "filename": {
+        "type": "string",
+        "pattern": "^images/[a-z0-9_]+/(front|tilt)\\.jpg$",
+        "description": "Path to the frame, relative to data/test_split/. Exactly two per packet: the pair is what separates our own repeatability from ruler error."
+      },
+      "product": {
+        "type": "string",
+        "minLength": 1,
+        "description": "What the packet is. Grouped with pack_size, never alone: section 10 treats 30 g and 100 g of one product as different SKUs with different height thresholds, and averaging their shots together would repeat that mistake in the scoring."
+      },
+      "pack_size": {
+        "type": "string",
+        "description": "Declared net quantity as printed, e.g. '300ml'. Empty where the pack declares none, as on a matchbox or a single unit."
+      },
+      "field": {
+        "type": "string",
+        "enum": ["mrp", "net_quantity", "manufacturer", "country_of_origin", "consumer_care", "date_of_manufacture"],
+        "description": "Which declaration was measured. u1_report matches this against Declaration.field, so a value the pipeline never emits scores as unmeasured rather than as an error."
+      },
+      "character": {
+        "type": "string",
+        "description": "The specific glyph the rule was laid against, where it was recorded. Optional and often empty. Cap height, x-height and full text height differ by a third on the same line, so where this is empty the comparison rests on the assumption that a cap height was read — check u1_report's systematic bias before trusting the MAE."
+      },
+      "measured_mm": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 50,
+        "description": "Height in millimetres as read from a steel rule. The resolution of this number bounds the accuracy that can be demonstrated: a value rounded to the nearest millimetre carries up to 0.5 mm of its own error, against a U1 target of 0.15 mm."
+      },
+      "notes": {
+        "type": "string",
+        "description": "Free text. Carries the photographer's original folder name verbatim, so the parse in scripts/seal_test_split.py can be checked by eye."
+      }
+    }
+  }
+}

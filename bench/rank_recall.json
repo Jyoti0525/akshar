@@ -1,0 +1,2048 @@
+[
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.56.jpeg",
+    "proposed": 40,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 40,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 39,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 39,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 37,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.51 (1).jpeg",
+    "proposed": 31,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 31,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 27,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 26,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 25,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.11 (2).jpeg",
+    "proposed": 1,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.57 (2).jpeg",
+    "proposed": 25,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 25,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 21,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 19,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.40 (2).jpeg",
+    "proposed": 17,
+    "gap_-1.0": {
+      "first": 1,
+      "regions": 17,
+      "found": [
+        "1:net_quantity:NET WEIGHT"
+      ]
+    },
+    "gap_1.0": {
+      "first": 1,
+      "regions": 16,
+      "found": [
+        "1:net_quantity:NET WEIGHT"
+      ]
+    },
+    "gap_1.5": {
+      "first": 1,
+      "regions": 15,
+      "found": [
+        "1:net_quantity:NET WEIGHT 28g+5gEXTRA^=33g"
+      ]
+    },
+    "gap_2.0": {
+      "first": 1,
+      "regions": 15,
+      "found": [
+        "1:net_quantity:NET WEIGHT 28g+5gEXTRA^=33g"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.03.jpeg",
+    "proposed": 5,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.21.jpeg",
+    "proposed": 7,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.37 (1).jpeg",
+    "proposed": 17,
+    "gap_-1.0": {
+      "first": 6,
+      "regions": 17,
+      "found": [
+        "6:net_quantity:Net Wt. 50 g /1.76 oz.",
+        "11:mrp:Max. Retail price :"
+      ]
+    },
+    "gap_1.0": {
+      "first": 5,
+      "regions": 16,
+      "found": [
+        "5:net_quantity:Net Wt. 50 g /1.76 oz.",
+        "10:mrp:Max. Retail price :"
+      ]
+    },
+    "gap_1.5": {
+      "first": 5,
+      "regions": 15,
+      "found": [
+        "5:net_quantity:Net Wt. 50 g /1.76 oz."
+      ]
+    },
+    "gap_2.0": {
+      "first": 5,
+      "regions": 15,
+      "found": [
+        "5:net_quantity:Net Wt. 50 g /1.76 oz."
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.56.29 (3).jpeg",
+    "proposed": 61,
+    "gap_-1.0": {
+      "first": 12,
+      "regions": 61,
+      "found": [
+        "12:mrp:MRP \u0930"
+      ]
+    },
+    "gap_1.0": {
+      "first": 12,
+      "regions": 61,
+      "found": [
+        "12:mrp:MRP \u0930"
+      ]
+    },
+    "gap_1.5": {
+      "first": 12,
+      "regions": 61,
+      "found": [
+        "12:mrp:MRP \u0930"
+      ]
+    },
+    "gap_2.0": {
+      "first": 10,
+      "regions": 60,
+      "found": [
+        "10:net_quantity:NET WEIGHT : 20 g",
+        "12:mrp:MRP \u0930"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.06.46.jpeg",
+    "proposed": 9,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.06.52.jpeg",
+    "proposed": 68,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 68,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 63,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 61,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 59,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.33.jpeg",
+    "proposed": 7,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 6,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 6,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 6,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.29 (1).jpeg",
+    "proposed": 1,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.12.jpeg",
+    "proposed": 11,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.03.jpeg",
+    "proposed": 16,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.53.jpeg",
+    "proposed": 38,
+    "gap_-1.0": {
+      "first": 8,
+      "regions": 38,
+      "found": [
+        "8:net_quantity:NET QUANTITY"
+      ]
+    },
+    "gap_1.0": {
+      "first": 12,
+      "regions": 29,
+      "found": [
+        "12:net_quantity:NET QUANTITY"
+      ]
+    },
+    "gap_1.5": {
+      "first": 9,
+      "regions": 23,
+      "found": [
+        "9:net_quantity:NET QUANTITY"
+      ]
+    },
+    "gap_2.0": {
+      "first": 9,
+      "regions": 22,
+      "found": [
+        "9:net_quantity:NET QUANTITY"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.57 (1).jpeg",
+    "proposed": 4,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.04.jpeg",
+    "proposed": 84,
+    "gap_-1.0": {
+      "first": 12,
+      "regions": 84,
+      "found": [
+        "12:net_quantity:Net Weight"
+      ]
+    },
+    "gap_1.0": {
+      "first": 11,
+      "regions": 76,
+      "found": [
+        "11:net_quantity:Net Weight 5009"
+      ]
+    },
+    "gap_1.5": {
+      "first": 11,
+      "regions": 75,
+      "found": [
+        "11:net_quantity:Net Weight 5009"
+      ]
+    },
+    "gap_2.0": {
+      "first": 11,
+      "regions": 70,
+      "found": [
+        "11:net_quantity:Net Weight 5009"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.18 (1).jpeg",
+    "proposed": 29,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 29,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 23,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 22,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 22,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.21.jpeg",
+    "proposed": 28,
+    "gap_-1.0": {
+      "first": 7,
+      "regions": 28,
+      "found": [
+        "7:net_quantity:Net Weight"
+      ]
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 23,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 23,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 23,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.20 (1).jpeg",
+    "proposed": 8,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.11 (1).jpeg",
+    "proposed": 1,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.56.29 (1).jpeg",
+    "proposed": 87,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 87,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": 14,
+      "regions": 83,
+      "found": [
+        "14:mrp:MRP (ncl of ltaxes:"
+      ]
+    },
+    "gap_1.5": {
+      "first": 14,
+      "regions": 83,
+      "found": [
+        "14:mrp:MRP (ncl of ltaxes:"
+      ]
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 82,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.00.jpeg",
+    "proposed": 12,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 12,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 12,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 12,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 12,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.06.59.jpeg",
+    "proposed": 92,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 92,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 70,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 59,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 55,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.57.jpeg",
+    "proposed": 35,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 35,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 35,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 35,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 32,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.14.jpeg",
+    "proposed": 35,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 35,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 32,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 31,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 30,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.37.jpeg",
+    "proposed": 7,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.27 (1).jpeg",
+    "proposed": 14,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.22 (1).jpeg",
+    "proposed": 17,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.09 (2).jpeg",
+    "proposed": 14,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 12,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.16 (1).jpeg",
+    "proposed": 36,
+    "gap_-1.0": {
+      "first": 5,
+      "regions": 36,
+      "found": [
+        "5:net_quantity:Net Qty:"
+      ]
+    },
+    "gap_1.0": {
+      "first": 6,
+      "regions": 29,
+      "found": [
+        "6:net_quantity:Net Qty: 50g"
+      ]
+    },
+    "gap_1.5": {
+      "first": 6,
+      "regions": 29,
+      "found": [
+        "6:net_quantity:Net Qty: 50g"
+      ]
+    },
+    "gap_2.0": {
+      "first": 7,
+      "regions": 26,
+      "found": [
+        "7:net_quantity:Net Qty: 50g"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.49.jpeg",
+    "proposed": 33,
+    "gap_-1.0": {
+      "first": 7,
+      "regions": 33,
+      "found": [
+        "7:mrp:MRP? (INCL OF ALL TAXES), USP."
+      ]
+    },
+    "gap_1.0": {
+      "first": 7,
+      "regions": 30,
+      "found": [
+        "7:mrp:MRP? (INCL OF ALL TAXES), USP."
+      ]
+    },
+    "gap_1.5": {
+      "first": 8,
+      "regions": 28,
+      "found": [
+        "8:mrp:MRP? (INCL OF ALL TAXES), USP."
+      ]
+    },
+    "gap_2.0": {
+      "first": 8,
+      "regions": 28,
+      "found": [
+        "8:mrp:MRP? (INCL OF ALL TAXES), USP."
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.28.jpeg",
+    "proposed": 10,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 10,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 10,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 10,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 10,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.28 (2).jpeg",
+    "proposed": 100,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 100,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 87,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 83,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 79,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.30 (2).jpeg",
+    "proposed": 5,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.20 (1).jpeg",
+    "proposed": 8,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.17 (2).jpeg",
+    "proposed": 34,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 34,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": 11,
+      "regions": 26,
+      "found": [
+        "11:net_quantity:Net Weight: 103.5g"
+      ]
+    },
+    "gap_1.5": {
+      "first": 11,
+      "regions": 25,
+      "found": [
+        "11:net_quantity:Net Weight: 103.5g"
+      ]
+    },
+    "gap_2.0": {
+      "first": 11,
+      "regions": 25,
+      "found": [
+        "11:net_quantity:Net Weight: 103.5g"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.38.jpeg",
+    "proposed": 72,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 72,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 63,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": 11,
+      "regions": 60,
+      "found": [
+        "11:net_quantity:NET QUANTITY:72.9g"
+      ]
+    },
+    "gap_2.0": {
+      "first": 11,
+      "regions": 59,
+      "found": [
+        "11:net_quantity:NET QUANTITY:72.9g"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.25 (1).jpeg",
+    "proposed": 71,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 71,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 68,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 66,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 63,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.20 (2).jpeg",
+    "proposed": 37,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 37,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 37,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 37,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 37,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.00 (1).jpeg",
+    "proposed": 68,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 68,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 57,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 48,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 42,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.06.40.jpeg",
+    "proposed": 57,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 57,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 54,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 54,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 54,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.30 (1).jpeg",
+    "proposed": 13,
+    "gap_-1.0": {
+      "first": 8,
+      "regions": 13,
+      "found": [
+        "8:net_quantity:NET WEIGHT:"
+      ]
+    },
+    "gap_1.0": {
+      "first": 7,
+      "regions": 10,
+      "found": [
+        "7:net_quantity:NET WEIGHT: 2009"
+      ]
+    },
+    "gap_1.5": {
+      "first": 7,
+      "regions": 10,
+      "found": [
+        "7:net_quantity:NET WEIGHT: 2009"
+      ]
+    },
+    "gap_2.0": {
+      "first": 7,
+      "regions": 10,
+      "found": [
+        "7:net_quantity:NET WEIGHT: 2009"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.50 (1).jpeg",
+    "proposed": 1,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.14 (1).jpeg",
+    "proposed": 4,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.25.jpeg",
+    "proposed": 11,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 11,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.18.jpeg",
+    "proposed": 3,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
+    "proposed": 75,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 75,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 73,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": 11,
+      "regions": 71,
+      "found": [
+        "11:net_quantity:NET WEIGHT : 20 g"
+      ]
+    },
+    "gap_2.0": {
+      "first": 11,
+      "regions": 69,
+      "found": [
+        "11:net_quantity:NET WEIGHT : 20 g"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.57 (1).jpeg",
+    "proposed": 17,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 17,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.06.00.jpeg",
+    "proposed": 3,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.43.jpeg",
+    "proposed": 62,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 62,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 54,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 49,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 49,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.24 (1).jpeg",
+    "proposed": 14,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.58 (1).jpeg",
+    "proposed": 96,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 96,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 85,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 70,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 58,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.06 (1).jpeg",
+    "proposed": 27,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 27,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 24,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 24,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 24,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.07.02.jpeg",
+    "proposed": 25,
+    "gap_-1.0": {
+      "first": 4,
+      "regions": 25,
+      "found": [
+        "4:net_quantity:BISCUITS NET WEIGHT"
+      ]
+    },
+    "gap_1.0": {
+      "first": 3,
+      "regions": 20,
+      "found": [
+        "3:net_quantity:BISCUITS NET WEIGHT",
+        "6:mrp:MRP.\u0930"
+      ]
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.35 (1).jpeg",
+    "proposed": 1,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.45.jpeg",
+    "proposed": 7,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 7,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.00 (1).jpeg",
+    "proposed": 5,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 5,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 4,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.05.jpeg",
+    "proposed": 53,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 53,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 49,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 46,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 40,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.15 (1).jpeg",
+    "proposed": 3,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 2,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 2,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 2,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.11 (1).jpeg",
+    "proposed": 1,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 1,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.57 (1).jpeg",
+    "proposed": 16,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 16,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.44.jpeg",
+    "proposed": 23,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 23,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 19,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 18,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 18,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.15.jpeg",
+    "proposed": 98,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 98,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 81,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 76,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 75,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.04.jpeg",
+    "proposed": 57,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 57,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 35,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 33,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 31,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.21 (1).jpeg",
+    "proposed": 23,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 23,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 21,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 21,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 21,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.27.jpeg",
+    "proposed": 46,
+    "gap_-1.0": {
+      "first": 13,
+      "regions": 46,
+      "found": [
+        "13:mrp:MRP: 280.00/4UNTS",
+        "14:mrp:MRP:$20.00/UNIT"
+      ]
+    },
+    "gap_1.0": {
+      "first": 12,
+      "regions": 45,
+      "found": [
+        "12:mrp:MRP: 280.00/4UNTS",
+        "13:mrp:MRP:$20.00/UNIT"
+      ]
+    },
+    "gap_1.5": {
+      "first": 12,
+      "regions": 45,
+      "found": [
+        "12:mrp:MRP: 280.00/4UNTS",
+        "13:mrp:MRP:$20.00/UNIT"
+      ]
+    },
+    "gap_2.0": {
+      "first": 12,
+      "regions": 45,
+      "found": [
+        "12:mrp:MRP: 280.00/4UNTS",
+        "13:mrp:MRP:$20.00/UNIT"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.22.jpeg",
+    "proposed": 94,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 94,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 82,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 78,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 70,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.01.jpeg",
+    "proposed": 3,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 3,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.02.jpeg",
+    "proposed": 14,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.39.jpeg",
+    "proposed": 14,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 14,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 13,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.08.26 (1).jpeg",
+    "proposed": 9,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 9,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.06.00 (1).jpeg",
+    "proposed": 40,
+    "gap_-1.0": {
+      "first": 6,
+      "regions": 40,
+      "found": [
+        "6:net_quantity:Net Content:"
+      ]
+    },
+    "gap_1.0": {
+      "first": 6,
+      "regions": 38,
+      "found": [
+        "6:net_quantity:Net Content: 0"
+      ]
+    },
+    "gap_1.5": {
+      "first": 6,
+      "regions": 38,
+      "found": [
+        "6:net_quantity:Net Content: 0"
+      ]
+    },
+    "gap_2.0": {
+      "first": 6,
+      "regions": 38,
+      "found": [
+        "6:net_quantity:Net Content: 0"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.01 (2).jpeg",
+    "proposed": 74,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 74,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 67,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 64,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 63,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.05.26.jpeg",
+    "proposed": 48,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 48,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 42,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 39,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 36,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.49 (2).jpeg",
+    "proposed": 8,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 6,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 6,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 6,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.51.58.jpeg",
+    "proposed": 23,
+    "gap_-1.0": {
+      "first": 6,
+      "regions": 23,
+      "found": [
+        "6:net_quantity:NetCOntents:200ml",
+        "11:mrp:MRP"
+      ]
+    },
+    "gap_1.0": {
+      "first": 7,
+      "regions": 20,
+      "found": [
+        "7:net_quantity:NetCOntents:200ml",
+        "10:mrp:MRP"
+      ]
+    },
+    "gap_1.5": {
+      "first": 8,
+      "regions": 19,
+      "found": [
+        "8:net_quantity:NetCOntents:200ml"
+      ]
+    },
+    "gap_2.0": {
+      "first": 8,
+      "regions": 19,
+      "found": [
+        "8:net_quantity:NetCOntents:200ml"
+      ]
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 19.52.27.jpeg",
+    "proposed": 8,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    },
+    "gap_2.0": {
+      "first": null,
+      "regions": 8,
+      "found": []
+    }
+  },
+  {
+    "image": "WhatsApp Image 2026-09-07 at 20.04.49 (1).jpeg",
+    "proposed": 76,
+    "gap_-1.0": {
+      "first": null,
+      "regions": 76,
+      "found": []
+    },
+    "gap_1.0": {
+      "first": null,
+      "regions": 74,
+      "found": []
+    },
+    "gap_1.5": {
+      "first": 8,
+      "regions": 70,
+      "found": [
+        "8:net_quantity:NET WEIGHT : 20g"
+      ]
+    },
+    "gap_2.0": {
+      "first": 8,
+      "regions": 68,
+      "found": [
+        "8:net_quantity:NET WEIGHT : 20g"
+      ]
+    }
+  }
+]

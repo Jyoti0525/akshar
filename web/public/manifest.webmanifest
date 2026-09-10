@@ -1,0 +1,30 @@
+{
+  "name": "AKSHAR — Legal Metrology label compliance",
+  "short_name": "AKSHAR",
+  "description": "Measure the letters on a package and check them against the Legal Metrology (Packaged Commodities) Rules, 2011. Works without a network.",
+  "id": "/scan",
+  "start_url": "/scan",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fdfaf7",
+  "theme_color": "#8e1b3a",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": ["government", "productivity", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Scan a package", "url": "/scan" },
+    { "name": "Check a listing", "url": "/scan/listing" },
+    { "name": "Offline queue", "url": "/queue" }
+  ]
+}

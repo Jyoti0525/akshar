@@ -1,0 +1,81 @@
+<<<PAGE 2>>>
+2
+THEGAZETTEOFINDIA:EXTRAORDINARY
+[PART II—SEC. 3()]
+:,A,, e
+7.
+1.602176634×10-19,,CA s
+-（1） 
+8.
+1.380649×10
+J K-1，kgmsK1，,h，△cs
+E上上(2)
+273.15
+(3)
+）
+540×0H
+q  ,Im W-1a , cd sr W1cd sr kg-1m-2s 3
+h△
+10．-（1），
+:6.02214076x10，NA，
+(2），,
+[T. . . TH.-9(19)/2019]
+: ，，I3，(i）31，2011 
+.3T. 211(3T) T Y 
+MINISTRY OFCONSUMERAFFAIRS,FOODANDPUBLICDISTRIBUTION
+(Department of Consumer Affairs)
+NOTIFICATION
+New Delhi, the 5th July, 2019
+G.S.R. 474(E).—In exercise of the powers conferred by sub-section (1) read with clause (a), of sub-section (2)
+of section 52 of the Legal Metrology Act, 2009 (1 of 2010), the Central Government hereby makes the following rules to
+amcnd the Legal Metrology (National Standards) Rules, 2011, namely:-
+1. (1) These rules may be called as the Legal Metrology (National Standards) (Amendment) Rules, 2019.
+(2) They shall come into force on the date of their publication in the Official Gazette.
+2. In the Legal Metrology (National Standards) Rules, 2011,-
+(a) for rules 4, 5, 6, 7, 8, 9 and 10, the following rules shall be substituted, namely:-
+<<<PAGE 3>>>
+3
+[-3()]
+"4.Base units of Length- The base unit of length shall be the metre, symbol m, which is defined by taking the fixed
+numerical value of the speed of light in vacuum c to be 299792458 when expressed in the unit ms"', where the second is
+defined in terms of the caesium frequency ues-
+5. Base units of Mass- The Base unit of mass shall be the kilogram, symbol kg, which is defined by taking the fixed
+numerical value of the Planck constant h to be 6.62607015x10-34 when expressed in the unit J s, which is equal to
+kgm?s-', where the metre and the second are defined in terms of c and △ues.
+6.Base unit of time- The base unit of time shall be the second, symbol s, which is defined by taking the fixed
+numerical value of the caesium frequency ucs, the unperturbed ground-state hyperfine transition frequency of the
+caesium-133 atom, to be 9192631770 when expressed in the unit Hz, which is equal to s-1.
+7.Base unit of electric current - The base unit of electric current shall be the ampere, symbol A, which is defined by
+taking the fixed numerical value of the elementary charge e to be 1.602176634x10-19
+when expressed in the unit C,
+which is equal to A s, where the second is defined in terms of △ues.
+8.Base unit of thermodynamic temperature- (1) The Base unit of thermodynamic temperature shall be the kelvin,
+symbol K, which is defined by taking the fixed numerical value of the Boltzmann constant k to be 1.380649x10-23 when
+expressed in the unit JK-', which is equal to kgm's-²K-', where the kilogram, metre and second are defined in terms of h,
+c and △ues.
+(2) The Kelvin shall also be used for expressing the interval or difference of temperature.
+(3) Zero degree Celsius corresponds to 273.15 kelvin.
+(4) The degree Celsius may also be used for expressing the interval or difference of temperature, unit degree
+Celsius being equal to unit Kelvin.
+Base unit of luminous intensity.- The base unit of luminous intensity shall be the candela, symbol cd, in a given
+direction which is defined by taking the fixed numerical value of the luminous efficacy of monochromatic radiation of
+frequency 540x1012 Hz, Ked, to be 683 when expressed in the unit lm W-', which is equal to cd sr W-1, or cd sr kg7
+s”, where the kilogram, metre and second are defined in terms of h, c and ues.
+10.Base unit of amount of substance.- (1) The base unit of amount of substance shall be the mole, symbol mol, which
+contains exactly 6.02214076x10²3 elementary entities. This number is the fixed numerical value of the Avogadro
+constant, NA, when expressed in the unit mol′ and is called the Avogadro number. The amount of substance, symbol n,
+of a system is a measure of the number of specified elementary entities. An elementary entity may be an atom, a
+molecule, an ion, an electron, any other particle or specified group of particles.
+(2)When the mole is used, the elementary entities shall invariably be specified and may be atoms,molecules,
+ions, electrons, other particles, or specified groups of such particles".
+[F. No. WM-9(19)/2019]
+AMIT MEHTA, Jt. Secy.
+Note : The principal rules were published in the Gazette of India, Extraordinary, Part HI, Section 3, Sub-section (ii), vide
+number S.O. 211(E), dated the 31st January, 2011.
+Uploaded by Dte. of Printing at Government of India Press, Ring Road, Mayapuri, New Delhi-110064
+and Published by the Controller of Publications, Delhi-110054.
+Digitally signed by
+MANOJ
+MANOJ KUMAR VERMA
+KUMARVERMADate:2019.07.08
+22:43:55 +05′30′

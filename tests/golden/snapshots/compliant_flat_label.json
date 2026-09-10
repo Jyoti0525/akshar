@@ -1,0 +1,83 @@
+{
+ "coverage": 0.8,
+ "declaration_count": 4,
+ "declarations": [
+  {
+   "box": [
+    438,
+    341,
+    373,
+    53
+   ],
+   "field": "mrp",
+   "field_confidence": 0.87,
+   "height_mm": 8.15,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.99,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "MRP Rs. 45.00"
+  },
+  {
+   "box": [
+    437,
+    435,
+    278,
+    55
+   ],
+   "field": "net_quantity",
+   "field_confidence": 0.87,
+   "height_mm": 6.57,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.98,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "NET WT 250 g"
+  },
+  {
+   "box": [
+    439,
+    534,
+    209,
+    42
+   ],
+   "field": "mfg_date",
+   "field_confidence": 0.86,
+   "height_mm": 5.21,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.98,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "MFG 03/2026"
+  },
+  {
+   "box": [
+    440,
+    619,
+    303,
+    34
+   ],
+   "field": "other",
+   "field_confidence": 0.3,
+   "height_mm": 4.53,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 1.0,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "Parle Products Pvt Ltd"
+  }
+ ],
+ "degradation_reasons": [
+  "detector weights unavailable; geometry-only region proposal"
+ ],
+ "degradation_tier": "L0",
+ "exit_path": "full",
+ "quality": {
+  "blur_score": 0.83,
+  "exposure_score": 0.98,
+  "faults": [],
+  "glare_ratio": 0.02,
+  "usable": true
+ },
+ "source": "photo"
+}

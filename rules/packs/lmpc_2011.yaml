@@ -1,0 +1,1124 @@
+# =============================================================================
+# AKSHAR rulepack — Legal Metrology (Packaged Commodities) Rules, 2011
+#
+# This file is the entire legal logic of the system. It is ~40 KB of text,
+# small enough to email, and it is why a new gazette notification is a data
+# edit rather than a release.
+#
+# Transcribed from AKSHAR.md section 13. Every value must trace to a document
+# in the section 13a source register. No blog summaries, no recalled figures.
+# An earlier draft of the plan carried Rule 7 height thresholds taken from a
+# vendor blog; they were wrong, and they would have made every verdict
+# incorrect while looking confident. That is why the register exists.
+#
+# EDITING RULES
+#   * Changing any threshold requires a source register entry and a version bump.
+#   * Two people cross-check Rule 7 tables and the Second Schedule against the
+#     gazette PDF before any release (section 19, days 15-17).
+#   * Values marked `verification: pending_gazette` are STRUCTURE ONLY and must
+#     be confirmed against the printed schedule before they are trusted.
+# =============================================================================
+
+meta:
+  pack_id: lmpc_2011
+  version: "2026.03"
+  authority: "Legal Metrology (Packaged Commodities) Rules, 2011 (GSR 202(E), 7 March 2011)"
+
+  sources:                       # see AKSHAR.md 13a register - every value traces here
+    #
+    # TWELVE rows below, numbered 1-10 with 9a and 9b as sub-notifications of
+    # document 9. That is what is actually listed and countable.
+    #
+    # AKSHAR.md 13a itself gives three different figures for this: its prose
+    # says "Eleven documents", its Q&A line says "834 pages across ten
+    # instruments", and its own meta block says "all 10 instruments registered"
+    # - while the table it all describes has twelve rows. The discrepancy is
+    # recorded rather than resolved here, because 13a's own rule is that "if a
+    # number cannot be traced to something someone actually counted, it does not
+    # belong in the plan", and picking one silently would be the very thing it
+    # warns against. See docs/plan-migration.md, "Numbers the plan does not
+    # reconcile". The rows are the evidence; the headline count needs an author
+    # decision, not a guess from us.
+    #
+    # 834 pages of uploaded gazettes plus the 43-page LMPC Rules; 451 pages
+    # OCR'd. Two documents changed the build. Nine are recorded as no-impact
+    # WITH EVIDENCE -- a keyword scan across all 443 non-LMPC pages found
+    # `packaged commodity`, `pre-packed`, `retail sale price`, `MRP`,
+    # `net quantity`, `principal display panel`, `consumer care` and `font size`
+    # ZERO times. All 16 hits for `label` refer to marks on instruments.
+    #
+    # `coverage` records how much of each document was actually read. A SAMPLED
+    # document is marked sampled: an earlier register wrote "read" against a
+    # document that had only been sampled, which is the same overclaiming this
+    # project exists to avoid.
+    - id: 1
+      ref: "GSR 202(E) 07-03-2011"
+      scope: "principal rules, 43 pp -- PRIMARY SOURCE"
+      coverage: "43/43 read, text layer extracted 2026-09-03"
+      file: "rules_and_acts_docs/9 The Legal Metrology (Package Commodities) Rules, 2011.pdf"
+      effect: "all 60 provisions catalogued; corrected the Rule 7 height tables"
+      verified: [rule_7_table_I, rule_7_table_II, rule_7_3_proviso, rule_8_1_proviso,
+                 second_schedule, third_schedule, fourth_schedule]
+    - { id: 2, ref: "SO 211(E) 31-01-2011", scope: "National Standards Rules; Third+Fourth Schedules",
+        coverage: "40/79 -- full English section OCR'd; Hindi half (1-39) verified as the same text",
+        file: "rules_and_acts_docs/stdrules-compressed_0_1732708966.pdf",
+        effect: "SECOND MOST IMPORTANT. Third Schedule gives the SI prefix table and the
+                 symbol-printing rules - five checks, see 13c. Rule 18 checked and rejected" }
+    - { id: 3, ref: "GSR 474(E) 05-07-2019", scope: "SI base units; authority for r.13(5)(i)",
+        coverage: "2/2 read",
+        file: "rules_and_acts_docs/National_Std_Rules2019_1732709005.pdf",
+        effect: "substitutes rr.4-10 with constant-based SI definitions; NO rulepack value changes" }
+    - { id: 4, ref: "GSR 13(E) 07-01-2011", scope: "Numeration Rules; digit form r.2(3)",
+        coverage: "6/6 read",
+        effect: "one encodable check (digit form). r.4 grouping resolved as NOT applicable" }
+    - { id: 5, ref: "GSR 109(E) 23-02-2011", scope: "Numeration commencement",
+        coverage: "2/2 OCR'd",
+        effect: "commencement 1 Mar -> 1 APR 2011. The register's whole argument in one row:
+                 reading only the principal rules gives a date wrong since February 2011" }
+    - { id: 6, ref: "SO 1(E) 31-12-2010", scope: "LM Act 2009 commencement",
+        coverage: "1/1 read", effect: "context only" }
+    - { id: 7, ref: "GSR 71(E) 07-02-2011", scope: "General Rules - instruments, not labels",
+        coverage: "356/655 -- every English page OCR'd and keyword-scanned",
+        file: "rules_and_acts_docs/6_0_1732709495.pdf",
+        effect: "NO IMPACT, and now evidenced rather than assumed. A label cannot violate
+                 the General Rules" }
+    - { id: 8, ref: "GSR 317(E) 13-04-2011", scope: "Corrigendum to GSR 71(E)",
+        coverage: "1/1 read", effect: "corrects three fee figures in the Twelfth Schedule. NO IMPACT" }
+    - { id: 9, ref: "GSR 183(E) 01-03-2011", scope: "Approval of Models",
+        coverage: "26/26 OCR'd",
+        file: "rules_and_acts_docs/approval_of_models_rules_0_1732709311.pdf",
+        effect: "NO IMPACT - VERIFIED, not assumed. Both 'mandatory declaration' hits refer
+                 to markings on the instrument being type-approved, not on a package" }
+    - { id: 9a, ref: "GSR 823(E) 06-11-2019", scope: "Approval of Models amendment",
+        coverage: "2/2 read", effect: "amends r.11, substitutes r.19 (test fees). NO IMPACT" }
+    - { id: 9b, ref: "SO 824(E) 19-03-2014", scope: "Notification under Approval of Models rr.3-5",
+        coverage: "7/7 OCR'd", effect: "authorises labs to receive model-test applications. NO IMPACT" }
+    - { id: 10, ref: "GSR 76(E) 08-02-2011", scope: "Indian Institute of Legal Metrology Rules",
+        coverage: "12/12 OCR'd", effect: "training institute, courses, advisory committee. NO IMPACT" }
+
+  # The 2011 family is CLOSED. What is missing is a different year - and each
+  # later amendment has now been checked individually rather than left open.
+  amendments_included:
+    # Found in the footnote to Fourth Schedule entry 15 of the principal gazette
+    # itself. Encoded in tables.unit_by_commodity.ice_cream.
+    #
+    # AKSHAR.md 13a shows `amendments_included: []` and files GSR 748(E) under
+    # `amendments_checked` as "already reflected in the principal text we read".
+    # The entry is kept here because the evidence is real and the VALUE IS
+    # ENCODED: a sourced figure is not dropped to match a template. It is
+    # cross-listed below so the two records agree about what was checked.
+    - ref: "GSR 748(E) 24-10-2011"
+      effect: "Fourth Schedule item 15, ice cream: volume -> weight, wef 01-07-2012"
+      evidence: "footnote printed on p. 34 of GSR 202(E)"
+      gazette_in_hand: false      # we have the footnote, not the notification
+
+  amendments_checked:            # confirmed effect; gazette PDFs not all held
+    - { ref: "GSR 128(E) 13-02-2026", action: "inserts r.6(10A)",
+        effect: "NONE - obliges an e-commerce entity to provide a country-of-origin filter
+                 on its listings. Not a labelling rule. See test_no_package_level_country_of_origin_rule" }
+    - { ref: "GSR 312(E) 27-04-2026", action: "substitutes r.6(10A)",
+        effect: "NONE - supersedes the above, in force 01-07-2027. The rule was amended twice
+                 in ten weeks, which is the argument for rules-as-versioned-data" }
+    - { ref: "GSR 734(E) 30-09-2011", action: "extends packaging transition",
+        effect: "NONE - expired" }
+    - { ref: "GSR 748(E) 24-10-2011", action: "withdraws provisos",
+        effect: "NONE for the provisos - already reflected in the principal text we read.
+                 Its ice-cream footnote IS encoded; see amendments_included above" }
+
+  amendments_unverified:         # claimed by a secondary source, never confirmed
+    # Stays OUT of the rulepack rather than being cited on trust. The version
+    # string never claims an amendment the register cannot support.
+    - "2025-10-23 medical devices"
+
+  family_2011_status: closed     # all 11 instruments registered, see 13a
+
+# =============================================================================
+# APPLICABILITY GATE (Rules 3 and 26)
+#
+# Runs BEFORE any rule. If out of scope, every rule returns NOT_APPLICABLE.
+# Applying a rule to a package the rule does not govern produces a false
+# violation, which is worse than missing a real one.
+# =============================================================================
+
+applicability:
+  exclude_if:
+    - net_quantity_gt: { value: 25, unit: kg }      # Rule 3(a)
+      except_categories: [cement, fertiliser]        # ...to 50 kg
+      reason: "Rule 3(a): packages over 25 kg are outside these rules (50 kg for cement and fertiliser)."
+
+    - net_quantity_gt: { value: 25, unit: L }
+      reason: "Rule 3(a): packages over 25 litres are outside these rules."
+
+    - net_quantity_lte: { value: 10, unit: g }      # Rule 26(a)
+      reason: "Rule 26(a): packages of 10 g or less are exempt."
+
+    - net_quantity_lte: { value: 10, unit: ml }
+      reason: "Rule 26(a): packages of 10 ml or less are exempt."
+
+    - category_in: [restaurant_fastfood, dpco_drug]  # Rule 26(b),(c)
+      reason: "Rule 26(b),(c): restaurant fast food and DPCO-scheduled drugs are exempt."
+
+    - consumer_type_in: [industrial, institutional]  # Rule 3(b)
+      reason: "Rule 3(b): packages for industrial or institutional consumers are outside these rules."
+
+    - category_in: [farm_produce_bulk]               # Rule 26(d)
+      net_quantity_gt: { value: 50, unit: kg }
+      reason: "Rule 26(d): agricultural farm produce in packages above 50 kg is exempt."
+
+  package_type_rules:                                # Rule 24
+    # A wholesale carton needs only the manufacturer, the identity of the
+    # commodity, and the count or net quantity. Run retail rules against it and
+    # every scan produces four false violations. This is the gate most teams miss.
+    wholesale_requires_only: [manufacturer, generic_name, net_quantity]
+
+  commodity_carveouts:
+    no_date_required: [bidi, incense_sticks, lpg_domestic]   # Rule 6(1) proviso A
+    no_mrp_required:  [bidi, lpg_administered_price]         # Rule 6(1) proviso C
+    mrp_on_crown_cap: [returnable_soft_drink_bottle]         # Rule 6(1) proviso
+
+  other_law_disapplication:                          # Rule 7(4)
+    # Where another statute mandates the same information, the height rules of
+    # these rules do not apply to it.
+    applies_to_checks: [min_height_mm]
+
+# =============================================================================
+# TABLES
+# =============================================================================
+
+tables:
+
+  # ---------------------------------------------------------------------------
+  # Rule 7(2)(i), Table I.
+  # NOTE: driven by NET QUANTITY, not label area. Getting this backwards is the
+  # single most consequential error available in this project.
+  # `max_g_ml: null` is the open-ended top band.
+  # ---------------------------------------------------------------------------
+  numeral_height_by_net_quantity:
+    - { max_g_ml: 200,  normal_mm: 1, embossed_mm: 2 }
+    - { max_g_ml: 500,  normal_mm: 2, embossed_mm: 4 }
+    - { max_g_ml: null, normal_mm: 4, embossed_mm: 6 }
+
+  # ---------------------------------------------------------------------------
+  # Rule 7(2)(ii), Table II.
+  # Applies ONLY when quantity is declared by length, area or number, where
+  # there is no gram or millilitre figure to key Table I on.
+  # ---------------------------------------------------------------------------
+  numeral_height_by_pdp_area:
+    - { max_area_cm2: 100,  normal_mm: 1, embossed_mm: 2 }
+    - { max_area_cm2: 500,  normal_mm: 2, embossed_mm: 4 }
+    - { max_area_cm2: 2500, normal_mm: 4, embossed_mm: 6 }
+    - { max_area_cm2: null, normal_mm: 6, embossed_mm: 6 }
+
+  # ---------------------------------------------------------------------------
+  # Rule 5, Second Schedule — COMPLETE, transcribed from the gazette.
+  #
+  # Source: GSR 202(E) 07-03-2011, pp. 29-32, text layer extracted directly
+  # (see data/rulebook/extracted/lmpc_2011.txt). All 19 numbered entries are
+  # here. Section 13 called this an extract; it no longer is.
+  #
+  # Grammar for the string entries:
+  #   "+100 to 1000"  -> then in steps of 100 up to and including 1000
+  #   "+1000"         -> then any positive multiple of 1000 above the last literal
+  #   "<50 free"      -> below 50, no restriction
+  #   "<50 step 10"   -> below 50, any multiple of 10
+  #   ">4000 free"    -> above 4000, no restriction
+  # Values are in the commodity's base unit: g for solids, ml for liquids.
+  #
+  # Conditional sizes ("40 kg for white cement only", "65 ml fruit-based only",
+  # "330 ml in cans only") are included UNCONDITIONALLY. That errs towards
+  # accepting a lawful pack rather than accusing one, which is the correct
+  # direction for a tool whose worst failure is a false accusation.
+  # ---------------------------------------------------------------------------
+  standard_pack_sizes:
+    verification: gazette_verified          # 2011 principal text, read in full
+    verified_on: "2026-09-03"
+    source_pages: "29-32"
+
+    # 1
+    baby_food:          [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10000]
+    weaning_food:       [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 5000, 10000]
+    # 2
+    biscuits:           [25, 50, 75, 100, 150, 200, 250, 300, "+100 to 1000"]
+    # 3 — bread including brown bread but excluding bun
+    bread:              [100, "+100"]
+    # 4 — un-canned packages
+    butter:             [25, 50, 100, 200, 500, 1000, 2000, 5000, "+5000"]
+    margarine:          [25, 50, 100, 200, 500, 1000, 2000, 5000, "+5000"]
+    # 6
+    cereals:            [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    pulses:             [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    # 7
+    coffee:             [25, 50, 100, 200, 250, 500, 1000, "+1000"]
+    # 8
+    tea:                [25, 50, 100, 125, 250, 500, 1000, "+1000"]
+    # 9 — materials constituted or reconstituted as beverages
+    beverage_mix:       [25, 50, 100, 200, 500, 1000, "+1000"]
+    # 10
+    edible_oil:         [50, 100, 200, 500, 1000, 2000, 3000, 5000, "+5000"]
+    vanaspati:          [50, 100, 200, 500, 1000, 2000, 3000, 5000, "+5000"]
+    ghee:               [50, 100, 200, 500, 1000, 2000, 3000, 5000, "+5000"]
+    butter_oil:         [50, 100, 200, 500, 1000, 2000, 3000, 5000, "+5000"]
+    # 11
+    milk_powder:        ["<50 free", 50, 100, 200, 500, 1000, "+500"]
+    # 12
+    detergent_powder:   ["<50 free", 50, 100, 200, 500, 700, 1000, 1500, 2000, "+1000"]
+    # 13
+    flour:              [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    atta:               [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    rice_powdered:      [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    rawa:               [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    suji:               [100, 200, 500, 1000, 2000, 5000, "+5000"]
+    # 14
+    salt:               ["<50 step 10", 50, 100, 200, 500, 750, 1000, 2000, 5000, "+5000"]
+    # 15(a)
+    laundry_soap:       [50, 75, 100, "+50"]
+    # 15(b)
+    detergent_cake:     [50, 75, 100, 125, 150, 200, 250, 300, "+100"]
+    # 15(c) — including all kinds of bath soap (cakes)
+    toilet_soap:        [25, 50, 75, 100, 125, 150, "+50"]
+    # 16 — 65 ml and 125 ml are fruit-based only; 330 ml is cans only
+    aerated_drink:      [65, 100, 125, 150, 200, 250, 300, 330, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000]
+    # 17
+    mineral_water:      [100, 150, 200, 250, 300, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000]
+    drinking_water:     [100, 150, 200, 250, 300, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000]
+    # 18 — 40 kg is white cement only
+    cement:             [1000, 2000, 5000, 10000, 20000, 25000, 40000, 50000]
+    # 19(a)
+    paint:              [50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, "+5000"]
+    varnish:            [50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, "+5000"]
+    enamel:             [50, 100, 200, 500, 1000, 2000, 3000, 4000, 5000, "+5000"]
+    # 19(b)
+    paste_paint:        [500, 1000, 1500, 2000, 3000, 5000, 7000, "+5000"]
+    solid_paint:        [500, 1000, 1500, 2000, 3000, 5000, 7000, "+5000"]
+    # 19(c)
+    base_paint:         [450, 500, 900, 925, 950, 975, 1000, 3600, 3700, 3800, 3900, 4000, ">4000 free"]
+
+  # ---------------------------------------------------------------------------
+  # Rule 12(2), Fourth Schedule — COMPLETE, transcribed from the gazette.
+  #
+  # Source: GSR 202(E) 07-03-2011, pp. 33-34, text layer extracted directly.
+  # Exactly TWENTY-SIX entries, which is the number section 13b quotes.
+  #
+  # This is a list of EXCEPTIONS to Rule 12(1). A commodity that is not listed
+  # here is governed by the general rule, so an unlisted commodity returns
+  # NOT_APPLICABLE, never FAIL. An earlier draft of this table inferred fifteen
+  # entries (biscuits, cement, salt, tea, sugar, footwear...) that are NOT in
+  # the Fourth Schedule at all; they have been removed. Guessing which
+  # commodities the schedule names is exactly the vendor-blog error the source
+  # register exists to prevent.
+  #
+  # ENTRY 15 CARRIES AN AMENDMENT. The 2011 principal text says ice cream is
+  # declared by VOLUME; the gazette's own footnote records that GSR 748(E)
+  # dated 24-10-2011 replaces Volume with Weight with effect from 01-07-2012.
+  # Current law is therefore WEIGHT. This is the section 13a lesson appearing
+  # in our own primary source: a principal instrument is not authoritative on
+  # its own.
+  # ---------------------------------------------------------------------------
+  unit_by_commodity:
+    verification: gazette_verified
+    verified_on: "2026-09-03"
+    source_pages: "33-34"
+    _dimensions: [weight, volume, length, area, number]
+    entries:
+      aerosol_products:      { unit: weight, confirmed: true }              # 1
+      acids_liquid:          { unit: [weight, volume], confirmed: true }    # 2
+      compressed_gas:        { unit: [weight, volume], confirmed: true }    # 3 weight AND equivalent volume
+      curd:                  { unit: weight, confirmed: true }              # 4
+      electric_cables:       { unit: [length, weight], confirmed: true }    # 5
+      electric_wire:         { unit: [length, weight], confirmed: true }    # 6
+      fencing_wire:          { unit: [number, weight], confirmed: true }    # 7
+      fruits:                { unit: [number, weight], confirmed: true }    # 8
+      furnace_oil:           { unit: [weight, volume], confirmed: true }    # 9
+      non_edible_vegetable_oil: { unit: [weight, volume], confirmed: true } # 10
+      edible_oil:            { unit: [weight, volume], confirmed: true }    # 11
+      vanaspati:             { unit: [weight, volume], confirmed: true }    # 11
+      ghee:                  { unit: [weight, volume], confirmed: true }    # 11
+      butter_oil:            { unit: [weight, volume], confirmed: true }    # 11
+      heavy_residual_fuel_oil: { unit: weight, confirmed: true }            # 12
+      industrial_diesel_fuel:  { unit: volume, confirmed: true }            # 13
+      honey:                 { unit: weight, confirmed: true }              # 14
+      malt_extract:          { unit: weight, confirmed: true }              # 14
+      golden_syrup_treacle:  { unit: weight, confirmed: true }              # 14
+      ice_cream:             { unit: weight, confirmed: true,               # 15
+                               note: "2011 text said volume; GSR 748(E) 24-10-2011 substituted weight wef 01-07-2012" }
+      liquid_chemicals:      { unit: [weight, volume], confirmed: true }    # 16
+      liquefied_petroleum_gas: { unit: weight, confirmed: true }            # 17
+      nails:                 { unit: [number, weight], confirmed: true }    # 18
+      wood_screws:           { unit: [number, weight], confirmed: true }    # 18
+      paint:                 { unit: volume, confirmed: true }              # 19 other than paste/solid
+      varnish:               { unit: volume, confirmed: true }              # 19
+      enamel:                { unit: volume, confirmed: true }              # 19
+      paste_paint:           { unit: weight, confirmed: true }              # 20
+      solid_paint:           { unit: weight, confirmed: true }              # 20
+      sweet_preparations:    { unit: weight, confirmed: true }              # 21 rasgulla, gulabjamun etc
+      ready_made_garments:   { unit: number, confirmed: true }              # 22
+      sauces:                { unit: weight, confirmed: true }              # 23
+      tyres:                 { unit: number, confirmed: true }              # 24
+      tubes:                 { unit: number, confirmed: true }              # 24
+      yarn:                  { unit: [weight, length], confirmed: true }    # 25
+      cosmetics:             { unit: [weight, volume], confirmed: true }    # 26 creams, shampoo, lotions, perfumes
+
+  # ---------------------------------------------------------------------------
+  # Rule 11(4), Third Schedule — commodities whose quantity declaration may be
+  # qualified by the words "When packed". Exactly three, gazette-verified.
+  # Anywhere else, "when packed" is a violation.
+  # ---------------------------------------------------------------------------
+  when_packed_permitted:
+    verification: gazette_verified
+    verified_on: "2026-09-03"
+    source_pages: "32"
+    entries: [soap, lotion, cream]     # "cream (other than cream of milk)"
+
+  # ---------------------------------------------------------------------------
+  # National Standards Rules, Third Schedule, Table 1 — SI prefixes.
+  # Prefix symbols attach to the unit with NO space and NO dot (item 2).
+  # ---------------------------------------------------------------------------
+  si_prefixes:
+    E: 1.0e18
+    P: 1.0e15
+    T: 1.0e12
+    G: 1.0e9
+    M: 1.0e6
+    k: 1.0e3
+    h: 1.0e2
+    da: 1.0e1
+    d: 1.0e-1
+    c: 1.0e-2
+    m: 1.0e-3
+    "µ": 1.0e-6
+    n: 1.0e-9
+    p: 1.0e-12
+    f: 1.0e-15
+    a: 1.0e-18
+
+  # ---------------------------------------------------------------------------
+  # National Standards Rules, Fourth Schedule — units PERMITTED alongside SI.
+  # The litre symbol is given in the gazette as lower-case `l`. See 13c.
+  # ---------------------------------------------------------------------------
+  permitted_units:
+    l:   { name: litre,  equals: "1 dm3",   note: "gazette symbol is lower-case l" }
+    t:   { name: tonne,  equals: "1000 kg", prefixes_allowed: [k, M, G, T] }
+    min: { name: minute }
+    h:   { name: hour }
+    d:   { name: day }
+
+  # SI base units, rr. 4-10 as substituted by GSR 474(E) 2019.
+  si_base: [m, kg, s, A, K, cd, mol]
+
+  # Third Schedule item 7(2): lower case UNLESS the unit is named after a person.
+  unit_proper_name_exceptions: [N, Pa, A, K, W, J, V, Hz, C, T, Wb, S, F, Bq, Gy, Sv, Ohm]
+
+  # Symbols whose case this pack does NOT report on, because it has already
+  # taken a position on them elsewhere and must not contradict itself.
+  #
+  # `LMPC.UNIT.LITRE_SYMBOL` ships `enabled: false` with the note "DISPUTED --
+  # BIPM accepts 'L'". `LMPC.UNIT.SYMBOL_CASE` reached the same `L` by another
+  # route and failed it anyway: measured 2026-09-10 on an Amul ghee tin reading
+  # `Net Content: 1L (905 g)`, which is every litre pack in the country. A rule
+  # that is switched off must stay off however it is reached.
+  unit_case_disputed: [L]
+
+# =============================================================================
+# PATTERNS
+#
+# TWO patterns per field, never one.
+#
+# Locating asks "is there an MRP declaration on this pack at all?" and must be
+# as permissive as possible — a miss here generates a false NOT_FOUND, which is
+# a false accusation against a manufacturer.
+#
+# Validating asks "is it written in the form Rule 2(m) prescribes?" and must be
+# strict — a failure here is a FORMAT violation, a real but much milder finding.
+#
+# The bug is never the regex. The bug is using one pattern for two jobs.
+# =============================================================================
+
+patterns:
+
+  # -- MRP --------------------------------------------------------------------
+  # -- on the boundaries in the five locate patterns ---------------------
+  #
+  # They read `(?<![A-Za-z0-9])...(?![A-Za-z0-9])` where the obvious spelling
+  # is a word boundary. The difference shows only on a bilingual pack, and
+  # there it is the difference between finding a declaration and reporting a
+  # compliant product as non-compliant.
+  #
+  # A word boundary is a transition between a word character and a non-word
+  # character, and Devanagari letters are word characters. So on
+  # `MRPरु. 15.00` -- an ordinary rendering, and Rule 6 expressly permits
+  # Hindi -- there is no boundary between the `P` and the `र`, mrp_locate does
+  # not match, and LMPC.MRP.PRESENT fires "Retail sale price not declared"
+  # against a pack that declares it in two scripts. It was found on a dev
+  # corpus pack whose MRP the pipeline had read correctly and then discarded.
+  #
+  # The lookarounds say what was meant: this token must not run into another
+  # *Latin* word. A script change is a word boundary to a reader even though it
+  # is not one to the regex engine.
+  #
+  # A digit is different on each side, and the two locate patterns say so.
+  # Before it, a digit still blocks: `24MRP07` is one of section 14's named
+  # hard negatives, a batch code, and the leading lookbehind is what rejects
+  # it. After it, a digit blocks only when it is not the declaration's own
+  # value. `MRP2.00 incl. of all taxes` is how the match box in the ruler set
+  # is actually printed -- no space between the label and the figure -- and
+  # both shots of it were being reported as declaring no retail sale price,
+  # because a trailing-digit guard cannot tell a price from a batch number by
+  # looking at one character. So the guard asks for the shape of the value
+  # instead: paise, or a `/-`, or a lawful unit symbol for the quantity. Bare
+  # `MRP07` still does not match, which is the case the guard was there for.
+  #
+  # The strict *format* patterns are deliberately left alone. They define
+  # what is lawful rather than what is present, and widening lawfulness is
+  # not a change to make while chasing a recall number.
+
+  # `retail sale price` is Rule 2(m)'s OWN TERM and this pattern could not
+  # match it: the alternation was `max(imum)? retail price`, and the printed
+  # phrase has `sale` in the middle. Measured 2026-09-10 -- `'Retail Sale
+  # Price Rs 20'` classified as `other`, so a pack declaring its MRP in the
+  # exact words of the rule was reported as declaring none.
+  mrp_locate:                            # permissive — only job is to FIND the MRP
+    # The second alternative is a price with no caption on it at all. A jam
+    # lid prints `₹ 90/-` and a carton prints `₹ 149.00`, and Rule 6(1)(e) is
+    # satisfied by the declaration however it is introduced -- but before this
+    # neither matched anything and the pack was reported as declaring no retail
+    # sale price.
+    #
+    # It is kept narrow in the one direction that matters. `/-` is the rupee
+    # terminator and settles it outright; otherwise two decimal places are
+    # required, which is what a price is written with and a batch code is not.
+    # The trailing guard drops `₹ 0.45/g` and `₹ 575.00/kg` -- those are the
+    # *unit* sale price printed beside the MRP, and reading one as the other
+    # would put the wrong figure on an enforcement record. Promotional prices
+    # never reach here: `vision.classify.regex_tier._PROMOTIONAL` is a hard
+    # negative tested before any field pattern.
+    latin: '(?i)(?<![A-Za-z0-9])(max(imum)?\.?\s*retail(\s*sale)?\s*price|retail\s*sale\s*price|m\.?r\.?p\.?)(?![A-Za-z])(?=[^0-9]|\d{1,5}[.,]\d{1,2}|\d{1,5}\s*/-|$)|(?<![A-Za-z0-9])(₹|rs\.?)\s*\d{1,3}(?:[,\s]?\d{2,3})*(?:\.\d{2})?\s*/-|(?<![A-Za-z0-9])(₹|rs\.?)\s*\d{1,3}(?:[,\s]?\d{2,3})*\.\d{2}(?!\s*/\s*[A-Za-z])'
+    devanagari: '(अधिकतम\s*खुदरा\s*मूल्य|एम\.?आर\.?पी\.?)'
+
+  mrp_format:                            # Rule 2(m) — BOTH forms are legal
+    # The amount alternation accepts Indian (2,50,000) and international
+    # (250,000) grouping and bare digits. An earlier draft required \d+ with no
+    # separator, which silently reported EVERY product priced at Rs 1,000 or
+    # above as having no MRP at all.
+    latin: '(?i)\b(max(imum)?\.?\s*retail\s*price|m\.?r\.?p\.?)\s*(rs\.?|₹)\s*\d{1,3}([,\s]?\d{2,3})*(\.\d{1,2})?\s*.{0,6}(incl)'
+    devanagari: 'अधिकतम\s*खुदरा\s*मूल्य'
+
+  # -- net quantity -----------------------------------------------------------
+  net_quantity_locate:                   # permissive — only job is to FIND it
+    latin: '(?i)(?<![A-Za-z0-9])(net\s*(wt|weight|qty|quantity)|net\s*cont(ent)?s?|qty\.?|contents)(?![A-Za-z])(?=[^0-9]|\d{1,5}(\.\d+)?\s*(mg|kg|ml|g|l|cm|mm|m|t|N|U)|$)'
+    devanagari: '(शुद्ध|कुल)\s*(मात्रा|वजन|तौल)'
+
+  net_quantity:                          # strict — value + lawful SI symbol
+    latin: '(?i)\b(net\s*(wt|weight|qty|quantity)|net\s*content)\b\D{0,12}\d+(\.\d+)?\s?(mg|g|kg|ml|l|cm|mm|m|t|N|U)\b'
+    devanagari: 'शुद्ध\s*(मात्रा|वजन)'
+
+  # -- dates ------------------------------------------------------------------
+  # The negative lookahead for `by` is a BUG FIX, not a widening. Measured
+  # 2026-09-10: `'MFG BY ABC Foods'` classified as `mfg_date` at 0.88 --
+  # a company name handed to a date-format check, because `mfg` matched here
+  # before `manufacturer_locate` was ever consulted. `MFG BY` names a
+  # manufacturer; `MFG:` and `MFD:` introduce a date. The word after decides.
+  mfg_date_locate:
+    # `date\s*of\s*packing` did not match `Date of Packaging`, which is what
+    # packs actually print -- measured 2026-09-10 on a Keventer frozen pack
+    # where Rule 6(1)(d) was reported undeclared against a pack declaring it
+    # plainly. `pack\w*` takes packing, packaging and packed; `import\w*` is
+    # 6(1)(d)'s third limb, which was missing outright.
+    #
+    # `pkg` joins `pkd`: `DATE OF PKG.:` is on the Bikanervala pack and matched
+    # nothing, because `pack\w*` takes packing and packaging but not the
+    # abbreviation. And `address` joins the negative guard beside `by`: the
+    # stem `manufactur\w*` was claiming `Manufacturing Address of PL:`, which
+    # names a *place* under Rule 6(1)(a) and not a date under 6(1)(d).
+    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*(&\s*)?(by|pkd)\b)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
+    devanagari: '(निर्माण|पैकिंग)\s*(की\s*)?(तिथि|माह)'
+
+  mfg_date:                              # Rule 6(1)(d) — month AND year
+    latin: '(?i)(0?[1-9]|1[0-2])[\/\-\.\s](20\d{2})|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*[\s\/\-\.]*20\d{2}\b'
+
+  # -- consumer care ----------------------------------------------------------
+  # Harvested from the corpus on 2026-09-10. The old pattern required
+  # `for <complaint|query|grievance>` with nothing in between, so every one of
+  # these real lines matched nothing:
+  #   'FOR FEEDBACK/COMPLAINT CONTACT:'
+  #   'For Feedback or Complaints write to:'
+  #   'For consumer complaints/queries/feedbock'   <- OCR error, still legible
+  # `feedback` is added as a first-class term and the words may now be
+  # separated by anything short. `car` with no `e` is deliberate: `CUSTOMERCAN0`
+  # and `Cuslomer Care` were both read off real packs.
+  consumer_care_locate:
+    # `ca[rn]e\s*(no|cell|line)` covered "Care Cell" but not `Regd. Office &
+    # Consumer Cell:`, which is Dabur's wording and matched nothing.
+    latin: '(?i)(?<![A-Za-z0-9])(consumer\s*ca[rn]e\w*|customer\s*ca[rn]e\w*|cus[a-z]omer\s*ca[rn]e\w*|ca[rn]e\s*(no|cell|line)|(consumer|customer)\s*(cell|desk|service|relations)|(for|in\s*case\s*of)\s*[\w\s/,]{0,24}?(complaint|quer|grievance|feedb)\w*|reach\s*us|helpline|toll[\s\-]?free)'
+    devanagari: 'उपभोक्ता\s*(सेवा|शिकायत)'
+
+  consumer_care_phone:                   # Rule 6(2) — telephone is mandatory
+    latin: '(?i)(\+?91[\s\-]?)?(1800[\s\-]?\d{3}[\s\-]?\d{4}|[6-9]\d{9}|0\d{2,4}[\s\-]?\d{6,8})'
+
+  consumer_care_email:                   # Rule 6(2) — e-mail only if available
+    latin: '(?i)[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}'
+
+  # -- manufacturer -----------------------------------------------------------
+  # `mfd`/`mfg` followed by `by` is the commonest way an Indian pack names its
+  # manufacturer and neither abbreviation was here. Measured 2026-09-10:
+  # `'MFD.BY:ITC LIMITED'` and `'Mfd. By: Britannia'` both classified `other`.
+  manufacturer_locate:
+    # `manufactur\w*\s*(unit\s*)?address` is the other way 6(1)(a)'s name and
+    # address is introduced -- `Manufacturing Address of PL:` -- and without it
+    # the line fell through to `mfg_date_locate`, whose `manufactur\w*` stem
+    # reported an address as a date.
+    latin: '(?i)(?<![A-Za-z0-9])(manufactur\w*\s*(by|:)|manufactur\w*\s*(unit\s*)?(address|addr\b)|mf[dg]\.?\s*&?\s*(by|pkd)|mktd\.?\s*by|marketed\s*by|packed\s*by|imported\s*by|name\s*(and|&)\s*address)(?![A-Za-z0-9])'
+    devanagari: '(निर्माता|पैकर|आयातकर्ता)'
+
+  # -- numerals ---------------------------------------------------------------
+  amount:                                # digits only, both grouping conventions
+    latin: '\d{1,3}(?:[,\s]?\d{2,3})*(?:\.\d{1,2})?'
+
+  quantity_value_unit:                   # parses "500 g" / "1.5kg" into value+unit
+    latin: '(?i)(\d+(?:[.,]\d+)?)\s*(mg|kg|g|ml|l|ltr|litre|liter|cm|mm|m|t|N|U|nos?|pcs?)\b'
+
+  # -- National Standards Rules, Third Schedule item 7 ------------------------
+  pluralised_symbol:                     # NS Third Schedule 7(1)(b)
+    latin: '(?i)\b\d+\s*(g|kg|mg|ml|l|cm|mm|m|t)s\b|\b\d+\s*(ltrs?|gms|kgs|nos)\b'
+
+  symbol_full_stop:                      # NS Third Schedule 7(1)(c)
+    latin: '\b\d+\s*(g|kg|mg|ml|l|cm|mm|m|t)\.(?!\d)'
+
+  missing_unit_space:                    # NS Third Schedule 7(1)(d)
+    latin: '(?i)\d(?:kg|mg|ml|cm|mm|g|l|t)\b'
+
+  capital_litre:                         # NS Fourth Schedule 3 - DISPUTED
+    latin: '\b\d+\s*L\b'
+
+  # -- Numeration Rules r.2(3) ------------------------------------------------
+  non_international_digits:
+    # Devanagari, Gujarati, Odia and Tamil digit blocks. A label printing
+    # "500" as Devanagari numerals is non-compliant.
+    latin: '[०-९૦-૯୦-୯௦-௯]'
+
+  # -- qualifiers and banned words -------------------------------------------
+  when_packed:                           # Rule 11(4), Third Schedule
+    latin: '(?i)\bwhen\s+packed\b'
+    devanagari: 'पैक\s*किए\s*जाने\s*पर'
+
+  banned_quantity_words:                 # Rule 12(6)
+    latin: '(?i)\b(minimum|not\s+less\s+than|average|about|approximately)\b'
+
+  banned_number_units:                   # Rule 13(4)
+    latin: '(?i)\b(dozen|score|great\s+gross|gross)\b'
+
+  # -- section 13b additions --------------------------------------------------
+  country_of_origin_locate:
+    latin: '(?i)\b(country\s*of\s*origin|made\s*in|product\s*of|origin\s*:)\b'
+    devanagari: '(मूल\s*देश|निर्मित)'
+
+  # Locate-then-validate for the importer. Deliberately NOT `manufacturer_locate`,
+  # which also matches "Manufactured by" -- using it here would let a pack that
+  # names a manufacturer and no importer PASS an import check.
+  domestic_origin:
+    # Read by `LMPC.IMPORTER.PRESENT`'s `text_excludes_ref`. A country of
+    # origin naming India is the opposite of evidence that a package was
+    # imported, and treating it as the trigger raised a high-severity finding
+    # against four Indian manufacturers that print `PRODUCT OF INDIA` and
+    # `MADE IN INDIA` on the face of the pack.
+    latin: '(?i)\b(india|bharat)\b'
+    devanagari: '(भारत|इंडिया)'
+
+  importer_locate:
+    latin: '(?i)\bimport(ed|er)\s*(by|:)'
+    devanagari: 'आयातकर्ता'
+
+  generic_name_locate:
+    # `Name of Commodity` is how a pack prints what Rule 6(1)(b) calls the
+    # common or generic name, and it matched nothing: 8 of 52 corpus frames
+    # were failed for an undeclared generic name on 2026-09-10.
+    #
+    # `Product Name` is deliberately NOT here. It introduces the brand --
+    # "Dark Fantasy Yumfills" -- where 6(1)(b) requires the GENERIC name.
+    # Accepting it would turn a real violation into a pass, which is the one
+    # direction of error a locate pattern may not take.
+    #
+    # `Commodity :  Toy` -- the bare label, no "name of" -- is how the printed
+    # panel actually sets it, measured on a Mattel carton 2026-09-10 alongside
+    # `Country of Origin`, `Month & year of Mfg.` and `Net Quantity` in one
+    # column. Across 122 photographs the generic name was named exactly **zero**
+    # times before this. Anchored to a following colon or dash so it is read as
+    # a label and not as the word appearing in prose.
+    latin: '(?i)\b((common|generic)\s*name|na[mn]e\s*of\s*(the\s*)?commodity|nature\s*of\s*(the\s*)?commodity|commodity\s*[:\-])'
+    devanagari: '(सामान्य|साधारण)\s*नाम'
+
+  dimensions_per_piece:                  # Rules 14, 16, 17
+    latin: '(?i)(\d+(?:\.\d+)?)\s*(cm|mm|m|inch(es)?)\s*[x×*]\s*(\d+(?:\.\d+)?)\s*(cm|mm|m|inch(es)?)'
+
+  sheet_count:                           # Rule 16 — foil and tissue
+    latin: '(?i)\b(\d+)\s*(sheets?|pulls?|napkins?|tissues?)\b'
+
+  advertisement_price:                   # Rule 31(1)-(2), listing channel
+    latin: '(?i)\b(rs\.?|₹|price)\s*\d{1,3}(?:[,\s]?\d{2,3})*(?:\.\d{1,2})?'
+
+# =============================================================================
+# RULES
+#
+# 31 rules. Twenty-eight of them run with no scale recovery at all; only the
+# three `min_height_mm` rules require millimetres.
+# =============================================================================
+
+rules:
+
+  # ---------------------------------------------------------------------------
+  # Presence — Rule 6(1)
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.MFR.PRESENT
+    rule_ref: "Rule 6(1)(a)"
+    severity: high
+    check: present
+    field: manufacturer
+    locate_ref: manufacturer_locate
+    message: "Name and address of manufacturer, packer or importer not declared."
+
+  - id: LMPC.GENERIC.PRESENT
+    rule_ref: "Rule 6(1)(b)"
+    severity: medium
+    check: present
+    field: generic_name
+    locate_ref: generic_name_locate
+    message: "Common or generic name of the commodity not declared."
+    # Rule 6(1)(b) requires the common or generic name; it does not require
+    # a caption, and packs habitually print it in display type with none --
+    # `Chana Besan`, `AA 1015 R6P BATTERIES`, `Crunchy Spicy Potato Noodles`.
+    # We can only find a declaration by its label, so an absence here is a
+    # statement about our vocabulary and not about the pack. On a photograph
+    # it is referred; on `listing_text` it still fails. See `present.py`.
+    uncaptioned_form_is_lawful: true
+
+  - id: LMPC.NETQTY.PRESENT
+    rule_ref: "Rule 6(1)(c)"
+    severity: high
+    check: present
+    field: net_quantity
+    locate_ref: net_quantity_locate
+    message: "Net quantity not declared."
+
+  - id: LMPC.DATE.PRESENT
+    rule_ref: "Rule 6(1)(d)"
+    severity: medium
+    check: present
+    field: mfg_date
+    locate_ref: mfg_date_locate
+    skip_if_category_in: [bidi, incense_sticks, lpg_domestic]   # Rule 6(1) proviso A
+    message: "Month and year of manufacture, packing or import not declared."
+
+  - id: LMPC.MRP.PRESENT
+    rule_ref: "Rule 6(1)(e)"
+    severity: high
+    check: present
+    field: mrp
+    locate_ref: mrp_locate
+    skip_if_category_in: [bidi, lpg_administered_price]         # Rule 6(1) proviso C
+    message: "Retail sale price not declared."
+
+  - id: LMPC.CARE.PRESENT
+    rule_ref: "Rule 6(2)"
+    severity: medium
+    check: present
+    field: consumer_care
+    locate_ref: consumer_care_locate
+    phone_ref: consumer_care_phone
+    email_ref: consumer_care_email
+    requires_subfields: [name, address, telephone]   # e-mail only if available
+    message: "Consumer care must declare name, address and telephone number."
+
+  # ---------------------------------------------------------------------------
+  # Format
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.MRP.FORMAT
+    rule_ref: "Rule 2(m)"
+    severity: medium
+    check: regex
+    field: mrp
+    locate_ref: mrp_locate               # extraction — permissive
+    pattern_ref: mrp_format              # validation — strict
+    on_locate_fail: LMPC.MRP.PRESENT     # only a missing LABEL yields NOT_FOUND
+    message: "MRP must read 'Maximum retail price Rs ... inclusive of all taxes' or 'MRP Rs ... incl., of all taxes'."
+
+  - id: LMPC.NETQTY.SI_UNITS
+    rule_ref: "Rule 13(5)"
+    severity: medium
+    check: regex
+    field: net_quantity
+    locate_ref: net_quantity_locate      # permissive
+    pattern_ref: net_quantity            # strict
+    on_locate_fail: LMPC.NETQTY.PRESENT
+    also_ref: "LM (National Standards) Rules 2011 (SO 211(E)) as amended by GSR 474(E) 2019"
+    si_base_ref: si_base                 # rr. 4-10, as substituted 2019
+    si_prefixes_ref: si_prefixes         # Third Schedule, Table 1
+    permitted_units_ref: permitted_units # Fourth Schedule
+    message: "Net quantity must use International System units."
+
+  # ---------------------------------------------------------------------------
+  # Geometry: heights — Rule 7
+  # These three are the ONLY rules that go dark at scale tier C.
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.MRP.NUMERAL_HEIGHT
+    rule_ref: "Rule 7(2), Table I"
+    severity: high
+    check: min_height_mm
+    field: mrp
+    table: numeral_height_by_net_quantity
+    fallback_table: numeral_height_by_pdp_area   # Rule 7(2)(ii) for count/length
+    variant_key: embossed          # picks normal_mm or embossed_mm
+    bilingual: max                 # Rule 9(4): either script may satisfy
+    requires: [geometry.mm_per_px, declarations.net_quantity]
+    message: "MRP numerals below the minimum height for this net quantity."
+
+  - id: LMPC.NETQTY.NUMERAL_HEIGHT
+    rule_ref: "Rule 7(2), Table I"
+    severity: high
+    check: min_height_mm
+    field: net_quantity
+    table: numeral_height_by_net_quantity
+    fallback_table: numeral_height_by_pdp_area
+    variant_key: embossed
+    bilingual: max
+    requires: [geometry.mm_per_px, declarations.net_quantity]
+    message: "Net quantity numerals below the minimum height."
+
+  - id: LMPC.LETTER.MIN_HEIGHT
+    rule_ref: "Rule 7(3)"
+    severity: medium
+    check: min_height_mm
+    fields: [manufacturer, consumer_care, generic_name, mfg_date]
+    fixed_mm: { normal: 1.0, embossed: 2.0 }
+    bilingual: max
+    requires: [geometry.mm_per_px]
+    message: "Declaration letters are below the 1 mm minimum height."
+
+  - id: LMPC.CHAR.WIDTH_RATIO
+    rule_ref: "Rule 7(3) proviso"
+    severity: medium
+    check: min_width_ratio
+    fields: [mrp, net_quantity]
+    ratio: 0.3333
+    exclude_chars: ["1", "i", "I", "l", ".", ",", "'", "|", ":"]
+    scale_free: true               # width_px / height_px — no mm_per_px needed
+    requires: []                   # runs at scale tier C
+    message: "Character width is less than one third of its height."
+
+  # ---------------------------------------------------------------------------
+  # Geometry: placement — Rule 8
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.PDP.ON_PANEL
+    rule_ref: "Rule 8(1)"
+    severity: medium
+    check: same_panel
+    fields: [mrp, net_quantity, manufacturer, mfg_date]
+    allow_split: pre_printed_vs_online     # Rule 2(h)(ii)
+    requires: [geometry.pdp_polygon]
+    message: "Mandatory declarations must appear on the principal display panel."
+
+  - id: LMPC.NETQTY.EXCLUSION_ZONE
+    rule_ref: "Rule 8(1) proviso"
+    severity: medium
+    check: clear_space
+    field: net_quantity
+    vertical_multiple: 1.0        # >= 1x numeral height above and below
+    horizontal_multiple: 2.0      # >= 2x numeral height left and right
+    scale_free: true              # gap_px / numeral_height_px — no mm needed
+    requires: []                  # runs at scale tier C
+    message: "Area around the net quantity declaration must be free of printed information."
+
+  # ---------------------------------------------------------------------------
+  # Readability — Rule 9
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.CONTRAST.NUMERALS
+    rule_ref: "Rule 9(1)(b)"
+    severity: medium
+    check: min_contrast
+    fields: [mrp, net_quantity]           # numerals of these two only
+    min_ratio: 3.0
+    skip_if: { surface_in: [blown, molded, glass, plastic_formed] }
+    message: "Retail sale price and net quantity numerals must contrast conspicuously with the background."
+
+  # ---------------------------------------------------------------------------
+  # Misleading — Rules 6(3), 12(6), 13(4)
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.MRP.OVERSTICKER
+    rule_ref: "Rule 6(3)"
+    severity: high
+    check: no_duplicate_field
+    field: mrp
+    lawful_if: { sticker_value_lower: true, original_visible: true }
+    message: "A revised MRP sticker may only reduce the price and must not cover the original declaration."
+
+  - id: LMPC.QTY.BANNED_WORDS
+    rule_ref: "Rule 12(6)"
+    severity: medium
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: banned_quantity_words
+    message: "Quantity declaration must not use 'minimum', 'average', 'about' or similar qualifiers."
+
+  - id: LMPC.QTY.BANNED_UNITS
+    rule_ref: "Rule 13(4)"
+    severity: low
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: banned_number_units
+    message: "Dozen, score or gross must not be used."
+
+  # ---------------------------------------------------------------------------
+  # Standard pack size — Rule 5
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.PACK.STANDARD_SIZE
+    rule_ref: "Rule 5, Second Schedule"
+    severity: medium
+    check: in_table
+    field: net_quantity
+    table: standard_pack_sizes
+    keyed_by: category
+    message: "Commodity is not packed in a standard quantity prescribed by the Second Schedule."
+
+  # ---------------------------------------------------------------------------
+  # Unit correctness — Rules 12(2) and 13
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.QTY.UNIT_BY_COMMODITY
+    rule_ref: "Rule 12(2), Fourth Schedule"
+    severity: medium
+    check: in_table
+    field: net_quantity
+    table: unit_by_commodity          # curd=weight, garments=number, tyres=number
+    keyed_by: category
+    message: "Quantity must be declared in the unit prescribed for this commodity."
+
+  - id: LMPC.QTY.UNIT_MAGNITUDE
+    rule_ref: "Rule 13(2)-(3)"
+    also_ref: "NS Rules Third Schedule item 10 - value must fall in [0.1, 1000)"
+    severity: low
+    check: value_in_range                 # not regex: needs the parsed number
+    field: net_quantity
+    parse_ref: amount                     # how the numeral is extracted
+    min_value: 0.1
+    max_value: 1000                       # exclusive - "1500 g" must be "1.5 kg"
+    message: "The unit must be chosen so the declared value falls between 0.1 and 1000."
+
+  - id: LMPC.QTY.WHEN_PACKED
+    rule_ref: "Rule 11(4), Third Schedule"
+    severity: medium
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: when_packed
+    unless_category_in: [soap, lotion, cream]
+    message: "'When packed' may only qualify quantity on soaps, lotions and cream."
+
+  # ---------------------------------------------------------------------------
+  # Dealer offences — Rule 18
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.MRP.DEFACED
+    rule_ref: "Rule 18(5)"
+    severity: high
+    check: min_contrast
+    field: mrp
+    min_ratio: 2.0
+    respondent: dealer                # NOT the manufacturer
+    suppresses: LMPC.CONTRAST.NUMERALS   # one measurement -> one verdict
+    only_if: { sticker_or_overprint_detected: true }
+    message: "Retail sale price appears obliterated, smudged or altered."
+
+  - id: LMPC.DATE.FORMAT
+    rule_ref: "Rule 6(1)(d)"
+    severity: medium
+    check: regex
+    field: mfg_date
+    locate_ref: mfg_date_locate          # permissive
+    pattern_ref: mfg_date                # strict: month AND year both present
+    on_locate_fail: LMPC.DATE.PRESENT
+    message: "Date must declare both the month and the year of manufacture, packing or import."
+
+  # ---------------------------------------------------------------------------
+  # Unit symbol printing — National Standards Rules, Third Schedule.
+  #
+  # All severity LOW: these are formatting defects, not consumer deception.
+  # A tool that reports `250 ML` at the same severity as a missing MRP is a tool
+  # an officer stops trusting. They render in a separate advisory block.
+  # ---------------------------------------------------------------------------
+
+  - id: LMPC.UNIT.SYMBOL_CASE
+    rule_ref: "LMPC r.13(5)(i) read with NS Rules Third Schedule item 7(2)"
+    severity: low
+    advisory: true
+    check: symbol_case
+    field: net_quantity
+    lowercase_required: true
+    proper_name_exceptions_ref: unit_proper_name_exceptions
+    disputed_symbols_ref: unit_case_disputed   # see LMPC.UNIT.LITRE_SYMBOL
+    message: "Unit symbols must be printed in lower case unless named after a person (e.g. 'ml', not 'ML')."
+
+  - id: LMPC.UNIT.SYMBOL_PLURAL
+    rule_ref: "NS Rules Third Schedule item 7(1)(b)"
+    severity: low
+    advisory: true
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: pluralised_symbol
+    message: "Unit symbols do not take a plural form ('500 g', not '500 gs')."
+
+  - id: LMPC.UNIT.SYMBOL_STOP
+    rule_ref: "NS Rules Third Schedule item 7(1)(c)"
+    severity: low
+    advisory: true
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: symbol_full_stop
+    message: "Unit symbols are written without a final full stop."
+
+  - id: LMPC.UNIT.SYMBOL_SPACE
+    rule_ref: "NS Rules Third Schedule item 7(1)(d)"
+    severity: low
+    advisory: true
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: missing_unit_space
+    message: "A space is required between the numerical value and the unit symbol."
+
+  - id: LMPC.UNIT.LITRE_SYMBOL
+    rule_ref: "NS Rules Fourth Schedule item 3"
+    severity: low
+    advisory: true
+    enabled: false                     # DISPUTED - see 13c. BIPM accepts 'L'
+    check: regex_absent
+    field: net_quantity
+    pattern_ref: capital_litre
+    message: "The gazette gives the litre symbol as lower-case 'l'. Advisory only."
+
+  - id: LMPC.NUM.DIGIT_FORM
+    rule_ref: "LM (Numeration) Rules 2011, r.2(3)"
+    severity: low
+    advisory: true
+    check: regex_absent
+    fields: [mrp, net_quantity, mfg_date]   # every field carrying a numeral
+    pattern_ref: non_international_digits
+    message: "Numbers must use the international form of Indian numerals (0-9)."
+
+  # ---------------------------------------------------------------------------
+  # Imports
+  # ---------------------------------------------------------------------------
+
+  # NOTE: there is deliberately NO package-level country-of-origin rule.
+  #
+  # An earlier version of this pack carried `LMPC.ORIGIN.IMPORTED`, which
+  # required a country of origin on the pack and cited Rule 6(10A) for it.
+  # That was the wrong law, confidently cited, on a legal document. GSR 128(E)
+  # of 13-02-2026 inserted 6(10A) as an obligation on an *e-commerce entity* to
+  # provide a searchable and sortable country-of-origin filter on its product
+  # listings; it says nothing about what is printed on a package. GSR 312(E) of
+  # 27-04-2026 then substituted it entirely, in force 01-07-2027.
+  #
+  # Nothing in the 2011 principal rules requires country of origin on the pack.
+  # Rule 6(1)(a) requires the name and address of the IMPORTER for an imported
+  # package, and that is what this rule checks, citing a provision that exists
+  # in a document we hold. See AKSHAR.md section 13b.
+  #
+  # 6(10A) compliance is not checkable by this tool at all: verifying it means
+  # loading a marketplace and testing whether its filter works, which is a
+  # platform audit rather than a package audit.
+  - id: LMPC.IMPORTER.PRESENT
+    rule_ref: "Rule 6(1)(a)"
+    severity: high
+    check: conditional_present
+    field: importer
+    locate_ref: importer_locate
+    when:
+      field: country_of_origin
+      present: true
+      # Declaring where a thing was made is not declaring that it was brought
+      # in. Without this, `Country of Origin : INDIA` triggered Rule 6(1)(a)'s
+      # importer limb on 7 of 121 frames, every one of them domestic.
+      text_excludes_ref: domestic_origin
+    # The label alone may not say "imported" -- a pack can omit the country of
+    # origin and still be an import. The officer, or an e-commerce listing,
+    # knows. This flag lets that knowledge trigger the rule without hardcoding
+    # a field name inside the check module.
+    also_when_context: is_imported
+    message: "Imported packages must declare the name and address of the importer."
+
+# =============================================================================
+# EXTENSION RULES — section 13b, "checkable provisions we had not planned for"
+#
+# Section 13 froze 31 rules. Section 13b then identifies further provisions it
+# calls "worth building". They are kept in a separate list so the 31 core rules
+# and the counts quoted throughout the plan (31 rules, 28 without a marker) stay
+# intact and auditable. They use only the thirteen permitted check types.
+#
+# Enable per deployment. Default ON except where the underlying schedule text
+# has not been read.
+# =============================================================================
+
+extension_rules:
+
+  - id: LMPC.WRAPPER.REPEAT
+    rule_ref: "Rule 9(3)"
+    source_section: "13b"
+    severity: medium
+    check: conditional_present
+    field: net_quantity
+    when: { context: outer_wrapper_transparent, equals: false }
+    message: "A non-transparent outer wrapper must itself carry the mandatory declarations."
+
+  - id: LMPC.READABLE.THROUGH_CONTENTS
+    rule_ref: "Rule 9(2)"
+    source_section: "13b"
+    severity: medium
+    check: conditional_present
+    field: net_quantity
+    when: { context: readable_only_through_contents, equals: true }
+    negate: true
+    message: "A declaration must not be legible only through the liquid contents of the package."
+
+  - id: LMPC.DIM.PER_PIECE
+    rule_ref: "Rule 14"
+    source_section: "13b"
+    severity: medium
+    check: regex
+    field: net_quantity
+    pattern_ref: dimensions_per_piece
+    only_if_category_in: [saree, bed_sheet, blanket, textile_piece]
+    message: "Sarees, bed-sheets and similar textiles must declare finished dimensions per piece."
+
+  - id: LMPC.SHEET.COUNT
+    rule_ref: "Rule 16"
+    source_section: "13b"
+    severity: medium
+    check: regex
+    field: net_quantity
+    pattern_ref: sheet_count
+    only_if_category_in: [aluminium_foil, tissue_paper, napkin]
+    message: "Foil and tissue packages must declare the number of usable sheets and the sheet dimensions."
+
+  - id: LMPC.BAG.COUNT_DIMENSIONS
+    rule_ref: "Rule 17"
+    source_section: "13b"
+    severity: medium
+    check: regex
+    field: net_quantity
+    pattern_ref: dimensions_per_piece
+    only_if_category_in: [bags, cups, plates, disposable_ware]
+    message: "Bags and cups must declare the count together with linear dimensions."
+
+  - id: LMPC.AD.QUANTITY_WITH_PRICE
+    rule_ref: "Rule 31(1)-(2)"
+    source_section: "13b"
+    severity: medium
+    check: conditional_present
+    field: net_quantity
+    when: { field: mrp, present: true }
+    only_if_source_in: [listing_text]
+    note: "An advertisement quoting retail sale price must also state net quantity, at the same font size. The font-size half is unverifiable in a text listing and is not asserted."
+    message: "An advertisement quoting the retail sale price must also state the net quantity."

@@ -1,0 +1,67 @@
+{
+ "coverage": 0.75,
+ "declaration_count": 3,
+ "declarations": [
+  {
+   "box": [
+    435,
+    434,
+    280,
+    57
+   ],
+   "field": "net_quantity",
+   "field_confidence": 0.88,
+   "height_mm": 6.57,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 1.0,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "NET WT 250 g"
+  },
+  {
+   "box": [
+    438,
+    533,
+    212,
+    43
+   ],
+   "field": "mfg_date",
+   "field_confidence": 0.87,
+   "height_mm": 5.21,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.99,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "MFG 03/2026"
+  },
+  {
+   "box": [
+    439,
+    618,
+    306,
+    37
+   ],
+   "field": "other",
+   "field_confidence": 0.29,
+   "height_mm": 4.53,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.95,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "Parle Products Pvt Ltd"
+  }
+ ],
+ "degradation_reasons": [
+  "detector weights unavailable; geometry-only region proposal"
+ ],
+ "degradation_tier": "L0",
+ "exit_path": "full",
+ "quality": {
+  "blur_score": 0.8,
+  "exposure_score": 0.98,
+  "faults": [],
+  "glare_ratio": 0.02,
+  "usable": true
+ },
+ "source": "photo"
+}

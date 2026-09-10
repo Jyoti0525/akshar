@@ -1,0 +1,533 @@
+{
+  "schema": 1,
+  "annotated_utc": "2026-09-10T00:00:00Z",
+  "plan_section": "18",
+  "annotator": "read by eye from the delivered photograph, one pass per image",
+  "note": "What is PRINTED ON THE PANEL IN THIS FRAME, not what the product is known to declare elsewhere. A declaration on another face of the pack is absent here, because the frame is what the extractor is given. A field mapped to null is printed but its value is not legible in this frame, or the pack prints a cross-reference ('See on Crimp') instead of a value. A list means the panel carries more than one distinct value for that field.",
+  "field_mapping": "Rule 6(1)(a)'s name-and-address is annotated by the label actually printed: 'Manufactured by' / 'Marketed by' / 'Mktd. by' / 'Mfg. by' -> manufacturer; 'Packed by' -> packer; 'Imported by' -> importer. This matches how vision/classify/regex_tier.py resolves the same labels, so a score against these labels measures extraction rather than a disagreement about vocabulary.",
+  "images": [
+    {
+      "image": "agarbati.webp",
+      "product": "Sri Sri Tattva incense sticks, 15 N",
+      "fields": {
+        "generic_name": "Incense Stick",
+        "net_quantity": "15 NUMBER",
+        "mrp": "150.00",
+        "manufacturer": "OMEGA INCENSE, 23, Vaishnodevi Industrial Estate, Bheemanahalli, Bidadi Hobli, Ramanagar - 562109, Karnataka, India",
+        "consumer_care": "For queries or complaints contact customer care executive at 'Marketed by' address. Call: 1800-120-8030, e-mail: care@srisritattva.com",
+        "country_of_origin": "PRODUCT OF INDIA"
+      },
+      "notes": "E-commerce render of a full side panel. No manufacturing date anywhere in the frame."
+    },
+    {
+      "image": "bajaj.jpg",
+      "product": "Bajaj LEDZ Eterno inverter lamp 9W",
+      "fields": {
+        "generic_name": "LED LAMPS",
+        "net_quantity": "1U",
+        "mrp": "745.00",
+        "mfg_date": "02/2024",
+        "manufacturer": "M/S. Bajaj Electricals Limited, 45/47 Veer Nariman Road, Mumbai-400001, Maharashtra",
+        "country_of_origin": "MADE IN INDIA"
+      },
+      "notes": "Reverse type: light print on a black carton. The MRP and date sit in a white sticker panel at the foot. Consumer care is cut off by the bottom edge of the frame and is therefore absent here."
+    },
+    {
+      "image": "camlin.webp",
+      "product": "Kokuyo Camlin Grip Pro 0.7 mm mechanical pencil",
+      "fields": {
+        "generic_name": "Mechanical Pencil",
+        "net_quantity": "1 N",
+        "mrp": ["30.00", "29.00"],
+        "mfg_date": "10/2025",
+        "manufacturer": "Kokuyo Camlin Ltd., 48/2, Hilton House, Central Road, MIDC, Andheri (E), Mumbai - 400 093, Maharashtra, India",
+        "consumer_care": "Consumer Care Cell: The Manager, address as above. Tel: 022-6655 7007, support@kokuyocamlin.com"
+      },
+      "notes": "Two maximum retail prices on one panel: 'New MRP (Incl. of all taxes): Rs 29.00' printed above 'MRP (Incl. of all taxes): Rs 30.00'. Rule 6(3) material and the reason this frame is in the set."
+    },
+    {
+      "image": "camlinbrush.jpg",
+      "product": "Kokuyo Camlin brush pen, 12 N assorted",
+      "fields": {
+        "generic_name": "Brush Pen (Assorted Shades)",
+        "net_quantity": "12 N",
+        "mrp": "225.00",
+        "mfg_date": "12/2024",
+        "batch": "L 2524",
+        "manufacturer": "Kokuyo Camlin Ltd., Plot No. F-8, Additional Patalganga MIDC, Village- Chavane, Tal.- Panvel, Dist.- Raigad, Maharashtra - 410220, India",
+        "consumer_care": "Consumer Care Cell: The Manager, Address of H.O., Tel: 022-66557007, support@kokuyocamlin.com",
+        "country_of_origin": "Made in India"
+      },
+      "notes": "600x450 crop, the smallest frame in the set. The declaration block is a yellow-tinted table on a pale blister card."
+    },
+    {
+      "image": "cheese.jpg",
+      "product": "Go / Parag cheddar cheese block, 200 g",
+      "fields": {
+        "net_quantity": "200 g (7.05 oz)",
+        "mrp": "140.00",
+        "mfg_date": "28/01/2021",
+        "expiry_date": "27/10/2021",
+        "batch": null,
+        "manufacturer": "Parag Milk Foods Ltd., Awasari Phata, Manchar, Dist. Pune - 410 503",
+        "consumer_care": "customercare@paragmilkfoods.com; Customer Care 1800 1033 611",
+        "country_of_origin": "ORIGIN OF INDIA"
+      },
+      "notes": "Dot-matrix overprint on a white strip: the MRP numeral is broken enough that '140.00' is a confident read only because of the decimal group. The batch code is printed but not confidently legible. No commodity name on this face; 'Cheddar Cheese' appears only inside the ingredients list, which is not a generic-name declaration."
+    },
+    {
+      "image": "coconut_oil.jpg",
+      "product": "M.P coconut oil pouch",
+      "fields": {
+        "generic_name": "Coconut Oil",
+        "mrp": "199",
+        "mfg_date": "11/5/24",
+        "expiry_date": "10/11/24",
+        "batch": "MP 04 KLVO/03/24",
+        "country_of_origin": "PRODUCT OF INDIA"
+      },
+      "notes": "Hardest frame in the set: the declaration strip is rotated 90 degrees, the pouch is curved and glossy, and a hand covers the left third. The net quantity is under the hand and is not readable in this frame, so it is annotated absent."
+    },
+    {
+      "image": "doms.webp",
+      "product": "DOMS Inxtra ball point pen, 10 N",
+      "fields": {
+        "generic_name": "BALL POINT PEN",
+        "net_quantity": "10 Numbers",
+        "mrp": "50.00",
+        "mfg_date": "10/2024",
+        "manufacturer": "DOMS Industries Limited, J-19, G.I.D.C., Umbergaon-396171, Dist. Valsad, Gujarat, India",
+        "consumer_care": "Consumer Care Cell: For feedback, write to: The Manager, Address as Above. Tel: 1-800-2741250 (toll free), info@domsindia.com",
+        "country_of_origin": "MADE IN INDIA"
+      },
+      "notes": "Declaration printed on a card inside a clear blister, photographed through the plastic."
+    },
+    {
+      "image": "frshcream.jpg",
+      "product": "face cream, 15 g",
+      "fields": {
+        "generic_name": "फेस क्रीम",
+        "net_quantity": "15 g",
+        "mrp": "500.00",
+        "mfg_date": "08/23",
+        "batch": "CE-11002",
+        "country_of_origin": "MADE IN INDIA"
+      },
+      "notes": "Devanagari commodity name. Curved bottle, small print, hand in frame. Manufacturer and consumer care are on the hidden side of the tube and absent here."
+    },
+    {
+      "image": "ghee.jpg",
+      "product": "Amul ghee pouch, 1 L",
+      "fields": {
+        "net_quantity": "1 L (905 g)",
+        "mrp": "650.00",
+        "mfg_date": "27/DEC/2024",
+        "expiry_date": "23/SEP/2025",
+        "batch": "PAN3622",
+        "manufacturer": "Gujarat Co-operative Milk Marketing Federation Ltd., Amul Dairy Road, Anand, Gujarat - 388001, India",
+        "consumer_care": "Customer Care Executive at 1800 258 3333 (Toll-free) [6AM-9PM], customercare@amul.coop, GCMMF Ltd., Anand - 388001"
+      },
+      "notes": "Foil pouch with a specular seam running down the middle of the frame, splitting the panel into two columns. MRP, packing and expiry are in the right column; the address block is in the left. No commodity name on this face."
+    },
+    {
+      "image": "gillete.jpg",
+      "product": "Gillette Mach3 razor, 1 N",
+      "fields": {
+        "generic_name": "Razor",
+        "net_quantity": "1N RAZOR",
+        "mrp": "275.00",
+        "mfg_date": "12/23",
+        "manufacturer": "Yamada Electric Ind Co Ltd, RM 508A 5 F Empire Centre Mody Road, Hong Kong (handle); Procter & Gamble Indochina Ltd, Vietnam (cartridge)",
+        "importer": "Gillette India Limited, P&G Plaza, Cardinal Gracias Road, Andheri (E), Mumbai 400099, MH, India",
+        "consumer_care": "Consumer Relations on 1800-202-1364 or intouch.im@pg.com"
+      },
+      "notes": "An imported pack: manufacturer, importer and packer are all declared, in a single justified paragraph of very small print. No explicit country-of-origin line."
+    },
+    {
+      "image": "goodday.jpg",
+      "product": "Britannia Good Day, 120 g + 30 g extra",
+      "fields": {
+        "net_quantity": "120 g + 30 g EXTRA = 150 g",
+        "mrp": "25.00",
+        "mfg_date": "19/06/22",
+        "expiry_date": "18/12/22",
+        "batch": "B062207",
+        "manufacturer": "Britannia Industries Ltd."
+      },
+      "notes": "600x361, the lowest-resolution frame in the set. Label column and value column are separated by 15 mm of white sticker, so every value has to be associated across a gap."
+    },
+    {
+      "image": "goodday_butter.jpg",
+      "product": "Britannia Good Day butter cookies",
+      "fields": {
+        "mrp": "150.00",
+        "mfg_date": "21/07/25",
+        "expiry_date": "18/03/26",
+        "batch": "B0725°A",
+        "manufacturer": "Britannia Industries Ltd."
+      },
+      "notes": "Held in the hand over a plate of the biscuits; the pack is tilted about 20 degrees and the label column runs off the left edge. Net quantity is on the part of the pack behind the fingers and is absent here."
+    },
+    {
+      "image": "gulabjal.jpg",
+      "product": "L'Oreal hair product, 200 ml",
+      "fields": {
+        "net_quantity": "200 ml",
+        "mrp": "259.00",
+        "mfg_date": "05/25",
+        "expiry_date": "04/28",
+        "batch": "B52218815C",
+        "manufacturer": "L'Oreal India Pvt. Ltd., A-Wing, 8th Floor, Marathon Futurex, N. M. Joshi Marg, Lower Parel, Mumbai - 400013",
+        "consumer_care": "Consumer Advisor, at Regd. office; Tel: 1800-22-3000; Advisor.India@loreal.com"
+      },
+      "notes": "Filename says gulabjal; the pack is a L'Oreal bottle. Transparent bottle photographed against a bright background, so the print is over a shifting backdrop. The dot-matrix block reads B52218815C / 05.25,04/28 / Rs.259.00 / Rs.1.30/ml against the labels Batch No., Mfd. Date, Use Before, MRP, Unit Sale Price printed underneath it rather than beside it."
+    },
+    {
+      "image": "happyhappy.png",
+      "product": "Parle Happy Happy, 30 g + 5 g extra",
+      "fields": {
+        "generic_name": "BISCUITS",
+        "net_quantity": "30 g + 5 g EXTRA = 35 g",
+        "mrp": "5.00",
+        "mfg_date": "11/3/23",
+        "expiry_date": "7/8/23",
+        "batch": "BG A",
+        "manufacturer": "Parle"
+      },
+      "notes": "Crumpled foil wrapper on a white background, photographed from above at an angle; the declaration strip is foreshortened and creased across the batch code. The lower half of the ingredients block is out of focus."
+    },
+    {
+      "image": "honey.jpg",
+      "product": "honey, 500 g",
+      "fields": {
+        "generic_name": "Honey (100%)",
+        "net_quantity": "500 g",
+        "mrp": "335.00",
+        "mfg_date": "07/20",
+        "batch": "NB00246"
+      },
+      "notes": "The MRP label reads 'MRP NRs.' and its value sits in a dot-matrix column a long way to the right, vertically between the 'Net Weight' and 'Incl., of all taxes' lines. Getting 335.00 onto mrp rather than onto net_quantity is the whole difficulty of this frame."
+    },
+    {
+      "image": "jimjam.jpg",
+      "product": "Britannia Jim Jam, 50 g + 10 g extra",
+      "fields": {
+        "generic_name": "Sandwich Biscuits",
+        "net_quantity": "50 g + 10 g EXTRA = 60 g",
+        "mrp": "10.00",
+        "mfg_date": "18/05/23",
+        "expiry_date": "17/11/23",
+        "batch": "B052395",
+        "manufacturer": "Britannia Industries Ltd., Prestige Shanthiniketan, Tower C, Whitefield, Bangalore-560048, Karnataka",
+        "consumer_care": "Executive, Consumer Care Cell, Ph.: (Toll Free) 1-800-4254449 / 1-800-30004530, feedback@britindia.com"
+      },
+      "notes": "Two photographs of the same pack composited into one image, one above the other: the top shows the coded strip, the bottom shows the consumer care block. A single frame that contains two views of one pack is exactly the case the multi-frame union was built for, arriving as one file."
+    },
+    {
+      "image": "lipbalm.jpg",
+      "product": "The Derma Co lip balm, 4 g",
+      "fields": {
+        "generic_name": "LIP BALM",
+        "net_quantity": "4 g",
+        "mrp": "329.00",
+        "mfg_date": "06/2024",
+        "expiry_date": "05/2026",
+        "batch": "BY4F002",
+        "manufacturer": "Honasa Consumer Ltd., 4th floor, BLM Tower, Plot No. 63, Sector-44, Gurugram, Haryana, India - 122003; A G Organica Pvt. Ltd., Plot No. C-11, Sector-85, Noida, Uttar Pradesh, 201305",
+        "consumer_care": "Customer Care Manager, Honasa Consumer Ltd.; care@thedermaco.com; +91 8750476476",
+        "country_of_origin": "MADE IN INDIA"
+      },
+      "notes": "Narrow carton edge-on in the hand; the declaration table is at the foot of the panel and the address block above it is printed white-on-purple."
+    },
+    {
+      "image": "liquid_detergent.jpg",
+      "product": "Ariel Matic front load liquid detergent, 2 L",
+      "fields": {
+        "generic_name": "Liquid Laundry Detergent",
+        "net_quantity": "2 L",
+        "mrp": "490.00",
+        "manufacturer": "Procter & Gamble Home Products Private Limited, P&G Plaza, Cardinal Gracias Road, Chakala, Andheri (E), Mumbai - 400 099, Maharashtra, India",
+        "consumer_care": "Consumer Relations on 1800-202-1364 or intouch.im@pg.com or https://in.pg.com/contact-us/#consumer-relations",
+        "country_of_origin": "Made in India"
+      },
+      "notes": "E-commerce render of a whole 2 L pouch, so the statutory text occupies the bottom fifth of the frame at about 1% of frame height while the top four fifths are pictograms. 'MFD: See package' means the pack declares no manufacturing date on this face."
+    },
+    {
+      "image": "matches.jpg",
+      "product": "ITC Ship safety matches, 10 boxes",
+      "fields": {
+        "generic_name": "Safety Match Boxes",
+        "net_quantity": "10 Safety Match Boxes of 25 sticks",
+        "mrp": "10.00",
+        "mfg_date": "08/24",
+        "manufacturer": "Bilal Match Works, Sivakasi - 626 123; Mktd. by ITC Limited, 37, J.L. Nehru Road, Kolkata - 700 071",
+        "consumer_care": "Quality Manager, ITC Limited - SBU Matches Business, 69, Chamiers Road, Chennai - 600 018. Ph: 1800 425 444 444, qmat@itc.in"
+      },
+      "notes": "The entire declaration is six lines of 1 mm print on a red carton. The MFD is printed sideways up the right edge of the pack, at 90 degrees to everything else."
+    },
+    {
+      "image": "mdhpavmasala.jpg",
+      "product": "masala carton",
+      "fields": {
+        "mrp": "88.00",
+        "mfg_date": null,
+        "expiry_date": "JAN.2025",
+        "batch": "FD-068"
+      },
+      "notes": "A declaration strip only: five printed labels (Lot No., MRP, Unit Sale Price, Date of Manufacture, Use By) with their values overprinted in a second pass that has drifted, so 'USE BY' lands on top of the manufacturing date and makes it unreadable. No manufacturer, no net quantity, no commodity name on this face."
+    },
+    {
+      "image": "milksoap.jpg",
+      "product": "tea, 1 kg",
+      "fields": {
+        "generic_name": "TEA",
+        "net_quantity": "1kg.",
+        "mrp": "480",
+        "mfg_date": "01OCT-2023",
+        "expiry_date": "30SEP-2024",
+        "batch": "07"
+      },
+      "notes": "Filename says milksoap; the pack is tea. Large clean print, the easiest frame in the set, and included as the control: anything that cannot read this one cannot read any of them. Label and value columns are separated by 40 mm of yellow film."
+    },
+    {
+      "image": "namkeen.webp",
+      "product": "Rishabh Plast Clara Vintage 4 lunch box, 1 N",
+      "fields": {
+        "generic_name": "CLARA VINTAGE 4",
+        "net_quantity": "1 N",
+        "mrp": "802.00",
+        "mfg_date": "09/2024",
+        "manufacturer": "Rishabh Plast India Private Limited, Survey No.118, 117/1-E, 117/2-D, 120/1-C, 120/2-C, Ghelwad Falia, Dabhel, Daman - 396210, U.T - DNHDD",
+        "consumer_care": "In case of complaints, contact executive at Above Address or Customer Care No: 022-28334457, info@rishabhplast.com",
+        "country_of_origin": "Made In India"
+      },
+      "notes": "Filename says namkeen; the pack is a lunch box. A complete and well-formed declaration block, printed as a white table over a photograph of the product."
+    },
+    {
+      "image": "papad.jpg",
+      "product": "Lijjat Udad Mini Papad family pack, 1 kg",
+      "fields": {
+        "generic_name": "UDAD MINI PAPAD",
+        "net_quantity": "1kg",
+        "mrp": "342-00",
+        "mfg_date": "09-08-2023",
+        "expiry_date": "08-11-2023",
+        "batch": "M-09",
+        "manufacturer": "Shri Mahila Griha Udyog Lijjat Papad, Regd. office: Oracle Point, 3rd Floor, Opp. Railway Station, Bandra (West), Mumbai 400050",
+        "consumer_care": "Contact Consumer Care: Sanchalika, Shri Mahila Griha Udyog Lijjat Papad at Mfg & Pkd Address or Tel. No. (022) 68404021, enquiry@lijjat.com"
+      },
+      "notes": "MRP is printed as '342-00' with a hyphen where the decimal point belongs, which is common on this brand and is annotated as printed. The batch value runs off the right edge of the frame."
+    },
+    {
+      "image": "parleg.jpg",
+      "product": "Parle-G, 110 g + 20 g extra",
+      "fields": {
+        "net_quantity": "110g+20g EXTRA",
+        "mrp": "10.00",
+        "mfg_date": "29/7/20",
+        "batch": "KA 29C B",
+        "manufacturer": "Parle Products Pvt. Ltd., North Level Crossing, Vile Parle, Mumbai, MH-400057",
+        "consumer_care": "Consumer Care Cell, Parle Products Pvt. Ltd., Phone No.: 022-6691 6929, cs@parle.biz"
+      },
+      "notes": "Close crop of a wrapper: both the net weight and the batch line run off the right edge, so the annotated net quantity is truncated exactly as the frame truncates it. Diagonal yellow stripes cross most of the print."
+    },
+    {
+      "image": "pencilbox.webp",
+      "product": "DOMS Tom and Jerry metal pencil box, 1 N",
+      "fields": {
+        "generic_name": "METAL PENCIL BOX",
+        "net_quantity": "1 Number",
+        "mrp": "120.00",
+        "mfg_date": "10/2025",
+        "manufacturer": "DOMS Industries Limited, J-19, G.I.D.C., Umbergaon-396171, Dist. Valsad, Gujarat, India",
+        "consumer_care": "Consumer Care Cell: For feedback, write to: The Manager, Address as Above. Tel: 1-800-2741250 (toll free), info@domsindia.com",
+        "country_of_origin": "MADE IN INDIA"
+      },
+      "notes": "Declaration table printed on a card behind a clear sleeve, with cartoon artwork occupying the top half of the label."
+    },
+    {
+      "image": "pickle.jpg",
+      "product": "Nakur Organic pickle, 500 g",
+      "fields": {
+        "net_quantity": "500gm.",
+        "mrp": "225/-",
+        "mfg_date": "Aug. 25",
+        "expiry_date": "Aug. 26",
+        "manufacturer": "Nakur Organic Farmer Producer Co. Ltd.",
+        "consumer_care": "Customer Care No. 9759105889"
+      },
+      "blank_labels": ["batch"],
+      "notes": "Two dates are handwritten in ballpoint onto the printed label. 'Batch No.' is printed with nothing after it: the label is on the pack, the value is not. That is a declaration missing, not a declaration we failed to read, and is recorded here so a future run cannot score it as a miss."
+    },
+    {
+      "image": "rice.jpg",
+      "product": "boiled rice, 26 kg",
+      "fields": {
+        "generic_name": "BOILED RICE",
+        "net_quantity": "26 KG",
+        "mrp": "1820/-",
+        "mfg_date": null,
+        "expiry_date": "Best Before 12 months"
+      },
+      "blank_labels": ["manufacturer", "consumer_care"],
+      "notes": "A 26 kg woven sack photographed on a doorstep in daylight, at an angle, with the panel keystoned. 'Mfg & Consumer Cared By:' is printed with nothing after it - both Rule 6(1)(a) and 6(2) declarations are absent from the pack itself. 'Month & Year of Packing' has an overprint that has smudged to illegibility; APR 2025 is a guess, so it is annotated null rather than written down."
+    },
+    {
+      "image": "rocksalt.jpg",
+      "product": "Himalayan rock salt (sendha namak), 1 kg",
+      "fields": {
+        "generic_name": "HIMALAYAN ROCK SALT / SENDHA NAMAK",
+        "net_quantity": "1 KG",
+        "mrp": "120/-",
+        "mfg_date": "15/05/2024",
+        "expiry_date": null,
+        "batch": "MKMA068891",
+        "packer": "Re-packed & Marketed By: STAAR FOOD, No.24 Ground Floor, Bangalore Kirana Complex, Yeshwantpur, Bengaluru - 560022",
+        "consumer_care": "For any consumer query or complaint, contact us: Ph: +91 9986021727, www.maknack.com, maknackfoods@gmail.com"
+      },
+      "notes": "Held in the hand under office lighting. The white sticker carrying the coded declarations is partly lifted and creased, and the 'Use Before' value is folded under itself. Bilingual brand line, English declarations."
+    },
+    {
+      "image": "santoor.jpg",
+      "product": "Santoor soap multipack, 4 x 125 g",
+      "fields": {
+        "net_quantity": "125 g x 4 U = 500 g",
+        "mrp": "300.00",
+        "mfg_date": "11/2023",
+        "batch": "FKGB013",
+        "expiry_date": "24 months from date of Mfg.",
+        "country_of_origin": "India"
+      },
+      "notes": "The value column is printed one row higher than the label column it belongs to, so MRP 300.00 sits beside 'MRP', 75.00 beside 'USP', 11/2023 floats between 'USP' and 'Mfg. Date', and FKGB013 lands beside 'Mfg. Date' while 'Batch No.' appears to have no value at all. Reading this frame correctly means resolving the offset rather than trusting vertical alignment."
+    },
+    {
+      "image": "santoor1.jpg",
+      "product": "Santoor sandal and turmeric soap, 46 g",
+      "fields": {
+        "generic_name": "Toilet Soap GR. 3 TFM 68%",
+        "net_quantity": "46 g",
+        "mrp": "10",
+        "mfg_date": "04/23",
+        "batch": "+C",
+        "manufacturer": "Wipro Enterprises (P) Ltd., Plot No. 77, EPIP Phase-1, Jharmajri, Tehsil Nalagarh, Dist. Solan, H.P. - 174 103 (and nine further coded units)",
+        "consumer_care": "Wipro Consumer Care, 8, Wipro House, 80 Ft Road, Koramangala, Bengaluru - 560 034, KA; 1-800-425-1969, feedback.wcc@wipro.com",
+        "country_of_origin": "Made in India"
+      },
+      "notes": "The coded declarations are reversed out of a black box: white dot-matrix on black, at a tilt, on a glossy wrapper. Below it the manufacturer block lists ten alternative units keyed by a letter in the batch code, over 14 lines of print about 0.8 mm high, with the lower third defocused."
+    },
+    {
+      "image": "shampoo.jpg",
+      "product": "Mamaearth shampoo, 20 ml",
+      "fields": {
+        "generic_name": "SHAMPOO",
+        "net_quantity": "20 ml",
+        "mrp": "99.00",
+        "mfg_date": null,
+        "batch": null,
+        "expiry_date": "Use Before 30 Months From Mfg. Date",
+        "manufacturer": "VA Lifesciences LLP, Plot No. 9D, Sector-2, Parwanoo, Himachal Pradesh, 173220, India; Risiveda Herbal Products Pvt. Ltd., Plot No. 30 A, Sector-11, IIE, SIDCUL, Haridwar - 249403, Uttarakhand"
+      },
+      "notes": "Batch and manufacturing date are declared as 'See on Crimp' - the labels are printed and braced together, and the value is a cross-reference to another part of the pack. Annotated present-with-null-value: an extractor that returns nothing for them is right about the frame, and one that reports the declaration missing from the package is wrong about the pack."
+    },
+    {
+      "image": "shampoo2.webp",
+      "product": "SmartyPet pet shampoo, 200 ml",
+      "fields": {
+        "net_quantity": "200ml",
+        "mrp": "170.00",
+        "mfg_date": "JAN-25",
+        "expiry_date": "DEC-26",
+        "batch": "BC-13",
+        "manufacturer": "Marketed by: SmartyPet Pet Products, C-38, DSIIDC Industrial Area, Sector 5, Bawana, Delhi 110039 India; Manufactured & Packed by: Auzil International, Delhi-39",
+        "consumer_care": "+91 83686 68438, customercare@smartypetproducts.com"
+      },
+      "notes": "E-commerce render on a white sweep. The label wraps around a cylindrical bottle, so the print compresses towards both edges of the panel."
+    },
+    {
+      "image": "skin.jpg",
+      "product": "Plum body wash",
+      "fields": {
+        "mrp": "349.00",
+        "mfg_date": "07/2024",
+        "batch": "B062",
+        "expiry_date": "Use before 24 months from Mfd.",
+        "manufacturer": "Mktd by: Pureplay Skin Sciences (I) Pvt. Ltd., 1st Floor, Lodha i-Think Techno Campus, 'A' Wing, Chirak Nagar, Thane 400607; Mfd in India by: Pritam International Pvt. Ltd., Khasra No. 138, Raipur Industrial area, Bhagwanpur, Roorkee, Haridwar, Uttarakhand 247667",
+        "consumer_care": "Customer Delight Associate on 'Mktd By' address on pack; phone +91-75064-96604; hello@plumgoodness.com",
+        "country_of_origin": "Mfd in India"
+      },
+      "notes": "As with santoor.jpg, the value column is offset from the label column: MRP / Rs. per ml / Batch No. / Mfd. read down the left, and Rs.349.00 / 1.40/ml / B062 / 07/2024 read down the right one row lower. Net quantity is not on this face."
+    },
+    {
+      "image": "sugar.jpg",
+      "product": "Supreme Harvest crystal sugar, 1 kg",
+      "fields": {
+        "generic_name": "SUPREME HARVEST CRYSTAL SUGAR",
+        "net_quantity": "1 kg",
+        "mrp": "80.00",
+        "mfg_date": "08/04/2024",
+        "expiry_date": "08/04/2025",
+        "batch": "MK08D2451",
+        "manufacturer": "Marketed By: Scootsy Logistics Private Limited, No. 55 Sy No. 8-14, Ground Floor, I & J Block, Embassy Tech Village, Outer Ring Road, Devarbisanahalli, Bengaluru, Karnataka - 560103",
+        "packer": "Packed By: Mayurank Food Products Pvt. Ltd., 115F, 116F, S.M Bose Road, Agarpara, Kolkata - 700109, India",
+        "consumer_care": "Customer Care Executive at the Marketer's address, 9 AM to 6 PM (Weekdays), Ph: 080-45664999, support.sh@scootsy.com"
+      },
+      "notes": "The only frame declaring a marketer and a packer as separate entities. Woven pouch, creased across the middle, photographed under warm indoor light; the printed-on-film text at the left is low contrast while the white sticker at the right is not."
+    },
+    {
+      "image": "surfexcel.webp",
+      "product": "HUL detergent cake, 250 g",
+      "fields": {
+        "generic_name": "DETERGENT CAKE",
+        "net_quantity": "250 g",
+        "mrp": "38/-",
+        "mfg_date": "22.05.24",
+        "batch": "1C3",
+        "manufacturer": "Hindustan Unilever Limited, U-1, Dapada - 396 230, U.T of DNH & DD; Hindustan Unilever Limited (Detergents Factory), off NH-45-A, Vadamangalam, Puducherry - 605102; Hindustan Unilever Limited, Chhindwara - 480 002, M.P.",
+        "consumer_care": "Levercare-Query / Feedback, Toll Free: 1800-10-22-221, PO Box 14760, Mumbai 400 099, lever.care@unilever.com",
+        "country_of_origin": "MADE IN INDIA"
+      },
+      "notes": "Filename says surfexcel; the panel identifies only 'Detergent Cake' by Hindustan Unilever, with no brand visible on this face. The coded declarations are white dot-matrix reversed out of a black box, and the pack is a white bar in a white wrapper on a white background, so most of the frame is near-clipped highlight."
+    },
+    {
+      "image": "udadpapad.jpg",
+      "product": "Lijjat Udad Papad, 100 g",
+      "fields": {
+        "generic_name": "UDAD PAPAD",
+        "net_quantity": "100g",
+        "mrp": "37-00",
+        "mfg_date": "09-08-2023",
+        "expiry_date": "08-11-2023",
+        "batch": "M-09",
+        "manufacturer": "Shri Mahila Griha Udyog Lijjat Papad, Regd. office: Oracle Point, 3rd Floor, Opp. Railway Station, Bandra (West), Mumbai 400050",
+        "consumer_care": "Contact Consumer Care: Sanchalika, Shri Mahila Griha Udyog Lijjat Papad at Mfg & Pkd Address or Tel. No. (022) 68404021, enquiry@lijjat.com"
+      },
+      "notes": "Same brand and layout as papad.jpg at a different pack size, kept as a pair: section 10 treats two sizes of one product as different SKUs with different height thresholds, and a scorer that collapsed them would hide that."
+    },
+    {
+      "image": "venus_creme.webp",
+      "product": "Venus Creme Bar toilet soap, 4 x 100 g",
+      "fields": {
+        "generic_name": "Toilet Soap",
+        "net_quantity": "400 g (4 N X 100 g)",
+        "mrp": "92.00",
+        "mfg_date": "02/2019",
+        "expiry_date": "USE BEFORE 24 MONTHS FROM THE DATE OF MANUFACTURING"
+      },
+      "notes": "No manufacturer, no packer, no consumer care and no batch number anywhere in the frame; the pack declares a price, a quantity, a commodity and a packing date and nothing else. Photographed against a crumpled white cloth."
+    },
+    {
+      "image": "whisper.jpg",
+      "product": "Whisper Ultra scented sanitary pads, 30 N",
+      "fields": {
+        "generic_name": "SCENTED SANITARY PADS",
+        "net_quantity": "30 N PADS",
+        "mrp": ["375.00", "480"],
+        "mfg_date": null,
+        "expiry_date": "BEST BEFORE 2 YEARS FROM MFG DATE",
+        "manufacturer": "Procter & Gamble Home Products Private Limited, Plot No-182, Sector 'A', Industrial Area, Mandideep - 462046, Dist- Raisen, MP, India; Marketed by: Procter & Gamble Hygiene and Health Care Limited, P&G Plaza, Cardinal Gracias Road, Chakala, Andheri (E), Mumbai, Maharashtra, India-400099",
+        "consumer_care": "For consumer comments/complaints, call Consumer Relations on 1800-202-1364 or write to Marketer or intouch.im@pg.com"
+      },
+      "notes": "Two prices on one line: 480 struck through, 375.00 beside it, both preceded by the rupee sign. The second Rule 6(3) frame in the set and the harder of the two, because the revision is on one line rather than two and the strike-through is one pixel wide at this resolution. 'MFG DATE: SEE PACKAGE' is a cross-reference, so no date value is on this face. 400x400, the smallest frame in the set."
+    }
+  ]
+}

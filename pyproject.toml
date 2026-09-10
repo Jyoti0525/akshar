@@ -1,0 +1,185 @@
+[project]
+name = "akshar"
+version = "0.1.0"
+description = "AKSHAR — Legal Metrology (Packaged Commodities) Rules 2011 compliance checker for enforcement officers"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+# Dependency versions are pinned to the choices argued in AKSHAR.md section 15b.
+# Do not bump a major without updating that section.
+dependencies = [
+    # --- contracts -----------------------------------------------------------
+    "pydantic>=2.9,<3",           # v2 is Rust-backed; v1 validation shows at bulk volume
+    "pydantic-settings>=2.6,<3",
+    "PyYAML>=6.0,<7",             # rulepack is YAML by design (section 13)
+    "uuid6>=2024.7.10",           # UUIDv7: time-ordered, doubles as a sort key (section 5)
+]
+
+[project.optional-dependencies]
+
+# --- api + workers (section 12, 15b) ----------------------------------------
+api = [
+    "fastapi>=0.115,<0.116",
+    "uvicorn[standard]>=0.32,<0.35",
+    "python-multipart>=0.0.12",
+    "sqlalchemy>=2.0.36,<2.1",
+    "alembic>=1.14,<2",
+    "psycopg[binary,pool]>=3.2,<4",
+    "pgvector>=0.3.6,<0.4",
+    "dramatiq[redis]>=1.17,<2",   # rejected Celery: heavier, worse defaults
+    "redis>=5.2,<6",
+    "minio>=7.2,<8",
+    "python-jose[cryptography]>=3.3,<4",
+    "bcrypt>=4.1,<6",           # called directly; passlib 1.7.4 (2020) breaks on bcrypt 4.1+
+    "prometheus-client>=0.21,<1",
+]
+
+# --- corpus ingestion (section 15) -------------------------------------------
+# Build-time only. Nothing in api/, vision/ or rules/ imports these; they exist
+# so `scripts/ingest_gazettes.py` can read the scanned gazettes once.
+#
+# INSTALL WITH --no-deps. rapidocr-onnxruntime depends on `opencv-python`,
+# which installs a SECOND cv2 into the same directory as the headless build
+# this project pins. Both provide `import cv2`, the newer one wins, and
+# opencv-python 5.x changed putText metrics — which surfaced as nine failures
+# in the vision geometry and annotation tests, none of them anywhere near the
+# code that had changed. Uninstalling it then breaks the shared cv2 directory
+# and headless has to be force-reinstalled. Cheaper to never install it:
+#
+#   pip install --no-deps pymupdf rapidocr-onnxruntime
+#   pip install "opencv-python-headless>=4.10,<5" pyclipper shapely six
+#
+# `tests/test_boundaries.py` fails if opencv-python reappears.
+corpus = [
+    "pymupdf>=1.24,<2",
+    "rapidocr-onnxruntime>=1.4,<2",
+]
+
+# --- vision (section 15b) ----------------------------------------------------
+vision = [
+    "opencv-python-headless>=4.10,<5",   # deterministic geometry, no model in any measurement
+    "numpy>=1.26,<3",
+    "Pillow>=11.0,<12",
+    "onnxruntime>=1.20,<2",
+    "scipy>=1.14,<2",
+    "pyzbar>=0.1.9",                     # EAN-13 decode, server side
+]
+
+# --- reports (section 13) ----------------------------------------------------
+reports = [
+    "weasyprint>=62,<63",         # rejected ReportLab: one HTML template renders both formats
+    "python-docx>=1.1,<2",        # editable format is explicitly required by the PS
+    "jinja2>=3.1,<4",
+    # The floor under WeasyPrint, not a competitor to it. WeasyPrint needs
+    # Pango, cairo and harfbuzz; `docker/api.Dockerfile` installs them and the
+    # deployed system never touches this. A Windows or macOS machine without the
+    # GTK runtime cannot import it at all, and the PDF route used to answer such
+    # a host with a JSON error body -- which the browser, following the
+    # `download` attribute on the link, saved as `akshar-<id>.pdf`. The officer
+    # received a file no viewer would open. Pure Python, no native libraries,
+    # and `reports/pdf_fallback.py` says on the page that it is the fallback.
+    "fpdf2>=2.8,<3",
+]
+
+# --- retrieval (section 15) --------------------------------------------------
+retrieval = [
+    "rank-bm25>=0.2.2",           # tier-2 lexical fallback when Postgres is absent
+]
+
+# --- training (section 14, 16) ----------------------------------------------
+training = [
+    # RTMDet-Ins-tiny comes from OpenMMLab (Apache-2.0), installed with the
+    # mim/mmengine toolchain rather than from PyPI resolution, so mmdet and
+    # mmdeploy are pinned in `training/requirements.txt` rather than here --
+    # their wheels are CUDA- and torch-version specific and would wreck a plain
+    # `pip install -e .[training]`.
+    #
+    # `ultralytics` was REMOVED on 2026-09-07. Section 15b switched B2 to
+    # RTMDet-Ins-tiny on licence grounds: Ultralytics YOLO11 is AGPL-3.0, and
+    # Ultralytics hold that the licence covers the weights a training run
+    # produces and that serving the model behind an API counts as distribution.
+    # A state Legal Metrology department deploying this for its officers would
+    # then have to publish its entire stack or buy a commercial licence -- for a
+    # tool we pitch as free. Do not add it back for convenience.
+    "torch>=2.5",
+    "onnx>=1.17",
+    "onnxruntime-tools>=1.7",
+]
+
+# --- dev / test / bench (section 18) ----------------------------------------
+dev = [
+    "pytest>=8.3,<9",
+    "pytest-benchmark>=5.1,<6",   # a change that makes things slower breaks the build
+    "pytest-asyncio>=0.24,<1",
+    "pytest-cov>=6.0,<7",
+    "httpx>=0.28,<1",
+    "ruff>=0.8,<1",
+    "mypy>=1.13,<2",
+    "types-PyYAML",
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "contracts",
+    "rules",
+    "rules.checks",
+    "vision",
+    "evidence",
+    "retrieval",
+    "api",
+    "workers",
+    "reports",
+]
+
+# ============================================================================
+# Lint
+# ============================================================================
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N", "C4", "PTH", "RUF"]
+ignore = [
+    "E501",   # line length is handled by the formatter
+    "B008",   # FastAPI Depends() in defaults is idiomatic
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+# mmdet configs are `dict(...)` calls by convention across the entire
+# OpenMMLab ecosystem, and every example, issue and doc page is written that
+# way. Rewriting them as literals would work and would make this file the one
+# config in the world nobody can copy a snippet into.
+"training/detector/rtmdet-ins_tiny_akshar.py" = ["C408"]
+
+# ============================================================================
+# Types — strict only where correctness is legally load-bearing (section 15b)
+# ============================================================================
+[tool.mypy]
+python_version = "3.12"
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["contracts.*", "rules.*"]
+strict = true
+disallow_any_explicit = false
+
+# ============================================================================
+# Tests
+# ============================================================================
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "benchmark: latency budget tests (section 4)",
+    "golden: full-pipeline snapshot tests",
+    "integration: needs postgres/redis/minio",
+    "needs_corpus: needs the photo corpus that is blocked on the user",
+]
+filterwarnings = ["ignore::DeprecationWarning"]

@@ -1,0 +1,67 @@
+{
+ "coverage": 0.75,
+ "declaration_count": 3,
+ "declarations": [
+  {
+   "box": [
+    437,
+    340,
+    375,
+    55
+   ],
+   "field": "mrp",
+   "field_confidence": 0.85,
+   "height_mm": 8.15,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.97,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "MRP Rs. 45.00"
+  },
+  {
+   "box": [
+    436,
+    434,
+    280,
+    58
+   ],
+   "field": "net_quantity",
+   "field_confidence": 0.87,
+   "height_mm": 6.57,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.99,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "NET WT 250 g"
+  },
+  {
+   "box": [
+    440,
+    536,
+    298,
+    36
+   ],
+   "field": "other",
+   "field_confidence": 0.3,
+   "height_mm": 5.66,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.99,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "BHARAT ME NIRMIT"
+  }
+ ],
+ "degradation_reasons": [
+  "detector weights unavailable; geometry-only region proposal"
+ ],
+ "degradation_tier": "L0",
+ "exit_path": "full",
+ "quality": {
+  "blur_score": 0.81,
+  "exposure_score": 0.98,
+  "faults": [],
+  "glare_ratio": 0.02,
+  "usable": true
+ },
+ "source": "photo"
+}

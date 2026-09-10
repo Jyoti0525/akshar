@@ -1,0 +1,270 @@
+@import "tailwindcss";
+
+/*
+ * AKSHAR.md section 11: "Minimum 16 px text, 4.5:1 contrast, 44 px touch targets,
+ * full keyboard navigation, and a high-contrast daylight mode — officers work
+ * outdoors and the default palette will be unreadable at noon."
+ *
+ * Three palettes, not two. Dark is a preference; DAYLIGHT is a working condition,
+ * so it is a deliberate toggle (`data-mode="daylight"`) rather than something the
+ * operating system decides. It is pure black on pure white with heavier borders
+ * and no mid-greys at all, because a phone at 400 nits in direct sun loses every
+ * distinction between #6b7280 and #9ca3af.
+ *
+ * ---------------------------------------------------------------------------
+ * THE ONE HARD PROBLEM IN THIS FILE
+ * ---------------------------------------------------------------------------
+ * The brand is a crimson-to-orange gradient on cream. FAIL is red and REVIEW is
+ * amber. Those three live in the same quarter of the colour wheel, and a chrome
+ * painted in the brand colour is a chrome that competes with the only two
+ * signals on the screen that mean anything.
+ *
+ * Three rules keep them apart, and every colour below is chosen to obey them:
+ *
+ *   1. The brand is WINE (`--accent`, #8e1b3a — desaturated, blue-shifted red).
+ *      FAIL is SCARLET (#c2261b — orange-shifted). They are two hue steps
+ *      apart, and the wine only ever appears as a solid fill on a control the
+ *      officer pressed; the scarlet only ever appears as a tint behind text.
+ *   2. Status is never carried by hue alone. Every verdict already ships a
+ *      glyph (see `ui/badge.tsx`), and the scan record adds a left rule, so a
+ *      row's state survives greyscale, a photocopy, and deuteranopia.
+ *   3. The gradient is reserved for identity — the mark and the wordmark.
+ *      Nothing that reports a fact is ever painted in it.
+ *
+ * Every pairing below was checked against WCAG AA (4.5:1) on its own ground.
+ * The measured ratios are in the comments; if you change a value, recheck it.
+ */
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+
+  /* 16 px floor. `text-sm` in stock Tailwind is 14 px, which section 11 forbids,
+     so the scale is shifted rather than trusting every author to avoid it. */
+  --text-xs: 0.875rem;   /* 14px — permitted only for non-essential metadata */
+  --text-sm: 1rem;       /* 16px */
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+
+  --spacing-touch: 2.75rem;   /* 44px — the minimum touch target */
+}
+
+:root {
+  color-scheme: light;
+
+  /* Cream rather than white. The logo sits on it, and a warm ground keeps the
+     scarlet FAIL tint from reading as "the whole page is angry" the way a red
+     tint on pure white does. */
+  --bg: #fdfaf7;
+  --surface: #ffffff;
+  --surface-2: #f8efe9;
+  --border: #e6d5cb;
+  --fg: #2b1219;          /* 15.7:1 on --bg */
+  --fg-muted: #6d4a50;    /* 7.3:1  — passes AA for body text */
+
+  --accent: #8e1b3a;      /* 7.6:1 — the logo's deep crimson */
+  --accent-fg: #ffffff;   /* 8.1:1 on --accent */
+  --accent-soft: #fbeaee; /* wash behind the current nav item, selected rows */
+
+  /* Identity only — the mark and the wordmark. Never a status. */
+  --brand-from: #a8163a;
+  --brand-to: #f0713d;
+
+  /* Verdict palette. Section 11: "REVIEW rows render amber, never red,
+     distinguishable at a glance from a definite failure." Chosen for 4.5:1
+     against their own ground, and distinguishable in deuteranopia by lightness
+     as well as hue — the amber is markedly lighter than the scarlet. */
+  --pass: #166534;   --pass-bg: #e5f4e9;   --pass-fg: #0f3d20;   /* 6.7:1 */
+  --fail: #c2261b;   --fail-bg: #fdeae7;   --fail-fg: #7d1610;   /* 5.5:1 */
+  --review: #9a5a08; --review-bg: #fdf1dc; --review-fg: #6d3f04; /* 5.1:1 */
+  --nodata: #6d4a50; --nodata-bg: #f4ece8; --nodata-fg: #3a2126; /* 7.3:1 */
+}
+
+:root[data-mode="dark"] {
+  color-scheme: dark;
+
+  /* Warm dark, not slate. A cream-and-crimson identity that turns blue-grey in
+     dark mode reads as a different product. */
+  --bg: #1a0f13;
+  --surface: #241519;
+  --surface-2: #331d23;
+  --border: #4b2b33;
+  --fg: #fbf0ec;          /* 16.1:1 */
+  --fg-muted: #d9b6ad;    /* 10.2:1 */
+
+  /* The orange end of the gradient, not the wine one: #8e1b3a on #1a0f13 is
+     2.3:1 and unreadable. Dark mode takes the accent from the other end of the
+     same gradient, which keeps the identity and passes AA at 8.0:1. */
+  --accent: #f98b5e;
+  --accent-fg: #2b1219;
+  --accent-soft: #3a1d20;
+
+  --brand-from: #f0713d;
+  --brand-to: #f9a97e;
+
+  --pass: #5ed37f;   --pass-bg: #0d2c18;   --pass-fg: #bdf0cd;
+  --fail: #ff7a6b;   --fail-bg: #3a110c;   --fail-fg: #ffd2ca;
+  --review: #f5b73f; --review-bg: #3a2606; --review-fg: #fbe3ac;
+  --nodata: #b39a95; --nodata-bg: #2c1b20; --nodata-fg: #e6d5d0;
+}
+
+:root[data-mode="daylight"] {
+  color-scheme: light;
+
+  /* Legibility outranks the brand here. This mode exists for an officer holding
+     a phone in direct sun, and the cream ground and the tinted verdict
+     backgrounds are the first things that disappear at 400 nits. The crimson
+     survives as the accent only because #8a0020 on white is 10.0:1 — a brand
+     colour that had to be lightened to fit would have been dropped instead. */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #ffffff;
+  --border: #000000;
+  --fg: #000000;
+  --fg-muted: #000000;
+  --accent: #8a0020;      /* 10.0:1 */
+  --accent-fg: #ffffff;
+  --accent-soft: #ffffff;
+
+  --brand-from: #8a0020;
+  --brand-to: #8a0020;
+
+  --pass: #006400;   --pass-bg: #ffffff;   --pass-fg: #003c00;
+  --fail: #a80000;   --fail-bg: #ffffff;   --fail-fg: #6b0000;
+  --review: #7a4100; --review-bg: #ffffff; --review-fg: #4a2700;
+  --nodata: #000000; --nodata-bg: #ffffff; --nodata-fg: #000000;
+}
+
+/* Daylight mode carries its contrast in weight and rule width, since it has no
+   tints left to carry it in colour. */
+:root[data-mode="daylight"] * {
+  border-color: var(--border);
+}
+:root[data-mode="daylight"] .card,
+:root[data-mode="daylight"] table {
+  border-width: 2px;
+}
+:root[data-mode="daylight"] body {
+  font-weight: 500;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-brand-from: var(--brand-from);
+  --color-brand-to: var(--brand-to);
+  --color-pass: var(--pass);
+  --color-pass-bg: var(--pass-bg);
+  --color-pass-fg: var(--pass-fg);
+  --color-fail: var(--fail);
+  --color-fail-bg: var(--fail-bg);
+  --color-fail-fg: var(--fail-fg);
+  --color-review: var(--review);
+  --color-review-bg: var(--review-bg);
+  --color-review-fg: var(--review-fg);
+  --color-nodata: var(--nodata);
+  --color-nodata-bg: var(--nodata-bg);
+  --color-nodata-fg: var(--nodata-fg);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  min-height: 100dvh;
+}
+
+/* The wordmark, and nothing else. The solid `--brand-from` is set first so the
+   text is still visible wherever `background-clip: text` is unsupported. */
+.brand-wordmark {
+  color: var(--brand-from);
+  background-image: linear-gradient(100deg, var(--brand-from), var(--brand-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* In daylight mode both stops are the same colour, so the gradient is a flat
+   fill and the clip is pointless work on the one device that can least afford
+   it. */
+:root[data-mode="daylight"] .brand-wordmark {
+  background-image: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* Keyboard navigation is a section 11 requirement, so the focus ring is defined
+   once, globally, and never removed. */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link — the first tab stop on every page. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  /* 44 px like every other control. It is off-screen until focused, but it is a
+     real control the moment somebody uses it, and it is the first one they
+     reach. */
+  min-height: 2.75rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  padding: 0.75rem 1rem;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+  /* A printed scan record is evidence, and evidence is not allowed to be
+     folded. `<details>` is used on the scan screen to keep thirty passing
+     rules from burying the one that needs a decision; on paper there is no
+     fold to protect, and a record that silently omitted the rules that passed
+     would be a record that cannot be checked. */
+  details > summary { display: none !important; }
+  /* Two rules because browsers hide a closed `<details>` two different ways.
+     Chrome and Safari now render the children into a `::details-content`
+     pseudo-element with `content-visibility: hidden`; older engines simply do
+     not render the slot, which the `display` override reaches. Setting only
+     one of the two leaves the record folded on roughly half the machines it
+     will be printed from. */
+  details::details-content { content-visibility: visible !important; }
+  details > *:not(summary) { display: block !important; }
+  /* The gradient wordmark prints as nothing on a printer that ignores
+     `background-clip`, and the masthead of an evidence document is not
+     optional. */
+  .brand-wordmark {
+    background-image: none !important;
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
+  }
+}

@@ -1,0 +1,83 @@
+{
+ "coverage": 0.8,
+ "declaration_count": 4,
+ "declarations": [
+  {
+   "box": [
+    433,
+    315,
+    385,
+    86
+   ],
+   "field": "other",
+   "field_confidence": 0.21,
+   "height_mm": 12.45,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.69,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "MeP R8 450"
+  },
+  {
+   "box": [
+    437,
+    435,
+    278,
+    56
+   ],
+   "field": "net_quantity",
+   "field_confidence": 0.86,
+   "height_mm": 6.57,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.98,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "NET WT 250 g"
+  },
+  {
+   "box": [
+    439,
+    534,
+    209,
+    42
+   ],
+   "field": "mfg_date",
+   "field_confidence": 0.86,
+   "height_mm": 5.21,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.98,
+   "scale_tier": "A",
+   "script": "devanagari",
+   "text": "MFG 03/2026"
+  },
+  {
+   "box": [
+    440,
+    619,
+    303,
+    34
+   ],
+   "field": "other",
+   "field_confidence": 0.3,
+   "height_mm": 4.53,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 1.0,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "Parle Products Pvt Ltd"
+  }
+ ],
+ "degradation_reasons": [
+  "detector weights unavailable; geometry-only region proposal"
+ ],
+ "degradation_tier": "L0",
+ "exit_path": "full",
+ "quality": {
+  "blur_score": 0.85,
+  "exposure_score": 0.98,
+  "faults": [],
+  "glare_ratio": 0.02,
+  "usable": true
+ },
+ "source": "photo"
+}

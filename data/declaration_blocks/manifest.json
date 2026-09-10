@@ -1,0 +1,359 @@
+{
+  "schema": 1,
+  "generated_utc": "2026-09-10T04:39:33Z",
+  "plan_section": "18",
+  "note": "Declaration-block evaluation set. One photograph per pack, each showing the statutory declaration panel. Labelled by hand in ground_truth.json; never trained on. The images are gitignored, this manifest is tracked, so a score can be tied to the exact bytes it was computed against.",
+  "delivered_from": "38_images_asked withproperlabelling",
+  "counts": {
+    "images": 38,
+    "by_suffix": {
+      "jpg": 29,
+      "png": 1,
+      "webp": 8
+    }
+  },
+  "images": [
+    {
+      "image": "agarbati.webp",
+      "source_filename": "agarbati.webp",
+      "sha256": "48c7888971d61716ba7c23ae9400a6ff32f5212839ef8cbddf37e75a37eee829",
+      "width": 1445,
+      "height": 1445,
+      "megapixels": 2.09,
+      "bytes": 70830
+    },
+    {
+      "image": "bajaj.jpg",
+      "source_filename": "bajaj.jpg",
+      "sha256": "dd19801792bebd3f48470ec2816ed97ed812d5d8d9f1da4dd37a8886b8bcd77d",
+      "width": 2600,
+      "height": 2600,
+      "megapixels": 6.76,
+      "bytes": 411006
+    },
+    {
+      "image": "camlin.webp",
+      "source_filename": "camlin.webp",
+      "sha256": "115bdbaf710d3d1be89f86fbfb622ad6fd2e6ce86cff5e0cb428958317cb410b",
+      "width": 1200,
+      "height": 1600,
+      "megapixels": 1.92,
+      "bytes": 124746
+    },
+    {
+      "image": "camlinbrush.jpg",
+      "source_filename": "camlinbrush.jpg",
+      "sha256": "284ea606b099c207675ac339fe4b650d7657b2f4e2c4dae5509f65607e8a3624",
+      "width": 600,
+      "height": 450,
+      "megapixels": 0.27,
+      "bytes": 39060
+    },
+    {
+      "image": "cheese.jpg",
+      "source_filename": "cheese.jpg",
+      "sha256": "2d40022402e831c6de202f0defa517f5e850d18cf94a264dd730e971a705d12d",
+      "width": 1200,
+      "height": 800,
+      "megapixels": 0.96,
+      "bytes": 92722
+    },
+    {
+      "image": "coconut_oil.jpg",
+      "source_filename": "coconut_oil.jpg",
+      "sha256": "b51d9960b83d87c3dc25a680cc0c32f977da82292e39f3ca6cf7ad3a1d61d4a7",
+      "width": 720,
+      "height": 1280,
+      "megapixels": 0.92,
+      "bytes": 92620
+    },
+    {
+      "image": "doms.webp",
+      "source_filename": "doms.webp",
+      "sha256": "83594c1f9e24d6da7ab78eeb0acd73ed8980cf16b25b872ed6ccd7eabdddd543",
+      "width": 640,
+      "height": 640,
+      "megapixels": 0.41,
+      "bytes": 22436
+    },
+    {
+      "image": "frshcream.jpg",
+      "source_filename": "frshcream.jpg",
+      "sha256": "dba2aaecebb56726ee7eeb45065186cc0a128eab0b359bd82b1cef75a8d93c4c",
+      "width": 551,
+      "height": 600,
+      "megapixels": 0.33,
+      "bytes": 32473
+    },
+    {
+      "image": "ghee.jpg",
+      "source_filename": "ghee.jpg",
+      "sha256": "cb97218e6eb1c0982c910c48a06e249843a66c3392d80d39ded8f65b9a823852",
+      "width": 2078,
+      "height": 2078,
+      "megapixels": 4.32,
+      "bytes": 361670
+    },
+    {
+      "image": "gillete.jpg",
+      "source_filename": "gillete.jpg",
+      "sha256": "0ae76d8fefe6deb063ce96ae4a183d5d28d5c400e8ab6d9086ba8a4db22cb56a",
+      "width": 764,
+      "height": 1200,
+      "megapixels": 0.92,
+      "bytes": 141853
+    },
+    {
+      "image": "goodday.jpg",
+      "source_filename": "goodday.jpg",
+      "sha256": "85901293e3e8edbffa57b735d6a448cd0f710294a2eebf31561d57ab02eeae03",
+      "width": 600,
+      "height": 361,
+      "megapixels": 0.22,
+      "bytes": 28057
+    },
+    {
+      "image": "goodday_butter.jpg",
+      "source_filename": "goodday_butter.jpg",
+      "sha256": "c1a6075da0ac3b829ad9ffe52395a2b9282384d60469883d47b7a5573147ce95",
+      "width": 1200,
+      "height": 900,
+      "megapixels": 1.08,
+      "bytes": 145315
+    },
+    {
+      "image": "gulabjal.jpg",
+      "source_filename": "gulabjal.jpg",
+      "sha256": "53db1846b56c6515ea5631806adb56a68d6d01f297e2720e44897084cd6e6f01",
+      "width": 450,
+      "height": 600,
+      "megapixels": 0.27,
+      "bytes": 51563
+    },
+    {
+      "image": "happyhappy.png",
+      "source_filename": "happyhappy.png",
+      "sha256": "6861ad149203a3a1d2c2a634ba0087597f17d297d985dc56f464e2e32aae9c5d",
+      "width": 1080,
+      "height": 1080,
+      "megapixels": 1.17,
+      "bytes": 318683
+    },
+    {
+      "image": "honey.jpg",
+      "source_filename": "honey.jpg",
+      "sha256": "18f49619c26fca4c4f14cbe99506706c5c68883311e4bb39d97381e3e478a3c2",
+      "width": 1242,
+      "height": 1526,
+      "megapixels": 1.9,
+      "bytes": 295990
+    },
+    {
+      "image": "jimjam.jpg",
+      "source_filename": "jimjam.jpg",
+      "sha256": "e2f39f5ba77815119b699bbb8960273bc37ed19cee2c051ed5d19ea392932ec5",
+      "width": 1080,
+      "height": 1080,
+      "megapixels": 1.17,
+      "bytes": 91186
+    },
+    {
+      "image": "lipbalm.jpg",
+      "source_filename": "lipbalm.jpg",
+      "sha256": "245cf73965002d0084765b0b8a399a847b6929d67d97bd958453f1da43ed0b1e",
+      "width": 450,
+      "height": 600,
+      "megapixels": 0.27,
+      "bytes": 48841
+    },
+    {
+      "image": "liquid_detergent.jpg",
+      "source_filename": "liquid_detergent.jpg",
+      "sha256": "f5778d5799d132c3f862b231f1ad0935800a8fb826c45d53220feb38e1773ff4",
+      "width": 1000,
+      "height": 1000,
+      "megapixels": 1.0,
+      "bytes": 147878
+    },
+    {
+      "image": "matches.jpg",
+      "source_filename": "matches.jpg",
+      "sha256": "b5fb0a8c299e7cb61ed09ca9f7085eb316b6a99d51abc1f6c50442e5aa0baec0",
+      "width": 600,
+      "height": 600,
+      "megapixels": 0.36,
+      "bytes": 41422
+    },
+    {
+      "image": "mdhpavmasala.jpg",
+      "source_filename": "mdhpavmasala.jpg",
+      "sha256": "e2126453c3832bdaf09c9b7b526619b7cfc33aaac2dffa56171dddcec8f64149",
+      "width": 600,
+      "height": 600,
+      "megapixels": 0.36,
+      "bytes": 19455
+    },
+    {
+      "image": "milksoap.jpg",
+      "source_filename": "milksoap.jpg",
+      "sha256": "13624ef023a6422af84961cc854942caa46d5fbfaada9531a4a45fe409e4c004",
+      "width": 3173,
+      "height": 2588,
+      "megapixels": 8.21,
+      "bytes": 339851
+    },
+    {
+      "image": "namkeen.webp",
+      "source_filename": "namkeen.webp",
+      "sha256": "3b5bcac9e268420fc84a416160ce51c92d591ec4285c2d80dee73f51c32b5275",
+      "width": 600,
+      "height": 600,
+      "megapixels": 0.36,
+      "bytes": 53310
+    },
+    {
+      "image": "papad.jpg",
+      "source_filename": "papad.jpg",
+      "sha256": "4f7f962564517277ed0341b3bb7ea09a8f3166276b349c576897dcb4f75fe9f9",
+      "width": 729,
+      "height": 800,
+      "megapixels": 0.58,
+      "bytes": 127930
+    },
+    {
+      "image": "parleg.jpg",
+      "source_filename": "parleg.jpg",
+      "sha256": "0f80d6d3d584c28d5cb6853f9140d02a1cdffc06fb2e99ca135eaf5baee98118",
+      "width": 700,
+      "height": 700,
+      "megapixels": 0.49,
+      "bytes": 76692
+    },
+    {
+      "image": "pencilbox.webp",
+      "source_filename": "pencilbox.webp",
+      "sha256": "fd8c0342d17aeb00df8d363287191589906d27c9dea8626edbc332b91d148d58",
+      "width": 1024,
+      "height": 1024,
+      "megapixels": 1.05,
+      "bytes": 149118
+    },
+    {
+      "image": "pickle.jpg",
+      "source_filename": "pickle.jpg",
+      "sha256": "d1db7f22ded1d5304fdae5bea39c989c4134c99310b1fc3cd30c72225e3c8452",
+      "width": 512,
+      "height": 640,
+      "megapixels": 0.33,
+      "bytes": 37439
+    },
+    {
+      "image": "rice.jpg",
+      "source_filename": "rice.jpg",
+      "sha256": "bcd6b844f513a7b0995cc38f7e5d1236a58558f956ce695bf7abb0203bef2510",
+      "width": 4220,
+      "height": 2376,
+      "megapixels": 10.03,
+      "bytes": 754233
+    },
+    {
+      "image": "rocksalt.jpg",
+      "source_filename": "rocksalt.jpg",
+      "sha256": "a4847531f9b0254b6b1e65a2ca94ab11597e844b4b7a63fc72b9f5a8179b490b",
+      "width": 2600,
+      "height": 2600,
+      "megapixels": 6.76,
+      "bytes": 706766
+    },
+    {
+      "image": "santoor.jpg",
+      "source_filename": "santoor.jpg",
+      "sha256": "fd88e26dbdbd8e1b4b998cf5ef56baa0d25cc2a98df2104eb8767c38b322d0b4",
+      "width": 600,
+      "height": 501,
+      "megapixels": 0.3,
+      "bytes": 36033
+    },
+    {
+      "image": "santoor1.jpg",
+      "source_filename": "santoor1.jpg",
+      "sha256": "3e672c4f70c88dabc620b06d17d0db3079c8bf5302e11fe80a05cbb668f8d487",
+      "width": 1080,
+      "height": 1080,
+      "megapixels": 1.17,
+      "bytes": 110602
+    },
+    {
+      "image": "shampoo.jpg",
+      "source_filename": "shampoo.jpg",
+      "sha256": "9be5b2424881ffa876c32e8ccf184be60e1e25f7455c57ac75f723c43de6a4d0",
+      "width": 452,
+      "height": 600,
+      "megapixels": 0.27,
+      "bytes": 39147
+    },
+    {
+      "image": "shampoo2.webp",
+      "source_filename": "shampoo2.webp",
+      "sha256": "2356fb32ef128d4418ce094c7caf2015e6f243c4571f7247f7862808f769906e",
+      "width": 800,
+      "height": 800,
+      "megapixels": 0.64,
+      "bytes": 45290
+    },
+    {
+      "image": "skin.jpg",
+      "source_filename": "skin.jpg",
+      "sha256": "89a74252f19fec7d763fffe0826ea984d9b1680885fed530a35fde753f1e8144",
+      "width": 450,
+      "height": 600,
+      "megapixels": 0.27,
+      "bytes": 36504
+    },
+    {
+      "image": "sugar.jpg",
+      "source_filename": "sugar.jpg",
+      "sha256": "d33b7264b65b6407d651fb970166d2104cd9835258828634fb7002acf78a1ce5",
+      "width": 904,
+      "height": 1200,
+      "megapixels": 1.08,
+      "bytes": 178100
+    },
+    {
+      "image": "surfexcel.webp",
+      "source_filename": "surfexcel.webp",
+      "sha256": "12f3888afa66754d1c6af1ed8332d3dc8b805fa08654d4bc2d479b2e1bd6e41c",
+      "width": 1080,
+      "height": 636,
+      "megapixels": 0.69,
+      "bytes": 67080
+    },
+    {
+      "image": "udadpapad.jpg",
+      "source_filename": "udadpapad.jpg",
+      "sha256": "7deba76129fe5bc27746d63cf4e1ab426e8985b07a3a5aff01e5af1551a6a7a1",
+      "width": 707,
+      "height": 800,
+      "megapixels": 0.57,
+      "bytes": 109151
+    },
+    {
+      "image": "venus_creme.webp",
+      "source_filename": "venus_creme.webp",
+      "sha256": "f5067ab8694d81f88de2d661ca3c25e2f59de0ce11831bb58cdbead0052ec432",
+      "width": 500,
+      "height": 500,
+      "megapixels": 0.25,
+      "bytes": 71350
+    },
+    {
+      "image": "whisper.jpg",
+      "source_filename": "whisper.jpg",
+      "sha256": "c42eec187abe4305d96ba3fda46b96c715093b463f7e27a852f37fa8e5aef6f5",
+      "width": 400,
+      "height": 400,
+      "megapixels": 0.16,
+      "bytes": 23024
+    }
+  ]
+}

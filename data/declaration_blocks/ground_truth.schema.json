@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://akshar.local/schemas/declaration_blocks/ground_truth.json",
+  "title": "AKSHAR declaration-block ground truth",
+  "description": "Per-image field labels for the declaration-block evaluation set. Describes data/declaration_blocks/ground_truth.json. Tracked in git although the images are not, so the shape and the content of the labels survive where the pixels do not, and a score reported against them can be re-derived.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "annotated_utc", "images"],
+  "properties": {
+    "schema": { "const": 1 },
+    "annotated_utc": { "type": "string", "format": "date-time" },
+    "plan_section": { "type": "string" },
+    "annotator": { "type": "string" },
+    "note": {
+      "type": "string",
+      "description": "The rule the whole file is annotated under. It matters more than any single label: the set records what is printed IN THIS FRAME, not what the product declares somewhere else on the pack, because the frame is what the extractor is handed."
+    },
+    "field_mapping": {
+      "type": "string",
+      "description": "How Rule 6(1)(a)'s name-and-address labels map onto contracts.FieldName. Written down because 'Marketed by' could defensibly be annotated as either manufacturer or packer, and a scorer comparing against a different choice would report an extraction error where there is only a vocabulary disagreement."
+    },
+    "images": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["image", "product", "fields"],
+        "properties": {
+          "image": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+\\.(jpg|png|webp)$",
+            "description": "Filename under data/declaration_blocks/images/. Joins to manifest.json, which carries the SHA-256 of the bytes these labels were read from."
+          },
+          "product": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What the pack is, as identified from the panel itself rather than from the filename. Several delivered filenames name a different product from the one photographed; where they disagree the disagreement is recorded in notes, because a filename is not evidence."
+          },
+          "fields": {
+            "type": "object",
+            "description": "One entry per statutory declaration legible in this frame. A field absent from this object is absent from the frame. A field mapped to null is printed but carries no readable value here - a smudged overprint, or a cross-reference such as 'See on Crimp'. A field mapped to an array carries more than one distinct value on the same panel, which is Rule 6(3) material rather than an annotation error.",
+            "propertyNames": {
+              "enum": [
+                "mrp",
+                "net_quantity",
+                "mfg_date",
+                "expiry_date",
+                "manufacturer",
+                "packer",
+                "importer",
+                "consumer_care",
+                "country_of_origin",
+                "generic_name",
+                "batch"
+              ]
+            },
+            "additionalProperties": {
+              "oneOf": [
+                { "type": "string", "minLength": 1 },
+                { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } },
+                { "type": "null" }
+              ]
+            }
+          },
+          "blank_labels": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Declarations whose LABEL is printed on the pack with no value after it - an empty 'Batch No.', an empty 'Mfg & Consumer Cared By'. This is a non-compliance in the package, not a failure of extraction, and it is separated from `fields` so that no scoring run can ever count it as a miss. Nothing in the pipeline is asked to distinguish these; the distinction lives here so that a human reading a score knows which way an absence points."
+          },
+          "notes": {
+            "type": "string",
+            "description": "What makes this frame hard, in the terms the pipeline has to deal with: offset value columns, dot-matrix overprint, curvature, occlusion, reversed type. Written at annotation time rather than after seeing a result, so it cannot be an explanation invented to fit a failure."
+          }
+        }
+      }
+    }
+  }
+}

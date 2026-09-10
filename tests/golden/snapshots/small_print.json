@@ -1,0 +1,83 @@
+{
+ "coverage": 0.8,
+ "declaration_count": 4,
+ "declarations": [
+  {
+   "box": [
+    439,
+    371,
+    93,
+    19
+   ],
+   "field": "mrp",
+   "field_confidence": 0.81,
+   "height_mm": 2.49,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.92,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "MRP Rs. 45.00"
+  },
+  {
+   "box": [
+    439,
+    459,
+    90,
+    23
+   ],
+   "field": "net_quantity",
+   "field_confidence": 0.82,
+   "height_mm": 2.6,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.93,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "NET WT 260 g"
+  },
+  {
+   "box": [
+    439,
+    551,
+    88,
+    20
+   ],
+   "field": "other",
+   "field_confidence": 0.25,
+   "height_mm": 3.0,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.83,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "lFe 03/2026"
+  },
+  {
+   "box": [
+    439,
+    632,
+    139,
+    19
+   ],
+   "field": "other",
+   "field_confidence": 0.26,
+   "height_mm": 2.49,
+   "height_mm_tolerance": 0.34,
+   "ocr_confidence": 0.87,
+   "scale_tier": "A",
+   "script": "latin",
+   "text": "Parie Products Pit Lid"
+  }
+ ],
+ "degradation_reasons": [
+  "detector weights unavailable; geometry-only region proposal"
+ ],
+ "degradation_tier": "L0",
+ "exit_path": "full",
+ "quality": {
+  "blur_score": 0.69,
+  "exposure_score": 0.98,
+  "faults": [],
+  "glare_ratio": 0.02,
+  "usable": true
+ },
+ "source": "photo"
+}

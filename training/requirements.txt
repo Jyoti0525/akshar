@@ -1,0 +1,33 @@
+# OpenMMLab toolchain for the B2 detector. AKSHAR.md sections 14 and 15b.
+#
+# NOT in pyproject.toml, and pyproject says why: these wheels are built against
+# a specific CUDA and torch version, and letting pip resolve them wrecks a plain
+# `pip install -e .[dev]` on a machine that will never train anything. Nothing
+# in api/, vision/ or rules/ imports any of it -- the detector is consumed as an
+# exported ONNX file, not as mmdet.
+#
+# Install order matters and `mim` is not optional. mmcv publishes per-(torch,
+# CUDA) wheels on OpenMMLab's own index, and plain pip will happily build it
+# from source for forty minutes and then fail on a header it cannot find:
+#
+#     pip install -e ".[training]"          # torch first, so mim can see it
+#     pip install -U openmim
+#     mim install -r training/requirements.txt
+#
+# Then:
+#     python -m training.detector.convert export.json --out training/detector/coco
+#     mim train mmdet training/detector/rtmdet-ins_tiny_akshar.py
+#     mim run mmdet print_config training/detector/rtmdet-ins_tiny_akshar.py   # sanity
+#
+# Licences, since the whole reason B2 is RTMDet is licensing: mmengine, mmcv,
+# mmdet and mmdeploy are all Apache-2.0.
+
+mmengine>=0.10.5,<1
+mmcv>=2.1.0,<2.3.0
+mmdet>=3.3.0,<3.4
+
+# INT8 export. Section 14: "exported INT8 ONNX via mmdeploy", and section 16
+# adds the condition -- "ship FP16 if INT8 loses >1% mAP". mmdeploy is what
+# produces both, so the comparison is one toolchain rather than two.
+mmdeploy>=1.3.1,<2
+mmdeploy-runtime>=1.3.1,<2

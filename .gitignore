@@ -1,0 +1,116 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Node / Next.js
+node_modules/
+web/.next/
+web/out/
+web/.turbo/
+*.tsbuildinfo
+web/next-env.d.ts
+web/playwright-report/
+web/test-results/
+
+# Build artefacts of the web app. `sw.js` is bundled by `web/scripts/build-sw.mjs`
+# from `web/src/sw/index.js`, which IS tracked; `web_openapi.json` is exported
+# from the running FastAPI app and is the input to `openapi-typescript`. Neither
+# is a source file, and a committed copy of either is a copy that goes stale.
+web/public/sw.js
+web/public/sw.js.map
+web_openapi.json
+
+# Environment
+.env
+.env.local
+!.env.example
+
+# Models — large binaries, fetched by scripts/fetch_models.py
+*.onnx
+*.pt
+*.pth
+models/
+
+# Data — the corpus is large and partly personal; only structure is tracked
+data/corpus/images/*
+!data/corpus/images/.gitkeep
+# Camera originals. ~900 MB of full-resolution frames with intact EXIF, which is
+# the whole reason they were asked for: `data/manifest.json` IS tracked and
+# records every one of them by SHA-256, device and capture time, so the corpus
+# is auditable from the repository without the repository carrying a gigabyte.
+data/corpus/originals/*
+!data/corpus/originals/.gitkeep
+data/corpus/negatives/*
+!data/corpus/negatives/.gitkeep
+data/corpus/annotations/*
+!data/corpus/annotations/.gitkeep
+data/test_split/*
+!data/test_split/.gitkeep
+!data/test_split/README.md
+!data/test_split/ground_truth.schema.json
+
+# Declaration-block evaluation set: 38 photographs, one per pack, each showing
+# the statutory panel, hand-labelled field by field in `ground_truth.json`.
+# The labels, the schema and the SHA-256 manifest ARE the record and are
+# tracked; the images are somebody else's packaging photographed by the user
+# and stay out of the history, exactly as the corpus does. `bench/` rebuilds
+# every number from the manifest, so a score can be tied to the bytes it was
+# computed against without the repository carrying them.
+data/declaration_blocks/images/*
+!data/declaration_blocks/images/.gitkeep
+
+# Incoming deliveries, wherever they land. Photographs arrive as loose folders
+# and zips dropped into the working tree; `scripts/ingest_originals.py` reads
+# them and copies what it needs into data/, and the drop itself is never part
+# of the record.
+new original images/
+38_images_asked withproperlabelling/
+40_ruler_images/
+dataset034/
+dataset034_withoutlabelboxes/
+.probe_*
+
+# Corpus audit: the report is tracked (it is the record of what we trained on),
+# the per-image dump and the contact sheet are derived and regenerable.
+data/corpus/audit_per_image.json
+data/corpus/review_sheet.jpg
+
+# Rulebook: extracted text and the manifest ARE the corpus and are tracked.
+# The per-page OCR cache is a resumable intermediate, regenerable from the
+# gazette PDFs, which are tracked.
+data/rulebook/.ocr_cache/
+
+# The comparison snapshots from the 405-page re-read (`.pre405`, `.pass1`,
+# `.bak`) are 2,514 files and 8.6 MB of the SAME intermediate, kept on disk so
+# `scripts/diff_ocr_caches.py` could show what the corrected detectors changed.
+# RESULTS.md records the comparison; the inputs to it are regenerable and do not
+# belong in the history. `extracted.*` likewise — `extracted/` is the tracked one.
+data/rulebook/.ocr_cache.*
+data/rulebook/extracted.bak/
+data/rulebook/extracted.pre405/
+# Working notes from that same re-run: a list of cache paths and a list of
+# page ids that lost text. Nothing reads them.
+data/rulebook/.pre405_targets.txt
+data/rulebook/.relost.txt
+
+# Local artefacts
+*.log
+.DS_Store
+Thumbs.db
+minio-data/
+postgres-data/
+scratch/
+
+# Playwright MCP scratch output (screenshots, snapshots) — never part of the record.
+.playwright-mcp/
+web/.playwright-mcp/

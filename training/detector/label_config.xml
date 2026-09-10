@@ -1,0 +1,57 @@
+<!--
+  Label Studio configuration for the AKSHAR detection corpus.
+
+  The taxonomy is not invented here. Every field name is a member of
+  contracts.declarations.FieldName, every panel a member of PanelId, and every
+  script a member of Script, so a label drawn in this tool maps onto the type
+  the pipeline already uses with no translation step to get wrong. If a name
+  below and a name in contracts/ ever disagree, contracts/ is right and
+  tests/unit/test_prelabel.py fails.
+
+  Section 16 asks for five things per photograph: the package box, the PDP
+  polygon, the other panel polygons, one box per declaration carrying its field
+  and script, and a box on the marker card.
+-->
+<View>
+  <Image name="image" value="$image" zoom="true" zoomControl="true" rotateControl="false"/>
+
+  <Header value="1. The package, and the marker card if one is in shot"/>
+  <RectangleLabels name="objects" toName="image">
+    <Label value="package" background="#1f77b4"/>
+    <Label value="marker_card" background="#7f7f7f"/>
+  </RectangleLabels>
+
+  <Header value="2. Panels. The PDP is the face a shopper sees on the shelf."/>
+  <PolygonLabels name="panels" toName="image">
+    <Label value="pdp" background="#d62728"/>
+    <Label value="side" background="#ff7f0e"/>
+    <Label value="back" background="#2ca02c"/>
+    <Label value="top" background="#9467bd"/>
+    <Label value="bottom" background="#8c564b"/>
+    <Label value="unknown" background="#c7c7c7"/>
+  </PolygonLabels>
+
+  <Header value="3. Declarations. One box per field. marketing_text is for promotional price graphics; other is for text you cannot read -- never a guess."/>
+  <RectangleLabels name="declarations" toName="image">
+    <Label value="mrp" background="#e6194b"/>
+    <Label value="net_quantity" background="#3cb44b"/>
+    <Label value="mfg_date" background="#ffe119"/>
+    <Label value="expiry_date" background="#4363d8"/>
+    <Label value="manufacturer" background="#f58231"/>
+    <Label value="packer" background="#911eb4"/>
+    <Label value="importer" background="#46f0f0"/>
+    <Label value="consumer_care" background="#f032e6"/>
+    <Label value="country_of_origin" background="#bcf60c"/>
+    <Label value="generic_name" background="#fabebe"/>
+    <Label value="batch" background="#008080"/>
+    <Label value="marketing_text" background="#9a6324"/>
+    <Label value="other" background="#808080"/>
+  </RectangleLabels>
+
+  <Header value="4. Script of the declaration selected above"/>
+  <Choices name="script" toName="image" perRegion="true" required="false">
+    <Choice value="latin"/>
+    <Choice value="devanagari"/>
+    <Choice value="other"/>
+  </Choices>
+</View>
