@@ -126,7 +126,7 @@
   },
   {
     "image": "cheese.jpg",
-    "blocking": 1,
+    "blocking": 0,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -150,14 +150,7 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.CHAR.WIDTH_RATIO",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "coconut_oil.jpg",
@@ -284,7 +277,7 @@
   },
   {
     "image": "gillete.jpg",
-    "blocking": 1,
+    "blocking": 0,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -303,14 +296,7 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "goodday.jpg",
@@ -405,7 +391,7 @@
   },
   {
     "image": "honey.jpg",
-    "blocking": 2,
+    "blocking": 3,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -435,6 +421,12 @@
         "field": "consumer_care",
         "verdict": "TRUE",
         "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
       }
     ]
   },

@@ -440,6 +440,25 @@ class Verdict(BaseModel):
     measured: float | None = None
     threshold: float | None = None
     tolerance: float | None = None
+
+    unit: Literal["mm", "ratio", "count", "cm2"] = "mm"
+    """What ``measured`` and ``threshold`` are counted in.
+
+    Most rules measure millimetres, which is why that is the default and why
+    nothing before this carried the field. Two of them never did, and the report
+    said millimetres anyway: Rule 7(3)'s proviso is a **ratio** of width to
+    height, and Rule 8(1)'s proviso yields a **count** of intrusions. A user
+    photographing a compliant cheese carton was shown
+
+        Clear space around net quantity    13.00 mm   required 0.00 mm
+
+    which is not a quantity anybody can check, and "required 0.00 mm" reads as a
+    broken tool rather than as a finding. The number was right; the unit was
+    invented by the renderer, which appended ``mm`` to every verdict it was
+    given.
+
+    It is a `Literal` rather than a free string so a new check cannot quietly
+    introduce a fourth unit that no formatter knows how to print."""
     respondent: Literal["manufacturer", "packer", "importer", "dealer"] = "manufacturer"
     """Rule 18(5) is the RETAILER's offence, not the manufacturer's. The notice
     is addressed to a different person, so the report must say so."""

@@ -146,6 +146,7 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
                 ),
                 measured=float(len(intruders)),
                 threshold=0.0,
+                unit="count",
                 field_name=primary,
                 detail="Compared in pixels; this check needs no scale recovery.",
             )
@@ -158,6 +159,7 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
                 ),
                 measured=0.0,
                 threshold=0.0,
+                unit="count",
                 field_name=primary,
                 detail="Compared in pixels; this check needs no scale recovery.",
             )

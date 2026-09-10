@@ -207,7 +207,16 @@ CREATE TABLE IF NOT EXISTS verdicts (
   -- height verdict without its millimetres is not reproducible.
   measured  NUMERIC,
   threshold NUMERIC,
-  tolerance NUMERIC
+  tolerance NUMERIC,
+
+  -- What `measured` and `threshold` are counted in. Most rules measure
+  -- millimetres and the default keeps every row written before this one
+  -- correct. Two rules never did: Rule 7(3)'s proviso is a width-to-height
+  -- RATIO and Rule 8(1)'s proviso yields a COUNT of intrusions. Without this
+  -- column the report renders both as millimetres and prints "required
+  -- 0.00 mm", which is not a quantity an officer can check.
+  unit TEXT NOT NULL DEFAULT 'mm'
+         CHECK (unit IN ('mm', 'ratio', 'count', 'cm2'))
 );
 
 -- PASS and NOT_APPLICABLE rows are stored too, deliberately. The rules view

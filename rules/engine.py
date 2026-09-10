@@ -45,9 +45,7 @@ def _requires_met(rule: Rule, ds: DeclarationSet) -> str | None:
             # millimetres of its own. Identical on a single frame, which is
             # every scan that existed before the union did.
             if not ds.has_scale():
-                return (
-                    "No scale was recovered (tier C), so height in millimetres is unknown."
-                )
+                return "No scale was recovered (tier C), so height in millimetres is unknown."
         elif requirement == "geometry.pdp_polygon":
             if not ds.geometry.pdp_polygon:
                 return "The principal display panel was not segmented."
@@ -89,6 +87,7 @@ def _to_verdict(rule: Rule, outcome: CheckOutcome) -> Verdict:
         measured=outcome.measured,
         threshold=outcome.threshold,
         tolerance=outcome.tolerance,
+        unit=outcome.unit,
         respondent=rule.respondent,
         advisory=rule.advisory,
     )
@@ -163,9 +162,7 @@ def evaluate(
 
         # 1 — the applicability gate, before anything else.
         if (blocked := gate.blocks(rule.target_fields())) is not None:
-            verdicts.append(
-                _to_verdict(rule, CheckOutcome.not_applicable(blocked))
-            )
+            verdicts.append(_to_verdict(rule, CheckOutcome.not_applicable(blocked)))
             continue
 
         # 2 — Rule 7(4): height rules disapplied where another statute governs.

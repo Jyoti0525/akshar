@@ -1,5 +1,5 @@
 import { Badge, toneForStatus } from "@/components/ui/badge";
-import { millimetres, ruleLabel } from "@/lib/format";
+import { quantity, ruleLabel } from "@/lib/format";
 import type { Verdict } from "@/lib/api/types";
 
 /**
@@ -64,7 +64,7 @@ function Row({ verdict }: { verdict: Verdict }) {
         {verdict.measured !== null && verdict.measured !== undefined ? (
           <div className="text-right tabular-nums">
             <p className="text-lg font-semibold">
-              {millimetres(verdict.measured)}
+              {quantity(verdict.measured, verdict.unit)}
               {verdict.tolerance ? (
                 <span className="text-sm font-normal text-fg-muted">
                   {" "}
@@ -73,7 +73,9 @@ function Row({ verdict }: { verdict: Verdict }) {
               ) : null}
             </p>
             {verdict.threshold !== null && verdict.threshold !== undefined ? (
-              <p className="text-sm text-fg-muted">required {millimetres(verdict.threshold)}</p>
+              <p className="text-sm text-fg-muted">
+                required {quantity(verdict.threshold, verdict.unit)}
+              </p>
             ) : null}
           </div>
         ) : null}

@@ -28,6 +28,39 @@ export function millimetres(value: number | null | undefined): string {
   return `${value.toFixed(2)} mm`;
 }
 
+/** A verdict's `measured`/`threshold` pair, in the unit the CHECK declared.
+ *
+ * Most rules measure millimetres and `mm` is the default, which is why this
+ * did not exist and `millimetres()` was applied to every verdict. Two rules
+ * never measured millimetres and were rendered as though they did:
+ *
+ *     Clear space around net quantity     13.00 mm    required 0.00 mm
+ *     Character width to height            0.29 mm    required 0.33 mm
+ *
+ * The first is a count of intrusions, the second a ratio of width to height.
+ * "required 0.00 mm" reads as a broken tool rather than as a finding, and an
+ * officer cannot check a number whose unit is wrong. The numbers were right;
+ * the renderer invented the unit.
+ */
+export function quantity(
+  value: number | null | undefined,
+  unit: "mm" | "ratio" | "count" | "cm2" | undefined,
+): string {
+  if (value === null || value === undefined) return "—";
+  switch (unit) {
+    case "ratio":
+      // Three decimals: the threshold is one third, and 0.33 against 0.33
+      // would render a FAIL and a PASS identically.
+      return value.toFixed(3);
+    case "count":
+      return value.toLocaleString(LOCALE);
+    case "cm2":
+      return `${value.toFixed(2)} cm²`;
+    default:
+      return millimetres(value);
+  }
+}
+
 export function millis(value: number | null | undefined): string {
   if (value === null || value === undefined) return "—";
   return `${Math.round(value).toLocaleString(LOCALE)} ms`;

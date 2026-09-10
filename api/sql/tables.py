@@ -151,6 +151,7 @@ verdicts = Table(
     Column("measured", Numeric),
     Column("threshold", Numeric),
     Column("tolerance", Numeric),
+    Column("unit", String, nullable=False, default="mm"),
 )
 
 corrections = Table(

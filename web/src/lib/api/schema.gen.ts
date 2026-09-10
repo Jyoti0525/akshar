@@ -1625,6 +1625,12 @@ export interface components {
             /** Tolerance */
             tolerance?: number | null;
             /**
+             * Unit
+             * @default mm
+             * @enum {string}
+             */
+            unit: "mm" | "ratio" | "count" | "cm2";
+            /**
              * Respondent
              * @default manufacturer
              * @enum {string}

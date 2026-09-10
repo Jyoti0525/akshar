@@ -45,9 +45,44 @@ from vision.classify.regex_tier import FieldGuess
 from vision.ocr.lines import _gap, _horizontal, _line_height, _overlaps
 from vision.types import Box, OcrLine
 
+QUANTITY_UNITS = (
+    r"m?[glL]|kg|kL|mg|mcg|µg|ug|ml|mL|cl|dl|cc|"
+    r"gm|gms|grams?|kgs?|litres?|liters?|ltr|"
+    r"[nN]\b|nos?\b|numbers?|pcs?\b|pieces?|units?|sheets?|pulls?|tablets?|caps?"
+)
+"""What follows the figure in a net quantity declaration.
+
+Rule 7 quantities are a number AND a unit -- `200 g`, `1 kg`, `2 L`, `30 N`.
+That is not decoration; it is what separates the declaration from every other
+number printed on a panel, and it is why this field's pattern is stricter than
+`mrp`'s. A price is a bare figure and has to stay one.
+
+Duplicated from the rulepack's own quantity vocabulary rather than imported,
+for the reason `vision/quality/framing.py` gives at length: `vision/` may not
+import `rules/`, and `tests/test_boundaries.py` enforces it. The drift this
+risks is affordable because **nothing here decides anything** -- it chooses
+which of two already-read fragments to join, and the rulepack judges the joined
+text on its own merits afterwards.
+"""
+
 ASSOCIABLE: dict[FieldName, re.Pattern[str]] = {
     "mrp": re.compile(r"(?<![\d.])\d{1,5}(?:[.,]\d{1,2})?(?![\d.])"),
-    "net_quantity": re.compile(r"(?i)(?<![\d.])\d{1,5}(?:[.,]\d{1,3})?(?![\d.])"),
+    # A figure WITH A UNIT, not a bare figure. Measured on `cheese.jpg`
+    # 2026-09-10: `Net Weight:` was classified `net_quantity` at 0.88 and then
+    # joined to `'ALWAYS KEEP UNDER REFRIGERATION (BELOW 4C. ON OPENING, T...'`
+    # -- because that line contains the digit 4, and its box centre happened to
+    # sit 133 px from the label against 229 px for `200 g (7.05 oz)` printed
+    # directly beside it. The nearest fragment carrying *a digit* is not the
+    # nearest fragment carrying *a quantity*, and on a food panel the difference
+    # is a storage instruction, a temperature, a licence number or a date.
+    #
+    # The cost of that one join was three visible errors at once: the officer's
+    # report labelled the refrigeration sentence `net quantity`, the real
+    # `200 g` was left as `other`, and Rule 8(1)'s exclusion zone was anchored
+    # on a 568x97 box spanning three printed lines.
+    "net_quantity": re.compile(
+        rf"(?i)(?<![\d.])\d{{1,5}}(?:[.,]\d{{1,3}})?\s*(?:{QUANTITY_UNITS})"
+    ),
 }
 """Fields routinely set as a label beside a figure, and what their figure
 looks like.

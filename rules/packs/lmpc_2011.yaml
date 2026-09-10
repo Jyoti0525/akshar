@@ -821,7 +821,15 @@ rules:
     check: min_width_ratio
     fields: [mrp, net_quantity]
     ratio: 0.3333
-    exclude_chars: ["1", "i", "I", "l", ".", ",", "'", "|", ":"]
+    # The gazette's own carve-out, verbatim: "except in the case of numeral `1'
+    # and letters (i), (I) and (l)". Nothing else belongs here. Punctuation and
+    # symbols used to be listed alongside them and no longer need to be: the
+    # proviso governs "the width of the letter or numeral", so `min_width_ratio`
+    # now measures only characters that ARE a letter or a numeral, and a colon,
+    # a rupee sign or a Devanagari matra falls outside the rule rather than
+    # being excused by name. See that module for the cheese carton it was
+    # failing on the width of a visarga.
+    exclude_chars: ["1", "i", "I", "l"]
     scale_free: true               # width_px / height_px — no mm_per_px needed
     requires: []                   # runs at scale tier C
     message: "Character width is less than one third of its height."

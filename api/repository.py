@@ -117,6 +117,10 @@ def normalise_verdict(verdict: dict[str, Any]) -> dict[str, Any]:
         "measured": verdict.get("measured"),
         "threshold": verdict.get("threshold"),
         "tolerance": verdict.get("tolerance"),
+        # Defaulted rather than required, so a verdict dict written before the
+        # field existed — an offline outbox replay, a stored scan re-evaluated
+        # after a rulepack upgrade — still round-trips instead of raising.
+        "unit": verdict.get("unit", "mm"),
     }
 
 

@@ -72,6 +72,7 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
         expected=f">= {threshold:g}:1",
         measured=worst,
         threshold=threshold,
+        unit="ratio",
         tolerance=_TOLERANCE,
         field_name=primary,
     )

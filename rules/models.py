@@ -197,6 +197,13 @@ class CheckOutcome:
     detail: str | None = None
     field_name: FieldName | None = None
 
+    unit: Literal["mm", "ratio", "count", "cm2"] = "mm"
+    """What `measured` and `threshold` are counted in. See `contracts.Verdict.unit`.
+
+    Declared by the check that did the measuring, because that is the only place
+    that knows. `mm` is the default because most rules measure millimetres and
+    every check written before this one does."""
+
     @classmethod
     def no_data(cls, why: str) -> CheckOutcome:
         """Absence of evidence is not evidence of a violation."""

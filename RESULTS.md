@@ -3776,3 +3776,135 @@ which error is worse, it belongs to the user and not to a threshold sweep over
 so the guard never has to arbitrate.
 
 **1028 tests pass, 14 skipped** (20 new).
+
+---
+
+## The cheese carton — four more false-accusation bugs, from one screenshot — 2026-09-10 (evening)
+
+The user scanned a Parag cheese carton in the running app and it came back
+**Non-compliant** with two blocking FAILs, against a pack that declares
+everything Rule 6(1) asks for. The screenshot also showed most of the annotated
+regions labelled `other`, and two numbers rendered as `13.00 mm` and
+`required 0.00 mm`.
+
+Four separate defects, each measured on that frame and then across all 38.
+
+### 0. The running server was two hours stale
+
+The API process started 09:38; the day's fixes landed 11:58. **Before reading
+any code, check the process start time** — this is the second time a stale
+uvicorn has cost a diagnosis. See `docs/` and the local-stack notes.
+
+### 1. Rule 7(3) was measured on a Devanagari diacritic
+
+`LMPC.CHAR.WIDTH_RATIO` FAIL, `found="0.286 (character 'ः')"`. The recogniser
+read `MRP ₹` as `'MRP रः'`, and the visarga — 0.286 of its own height — failed
+the pack.
+
+The gazette says *"the width of the **letter or numeral** shall not be less than
+one third of its height"*. A visarga is neither, and neither is a colon, a rupee
+sign, a bracket or a per-cent sign. The check excluded characters by a hand
+written list of nine Latin characters in the rulepack; **anything not on that
+list was measured**, and the things not on it are exactly the things that are
+narrow by nature.
+
+`min_width_ratio` now measures only `ch.isalnum()` — true for Latin and
+Devanagari letters and digits, false for marks (Mn, Mc), punctuation (P\*) and
+symbols (S\*). The rulepack's `exclude_chars` is trimmed to the gazette's own
+carve-out, `1 i I l`, because the rest is now structural rather than excused by
+name.
+
+### 2. The net-quantity label was joined to a refrigeration instruction
+
+This one caused three visible symptoms from a single mistake.
+
+`Net Weight:` was classified `net_quantity` at 0.88, correctly. `associate`
+then looked for its value and picked
+
+```
+'ALWAYS KEEP UNDER REFRIGERATION (BELOW 4C. ON OPENING, T...'
+```
+
+over `'200 g (7.05 oz)'` printed directly beside it — because
+`ASSOCIABLE["net_quantity"]` asked only *"does this fragment carry a figure"*,
+the refrigeration line contains the `4` of `4°C`, and its box centre sat 133 px
+from the label against 229 px for the real value. **The nearest fragment
+carrying a digit is not the nearest fragment carrying a quantity**, and on a
+food panel the difference is a temperature, a licence number or a date.
+
+The cost of that one join:
+
+* the officer's report labelled the refrigeration sentence **net quantity**;
+* the real `200 g (7.05 oz)` was left as **other** — the `other` labels the user
+  was pointing at;
+* Rule 8(1)'s exclusion zone was anchored on the resulting **568×97 px** box
+  spanning three printed lines.
+
+Rule 7 quantities are a number **and a unit**. `ASSOCIABLE["net_quantity"]` now
+requires one; `mrp` stays a bare figure, because a price is one. Checked against
+12 real quantity strings from the 38 panels and 6 decoys off the same panels
+(licence numbers, dates, pin codes, a helpline): 18/18 correct.
+
+### 3. A ratio and a count were both printed as millimetres
+
+```
+Clear space around net quantity     13.00 mm    required 0.00 mm
+Character width to height            0.29 mm    required 0.33 mm
+```
+
+The first is a count of intruding regions; the second a width-to-height ratio.
+`rule-rows.tsx` piped every verdict's `measured`/`threshold` through
+`millimetres()`, which appends `mm` unconditionally. The numbers were right and
+the unit was invented by the renderer. `required 0.00 mm` is not a quantity
+anyone can check, and a report that prints one reads as a broken tool.
+
+`Verdict.unit` (`mm` | `ratio` | `count` | `cm2`, default `mm`) is declared by
+the check that did the measuring — `min_width_ratio` and `min_contrast` are
+ratios, `clear_space` a count — carried through `CheckOutcome`, stored in a new
+`verdicts.unit` column (migration `0004`), and rendered by a new
+`quantity(value, unit)`. A `Literal`, so a new check cannot introduce a fourth
+unit no formatter knows how to print.
+
+**`test_a_verdict_survives_a_round_trip_through_the_schema` caught the missing
+column before the migration was written**, which is exactly what that test is
+for. The evidence chain is untouched: `verdicts` rows are not part of the
+canonical payload `evidence/chain.py` hashes.
+
+### Result on that frame, and on all 38
+
+`cheese.jpg`: **2 blocking FAILs → 0**, and all eight of its declarations
+extracted. Compliant, with three REVIEWs.
+
+| | Start of day | Now |
+|---|---|---|
+| Blocking FAILs over 38 packs | 63 | **47** |
+| Demonstrably false | 16 | **15** |
+| Packs with a clean sheet | 9 | **15 of 38** |
+| `LMPC.NETQTY.EXCLUSION_ZONE` | 18 | **3** |
+
+**1028 tests pass, 14 skipped.** `tsc --noEmit` clean.
+
+### The one still standing: `LMPC.CHAR.WIDTH_RATIO`
+
+Five packs still fail it, and the character it fails on is now visible in every
+case:
+
+```
+camlin.webp     0.280 ('t')      honey.jpg    0.250 ('t')
+pickle.jpg      0.176 ('e')      surfexcel    0.176 ('N')
+udadpapad.jpg   0.091 ('N')
+```
+
+These split into two different problems and neither should be fixed by reflex:
+
+* **`t` at 0.25–0.28 is a real measurement.** `character_boxes` measures each
+  glyph's own ink extent, not the line height, and a lowercase `t` has an
+  ascender — tall, thin, and genuinely under a third of its own height. It is
+  the same shape family as the gazette's own carve-out, `1 i I l`, which simply
+  does not enumerate `t`, `f`, `j` or `r`. **Extending that list is a legal
+  interpretation and the rulepack's editing rules require a source-register
+  entry for it** — not a patch at the end of an afternoon.
+* **`N` at 0.091 is 11:1 and impossible for printed type.** That is
+  `_split_wide_runs` cutting one ink run into slivers to match the character
+  count. A measurement bug, fixable, and it needs its own careful pass rather
+  than a floor invented to make five photographs pass.
