@@ -168,6 +168,69 @@ const RULE_NAMES: Record<string, string> = {
   "LMPC.AD.QUANTITY_WITH_PRICE": "Quantity shown with an advertised price",
 };
 
+/** What each verdict status means, in the words a person uses.
+ *
+ * `PASS` / `FAIL` / `REVIEW` / `NO_DATA` are the engine's vocabulary and they
+ * are exactly right inside the engine. On a screen a junior officer reads in a
+ * shop, and in front of a panel of judges who have never seen this system,
+ * `NO_DATA` reads as a crash and `REVIEW` reads as an excuse. Neither is what
+ * they mean.
+ *
+ * The engine's word stays in the record and in the exported report; this is the
+ * label on the screen beside it. */
+export const PLAIN_STATUS: Record<string, string> = {
+  FAIL: "Problem",
+  REVIEW: "Officer to check",
+  PASS: "OK",
+  NO_DATA: "Not measured",
+  NOT_APPLICABLE: "Does not apply",
+};
+
+/** One sentence per status, saying what the reader should DO about it. */
+export const PLAIN_STATUS_MEANING: Record<string, string> = {
+  FAIL: "This breaks a rule. It belongs in the notice.",
+  REVIEW: "We read the declaration but cannot judge it from a photograph alone. A person decides.",
+  PASS: "Checked against the rule and it complies.",
+  NO_DATA: "We did not have what this check needs, so we did not guess.",
+  NOT_APPLICABLE: "This rule does not cover this kind of package.",
+};
+
+/** The requirement in shop language, for the rules an officer meets most.
+ *
+ * Deliberately not the gazette wording — that is already on the row, one line
+ * below, and an officer who wants it can read it there. This is the sentence
+ * you would say out loud to explain what the machine just checked. */
+const PLAIN_MEANING: Record<string, string> = {
+  "LMPC.MRP.PRESENT": "Every retail pack must print a price.",
+  "LMPC.MRP.FORMAT": "The price must read like a price — 'MRP ₹45 inclusive of all taxes', not just a number.",
+  "LMPC.MRP.NUMERAL_HEIGHT": "The price digits must be big enough to read.",
+  "LMPC.MRP.OVERSTICKER": "A new price must not be stuck over the printed one.",
+  "LMPC.MRP.DEFACED": "The printed price must not be scratched out or written over.",
+  "LMPC.NETQTY.PRESENT": "The pack must say how much is inside.",
+  "LMPC.NETQTY.SI_UNITS": "The quantity must use proper units — g, kg, ml, l.",
+  "LMPC.NETQTY.NUMERAL_HEIGHT": "The quantity digits must be big enough to read.",
+  "LMPC.NETQTY.EXCLUSION_ZONE": "Nothing else may be printed crowding the quantity.",
+  "LMPC.DATE.PRESENT": "The pack must say when it was made or packed.",
+  "LMPC.DATE.FORMAT": "The date must be written as a month and year.",
+  "LMPC.MFR.PRESENT": "The pack must name and address the maker, packer or importer.",
+  "LMPC.CARE.PRESENT": "The pack must give a contact for complaints, with a phone number.",
+  "LMPC.GENERIC.PRESENT": "The pack must say what the product actually is, not just the brand.",
+  "LMPC.IMPORTER.PRESENT": "An imported pack must name the importer.",
+  "LMPC.LETTER.MIN_HEIGHT": "All the required print must meet a minimum letter height.",
+  "LMPC.CHAR.WIDTH_RATIO": "Letters must not be squeezed narrow to save space.",
+  "LMPC.CONTRAST.NUMERALS": "The price and quantity must stand out from the background.",
+  "LMPC.PDP.ON_PANEL": "The declarations must be on the face the shopper sees.",
+  "LMPC.PACK.STANDARD_SIZE": "Some goods may only be sold in standard pack sizes.",
+  "LMPC.QTY.UNIT_MAGNITUDE": "Use the right unit for the size — 900 g, not 0.9 kg.",
+  "LMPC.QTY.WHEN_PACKED": "The quantity must be the quantity at packing time.",
+  "LMPC.WRAPPER.REPEAT": "If there is an outer wrapper, it must repeat the declarations.",
+  "LMPC.READABLE.THROUGH_CONTENTS": "The declarations must stay readable through the contents.",
+};
+
+export function ruleMeaning(ruleId: string): string | null {
+  return PLAIN_MEANING[ruleId] ?? null;
+}
+
 export function ruleLabel(ruleId: string): string {
   const known = RULE_NAMES[ruleId];
   if (known) return known;

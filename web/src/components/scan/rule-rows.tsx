@@ -1,44 +1,61 @@
 import { Badge, toneForStatus } from "@/components/ui/badge";
-import { quantity, ruleLabel } from "@/lib/format";
+import {
+  PLAIN_STATUS,
+  PLAIN_STATUS_MEANING,
+  quantity,
+  ruleLabel,
+  ruleMeaning,
+} from "@/lib/format";
 import type { Verdict } from "@/lib/api/types";
 
 /**
  * Section 11: *"Below, one row per rule."*
  *
- * Three decisions worth stating.
+ * ---------------------------------------------------------------------------
+ * WRITTEN FOR SOMEONE WHO HAS NEVER SEEN THE SYSTEM
+ * ---------------------------------------------------------------------------
+ * Rewritten 2026-09-10. The page was correct and unreadable: thirty-seven rows,
+ * every one headed with an engine word (`NO_DATA`), a gazette citation, a
+ * severity and a respondent. A junior officer in a shop could not tell in two
+ * seconds whether the pack was a problem, and a panel of judges reading it over
+ * a shoulder saw `NO_DATA` and heard *crash*.
  *
- * **The rule's name leads, not its message.** The message answers "what went
- * wrong"; on a passing rule there is no wrong, so the row has to answer "which
- * requirement is this" instead — and an officer scanning thirty-odd rows is
- * looking for the requirement, not reading prose.
+ * Three changes, and none of them removes a fact from the record:
  *
- * **Every row carries the gazette reference**, because section 2's fifth point
- * is that *"every verdict cites a gazette clause"* and a citation that only
- * appears in the PDF is a citation the officer cannot read while standing in
- * the shop.
+ * **The status is said in words.** `Problem`, `Officer to check`, `OK`,
+ * `Not measured`. The engine's own vocabulary stays in the exported report and
+ * in the evidence row; this is the label on the screen. `NO_DATA` does not mean
+ * failure — it means *we did not have what this check needs, so we did not
+ * guess*, and that sentence is now printed where it is read.
+ *
+ * **Each rule says what it is for.** One sentence of shop language above the
+ * gazette reference: "The pack must give a contact for complaints, with a phone
+ * number." The citation is still there, one line down, for anyone who wants it.
+ *
+ * **Unmeasured rules collapse to one line.** At scale tier C, thirty-odd height
+ * rules honestly return NO_DATA for one reason — no calibration card in the
+ * photograph — and thirty rows saying so buried the one row that mattered. They
+ * are now a single line with the reason and a count, and one click still opens
+ * every one of them. `@media print` in `globals.css` opens every `<details>`,
+ * so a printed record is complete.
  *
  * **`measured` against `threshold` is two numbers, never a sentence.** A notice
  * is written from those two numbers, and re-deriving them from prose is where a
  * transcription error enters an enforcement document.
- *
- * The settled rules are folded into a `<details>`. Not to hide them — the count
- * is in the summary and one click opens the lot, and `@media print` in
- * `globals.css` opens every `<details>` so a printed record is complete. It is
- * because thirty green rows above the fold push the one amber row that needs a
- * decision off the screen, which inverts the whole point of the page.
  */
 const ORDER: Record<string, number> = { FAIL: 0, REVIEW: 1, NO_DATA: 2, PASS: 3, NOT_APPLICABLE: 4 };
 
-/** Statuses that need the reader's attention. Everything else is settled. */
-const OPEN = new Set(["FAIL", "REVIEW", "NO_DATA"]);
-
 function Row({ verdict }: { verdict: Verdict }) {
+  const meaning = ruleMeaning(verdict.rule_id);
   return (
     <li className="rounded-lg border border-border bg-surface p-3">
       <div className="flex flex-wrap items-start gap-3">
-        <Badge tone={toneForStatus(verdict.status)}>{verdict.status.replace("_", " ")}</Badge>
+        <Badge tone={toneForStatus(verdict.status)}>
+          {PLAIN_STATUS[verdict.status] ?? verdict.status.replace("_", " ")}
+        </Badge>
         <div className="min-w-0 flex-1">
           <p className="font-medium text-fg">{ruleLabel(verdict.rule_id)}</p>
+          {meaning ? <p className="mt-0.5 text-base text-fg">{meaning}</p> : null}
           <p className="mt-0.5 text-base text-fg-muted">{verdict.message}</p>
           <p className="mt-0.5 text-sm text-fg-muted">
             <span title={verdict.rule_id}>{verdict.rule_ref || verdict.rule_id}</span>
@@ -53,7 +70,7 @@ function Row({ verdict }: { verdict: Verdict }) {
                 </span>
               </>
             ) : null}
-            {verdict.respondent ? <> · respondent: {verdict.respondent}</> : null}
+            {verdict.respondent ? <> · answerable: {verdict.respondent}</> : null}
           </p>
           {verdict.suppressed_by ? (
             <p className="mt-0.5 text-sm text-fg-muted">
@@ -84,11 +101,44 @@ function Row({ verdict }: { verdict: Verdict }) {
   );
 }
 
+/** One collapsed group. The count and the reason are in the summary, so the
+ *  reader never has to open it to know what is inside. */
+function Group({
+  title,
+  reason,
+  verdicts,
+}: {
+  title: string;
+  reason: string;
+  verdicts: Verdict[];
+}) {
+  if (verdicts.length === 0) return null;
+  return (
+    <details className="rounded-lg border border-border bg-surface-2">
+      <summary className="flex min-h-touch cursor-pointer flex-col justify-center px-3 py-2">
+        <span className="text-base font-medium">
+          {verdicts.length} {title}
+        </span>
+        <span className="text-sm text-fg-muted">{reason}</span>
+      </summary>
+      <ul className="flex flex-col gap-2 p-2 pt-0">
+        {verdicts.map((verdict) => (
+          <Row key={`${verdict.rule_id}:${verdict.field ?? ""}`} verdict={verdict} />
+        ))}
+      </ul>
+    </details>
+  );
+}
+
+function Heading({ children }: { children: React.ReactNode }) {
+  return <h3 className="text-base font-semibold text-fg">{children}</h3>;
+}
+
 export function RuleRows({ verdicts }: { verdicts: Verdict[] | undefined }) {
   if (!verdicts || verdicts.length === 0) {
     return (
       <p className="rounded-lg border border-border bg-surface p-4 text-base text-fg-muted">
-        No rule was evaluated. Nothing on this photograph could be read.
+        No rule was checked. Nothing on this photograph could be read.
       </p>
     );
   }
@@ -97,38 +147,73 @@ export function RuleRows({ verdicts }: { verdicts: Verdict[] | undefined }) {
     (a, b) =>
       (ORDER[a.status] ?? 9) - (ORDER[b.status] ?? 9) || a.rule_id.localeCompare(b.rule_id),
   );
-  const open = sorted.filter((v) => OPEN.has(v.status));
-  const settled = sorted.filter((v) => !OPEN.has(v.status));
-  const passed = settled.filter((v) => v.status === "PASS").length;
+
+  // An advisory failure is a formatting defect — `250 ML` for `250 ml`. It is
+  // reported, and it does not sit beside a missing MRP under one heading.
+  const problems = sorted.filter((v) => v.status === "FAIL" && !v.advisory);
+  const minor = sorted.filter((v) => v.status === "FAIL" && v.advisory);
+  const toCheck = sorted.filter((v) => v.status === "REVIEW");
+  const passed = sorted.filter((v) => v.status === "PASS");
+  const notMeasured = sorted.filter((v) => v.status === "NO_DATA");
+  const notApplicable = sorted.filter((v) => v.status === "NOT_APPLICABLE");
 
   return (
-    <div className="flex flex-col gap-3">
-      {open.length > 0 ? (
-        <ul className="flex flex-col gap-2">
-          {open.map((verdict) => (
-            <Row key={`${verdict.rule_id}:${verdict.field ?? ""}`} verdict={verdict} />
-          ))}
-        </ul>
-      ) : (
-        <p className="rounded-lg border border-pass bg-pass-bg p-4 text-base text-pass-fg">
-          Nothing on this package needs a decision. All {passed} applicable rules passed.
-        </p>
-      )}
-
-      {settled.length > 0 ? (
-        <details className="rounded-lg border border-border bg-surface-2">
-          <summary className="flex min-h-touch cursor-pointer items-center px-3 py-2 text-base font-medium">
-            {passed} passed
-            {settled.length - passed > 0 ? `, ${settled.length - passed} not applicable` : ""} —
-            show the full rule-by-rule record
-          </summary>
-          <ul className="flex flex-col gap-2 p-2 pt-0">
-            {settled.map((verdict) => (
-              <Row key={`${verdict.rule_id}:${verdict.field ?? ""}`} verdict={verdict} />
+    <div className="flex flex-col gap-4">
+      {problems.length > 0 ? (
+        <section className="flex flex-col gap-2">
+          <Heading>
+            {problems.length === 1 ? "1 problem found" : `${problems.length} problems found`}
+          </Heading>
+          <p className="text-sm text-fg-muted">{PLAIN_STATUS_MEANING.FAIL ?? ""}</p>
+          <ul className="flex flex-col gap-2">
+            {problems.map((v) => (
+              <Row key={`${v.rule_id}:${v.field ?? ""}`} verdict={v} />
             ))}
           </ul>
-        </details>
+        </section>
       ) : null}
+
+      {toCheck.length > 0 ? (
+        <section className="flex flex-col gap-2">
+          <Heading>
+            {toCheck.length === 1 ? "1 thing for you to check" : `${toCheck.length} things for you to check`}
+          </Heading>
+          <p className="text-sm text-fg-muted">{PLAIN_STATUS_MEANING.REVIEW ?? ""}</p>
+          <ul className="flex flex-col gap-2">
+            {toCheck.map((v) => (
+              <Row key={`${v.rule_id}:${v.field ?? ""}`} verdict={v} />
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {problems.length === 0 && toCheck.length === 0 ? (
+        <p className="rounded-lg border border-pass bg-pass-bg p-4 text-base text-pass-fg">
+          No problem found, and nothing needs your decision. {passed.length} rules checked and
+          passed.
+        </p>
+      ) : null}
+
+      <Group
+        title="minor formatting points"
+        reason="Wrong capitals or spacing in a unit symbol. Reported, but not a violation on their own."
+        verdicts={minor}
+      />
+      <Group
+        title="rules passed"
+        reason={PLAIN_STATUS_MEANING.PASS ?? ""}
+        verdicts={passed}
+      />
+      <Group
+        title="checks we could not measure"
+        reason="Mostly the height rules — they need the calibration card in the photograph. We do not guess a measurement."
+        verdicts={notMeasured}
+      />
+      <Group
+        title="rules that do not apply"
+        reason={PLAIN_STATUS_MEANING.NOT_APPLICABLE ?? ""}
+        verdicts={notApplicable}
+      />
     </div>
   );
 }

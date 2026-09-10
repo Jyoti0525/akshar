@@ -33,6 +33,45 @@ whose text is the two fragments joined, so the rulepack's format patterns judge
 `'MRP Rs. 449.00'` on its merits and can still fail it. The association is
 reported in the guess's reason, naming both fragments, so an officer disputing
 the reading sees exactly which two regions were joined and why.
+
+---------------------------------------------------------------------------
+SHAPE DISCRIMINATES; DISTANCE ONLY BREAKS TIES
+---------------------------------------------------------------------------
+Rewritten 2026-09-10 after measuring the 38 labelled declaration panels. Of the
+147 values printed on them the pipeline attached 42 and **read but failed to
+attach 57** -- the number was in the OCR output and was thrown away. That single
+failure produced 45 of the 86 REVIEW verdicts across the set, because a rulepack
+handed `'MRP'` with no figure, or `'PKD.'` with no date, can only say *"the
+declaration is present but not in the prescribed form"* and ask for a human.
+
+The first version asked one question -- *"does this fragment carry a figure at
+all"* -- for two fields, and then picked the nearest candidate. Both halves were
+wrong on real packs:
+
+* **Distance is not the signal.** On `cheese.jpg` the net-quantity label joined
+  to `'ALWAYS KEEP UNDER REFRIGERATION (BELOW 4C...'` because that line has the
+  `4` of `4C` and its box centre sat 133 px away against 229 px for the
+  `'200 g (7.05 oz)'` printed beside it.
+* **The geometry of a printed table is not tidy.** Measured over those 57
+  fragments, the label-to-value gap runs from -13.9 to +10.2 label heights and
+  the two boxes share a row less than half the time -- the value column is
+  routinely set a half-row above or below its labels.
+
+What *is* reliable is the shape of the value. `02-2024` is a date, `L 2524` is a
+code, `B52218815C` is a code, `342-00` is a price, `200 g` is a quantity. So the
+patterns below are per-field and specific, ordered most-specific first, and a
+fragment belongs to the first field that claims it -- which is what stops the
+bare-number `mrp` pattern from eating every date and quantity on the panel.
+
+Checked against 70 value fragments transcribed from those 38 panels: every one
+is claimed by its own field, and **no pattern claims another field's value.**
+`tests/unit/test_label_value_association.py` pins that table.
+
+**What the shape test cannot do is tell a price from a pin code**, because a
+bare number is a bare number. That is covered by the rule this module has always
+had: only lines the classifier left as `other` are eligible, so an address is
+already `manufacturer` and a helpline is already `consumer_care` before this
+runs.
 """
 
 from __future__ import annotations
@@ -45,6 +84,32 @@ from vision.classify.regex_tier import FieldGuess
 from vision.ocr.lines import _gap, _horizontal, _line_height, _overlaps
 from vision.types import Box, OcrLine
 
+# -- what a value of each field looks like ----------------------------------
+
+_DAY = r"(?:0?[1-9]|[12]\d|3[01])"
+_MONTH = r"(?:0?[1-9]|1[0-2])"
+_YEAR = r"(?:19\d{2}|20\d{2}|[2-9]\d|1[5-9])"
+"""Four digits, or two digits from 15 on.
+
+A two-digit year below 15 is not a year on a pack in circulation, and admitting
+one turns `342-00` and `92.00` into dates. That was the single largest source of
+cross-matching when these patterns were first drawn."""
+
+_SEP = r"\s*[/.\->]\s*"
+"""`>` is in there because the recogniser reads a slash as one often enough to
+matter -- `'1 PKD. : 29>7/20'` on `parleg.jpg`."""
+
+_MONTH_NAME = r"(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*"
+
+_DATE = (
+    rf"(?<![\d])(?:"
+    rf"{_DAY}{_SEP}{_MONTH}{_SEP}{_YEAR}"
+    rf"|\d{{0,2}}\s*{_MONTH_NAME}\s*[.\-/]?\s*{_YEAR}"
+    rf"|{_DAY}\s*{_SEP}?\s*{_MONTH_NAME}{_SEP}{_YEAR}"
+    rf"|{_MONTH}{_SEP}{_YEAR}"
+    rf")(?![\d])"
+)
+
 QUANTITY_UNITS = (
     r"m?[glL]|kg|kL|mg|mcg|µg|ug|ml|mL|cl|dl|cc|"
     r"gm|gms|grams?|kgs?|litres?|liters?|ltr|"
@@ -53,87 +118,98 @@ QUANTITY_UNITS = (
 """What follows the figure in a net quantity declaration.
 
 Rule 7 quantities are a number AND a unit -- `200 g`, `1 kg`, `2 L`, `30 N`.
-That is not decoration; it is what separates the declaration from every other
-number printed on a panel, and it is why this field's pattern is stricter than
-`mrp`'s. A price is a bare figure and has to stay one.
+That is what separates the declaration from every other number on a panel.
 
-Duplicated from the rulepack's own quantity vocabulary rather than imported,
-for the reason `vision/quality/framing.py` gives at length: `vision/` may not
-import `rules/`, and `tests/test_boundaries.py` enforces it. The drift this
-risks is affordable because **nothing here decides anything** -- it chooses
-which of two already-read fragments to join, and the rulepack judges the joined
-text on its own merits afterwards.
+Duplicated from the rulepack's own quantity vocabulary rather than imported, for
+the reason `vision/quality/framing.py` gives at length: `vision/` may not import
+`rules/`, and `tests/test_boundaries.py` enforces it. The drift this risks is
+affordable because **nothing here decides anything** -- it chooses which of two
+already-read fragments to join, and the rulepack judges the joined text on its
+own merits afterwards.
 """
 
 ASSOCIABLE: dict[FieldName, re.Pattern[str]] = {
-    "mrp": re.compile(r"(?<![\d.])\d{1,5}(?:[.,]\d{1,2})?(?![\d.])"),
-    # A figure WITH A UNIT, not a bare figure. Measured on `cheese.jpg`
-    # 2026-09-10: `Net Weight:` was classified `net_quantity` at 0.88 and then
-    # joined to `'ALWAYS KEEP UNDER REFRIGERATION (BELOW 4C. ON OPENING, T...'`
-    # -- because that line contains the digit 4, and its box centre happened to
-    # sit 133 px from the label against 229 px for `200 g (7.05 oz)` printed
-    # directly beside it. The nearest fragment carrying *a digit* is not the
-    # nearest fragment carrying *a quantity*, and on a food panel the difference
-    # is a storage instruction, a temperature, a licence number or a date.
-    #
-    # The cost of that one join was three visible errors at once: the officer's
-    # report labelled the refrigeration sentence `net quantity`, the real
-    # `200 g` was left as `other`, and Rule 8(1)'s exclusion zone was anchored
-    # on a 568x97 box spanning three printed lines.
     "net_quantity": re.compile(
         rf"(?i)(?<![\d.])\d{{1,5}}(?:[.,]\d{{1,3}})?\s*(?:{QUANTITY_UNITS})"
     ),
+    "mfg_date": re.compile(f"(?i){_DATE}"),
+    "expiry_date": re.compile(f"(?i){_DATE}"),
+    # A code carries BOTH letters and digits -- letters alone are a word, and
+    # `FSSAI`, `ALWAYS` and `EPIP` were all claimed as batch numbers before this
+    # required a digit. Two forms: one token of four or more (`B062207`,
+    # `MK08D2451`), or a hyphenated one (`CE-11002`, `M-09`). The separate
+    # `[A-Z]{1,2}\s\d{3,8}` form catches `L 2524`, and its prefix is capped at
+    # two letters so `INS 331` in an ingredients list is not a batch number.
+    "batch": re.compile(
+        r"(?<![A-Za-z0-9])(?:"
+        r"(?=[A-Z0-9\-]*[A-Z])(?=[A-Z0-9\-]*\d)"
+        r"(?:[A-Z0-9]{4,}|[A-Z0-9]+(?:-[A-Z0-9]+)+)"
+        r"|[A-Z]{1,2}\s\d{3,8}"
+        r")(?![A-Za-z0-9])"
+    ),
+    "mrp": re.compile(r"(?<![A-Za-z0-9/.\-])\d{1,5}(?:[.,\-]\d{2})?(?:\s*/-)?(?![\d/.])"),
 }
-"""Fields routinely set as a label beside a figure, and what their figure
-looks like.
+"""Fields set as a label beside a value, and what that value looks like.
 
-Only these two, for the same reason `MEASURED_ON_NUMERALS` holds only these
-two: they are the fields whose statutory requirement attaches to a *number*, so
-"the value is missing from this line" is a question with an answer. A
-manufacturer's address has no numeric form to look for, and an address split
-across two regions is a job for the layout head, not for this.
-
-The patterns are loose on purpose. They are never asked *"is this a price?"* --
-that question, asked of a bare number, has no honest answer. They are asked
-"does this fragment carry a figure at all", and the claim that the figure
-belongs to the label rests on the label sitting next to it, which is checked
-geometrically below.
+Ordering matters and is `SPECIFICITY` below, not this dict's insertion order.
 """
 
-GAP_RATIO = 4.0
-"""How far from its label a figure may sit, in multiples of the label's height.
+SPECIFICITY: tuple[FieldName, ...] = (
+    "net_quantity",
+    "mfg_date",
+    "expiry_date",
+    "batch",
+    "mrp",
+)
+"""Most specific first. A fragment belongs to the first field that claims it.
 
-Wider than `vision.ocr.lines.GAP_RATIO` (1.5) and deliberately so: that
-constant governs merging *before* reading, where a generous gap sweeps
-marketing copy into a declaration's crop and costs the reading. Here both
-fragments have already been read and the value fragment has already been shown
-to carry a figure, so distance is the last check rather than the only one.
-
-Four is drawn from the layout it exists for. A label/value pair on a pack is
-set with the value flush to a column edge -- the label at x 2199 and `449.00`
-at x 2297 on `bodywash_bottle_300ml`, a 98 px gap on 33 px type, ratio 3.0 --
-and the tabular gap between a label and its own column is the widest gap that
-still belongs to one declaration.
+`mrp` is last because a price is a bare number and a bare number is a subset of
+every other value on the panel: without this order an `MRP` label takes the
+packing date, the batch code and the net quantity, all of which contain one.
+`mfg_date` and `expiry_date` share a pattern by construction -- nothing in the
+shape of `18/05/23` says which it is, and the *label* is what decides.
 """
 
-STACK_ALIGN_FRAC = 0.5
-"""How much of the narrower box must lie within the wider one's span for a
-figure printed *underneath* its label to count as belonging to it.
+# -- how far a value may sit from its label ---------------------------------
 
-A label over its value is an ordinary packaging layout and has to be caught,
-but the line under a label is also just the next line of whatever else is
-printed there. Requiring half of the narrower fragment to sit inside the wider
-one's span is what separates a value set under its label from the paragraph
-that happens to follow it.
+GAP_RATIO = 12.0
+"""How far along the line a value may sit from its label, in label heights.
+
+Was 4.0, drawn from one pack where the gap was 3.0. Measured across the 57
+values this module was failing to attach, the real gap runs to **10.2** label
+heights: a printed table sets its value column at a column edge, not beside the
+words, and `milksoap.jpg` puts 40 mm of yellow film between the two.
+
+Widening this was only safe once shape did the discriminating. On its own it
+would have joined an MRP label to whatever number happened to be nearest.
+"""
+
+DRIFT_RATIO = 1.5
+"""How far the value's centre may sit off the label's, across the line.
+
+Not zero, because the value column of a printed table is routinely set a half
+row above or below its labels -- on `santoor.jpg` the offset is a full row, so
+`FKGB013` lands beside `Mfg. Date` and `Batch No.` appears to have no value at
+all. Not unbounded, because `vision.ocr.lines` already merged anything actually
+on this line, so a fragment two rows away belongs to a different declaration.
 """
 
 BESIDE_BACKTRACK_FRAC = 0.25
-"""How far a figure may overlap its label along the reading axis and still be
-counted as printed beside it. See `_beside`."""
+"""How far a value may overlap its label along the reading axis and still count
+as printed beside it. DBNet pads its proposals and a label and the figure beside
+it routinely come back a few pixels into each other."""
 
-STACK_GAP_RATIO = 1.5
-"""Line spacing a stacked pair may be separated by. Two lines down is a
-different declaration, or somebody else's."""
+STACK_ALIGN_FRAC = 0.5
+"""How much of the narrower box must lie within the wider one's span for a value
+printed *underneath* its label to count as belonging to it."""
+
+STACK_GAP_RATIO = 3.0
+"""Line spacing a stacked pair may be separated by.
+
+Three rather than 1.5: a label with its value set under it is often separated by
+the label's own second line (`MRP` / `(incl. of all taxes)` / `140.00`). Past
+three the next declaration has begun.
+"""
 
 
 @dataclass(frozen=True, slots=True)
@@ -146,9 +222,23 @@ class Association:
     reason: str
 
 
-def _carries_value(text: str, field: FieldName) -> bool:
+def claims(field: FieldName, text: str) -> bool:
+    """Does `field` own this fragment, given every more specific field said no?"""
     pattern = ASSOCIABLE.get(field)
-    return bool(pattern and pattern.search(text))
+    if pattern is None or not pattern.search(text):
+        return False
+    for other in SPECIFICITY:
+        if other == field:
+            return True
+        if {field, other} == {"mfg_date", "expiry_date"}:
+            continue  # one shape; the label decides which
+        if ASSOCIABLE[other].search(text):
+            return False
+    return True
+
+
+def _carries_value(text: str, field: FieldName) -> bool:
+    return claims(field, text)
 
 
 def _stacked(label: Box, value: Box) -> bool:
@@ -156,9 +246,9 @@ def _stacked(label: Box, value: Box) -> bool:
     if _horizontal(label) != _horizontal(value):
         return False
     horizontal = _horizontal(label)
-    # "Under" along the reading axis means overlapping *across* it, which is
-    # the opposite of what `_overlaps` tests for two fragments of one line, so
-    # the flag is inverted for both questions asked here.
+    # "Under" along the reading axis means overlapping *across* it, which is the
+    # opposite of what `_overlaps` tests for two fragments of one line, so the
+    # flag is inverted for both questions asked here.
     if not _overlaps(label, value, horizontal=not horizontal):
         return False
 
@@ -176,21 +266,22 @@ def _stacked(label: Box, value: Box) -> bool:
 
 
 def _beside(label: Box, value: Box) -> bool:
-    """Is `value` printed on the same line as `label`, to its left or right?"""
+    """Is `value` printed on (or within a row of) the same line as `label`?"""
     if _horizontal(label) != _horizontal(value):
         return False
     horizontal = _horizontal(label)
-    if not _overlaps(label, value, horizontal=horizontal):
-        return False
     height = max(_line_height(label), _line_height(value))
     if height <= 0:
         return False
+
+    # Across the reading axis: the value's centre may drift by up to a row, so a
+    # value column set slightly high still belongs to its labels. `_overlaps` is
+    # not enough on its own -- half of the real pairs do not overlap at all.
+    drift = abs((value.cy - label.cy) if horizontal else (value.cx - label.cx))
+    if drift > height * DRIFT_RATIO:
+        return False
+
     gap = _gap(label, value, horizontal=horizontal)
-    # A little overlap is the detector's boxes touching, not a relationship:
-    # DBNet pads its proposals and a label and the figure beside it routinely
-    # come back a few pixels into each other. Past a quarter of a line height,
-    # though, one fragment is inside the other rather than beside it, and that
-    # is not a label/value pair.
     return -height * BESIDE_BACKTRACK_FRAC <= gap <= height * GAP_RATIO
 
 
@@ -199,60 +290,86 @@ def _distance(a: Box, b: Box) -> float:
 
 
 def associate(lines: list[OcrLine], guesses: list[FieldGuess]) -> list[Association]:
-    """Pair each value-less field label with the nearest figure beside it.
+    """Pair each value-less field label with the value printed beside it.
 
     Only lines the classifier left as `other` are eligible as values, so this
-    never takes a declaration away from a field that claimed one outright. Each
-    label takes at most one value and each value serves at most one label; the
-    nearer fragment wins, and ties break on index so that two runs over one
-    photograph agree.
+    never takes a declaration away from a field that claimed one outright.
+
+    **Pairs are assigned globally, nearest first**, rather than by walking the
+    labels in order. On `goodday.jpg` the coded strip prints `PKD.`, `USE BY` and
+    `LOT No.` down one column against `19/06/22`, `18/12/22` and `B062207` down
+    another; taking each label's nearest free candidate in index order lets the
+    first label win a value that sits closer to the second. Sorting every
+    eligible pair by distance and assigning greedily gives each label the value
+    actually printed against it, and gives the same answer whichever order the
+    detector happened to return the regions in.
     """
-    taken: set[int] = set()
-    found: list[Association] = []
+    candidates: list[tuple[float, int, int, FieldName, str]] = []
 
     for i, (line, guess) in enumerate(zip(lines, guesses, strict=True)):
         if guess.field not in ASSOCIABLE:
             continue
         if _carries_value(line.text, guess.field):
-            continue  # the figure is already on this line; nothing to join
+            continue  # the value is already on this line; nothing to join
 
-        candidates = [
-            j
-            for j, other in enumerate(lines)
-            if j != i
-            and j not in taken
-            and guesses[j].field == "other"
-            and other.rotation_k == line.rotation_k
-            and _carries_value(other.text, guess.field)
-            and (_beside(line.box, other.box) or _stacked(line.box, other.box))
-        ]
-        if not candidates:
+        for j, other in enumerate(lines):
+            if j == i or guesses[j].field != "other":
+                continue
+            if other.rotation_k != line.rotation_k:
+                continue
+            if not _carries_value(other.text, guess.field):
+                continue
+            beside = _beside(line.box, other.box)
+            if not beside and not _stacked(line.box, other.box):
+                continue
+            candidates.append(
+                (
+                    _distance(line.box, other.box),
+                    i,
+                    j,
+                    guess.field,
+                    "beside it" if beside else "under it",
+                )
+            )
+
+    # Nearest pair first; ties break on the label then the value index so that
+    # two runs over one photograph agree. Section 14: a finding you cannot
+    # reproduce is a finding you cannot defend.
+    candidates.sort(key=lambda c: (c[0], c[1], c[2]))
+
+    used_labels: set[int] = set()
+    used_values: set[int] = set()
+    found: list[Association] = []
+    for _, label_index, value_index, field, where in candidates:
+        if label_index in used_labels or value_index in used_values:
             continue
-
-        best = min(candidates, key=lambda j: (_distance(line.box, lines[j].box), j))
-        taken.add(best)
+        used_labels.add(label_index)
+        used_values.add(value_index)
         found.append(
             Association(
-                label=i,
-                value=best,
-                field=guess.field,
+                label=label_index,
+                value=value_index,
+                field=field,
                 reason=(
-                    f"{guess.field} label {line.text.strip()!r} was read as its own "
-                    f"region; the figure {lines[best].text.strip()!r} is printed "
-                    f"beside it and carries no field label of its own"
+                    f"{field} label {lines[label_index].text.strip()!r} was read as its "
+                    f"own region; {lines[value_index].text.strip()!r} is printed {where} "
+                    f"and has the shape of a {field.replace('_', ' ')} value"
                 ),
             )
         )
 
-    return found
+    return sorted(found, key=lambda a: a.label)
 
 
 __all__ = [
     "ASSOCIABLE",
     "BESIDE_BACKTRACK_FRAC",
+    "DRIFT_RATIO",
     "GAP_RATIO",
+    "SPECIFICITY",
     "STACK_ALIGN_FRAC",
     "STACK_GAP_RATIO",
     "Association",
     "associate",
+    "claims",
 ]

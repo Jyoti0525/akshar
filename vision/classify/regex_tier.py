@@ -68,6 +68,24 @@ _PROMOTIONAL = re.compile(
     r"|\b(save|combo|offer|discount|buy\s*\d+\s*get)\b"
     r"|\bfree\s+(gift|inside|sample|pack|\d+\s*(mg|g|kg|ml|l)\b)"
     r"|\bextra\s+\d"
+    # A COMPARISON is a claim about somebody else's price, never this pack's.
+    # `'#As compared with Nabati Wafers 12g of MRP Rs.5'` is set in 5 pt at the
+    # foot of a wafer pack; the classifier read the `MRP Rs.5` inside it, called
+    # the line the price declaration, and Rule 9(1)(b) then failed the pack for
+    # printing its MRP at 2.37:1 contrast — against marketing small print the
+    # rule was never aimed at. The pack's own price was declared properly in the
+    # table above it.
+    #
+    # `comp[ar]\w{0,4}` rather than `compared`, because the recogniser returned
+    # `'#Ascompred with Nabati Wafers 12g of MRP Rs.5'` -- a dropped letter and a
+    # lost space, in 5 pt type. Requiring `a` or `r` as the fifth character
+    # admits `compared`, `compare`, `compred`, `comparison` and refuses
+    # `comply with`, which appears on packs in `in compliance with`.
+    # The second alternative carries the `as` because the recogniser also lost
+    # the space -- `Ascompred` has no word boundary in front of `comp`.
+    r"|\bcomp[ar]\w{0,4}\s*(with|to)\b"
+    r"|\bas\s*comp[ar]\w{0,4}\s*(with|to)\b"
+    r"|\bvs\.?\s|\bearlier\s*(price|mrp)\b|\bwas\s*(rs\.?|₹)\s*\d"
     r"|\bमुफ़्त\b|\bछूट\b)"
 )
 r"""`Rs. 20 OFF` is price-shaped and would otherwise satisfy any MRP amount

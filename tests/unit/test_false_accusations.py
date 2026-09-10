@@ -461,6 +461,45 @@ def test_a_printed_helpline_is_read_as_a_telephone_number(line: str) -> None:
     assert pack.pattern("consumer_care_phone").matches(line), line
 
 
+LAWFUL_MRP_DECLARATIONS = [
+    "MRP र 745.00 (incl. of all taxes)",      # bajaj.jpg, rupee sign read as RA
+    "Maximum Retail Price ऱ्. 37-00 (incl. of all taxes)",  # udadpapad.jpg
+    "M.R.P. र 300.00 incl. of all taxes",     # santoor.jpg
+    "MRP Rs. 45.00 incl. of all taxes",
+    "MRP ₹ 99.00 (incl of all taxes)",
+]
+
+INCOMPLETE_MRP_DECLARATIONS = [
+    "MRP र 150.00",                # no inclusive-of-taxes statement
+    "MRP रः",                # the price itself was never read
+    "MRP phone:+91-75064-96604",
+    "Rs.259.00",                         # no MRP label
+    "MRP: 80.00",                        # no currency, no inclusive statement
+]
+
+
+@pytest.mark.parametrize("line", LAWFUL_MRP_DECLARATIONS)
+def test_a_misread_rupee_sign_is_not_a_formatting_violation(line: str) -> None:
+    """Rule 2(m)'s form, with the rupee sign as the recogniser returns it.
+
+    Measured over the 38 labelled panels: `₹` came back correctly twice and as
+    `र`/`ऱ` nine times. The glyph shares a skeleton with DEVANAGARI LETTER RA and
+    the Devanagari head maps it there. Nine packs printing a lawful declaration
+    were referred for a human decision over one character.
+    """
+    assert pack.pattern("mrp_format").matches(line), line
+
+
+@pytest.mark.parametrize("line", INCOMPLETE_MRP_DECLARATIONS)
+def test_an_incomplete_price_declaration_still_asks_for_a_human(line: str) -> None:
+    """The other half: widening the currency class must not widen anything else.
+
+    None of these carries Rule 2(m)'s form. Where the price itself was never
+    read, REVIEW is the honest answer and must stay one.
+    """
+    assert not pack.pattern("mrp_format").matches(line), line
+
+
 @pytest.mark.parametrize("line", NOT_PHONE_NUMBERS)
 def test_a_licence_number_is_not_a_telephone_number(line: str) -> None:
     """The error in the other direction, and the worse one.

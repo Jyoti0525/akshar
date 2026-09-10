@@ -38,10 +38,23 @@ export function overallStatus(scan: ScanResponse): "FAIL" | "REVIEW" | "PASS" | 
 }
 
 const HEADLINE: Record<string, string> = {
-  FAIL: "Non-compliant",
-  REVIEW: "Needs a human decision",
-  PASS: "Compliant on every rule checked",
-  NO_DATA: "Nothing could be read",
+  FAIL: "Not compliant",
+  REVIEW: "You need to decide",
+  PASS: "Compliant",
+  NO_DATA: "Could not read this photo",
+};
+
+/** One sentence under the headline saying what it means and what happens next.
+ *
+ * Added 2026-09-10. The badge alone was being read wrong in both directions: a
+ * junior officer took amber for a failure, and a reader who had never seen the
+ * system took "Nothing could be read" for a crash rather than for the record it
+ * actually is. The headline is the verdict; this is the instruction. */
+const HEADLINE_MEANING: Record<string, string> = {
+  FAIL: "At least one rule is broken. The details are listed below and go into the notice.",
+  REVIEW: "No rule is broken. Something could not be judged from a photograph alone — check it by hand and record what you decide.",
+  PASS: "Every rule that applies to this package was checked and passed.",
+  NO_DATA: "The photograph could not be read, so nothing was judged. The photo, its time and place are still saved. Take it again, closer.",
 };
 
 /** Section 5's ladder, in the words an officer needs rather than the tier code.
@@ -72,6 +85,8 @@ export function VerdictHeader({ scan, wallMs }: { scan: ScanResponse; wallMs?: n
           </Badge>
         ) : null}
       </div>
+
+      <p className="max-w-prose text-base text-fg">{HEADLINE_MEANING[status] ?? ""}</p>
 
       <dl className="flex flex-wrap gap-x-6 gap-y-2 text-base">
         <Fact

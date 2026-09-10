@@ -197,7 +197,23 @@ def reading_supports_an_absence(
         mandatory = _mandatory_fields(pack)
         if mandatory:
             located = {d.field for d in ds.declarations} & mandatory
-            if len(located) * 2 < len(mandatory):
+            # `<=`, not `<`: half is not enough to convict on silence.
+            #
+            # This read `<` and stood down at exactly half, which is the case
+            # that matters most because it is where real packs land. A Britannia
+            # Bourbon photographed on three sides yields the price, the net
+            # quantity and the packing date -- three of the six -- and the
+            # manufacturer and consumer care are printed in 8 pt down the side
+            # panel where this pipeline cannot yet read them. At `<` the engine
+            # then reported both as *not declared* and called a compliant pack
+            # non-compliant, on the strength of having found exactly half.
+            #
+            # Half a label is not a reading. If we located no more of the
+            # mandatory declarations than we missed, the absence of the rest is
+            # ours and not the manufacturer's, and Rule 6(1) is not the place to
+            # guess. Nothing positive is weakened: a declaration we DID read and
+            # that is wrongly formatted still fails its format rule.
+            if len(located) * 2 <= len(mandatory):
                 return (
                     f"Only {len(located)} of the {len(mandatory)} mandatory declarations could "
                     f"be identified on this label, so it was not read well enough to say that "

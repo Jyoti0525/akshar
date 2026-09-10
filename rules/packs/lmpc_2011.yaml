@@ -499,7 +499,22 @@ patterns:
     # (250,000) grouping and bare digits. An earlier draft required \d+ with no
     # separator, which silently reported EVERY product priced at Rs 1,000 or
     # above as having no MRP at all.
-    latin: '(?i)\b(max(imum)?\.?\s*retail\s*price|m\.?r\.?p\.?)\s*(rs\.?|₹)\s*\d{1,3}([,\s]?\d{2,3})*(\.\d{1,2})?\s*.{0,6}(incl)'
+    #
+    # THE RUPEE SIGN IS ROUTINELY MISREAD, AND THAT IS OURS, NOT THE PACK'S.
+    # Measured across every MRP declaration this rule referred for review over
+    # the 38 labelled declaration panels, 2026-09-10: `₹` was recognised
+    # correctly TWICE, and returned as `र` (U+0930 DEVANAGARI LETTER RA) seven
+    # times and `ऱ` (U+0931 RRA) twice. The rupee sign is drawn on the same
+    # skeleton as `र` and the Devanagari recognition head maps it there — a
+    # systematic confusion, not noise. Nine packs printing a perfectly lawful
+    # `MRP ₹ 745.00 (incl. of all taxes)` were being sent for a human decision
+    # because of one glyph.
+    #
+    # Absorbed here rather than by rewriting the text on the way out of the
+    # recogniser: `Declaration.text` is what an officer compares against the
+    # photograph and it has to go on saying what we actually read. The optional
+    # virama is because `ऱ्` appeared once, on `udadpapad.jpg`.
+    latin: '(?i)\b(max(imum)?\.?\s*retail\s*price|m\.?r\.?p\.?)\s*(rs\.?|[₹रऱ]्?\.?)\s*\d{1,3}([,\s]?\d{2,3})*(\.\d{1,2})?\s*.{0,6}(incl)'
     devanagari: 'अधिकतम\s*खुदरा\s*मूल्य'
 
   # -- net quantity -----------------------------------------------------------
