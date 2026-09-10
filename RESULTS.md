@@ -3636,3 +3636,143 @@ on saying so.
   across 1007 tests", not "generalises".
 
 **1007 tests pass, 14 skipped** (1 new).
+
+---
+
+## Why a compliant pack was being called non-compliant — 2026-09-10 (later)
+
+The user reported it plainly: *"its still giving non compliant while the thing is
+compliant."* The 38 labelled panels make that answerable for the first time —
+for every blocking FAIL, the ground truth can be asked whether the declaration
+the rule says is missing is actually printed on the pack.
+
+```
+python bench/false_accusations.py
+```
+
+### The measurement
+
+**38 packs, before any fix:**
+
+| | |
+|---|---|
+| Blocking FAILs raised | **63** |
+| — presence claims, refutable from ground truth | 32 |
+| — **demonstrably FALSE** | **16** |
+| — geometry/duplication, needs an eye | 31 |
+| Packs with at least one false accusation | **10 of 38** |
+| Packs with a clean sheet | **9 of 38** |
+
+**Half of every presence accusation was false.** That is the honest headline and
+it is what the user was seeing.
+
+Only presence rules can be refuted mechanically. A first version of this bench
+scored the geometric rules too and called `LMPC.MRP.OVERSTICKER` false on
+`camlin.webp` — whose panel genuinely carries two prices. The rule was right and
+the bench was wrong; it now reports those as needing an eye instead.
+
+### Two causes, and they are not the same kind of problem
+
+**Cause 1 — the exclusion zone was measuring the wrong rectangle. Fixed.**
+
+`LMPC.NETQTY.EXCLUSION_ZONE` was the single largest accuser: **18 of the 63**.
+Rule 8(1)'s proviso is defined in *numeral* heights — one above and below, two
+either side. `clear_space` anchored on `subject.numeral_box or subject.box`, and
+when the numerals could not be separated it silently used the whole declaration
+line.
+
+Measured across the 18: **14 were anchored on the whole line.**
+
+```
+rice.jpg      anchor 1373x277  ->  zone +-277 vertical, +-554 horizontal
+              (the numerals of "26 KG" are about 60 px tall)
+honey.jpg     anchor  533x183  ->  zone +-183 / +-366
+milksoap.jpg  anchor  725x101  ->  zone +-101 / +-202   on 'CONTENTS : TEA'
+```
+
+Four to five times the statutory zone in every direction, sweeping in text
+printed nowhere near the figures. `Declaration.numeral_height_px` already states
+the rule the codebase follows everywhere else: *"None means the figures were not
+separable, and the height rules then return NO_DATA. That is the honest answer
+[...] a fabricated height costs someone a false violation."* A fabricated
+exclusion zone costs exactly the same thing. `clear_space` now returns NO_DATA
+rather than guessing an anchor.
+
+`LMPC.NETQTY.EXCLUSION_ZONE` **18 → 4**. The four that remain had a real numeral
+box. `test_real_printed_matter_in_the_zone_is_still_reported` still asserts FAIL,
+so the rule has not been defanged — three existing tests had to be given an
+explicit numeral box, because their fixtures had none and were reaching the
+intrusion logic only through the fallback being fixed.
+
+**Cause 2 — the consumer-care telephone pattern matched 8 of 19 real numbers.
+Fixed.**
+
+Rule 6(2) makes the telephone mandatory, so a pattern that misses one is a
+high-severity FAIL against a pack printing its helpline in plain sight.
+Transcribing all 19 telephone numbers off the 38 panels and testing the shipped
+pattern:
+
+```
+as shipped   real numbers matched  8/19       non-numbers matched  4/16
+candidate    real numbers matched 19/19       non-numbers matched  0/16
+```
+
+It missed every common Indian grouping — `1800-10-22-221` (HUL),
+`1800 425 444 444` (ITC), `1-800-4254449` (Britannia), `022-6691 6929` (Parle),
+`(022) 68404021` (Lijjat), `+91-75064-96604` (Plum).
+
+**And it was wrong in the other direction too, which is worse.** With no digit
+boundaries, `[6-9]\d{9}` matched a substring of the FSSAI licence
+`10012022001320` and of the barcode `8904150193600` — so a pack declaring **no**
+consumer-care telephone could satisfy Rule 6(2) on its licence number. The
+rewritten pattern is anchored between non-digits and has three branches
+(toll-free, landline, mobile). 20 new tests, one per real number and one per
+decoy.
+
+### After both fixes
+
+| | Before | After |
+|---|---|---|
+| Blocking FAILs raised | 63 | **48** |
+| Demonstrably false | 16 | **15** |
+| `LMPC.NETQTY.EXCLUSION_ZONE` | 18 | **4** |
+| `LMPC.CARE.PRESENT` false | 4 | **3** |
+| Packs with a clean sheet | 9 | **13 of 38** |
+
+### What is left, and why it is not a rulepack problem
+
+Of the 15 false accusations that remain, **14 are a field we never read**:
+
+```
+pack                falsely accused of    did we extract it?
+camlin.webp         LMPC.MFR.PRESENT      no - never read
+ghee.jpg            LMPC.MFR.PRESENT      no - never read
+ghee.jpg            LMPC.CARE.PRESENT     no - never read
+jimjam.jpg          LMPC.MFR.PRESENT      no - never read
+parleg.jpg          LMPC.MFR.PRESENT      no - never read
+whisper.jpg         LMPC.MRP.PRESENT      no - never read
+...
+```
+
+This is `bench/declaration_blocks.py`'s recall figure arriving as a verdict.
+Manufacturer extraction recall is **0.38**; when the pipeline finds no
+manufacturer, the manufacturer is usually still there. The rule is behaving
+correctly on the evidence it was handed. The evidence is wrong.
+
+**`reading_supports_an_absence` is the guard that should catch this and it fires
+on only 10 of the 38.** Its test is `located * 2 < len(mandatory)` — strictly
+fewer than half of Rule 6(1)'s six. Extraction locates 3.6 of 6 on average,
+which is just over the line, so the guard stands down and the two or three
+declarations we failed to read are reported as missing.
+
+**That threshold has deliberately not been touched.** Its own docstring says
+why: *"Half is a round number and it is stated rather than fitted [...] a
+threshold chosen to make a particular photograph pass is the exact fitting that
+seal exists to prevent."* Raising it to four-of-six or five-of-six would
+suppress most of these — and would suppress genuine findings with them, on a
+tool whose output is an enforcement action. That is a policy decision about
+which error is worse, it belongs to the user and not to a threshold sweep over
+38 images, and the fix that needs no policy at all is to raise extraction recall
+so the guard never has to arbitrate.
+
+**1028 tests pass, 14 skipped** (20 new).

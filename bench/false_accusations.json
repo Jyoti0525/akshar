@@ -1,0 +1,1187 @@
+[
+  {
+    "image": "agarbati.webp",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.DATE.PRESENT",
+        "field": "mfg_date",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "bajaj.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "country_of_origin",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "camlin.webp",
+    "blocking": 3,
+    "false": 1,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.MRP.OVERSTICKER",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "camlinbrush.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "batch",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "cheese.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "coconut_oil.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "expiry_date",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "country_of_origin",
+      "expiry_date",
+      "generic_name",
+      "mfg_date",
+      "mrp"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "doms.webp",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "frshcream.jpg",
+    "blocking": 2,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "country_of_origin",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "country_of_origin",
+      "generic_name",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "TRUE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "ghee.jpg",
+    "blocking": 2,
+    "false": 2,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "FALSE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "gillete.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "generic_name",
+      "importer",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "goodday.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "batch",
+      "expiry_date",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "goodday_butter.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "batch",
+      "expiry_date",
+      "mfg_date",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "gulabjal.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "mrp",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "happyhappy.png",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "batch",
+      "expiry_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "honey.jpg",
+    "blocking": 2,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "generic_name",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "TRUE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "jimjam.jpg",
+    "blocking": 4,
+    "false": 2,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "expiry_date",
+      "marketing_text",
+      "mfg_date",
+      "mrp",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.NETQTY.PRESENT",
+        "field": "net_quantity",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.MRP.OVERSTICKER",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.READABLE.THROUGH_CONTENTS",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "lipbalm.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "manufacturer",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "liquid_detergent.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "matches.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "mfg_date",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "mdhpavmasala.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "batch",
+      "mfg_date",
+      "mrp",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "expiry_date",
+      "mfg_date",
+      "mrp"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "milksoap.jpg",
+    "blocking": 2,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "expiry_date",
+      "generic_name",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "TRUE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "namkeen.webp",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "country_of_origin",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "papad.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "parleg.jpg",
+    "blocking": 1,
+    "false": 1,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "pencilbox.webp",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "country_of_origin",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "pickle.jpg",
+    "blocking": 3,
+    "false": 1,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "rice.jpg",
+    "blocking": 2,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "expiry_date",
+      "generic_name",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "TRUE-blank-on-pack",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE-blank-on-pack",
+        "was_extracted": true
+      }
+    ]
+  },
+  {
+    "image": "rocksalt.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "generic_name",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "packer"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "santoor.jpg",
+    "blocking": 2,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "country_of_origin",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "country_of_origin",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "TRUE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "santoor1.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": true,
+    "extracted": [
+      "country_of_origin",
+      "expiry_date",
+      "manufacturer",
+      "mrp",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "shampoo.jpg",
+    "blocking": 2,
+    "false": 1,
+    "guard_withheld": false,
+    "extracted": [
+      "manufacturer",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.DATE.PRESENT",
+        "field": "mfg_date",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "shampoo2.webp",
+    "blocking": 1,
+    "false": 1,
+    "guard_withheld": false,
+    "extracted": [
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "FALSE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "skin.jpg",
+    "blocking": 4,
+    "false": 1,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "manufacturer",
+      "mrp",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.NETQTY.PRESENT",
+        "field": "net_quantity",
+        "verdict": "TRUE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.DATE.PRESENT",
+        "field": "mfg_date",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.READABLE.THROUGH_CONTENTS",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "sugar.jpg",
+    "blocking": 0,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "packer"
+    ],
+    "accusations": []
+  },
+  {
+    "image": "surfexcel.webp",
+    "blocking": 4,
+    "false": 2,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "country_of_origin",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.MRP.PRESENT",
+        "field": "mrp",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.QTY.WHEN_PACKED",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "udadpapad.jpg",
+    "blocking": 1,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "batch",
+      "consumer_care",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
+  },
+  {
+    "image": "venus_creme.webp",
+    "blocking": 2,
+    "false": 0,
+    "guard_withheld": false,
+    "extracted": [
+      "mfg_date",
+      "mrp",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "expiry_date",
+      "generic_name",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "TRUE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
+  },
+  {
+    "image": "whisper.jpg",
+    "blocking": 3,
+    "false": 3,
+    "guard_withheld": false,
+    "extracted": [
+      "consumer_care",
+      "mfg_date",
+      "net_quantity",
+      "other"
+    ],
+    "printed": [
+      "consumer_care",
+      "expiry_date",
+      "generic_name",
+      "manufacturer",
+      "mfg_date",
+      "mrp",
+      "net_quantity"
+    ],
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.MRP.PRESENT",
+        "field": "mrp",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "FALSE",
+        "was_extracted": true
+      }
+    ]
+  }
+]

@@ -552,7 +552,27 @@ patterns:
     devanagari: 'उपभोक्ता\s*(सेवा|शिकायत)'
 
   consumer_care_phone:                   # Rule 6(2) — telephone is mandatory
-    latin: '(?i)(\+?91[\s\-]?)?(1800[\s\-]?\d{3}[\s\-]?\d{4}|[6-9]\d{9}|0\d{2,4}[\s\-]?\d{6,8})'
+    # Rewritten 2026-09-10 against the 19 telephone numbers actually printed on
+    # the 38 labelled declaration panels. The previous pattern matched **8 of
+    # the 19**, and it was wrong in both directions at once.
+    #
+    # It missed every common Indian helpline grouping: `1800-10-22-221` (HUL),
+    # `1800 425 444 444` (ITC), `1-800-4254449` (Britannia), `022-6691 6929`
+    # (Parle), `(022) 68404021` (Lijjat), `+91-75064-96604` (Plum). Rule 6(2)
+    # makes the telephone mandatory, so each miss is a high-severity FAIL
+    # against a pack that prints its helpline in plain sight.
+    #
+    # And with no digit boundaries it matched things that are not telephone
+    # numbers at all — `Lic. No. 10012022001320` and the barcode `8904150193600`
+    # both satisfied `[6-9]\d{9}` on a substring — so a pack declaring **no**
+    # telephone could pass Rule 6(2) on its FSSAI licence. That is the more
+    # dangerous of the two errors and the boundaries are why it is fixed.
+    #
+    # Three branches, each anchored between non-digits: toll-free (1800 or
+    # 1-800 plus 7-10 digits in any grouping), landline (STD code beginning 0,
+    # optionally bracketed, plus 6-8 digits in groups), and mobile (ten digits
+    # beginning 6-9, optionally +91, in at most three groups).
+    latin: '(?i)(?<![\d])(?:1[\s\-]?800[\s\-]?\d(?:[\s\-]?\d){6,9}|\(?0\d{2,4}\)?[\s\-]?\d{3,4}[\s\-]?\d{3,4}|(?:\+?91[\s\-]?)?[6-9]\d{4}[\s\-]?\d{5}|(?:\+?91[\s\-]?)?[6-9]\d{2}[\s\-]?\d{3}[\s\-]?\d{4}|(?:\+?91[\s\-]?)?[6-9]\d{9})(?![\d])'
 
   consumer_care_email:                   # Rule 6(2) — e-mail only if available
     latin: '(?i)[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}'

@@ -349,7 +349,12 @@ def test_a_stray_character_is_not_printed_information() -> None:
     cannot be asked to answer for our segmentation.
     """
     ds = declaration_set(
-        declaration("net_quantity", "500 g", box=Box(x=200, y=200, w=120, h=40)),
+        declaration(
+            "net_quantity",
+            "500 g",
+            box=Box(x=200, y=200, w=120, h=40),
+            numeral_box=Box(x=200, y=200, w=70, h=40),
+        ),
         declaration("other", "s", box=Box(x=400, y=205, w=8, h=12)),
     )
 
@@ -359,7 +364,12 @@ def test_a_stray_character_is_not_printed_information() -> None:
 def test_real_printed_matter_in_the_zone_is_still_reported() -> None:
     """So the filter above cannot be satisfied by ignoring everything."""
     ds = declaration_set(
-        declaration("net_quantity", "500 g", box=Box(x=200, y=200, w=120, h=40)),
+        declaration(
+            "net_quantity",
+            "500 g",
+            box=Box(x=200, y=200, w=120, h=40),
+            numeral_box=Box(x=200, y=200, w=70, h=40),
+        ),
         declaration("other", "NO ARTIFICIAL COLOURS", box=Box(x=340, y=205, w=180, h=30)),
     )
 
@@ -375,11 +385,91 @@ def test_a_declarations_own_label_does_not_crowd_it() -> None:
     counted as printed information crowding the declaration it belongs to.
     """
     ds = declaration_set(
-        declaration("net_quantity", "Net Wt. 500 g", box=Box(x=200, y=200, w=240, h=40)),
+        declaration(
+            "net_quantity",
+            "Net Wt. 500 g",
+            box=Box(x=200, y=200, w=240, h=40),
+            numeral_box=Box(x=330, y=200, w=70, h=40),
+        ),
         declaration("other", "Net Wt.", box=Box(x=200, y=200, w=100, h=40)),
     )
 
     assert clear_space.check(_rule("LMPC.NETQTY.EXCLUSION_ZONE"), ds, CTX, pack).status == "PASS"
+
+
+def test_no_numeral_box_means_no_zone_rather_than_a_guessed_one() -> None:
+    """Rule 8(1)'s proviso is measured in numeral heights. No numerals, no zone.
+
+    This used to fall back to the whole declaration box, and the zone is grown
+    outward from the anchor by one anchor-height above and below and two to
+    either side — so anchoring on the entire line swept an area several times
+    the statutory one and collected text printed nowhere near the figures.
+
+    Measured on the 38 labelled panels 2026-09-10: **14 of the 18 packs this
+    rule failed were measured that way.** `Declaration.numeral_height_px`
+    already states the convention — a fabricated height costs someone a false
+    violation — and a fabricated exclusion zone costs the same thing.
+
+    The intruder here is real printed matter, well inside a zone computed the
+    old way and well outside the numerals. The honest answer is NO_DATA.
+    """
+    ds = declaration_set(
+        declaration("net_quantity", "Net Quantity : 26 KG", box=Box(x=100, y=100, w=1200, h=260)),
+        declaration("other", "BEST BEFORE 12 MONTHS", box=Box(x=100, y=430, w=600, h=60)),
+    )
+
+    outcome = clear_space.check(_rule("LMPC.NETQTY.EXCLUSION_ZONE"), ds, CTX, pack)
+    assert outcome.status == "NO_DATA"
+    assert "numeral" in (outcome.detail or outcome.found or "").lower()
+
+
+CONSUMER_CARE_PHONES = [
+    "TOLL FREE: 1800-10-22-221,",  # HUL Levercare
+    "CONSUMER RELATIONS ON 1800-202-1364",  # P&G
+    "Ph: 1800 425 444 444",  # ITC
+    "PHONE NO.:022-6691 6929",  # Parle
+    "+91 8750476476",  # The Derma Co
+    "Tel: 1-800-2741250 (toll free)",  # DOMS
+    "Tel: 022-6655 7007",  # Camlin
+    "Customer Care No. 9759105889",  # Nakur pickle
+    "Customer Care 1800 1033 611",  # Parag cheese
+    "Ph.: (Toll Free) 1-800-4254449",  # Britannia
+    "1800 258 3333 (Toll-free)",  # Amul
+    "or Tel. No. (022) 68404021",  # Lijjat
+    "phone: +91-75064-96604",  # Plum
+]
+
+NOT_PHONE_NUMBERS = [
+    "fssai Lic. No. 10012022001320",
+    "FSSAI NO. : 12421012002766",
+    "8 901719 112706",
+    "8904150193600",
+    "Mumbai, MH-400057",
+    "Date of Pkg.: 28/01/2021",
+    "MRP. Rs : 1820/-",
+]
+
+
+@pytest.mark.parametrize("line", CONSUMER_CARE_PHONES)
+def test_a_printed_helpline_is_read_as_a_telephone_number(line: str) -> None:
+    """Rule 6(2) makes the telephone mandatory, so a miss here is a high FAIL.
+
+    Every string is transcribed from one of the 38 labelled declaration panels.
+    The pattern this replaced matched 8 of the 19 real numbers on those packs
+    and failed the rest for declaring no telephone, in plain sight of one.
+    """
+    assert pack.pattern("consumer_care_phone").matches(line), line
+
+
+@pytest.mark.parametrize("line", NOT_PHONE_NUMBERS)
+def test_a_licence_number_is_not_a_telephone_number(line: str) -> None:
+    """The error in the other direction, and the worse one.
+
+    With no digit boundaries the old pattern matched a substring of an FSSAI
+    licence and of a barcode, so a pack declaring NO consumer-care telephone
+    could satisfy Rule 6(2) on its licence number.
+    """
+    assert not pack.pattern("consumer_care_phone").matches(line), line
 
 
 # ---------------------------------------------------------------------------
@@ -388,7 +478,6 @@ def test_a_declarations_own_label_does_not_crowd_it() -> None:
 # All four measured 2026-09-10 over 122 field photographs, where the presence
 # rules produced 48 of 100 blocking FAILs.
 # ---------------------------------------------------------------------------
-
 
 
 def _a_label_read_well_enough():
@@ -424,9 +513,9 @@ def test_a_label_the_recogniser_dropped_one_character_from_is_still_located() ->
 @pytest.mark.parametrize(
     ("rule_id", "printed"),
     [
-        ("LMPC.NETQTY.PRESENT", "ADMTFACE orc a 189 NET QOUANTITY 100g"),   # inserted O
+        ("LMPC.NETQTY.PRESENT", "ADMTFACE orc a 189 NET QOUANTITY 100g"),  # inserted O
         ("LMPC.CARE.PRESENT", "CONSUME CARE OFICE GREEN CENTRE 1800 209 0102"),  # dropped R
-        ("LMPC.MFR.PRESENT", "USR (per g) Maketed By: NDSPIRATION FOP"),     # dropped r
+        ("LMPC.MFR.PRESENT", "USR (per g) Maketed By: NDSPIRATION FOP"),  # dropped r
     ],
 )
 def test_one_mis_read_character_does_not_make_a_declaration_absent(
@@ -496,9 +585,7 @@ def test_a_foreign_origin_still_asks_for_the_importer() -> None:
         raw_text=printed,
     )
 
-    assert conditional_present.check(
-        _rule("LMPC.IMPORTER.PRESENT"), ds, CTX, pack
-    ).status == "FAIL"
+    assert conditional_present.check(_rule("LMPC.IMPORTER.PRESENT"), ds, CTX, pack).status == "FAIL"
 
 
 def test_an_officer_who_says_it_is_imported_is_still_believed() -> None:
@@ -515,9 +602,10 @@ def test_an_officer_who_says_it_is_imported_is_still_believed() -> None:
     )
     imported = CTX.model_copy(update={"is_imported": True})
 
-    assert conditional_present.check(
-        _rule("LMPC.IMPORTER.PRESENT"), ds, imported, pack
-    ).status == "FAIL"
+    assert (
+        conditional_present.check(_rule("LMPC.IMPORTER.PRESENT"), ds, imported, pack).status
+        == "FAIL"
+    )
 
 
 def test_an_uncaptioned_generic_name_is_referred_and_not_reported() -> None:

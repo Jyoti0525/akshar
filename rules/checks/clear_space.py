@@ -73,7 +73,36 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
     for subject in subjects:
         # The proviso measures from the NUMERALS, not from the whole
         # declaration including any qualifier text.
-        anchor = subject.numeral_box or subject.box
+        #
+        # No numeral box, no measurement. This used to fall back to
+        # `subject.box`, and the fallback was manufacturing violations rather
+        # than finding them: the zone is grown from the anchor's own edges by
+        # one anchor-HEIGHT above and below and two to either side, so anchoring
+        # on `Net Quantity : 26 KG` — 1373x277 px on `rice.jpg`, where the
+        # numerals are about 60 px tall — swept a zone four to five times the
+        # statutory one in every direction and collected text printed nowhere
+        # near the figures. Measured on the 38 labelled panels 2026-09-10:
+        # **14 of the 18 packs this rule failed were measured that way.**
+        #
+        # `Declaration.numeral_height_px` already states the rule this now
+        # follows: "None means the figures were not separable, and the height
+        # rules then return NO_DATA. That is the honest answer [...] a
+        # fabricated height costs someone a false violation." A fabricated
+        # exclusion zone costs exactly the same thing, and Rule 8(1)'s proviso
+        # is defined in numeral heights — without them there is no zone to
+        # compute, only one to invent.
+        if subject.numeral_box is None:
+            outcome = CheckOutcome.no_data(
+                "The numerals of the quantity declaration could not be separated from "
+                "the rest of the line, and Rule 8(1)'s proviso is measured in numeral "
+                "heights. Re-photograph the declaration panel filling the frame."
+            )
+            rank = {"FAIL": 0, "REVIEW": 1, "NO_DATA": 2, "PASS": 3}
+            if worst is None or rank[outcome.status] < rank[worst.status]:
+                worst = outcome
+            continue
+
+        anchor = subject.numeral_box
         zone = _zone(anchor, vertical, horizontal)
 
         intruders: list[str] = []
@@ -100,11 +129,7 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
             if not _SUBSTANTIVE.search(other.text):
                 continue  # not printed information -- see `_SUBSTANTIVE`
             # Text on another panel cannot intrude on this panel's clear space.
-            if (
-                anchor.panel_id
-                and other.box.panel_id
-                and anchor.panel_id != other.box.panel_id
-            ):
+            if anchor.panel_id and other.box.panel_id and anchor.panel_id != other.box.panel_id:
                 continue
             if other.box.intersects(anchor):
                 continue  # overlapping boxes are the same declaration read twice
