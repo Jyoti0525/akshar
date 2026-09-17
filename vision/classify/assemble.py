@@ -34,7 +34,7 @@ from contracts import (
     LabelGeometry,
     SourceChannel,
 )
-from vision.classify import regex_tier
+from vision.classify import continuation, regex_tier
 from vision.classify.associate import Association, associate
 from vision.classify.regex_tier import FieldGuess
 from vision.measure.orientation import glyph_axis
@@ -259,10 +259,39 @@ def from_lines(
         # label for a split our own detector introduced.
         demoted.add(pair.label)
 
+    # An address is a declaration, not a caption. Rule 6(1)(a)'s name-and-address
+    # and Rule 6(2)'s consumer care wrap over five or six detected regions; only
+    # the first carries the words that name the field, and until this ran the
+    # other five landed in `other` and never reached a rule. See
+    # `vision.classify.continuation`.
+    #
+    # Resolved AFTER association, and told what association already took. A
+    # price printed under a consumer-care block is geometrically the next line
+    # of it; it is in fact the MRP, and the block must not swallow it.
+    body: dict[int, list[int]] = {}
+    absorbed: set[int] = set()
+    reserved = frozenset(joined) | frozenset(demoted)
+    for cont in continuation.find(lines, guesses, reserved=reserved):
+        body.setdefault(cont.anchor, []).append(cont.line)
+        absorbed.add(cont.line)
+
     declarations: list[Declaration] = []
     for index, (line, guess) in enumerate(zip(lines, guesses, strict=True)):
         if not line.text.strip():
             continue
+
+        # Emitted as part of the block above it. Its text still reaches
+        # `raw_text`, so a locate pattern can still find anything in it.
+        if index in absorbed:
+            continue
+
+        if index in body:
+            line = continuation.merge(line, [lines[i] for i in sorted(body[index])])
+            guess = FieldGuess(
+                guess.field,
+                guess.confidence,
+                f"{guess.reason}; {len(body[index])} further line(s) of the same block joined",
+            )
 
         pair = joined.get(index)
         if pair is not None:

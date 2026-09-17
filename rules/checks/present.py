@@ -62,7 +62,22 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
         # Only where a caption is genuinely optional, and only on a channel we
         # had to read ourselves: on `listing_text` the field is either in the
         # listing or it is not.
-        if rule.opt("uncaptioned_form_is_lawful") and ds.has_pixels():
+        # Where the rule names one, an uncaptioned form must actually be VISIBLE
+        # before its absence is softened. Rule 6(1)(b)'s generic name names none
+        # -- nothing distinguishes an uncaptioned commodity name from marketing
+        # copy, so the doubt is unconditional. Rule 6(1)(a)'s name-and-address
+        # names `name_and_address_form`, because a company and a pin code are
+        # recognisable on their own: a pack that shows one has declared
+        # something we merely failed to caption, and a pack that shows neither
+        # has declared nothing. `rice.jpg` prints `Mfg & Consumer Cared By:` and
+        # then stops, and it must go on failing.
+        uncaptioned = rule.opt("uncaptioned_ref")
+        visible = True
+        if uncaptioned:
+            form = pack.pattern(uncaptioned)
+            visible = form is not None and form.matches(searchable_text(ds, fields))
+
+        if rule.opt("uncaptioned_form_is_lawful") and ds.has_pixels() and visible:
             return CheckOutcome(
                 status="REVIEW",
                 found=None,

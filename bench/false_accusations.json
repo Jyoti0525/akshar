@@ -32,7 +32,7 @@
   },
   {
     "image": "bajaj.jpg",
-    "blocking": 1,
+    "blocking": 2,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -57,13 +57,19 @@
         "field": "consumer_care",
         "verdict": "TRUE",
         "was_extracted": false
+      },
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
       }
     ]
   },
   {
     "image": "camlin.webp",
-    "blocking": 3,
-    "false": 1,
+    "blocking": 2,
+    "false": 0,
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
@@ -81,12 +87,6 @@
       "net_quantity"
     ],
     "accusations": [
-      {
-        "rule": "LMPC.MFR.PRESENT",
-        "field": "manufacturer",
-        "verdict": "FALSE",
-        "was_extracted": false
-      },
       {
         "rule": "LMPC.MRP.OVERSTICKER",
         "field": null,
@@ -282,6 +282,7 @@
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
+      "marketing_text",
       "mfg_date",
       "mrp",
       "net_quantity",
@@ -432,8 +433,8 @@
   },
   {
     "image": "jimjam.jpg",
-    "blocking": 4,
-    "false": 2,
+    "blocking": 3,
+    "false": 1,
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
@@ -454,12 +455,6 @@
       "net_quantity"
     ],
     "accusations": [
-      {
-        "rule": "LMPC.MFR.PRESENT",
-        "field": "manufacturer",
-        "verdict": "FALSE",
-        "was_extracted": false
-      },
       {
         "rule": "LMPC.NETQTY.PRESENT",
         "field": "net_quantity",
@@ -666,8 +661,8 @@
   },
   {
     "image": "parleg.jpg",
-    "blocking": 1,
-    "false": 1,
+    "blocking": 0,
+    "false": 0,
     "guard_withheld": false,
     "extracted": [
       "batch",
@@ -685,14 +680,7 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.MFR.PRESENT",
-        "field": "manufacturer",
-        "verdict": "FALSE",
-        "was_extracted": false
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "pencilbox.webp",
@@ -882,7 +870,7 @@
   },
   {
     "image": "shampoo.jpg",
-    "blocking": 2,
+    "blocking": 3,
     "false": 1,
     "guard_withheld": false,
     "extracted": [
@@ -912,6 +900,12 @@
         "field": "consumer_care",
         "verdict": "TRUE",
         "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CHAR.WIDTH_RATIO",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
       }
     ]
   },
@@ -1022,8 +1016,8 @@
   },
   {
     "image": "surfexcel.webp",
-    "blocking": 4,
-    "false": 2,
+    "blocking": 3,
+    "false": 1,
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
@@ -1042,12 +1036,6 @@
       "net_quantity"
     ],
     "accusations": [
-      {
-        "rule": "LMPC.MFR.PRESENT",
-        "field": "manufacturer",
-        "verdict": "FALSE",
-        "was_extracted": false
-      },
       {
         "rule": "LMPC.MRP.PRESENT",
         "field": "mrp",

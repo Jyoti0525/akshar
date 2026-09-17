@@ -518,6 +518,20 @@ patterns:
     devanagari: 'अधिकतम\s*खुदरा\s*मूल्य'
 
   # -- net quantity -----------------------------------------------------------
+  # A name and address with no caption on it. Used ONLY to decide whether a
+  # missing caption is worth alleging as a missing declaration -- never to
+  # satisfy Rule 6(1)(a) by itself, because it cannot tell a manufacturer from
+  # a packer from the address of a consumer-care cell, and those are different
+  # people on a notice.
+  #
+  # A company form AND an address marker, in either order, within 400
+  # characters of one another. Either alone is worthless: `LIMITED` appears in
+  # `INDEMNIFIES ITSELF FROM ANY UNAUTHORISED EXPORTS` and a six-digit run is an
+  # FSSAI licence as often as a pin code. The pin allows an internal space
+  # because the recogniser returns `396 230` as often as `396230`.
+  name_and_address_form:
+    latin: '(?is)(?:pvt\.?\s*ltd|private\s+limited|limited|\bltd\b|llp|industries|foods|enterprises|products|company|\bco\.\b|corporation|mills|dairy|udyog).{0,400}(?:(?<!\d)\d{3}\s?\d{3}(?!\d)|\broad\b|\bstreet\b|\bmarg\b|\bnagar\b|\bphase\b|\bsector\b|\bplot\b|\bdist\b|\bindustrial\b|\bestate\b|\bvillage\b|\btaluka\b|\bp\.?o\.?\b|\bpin\b|\bhouse\b)|(?:(?<!\d)\d{3}\s?\d{3}(?!\d)|\broad\b|\bstreet\b|\bmarg\b|\bnagar\b|\bphase\b|\bsector\b|\bplot\b|\bdist\b|\bindustrial\b|\bestate\b|\bvillage\b|\btaluka\b|\bp\.?o\.?\b|\bpin\b|\bhouse\b).{0,400}(?:pvt\.?\s*ltd|private\s+limited|limited|\bltd\b|llp|industries|foods|enterprises|products|company|\bco\.\b|corporation|mills|dairy|udyog)'
+
   net_quantity_locate:                   # permissive — only job is to FIND it
     latin: '(?i)(?<![A-Za-z0-9])(net\s*(wt|weight|qty|quantity)|net\s*cont(ent)?s?|qty\.?|contents)(?![A-Za-z])(?=[^0-9]|\d{1,5}(\.\d+)?\s*(mg|kg|ml|g|l|cm|mm|m|t|N|U)|$)'
     devanagari: '(शुद्ध|कुल)\s*(मात्रा|वजन|तौल)'
@@ -710,6 +724,27 @@ rules:
     field: manufacturer
     locate_ref: manufacturer_locate
     message: "Name and address of manufacturer, packer or importer not declared."
+    # Rule 6(1)(a) requires "the name and address of the manufacturer". It does
+    # NOT require the words "Manufactured by", and packs routinely print the
+    # name and address with no caption at all, or with a caption that belongs to
+    # something else above it.
+    #
+    # Measured over the 38 labelled panels 2026-09-10: this rule raised 13
+    # blocking FAILs and 7 were false. On four of those seven the company and
+    # its address were read perfectly and are in the scan record --
+    # `PARLE PRODUCTS PVT.LTD. NORTH LEVEL CROSSING, VILE PARLE, MUMBAI,
+    # MH-400057` sits under the caption `CONSUMER CARE CELL`. Alleging that
+    # Parle declares no manufacturer, on that evidence, is a statement about our
+    # vocabulary rather than about the pack.
+    #
+    # Same treatment as Rule 6(1)(b)'s uncaptioned generic name, with one guard
+    # the generic name cannot have: `uncaptioned_ref` must ALSO match before the
+    # finding is softened. A pack where nothing name-and-address shaped was read
+    # at all -- `rice.jpg`, which prints `Mfg & Consumer Cared By:` and then
+    # nothing -- matches no company form and no pin code, and still FAILS. The
+    # softening is bought by evidence, not granted by default.
+    uncaptioned_form_is_lawful: true
+    uncaptioned_ref: name_and_address_form
 
   - id: LMPC.GENERIC.PRESENT
     rule_ref: "Rule 6(1)(b)"
