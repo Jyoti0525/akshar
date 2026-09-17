@@ -227,7 +227,12 @@ def test_l4_is_the_only_unusable_tier():
         ("Drained wt. 350 g", "other"),
         ("Batch 24MRP07", "batch"),
         ("24MRP07", "batch"),
-        ("8901234567890", "other"),
+        # `barcode` since 2026-09-18, not `other`. The hard negative always
+        # recognised this as a barcode-length digit run — it simply had no name
+        # to give it, and a box on the barcode reading `other` makes an officer
+        # wonder what we failed to read. No rule targets `barcode`, so nothing
+        # about the verdict changes.
+        ("8901234567890", "barcode"),
         ("Best before 9 months from mfg", "expiry_date"),
         ("Mfg. Date: 03/2026", "mfg_date"),
         ("Manufactured on 03/2026", "mfg_date"),

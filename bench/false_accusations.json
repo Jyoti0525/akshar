@@ -11,7 +11,8 @@
       "manufacturer",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "storage_use"
     ],
     "printed": [
       "consumer_care",
@@ -36,6 +37,7 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "country_of_origin",
       "manufacturer",
       "mfg_date",
@@ -110,7 +112,8 @@
       "batch",
       "mfg_date",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -130,15 +133,19 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "batch",
       "consumer_care",
       "country_of_origin",
       "expiry_date",
+      "fssai_licence",
+      "ingredients",
       "manufacturer",
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "storage_use"
     ],
     "printed": [
       "batch",
@@ -159,6 +166,7 @@
     "guard_withheld": true,
     "extracted": [
       "expiry_date",
+      "ingredients",
       "other"
     ],
     "printed": [
@@ -188,7 +196,8 @@
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "consumer_care",
@@ -207,6 +216,7 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "batch",
       "country_of_origin",
       "expiry_date",
@@ -244,8 +254,10 @@
     "false": 2,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "batch",
       "expiry_date",
+      "fssai_licence",
       "mfg_date",
       "mrp",
       "net_quantity",
@@ -307,9 +319,11 @@
     "extracted": [
       "batch",
       "expiry_date",
+      "fssai_licence",
       "mfg_date",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -347,8 +361,11 @@
     "false": 0,
     "guard_withheld": true,
     "extracted": [
+      "barcode",
+      "ingredients",
       "mrp",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -377,6 +394,7 @@
       "batch",
       "expiry_date",
       "net_quantity",
+      "nutrition",
       "other"
     ],
     "printed": [
@@ -398,10 +416,13 @@
     "extracted": [
       "batch",
       "expiry_date",
+      "ingredients",
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "nutrition",
+      "other",
+      "storage_use"
     ],
     "printed": [
       "batch",
@@ -433,16 +454,18 @@
   },
   {
     "image": "jimjam.jpg",
-    "blocking": 3,
+    "blocking": 2,
     "false": 1,
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
       "expiry_date",
+      "fssai_licence",
       "marketing_text",
       "mfg_date",
       "mrp",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -462,12 +485,6 @@
         "was_extracted": false
       },
       {
-        "rule": "LMPC.MRP.OVERSTICKER",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
-      },
-      {
         "rule": "LMPC.READABLE.THROUGH_CONTENTS",
         "field": null,
         "verdict": "needs-eye",
@@ -481,6 +498,7 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "batch",
       "consumer_care",
       "country_of_origin",
@@ -548,7 +566,8 @@
       "batch",
       "mfg_date",
       "mrp",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -569,6 +588,7 @@
       "mfg_date",
       "mrp",
       "net_quantity",
+      "nutrition",
       "other"
     ],
     "printed": [
@@ -600,6 +620,7 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "consumer_care",
       "country_of_origin",
       "manufacturer",
@@ -638,6 +659,7 @@
       "manufacturer",
       "mfg_date",
       "net_quantity",
+      "nutrition",
       "other"
     ],
     "printed": [
@@ -670,6 +692,7 @@
       "mfg_date",
       "mrp",
       "net_quantity",
+      "nutrition",
       "other"
     ],
     "printed": [
@@ -693,7 +716,8 @@
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "consumer_care",
@@ -759,7 +783,8 @@
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "expiry_date",
@@ -789,12 +814,16 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "batch",
       "consumer_care",
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "nutrition",
+      "other",
+      "storage_use",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -819,7 +848,9 @@
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "storage_use",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -874,6 +905,7 @@
     "false": 1,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "manufacturer",
       "mrp",
       "net_quantity",
@@ -919,7 +951,8 @@
       "manufacturer",
       "mfg_date",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "batch",
@@ -945,6 +978,7 @@
     "false": 1,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "batch",
       "consumer_care",
       "manufacturer",
@@ -996,10 +1030,13 @@
       "batch",
       "consumer_care",
       "expiry_date",
+      "fssai_licence",
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "nutrition",
+      "other",
+      "storage_use"
     ],
     "printed": [
       "batch",
@@ -1065,10 +1102,13 @@
       "batch",
       "consumer_care",
       "expiry_date",
+      "fssai_licence",
+      "ingredients",
       "manufacturer",
       "mfg_date",
       "mrp",
       "net_quantity",
+      "nutrition",
       "other"
     ],
     "printed": [
@@ -1099,7 +1139,8 @@
       "mfg_date",
       "mrp",
       "net_quantity",
-      "other"
+      "other",
+      "storage_use"
     ],
     "printed": [
       "expiry_date",
@@ -1132,7 +1173,8 @@
       "consumer_care",
       "mfg_date",
       "net_quantity",
-      "other"
+      "other",
+      "unit_sale_price"
     ],
     "printed": [
       "consumer_care",

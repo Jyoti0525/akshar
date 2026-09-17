@@ -314,7 +314,11 @@ def _hard_negative(text: str) -> FieldGuess | None:
 
     stripped = text.strip()
     if _BARCODE.fullmatch(stripped.replace(" ", "")):
-        return FieldGuess("other", 0.80, "a barcode-length digit run, not a price or quantity")
+        # Named rather than left as `other` since 2026-09-18. It was always
+        # recognised as a barcode here; calling it one puts that on the
+        # annotated photograph instead of making an officer guess why a box on
+        # the barcode says `other`. No rule targets `barcode`.
+        return FieldGuess("barcode", 0.80, "a barcode-length digit run, not a price or quantity")
 
     # A batch code containing the literal string MRP.
     #
@@ -337,6 +341,111 @@ def _hard_negative(text: str) -> FieldGuess | None:
             f"alphanumeric batch code {candidate.group(0)!r}; "
             f"the line declares no price or quantity of its own",
         )
+
+    return _non_statutory(stripped)
+
+
+# ---------------------------------------------------------------------------
+# Present on the panel, and not a declaration Rule 6(1) asks for.
+# ---------------------------------------------------------------------------
+
+_DECLARATION_CAPTION = re.compile(
+    r"(?i)\b(m\.?r\.?p|max(imum)?\s*retail|net\s*(wt|weight|qty|quantity|content)"
+    r"|manufactur|marketed\s*by|packed\s*by|imported\s*by|consumer\s*care|customer\s*care"
+    r"|batch|lot\s*no|best\s*before|use\s*by|mfg|mfd|pkd|country\s*of\s*origin)\b"
+)
+"""A line carrying one of these belongs to the declaration patterns, full stop.
+
+Checked first and it is the whole safety of this block. Everything below names
+something that is NOT a declaration, and a name assigned here is assigned
+*before* any declaration pattern is tried — so a rule that fired on a line
+carrying `Net Wt. 500 g` would take the net quantity out of the engine's reach
+entirely. Nothing gets a non-statutory name while a declaration caption is on
+the line with it."""
+
+_USP_CAPTION = re.compile(
+    r"(?i)(\bunit\s*(sale\s*)?price|\busp\b"
+    r"|price\s*per\s*(g|gm|kg|ml|l|n|pc|piece|number|pad|unit))"
+)
+_USP_RATE = re.compile(
+    r"(?i)(rs\.?|₹|र)\s*\d+(?:[.,]\d{1,3})?\s*(/|per)\s*"
+    r"(g|gm|kg|ml|l|n|pc|piece|number|pad|unit)\b"
+)
+_BARE_PRICE = re.compile(
+    r"(?i)(rs\.?|₹|र)\s*\d+(?:[.,]\d{1,2})?(?![\d.,])"
+    r"(?!\s*(/|per)\s*(g|gm|kg|ml|l|n|pc|piece|number|pad|unit))"
+)
+"""A price that is NOT a rate, and the reason the two are separated.
+
+`*₹ 10 @ ₹0.22/g` is santoor1's coded price line: the retail sale price and the
+unit sale price printed together with no caption between them. Claiming it for
+the unit price would cost the pack its MRP, so a line carrying any non-rate
+price falls through to the declaration patterns.
+
+`(?![\\d.,])` matters and was not obvious. Without it `Rs. 0.17 per g` matches:
+the engine backtracks the amount to `0.1`, the rate lookahead then sees `7 per
+g` instead of ` per g`, and a unit rate is read as a bare price."""
+
+_NUTRITION = re.compile(
+    r"(?i)\b(nutrition\w*|nutritive|energy|protein|carbohydrate|sugars?|"
+    r"total\s*fat|saturated|trans\s*fat|monounsaturat\w*|polyunsaturat\w*|"
+    r"cholesterol|sodium|potassium|calcium|iron|phosphorus|vitamin|"
+    r"serving\s*size|servings?\s*per|kcal|\brda\b|dietary\s*allowance|"
+    r"per\s*100\s*(g|ml)|amount\s*per)\b"
+)
+_INGREDIENTS = re.compile(
+    r"(?i)\b(ingredients?|emulsifier|preservative|antioxidant|raising\s*agent|"
+    r"acidity\s*regulat\w*|stabili[sz]er|anticaking|humectant|"
+    r"artificial\s*(flavour|colour)|nature\s*identical|\bins\s*\d{3}|"
+    r"contains\s+(wheat|milk|soy|nuts)|allergen)\b"
+)
+_STORAGE_USE = re.compile(
+    r"(?i)\b(store\s+(in|under|at|away)|storage\s*(condition|instruction)?s?\b|"
+    r"keep\s+(in|away|under|refrigerat\w*|out\s*of\s*reach)|refrigerat\w*|"
+    r"directions?\s*for\s*use|how\s*to\s*use|recommended\s*usage|shake\s*well|"
+    r"once\s*opened|airtight|away\s*from\s*(sun|direct|heat)|do\s*not\s*freeze)\b"
+)
+_FSSAI = re.compile(r"(?i)(\bfssai\b|lic\.?\s*no\.?|licen[cs]e\s*no\.?|\b\d{14}\b)")
+
+
+def _non_statutory(text: str) -> FieldGuess | None:
+    """Name what the panel carries that is not a Rule 6(1) declaration.
+
+    **No rule targets any of these and none of them can change a verdict.** A
+    rule reaches its subject through the rulepack's `field:`/`fields:` keys, so
+    a name that appears in no rulepack entry is invisible to the engine. What it
+    changes is the annotated photograph, and that is worth changing on its own:
+    measured on `rocksalt.jpg`, 37 boxes read `other` and 17 of them are the
+    nutrition table, the storage note and the FSSAI licence. An officer looking
+    at a panel of `other` cannot tell *"we saw this and it is not a
+    declaration"* from *"we could not read this"*, and those are opposite
+    statements about the same pack.
+
+    Order is deliberate. The USP caption is decisive and comes before the
+    bare-price guard, because `UNIT SALE PRICE : ₹ 75.00` says what it is. The
+    bare-price guard then protects every uncaptioned price line. Only after
+    both does an uncaptioned rate get claimed.
+    """
+    if _DECLARATION_CAPTION.search(text):
+        return None
+
+    if _USP_CAPTION.search(text):
+        return FieldGuess("unit_sale_price", 0.85, "unit sale price, captioned as such")
+
+    if _BARE_PRICE.search(text):
+        return None  # a price that is not a rate; the declaration patterns decide
+
+    if _USP_RATE.search(text):
+        return FieldGuess("unit_sale_price", 0.80, "a price expressed per unit of quantity")
+
+    if _NUTRITION.search(text):
+        return FieldGuess("nutrition", 0.85, "nutritional information, not a declaration")
+    if _INGREDIENTS.search(text):
+        return FieldGuess("ingredients", 0.85, "ingredient list, not a declaration")
+    if _STORAGE_USE.search(text):
+        return FieldGuess("storage_use", 0.85, "storage or usage instruction, not a declaration")
+    if _FSSAI.search(text):
+        return FieldGuess("fssai_licence", 0.85, "an FSSAI licence number, not a declaration")
 
     return None
 

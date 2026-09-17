@@ -71,7 +71,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:  # pragma: no cover
     sys.path.insert(0, str(ROOT))
 
-from contracts import DeclarationSet, FieldName  # noqa: E402
+from contracts import NON_STATUTORY_FIELDS, DeclarationSet, FieldName  # noqa: E402
 from vision.pipeline import scan  # noqa: E402
 
 DATA = ROOT / "data" / "declaration_blocks"
@@ -171,7 +171,12 @@ def run_one(path: Path, entry: dict[str, Any]) -> dict[str, Any]:
 
     declarations: DeclarationSet | None = outcome.declarations
     found_all = list(declarations.declarations) if declarations else []
-    found = {d.field for d in found_all} - {"marketing_text", "other"}
+    # Subtract every name no rule asks for. The ground truth records statutory
+    # declarations and nothing else, so counting `nutrition` or `barcode` as an
+    # emitted field would score naming the nutrition table as inventing a
+    # declaration -- precision fell 0.98 -> 0.75 on identical extraction the day
+    # those names were added.
+    found = {d.field for d in found_all} - NON_STATUTORY_FIELDS
 
     hit, missed, spurious = score_presence(truth, found, blank)
     quality = outcome.quality

@@ -16,6 +16,7 @@ from contracts.context import (
     Surface,
 )
 from contracts.declarations import (
+    NON_STATUTORY_FIELDS,
     Box,
     Declaration,
     DeclarationSet,
@@ -40,6 +41,7 @@ from contracts.quality import (
 )
 
 __all__ = [
+    "NON_STATUTORY_FIELDS",
     "ADVICE",
     "Box",
     "CaptureQuality",

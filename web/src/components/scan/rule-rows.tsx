@@ -115,11 +115,19 @@ function Group({
   if (verdicts.length === 0) return null;
   return (
     <details className="rounded-lg border border-border bg-surface-2">
-      <summary className="flex min-h-touch cursor-pointer flex-col justify-center px-3 py-2">
-        <span className="text-base font-medium">
-          {verdicts.length} {title}
-        </span>
-        <span className="text-sm text-fg-muted">{reason}</span>
+      {/* The layout goes on a DIV inside the summary, never on the summary.
+          `display: flex` takes a `<summary>` out of `list-item`, and Chromium
+          then drops the disclosure marker and stops treating the element as the
+          toggle — the group renders, says "16 rules passed", and does nothing
+          when clicked. `list-item` is restored explicitly rather than left to
+          the user agent, because Tailwind's preflight resets it. */}
+      <summary className="min-h-touch cursor-pointer list-item px-3 py-2 marker:text-fg-muted">
+        <div className="flex flex-col justify-center">
+          <span className="text-base font-medium">
+            {verdicts.length} {title}
+          </span>
+          <span className="text-sm text-fg-muted">{reason}</span>
+        </div>
       </summary>
       <ul className="flex flex-col gap-2 p-2 pt-0">
         {verdicts.map((verdict) => (

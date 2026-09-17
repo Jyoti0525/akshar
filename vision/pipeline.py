@@ -28,7 +28,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from typing import Literal, Protocol
+from typing import Any, Literal, Protocol
 
 from contracts import CaptureQuality, DeclarationSet, Framing, SourceChannel
 from vision import degradation, runtime
@@ -133,6 +133,60 @@ class ScanOutcome:
     @property
     def total_ms(self) -> float:
         return sum(self.timings_ms.values())
+
+
+def _layout_head(
+    lines: list[TextRegion] | list[Any],
+    rectified: Image | None,
+    versions: dict[str, str],
+) -> dict[int, Any] | None:
+    """Tier two's opinion on the address-shaped lines regex left as `other`.
+
+    Returns `None` — meaning "regex tier only" — for every reason it cannot run,
+    and never raises. Four things have to be present: address-shaped candidates,
+    a rectified image to measure position against, the sentence embedder, and
+    the trained head. Any of them missing is an ordinary outcome, not an error,
+    and the scan proceeds on the patterns alone.
+
+    The embedder is `bge-small-en-v1.5`, already in `data/models/` for retrieval
+    and 384-dimensional, which is what `vision.classify.features.FEATURE_DIM`
+    was sized for.
+    """
+    from vision.classify import model_tier
+
+    if rectified is None or not lines:
+        return None
+    if not model_tier.is_available():
+        return None
+
+    try:
+        rows = list(lines)
+        candidates = assemble.address_candidates(rows, assemble.classify_lines(rows))
+        if not candidates:
+            return None
+
+        from retrieval import embed
+
+        if not embed.availability().ready:
+            return None
+        embedder = embed.shared()
+        vectors = embedder.encode_passages([rows[i].text for i in candidates])
+        embeddings = {index: vectors[n] for n, index in enumerate(candidates)}
+
+        height, width = rectified.shape[:2]
+        predictions = model_tier.classify_addresses(
+            rows,
+            embeddings,
+            candidates=candidates,
+            label_w=float(width),
+            label_h=float(height),
+        )
+    except Exception:  # pragma: no cover - the tier is optional by design
+        return None
+
+    if predictions:
+        versions.setdefault("field_classifier", model_tier.MODEL_FILENAME)
+    return predictions or None
 
 
 def _geometric_package_box(image: Image) -> XYWH | None:
@@ -424,6 +478,27 @@ def scan(
         )
 
     started = time.perf_counter()
+    # -- M5 tier two: the layout head, for addresses regex cannot name --------
+    #
+    # Rule 6(1)(a)'s name-and-address, Rule 6(2)'s consumer care, the packer and
+    # the importer are four declarations that look identical on the page: they
+    # are all a company and a street. `regex_tier` can only find them by their
+    # caption, so a pack printing `PARLE PRODUCTS PVT. LTD., VILE PARLE, MUMBAI
+    # 400057` under somebody else's heading is invisible to it. That is exactly
+    # what section 15b built this tier for.
+    #
+    # **This call did not exist until 2026-09-18.** `from_lines` has taken
+    # `model_tier_predictions` since the tier was written and nothing ever
+    # passed it, so the head was unreachable code: shipping the weights would
+    # have changed nothing. Wired now, so the moment a trained head is dropped
+    # into `data/models/` it is used.
+    #
+    # Absent weights, an absent embedder and a failure inside either are all the
+    # same outcome — regex tier only — because section 15b is explicit that
+    # shipping without this model is acceptable if the patterns separate the
+    # fields well enough. It must never be able to fail a scan.
+    predictions = _layout_head(ocr_result.lines, rectified.image, versions)
+
     declarations = assemble.from_lines(
         ocr_result.lines,
         scale,
@@ -434,6 +509,7 @@ def scan(
         rectified=rectified.method == "quad",
         is_embossed=is_embossed,
         model_versions=versions,
+        model_tier_predictions=predictions,
     )
     timings["classify"] = (time.perf_counter() - started) * 1000.0
 

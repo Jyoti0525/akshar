@@ -47,6 +47,13 @@ FieldName = Literal[
     "generic_name",
     "batch",
     "marketing_text",
+    # -- present on the panel, but not a declaration Rule 6(1) asks for -------
+    "nutrition",
+    "ingredients",
+    "storage_use",
+    "fssai_licence",
+    "barcode",
+    "unit_sale_price",
     "other",
 ]
 """Every field the extractor may emit.
@@ -55,6 +62,54 @@ FieldName = Literal[
 honest home and is never mislabelled `mrp` (section 16, annotation rules).
 `other` is what an annotator or model uses when a human cannot read the text —
 never a guess.
+
+---------------------------------------------------------------------------
+THE SIX NON-STATUTORY NAMES, AND WHY THEY ARE HERE
+---------------------------------------------------------------------------
+`nutrition`, `ingredients`, `storage_use`, `fssai_licence`, `barcode` and
+`unit_sale_price` are **not** declarations under the Packaged Commodities Rules
+and **no rule targets them**. A rule reaches its subject through the rulepack's
+own `field:`/`fields:` keys, so adding a name here cannot change a verdict; it
+changes only what the annotated photograph calls a box.
+
+That is worth doing on its own. Measured on `rocksalt.jpg`, 37 boxes were
+labelled `other` and 17 of them are the nutrition table, the storage note and
+the FSSAI licence — things with perfectly good names. An officer reading a panel
+of `other` cannot tell "we saw this and it is not a declaration" from "we could
+not read this", and those are opposite statements. The reference annotation the
+project was given labels all six.
+
+**What must not happen is the reverse.** `nutrition` carries numbers with units
+and `unit_sale_price` carries a price; if either were ever admitted as the net
+quantity or the retail sale price, a compliant pack would be judged on the wrong
+figure. They are separated here for exactly that reason, and
+`tests/unit/test_false_accusations.py` pins it.
+"""
+
+NON_STATUTORY_FIELDS: frozenset[str] = frozenset(
+    {
+        "nutrition",
+        "ingredients",
+        "storage_use",
+        "fssai_licence",
+        "barcode",
+        "unit_sale_price",
+        "marketing_text",
+        "other",
+    }
+)
+"""Names the extractor may emit that no rule under these Rules asks for.
+
+One definition, because two would drift. Anything scoring extraction against a
+declaration ground truth must subtract this set first, or naming the nutrition
+table counts as inventing a declaration: `bench/declaration_blocks.py` scored
+precision 0.98 before these names existed and 0.75 the moment they did, on
+identical extraction, purely because the labels record statutory declarations
+and nothing else.
+
+`marketing_text` and `other` were always in this category and were subtracted by
+hand at each call site. They are here now so the next name added has one obvious
+place to go.
 """
 
 Script = Literal["latin", "devanagari", "other"]
