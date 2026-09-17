@@ -514,7 +514,19 @@ patterns:
     # recogniser: `Declaration.text` is what an officer compares against the
     # photograph and it has to go on saying what we actually read. The optional
     # virama is because `ऱ्` appeared once, on `udadpapad.jpg`.
-    latin: '(?i)\b(max(imum)?\.?\s*retail\s*price|m\.?r\.?p\.?)\s*(rs\.?|[₹रऱ]्?\.?)\s*\d{1,3}([,\s]?\d{2,3})*(\.\d{1,2})?\s*.{0,6}(incl)'
+    #
+    # SEPARATORS AND SPACING ARE TYPOGRAPHY, NOT LAW.
+    # `MRP: ₹802.00 (Incl. Of All Taxes)` is Rule 2(m)'s form exactly, and it was
+    # referred for a human decision because the pattern allowed only whitespace
+    # between the label and the currency and the pack prints a colon. Packs print
+    # `MRP:`, `MRP -`, `M.R.P. :` and `MRP₹` interchangeably. Likewise the
+    # recogniser returns `300 .00` for `300.00` often enough to matter — a space
+    # it inserted, inside a figure the printer set solid.
+    #
+    # The ELEMENTS Rule 2(m) precribes are unchanged and still all required: the
+    # label, a currency, an amount, and the inclusive-of-taxes statement, in that
+    # order. Only the punctuation between them is relaxed.
+    latin: '(?i)\b(max(imum)?\.?\s*retail\s*price|m\.?r\.?p\.?)[\s:.\-]*(rs\.?|[₹रऱ]्?\.?)[\s:]*\d{1,3}([,\s]?\d{2,3})*(\s*\.\s*\d{1,2})?\s*.{0,8}(incl)'
     devanagari: 'अधिकतम\s*खुदरा\s*मूल्य'
 
   # -- net quantity -----------------------------------------------------------

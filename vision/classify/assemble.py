@@ -268,10 +268,30 @@ def from_lines(
     # Resolved AFTER association, and told what association already took. A
     # price printed under a consumer-care block is geometrically the next line
     # of it; it is in fact the MRP, and the block must not swallow it.
+    # Continuation is resolved against the guesses AS ASSOCIATION LEFT THEM, not
+    # as the classifier first made them. A price read as `MRP ₹` beside `150.00`
+    # becomes one `mrp` declaration at the figure's index, and that declaration
+    # has a qualifier — `(INCL. OF` / `ALL TAXES)` — wrapped underneath it. Until
+    # this used the effective field, the association's own result was invisible
+    # here, the qualifier was never joined, and Rule 2(m) referred a compliant
+    # price for a human decision because it could not see `incl. of all taxes`.
+    effective_guesses = list(guesses)
+    for value_index, pair in joined.items():
+        effective_guesses[value_index] = FieldGuess(
+            pair.field, guesses[pair.label].confidence * ASSOCIATION_CONFIDENCE, pair.reason
+        )
+    for label_index in demoted:
+        effective_guesses[label_index] = FieldGuess(
+            "other", guesses[label_index].confidence, guesses[label_index].reason
+        )
+
     body: dict[int, list[int]] = {}
     absorbed: set[int] = set()
-    reserved = frozenset(joined) | frozenset(demoted)
-    for cont in continuation.find(lines, guesses, reserved=reserved):
+    # `demoted` only: a label that association has already spent must not be
+    # re-absorbed as somebody's continuation. The VALUES stay available as
+    # anchors, because they are the declarations now.
+    reserved = frozenset(demoted)
+    for cont in continuation.find(lines, effective_guesses, reserved=reserved):
         body.setdefault(cont.anchor, []).append(cont.line)
         absorbed.add(cont.line)
 
