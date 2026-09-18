@@ -105,12 +105,27 @@ files**, and set
 at `corpus` covers both directories the tasks reference — 231 frames in
 `corpus/originals` and 248 in `corpus/images`.
 
-> ⚠️ **Add the storage. Do not press Sync Storage.**
+The wizard has four steps. On **Import Settings & Preview**, set two things so
+that this storage can never import anything:
+
+- **Leave "Recursive scan" off.** It is off by default and that is the important
+  guard. `iter_objects` uses `path.glob('*')` without it and then skips
+  directories, so a scan of `corpus` sees only the three loose files that
+  happen to sit there (`audit.json`, `audit_per_image.json`,
+  `review_sheet.jpg`) and cannot reach the photographs in `originals/` and
+  `images/` at all. Switching it on makes `rglob('*')` find all 479.
+- **File Filter Regex: `(?!)`** — a negative lookahead that can never match.
+  `iter_objects` skips any key the regex does not match, so this makes the set
+  of importable files empty regardless of anything else.
+
+> ⚠️ **This storage is a permission row, not a data source.**
 >
-> Adding the row is all the permission check needs. *Syncing* walks the
-> directory and imports every file as a **new task**, which would put a second
-> copy of all 479 photographs into the project — this time with no machine
-> proposals on them — and you would not notice until the task count read 958.
+> The tasks are already imported, from `tasks.json`, with their machine
+> proposals attached. Anything this storage imported would be a *second* copy of
+> the same photograph carrying no proposals, and the two would sit side by side
+> in the task list looking identical. The permission check reads only
+> `storage.path`; it never syncs. So there is no reason to press **Sync
+> Storage**, and two reasons not to.
 
 ## 3. Create the project
 
