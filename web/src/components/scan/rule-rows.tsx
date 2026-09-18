@@ -2,6 +2,7 @@ import { Badge, toneForStatus } from "@/components/ui/badge";
 import {
   PLAIN_STATUS,
   PLAIN_STATUS_MEANING,
+  fieldLabel,
   quantity,
   ruleLabel,
   ruleMeaning,
@@ -59,7 +60,7 @@ function Row({ verdict }: { verdict: Verdict }) {
           <p className="mt-0.5 text-base text-fg-muted">{verdict.message}</p>
           <p className="mt-0.5 text-sm text-fg-muted">
             <span title={verdict.rule_id}>{verdict.rule_ref || verdict.rule_id}</span>
-            {verdict.field ? <> · {verdict.field.replace(/_/g, " ")}</> : null}
+            {verdict.field ? <> · {fieldLabel(verdict.field)}</> : null}
             {verdict.severity ? <> · {verdict.severity} severity</> : null}
             {verdict.advisory ? (
               <>

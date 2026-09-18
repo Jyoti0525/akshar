@@ -296,7 +296,13 @@ export function Scanner() {
               photograph, its time and its location are already recorded.
             </Alert>
           ) : null}
-          {preview ? <Overlay src={preview} declarations={result.scan.declarations} /> : null}
+          {preview ? (
+            <Overlay
+              src={preview}
+              declarations={result.scan.declarations}
+              verdicts={result.scan.verdicts}
+            />
+          ) : null}
           <RuleRows verdicts={result.scan.verdicts} />
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">

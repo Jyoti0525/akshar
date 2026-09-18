@@ -60,3 +60,40 @@ def test_an_unknown_name_still_captions_rather_than_raising():
     """The fallback stays. An exhibit with one oddly-worded box beats an
     exhibit that failed to render because a field was added upstream."""
     assert field_label("some_future_field") == "Some future field"
+
+
+# ---------------------------------------------------------------------------
+# And the same table on the other side of the wire
+# ---------------------------------------------------------------------------
+
+
+def _web_field_labels() -> dict[str, str]:
+    """Parse `FIELD_LABELS` out of `web/src/lib/format.ts`.
+
+    Read as text rather than executed, the way `tests/test_boundaries.py` reads
+    imports and `tests/unit/test_schema.py` reads SQL: there is no JavaScript
+    test runner in this project, and the drift is worth catching anyway.
+    """
+    import pathlib
+    import re
+
+    root = pathlib.Path(__file__).resolve().parents[2]
+    source = (root / "web" / "src" / "lib" / "format.ts").read_text(encoding="utf-8")
+    body = re.search(
+        r"export const FIELD_LABELS: Record<string, string> = \{(.*?)\n\};", source, re.S
+    )
+    assert body, "FIELD_LABELS is no longer declared the way this test parses it"
+    return dict(re.findall(r'^\s*(\w+):\s*"([^"]*)",\s*$', body.group(1), re.M))
+
+
+def test_the_browser_calls_every_field_what_the_exhibit_calls_it():
+    """The screen and the printed exhibit are the same scan, so they say the same words.
+
+    Four places in the web app rendered a field by `field.replace(/_/g, " ")`,
+    so an officer comparing the screen against the exhibit saw `fssai licence`
+    on one and `FSSAI licence` on the other. A difference in wording between a
+    document and the tool that produced it is the kind of thing that gets asked
+    about in a hearing, and the answer "they are the same, it is just styling"
+    is one nobody should have to give.
+    """
+    assert _web_field_labels() == FIELD_LABELS

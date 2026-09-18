@@ -6,6 +6,7 @@ import { apiFetch } from "@/lib/api/client";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import { Label, Select } from "@/components/ui/field";
+import { fieldLabel } from "@/lib/format";
 import type { Declaration, DeclarationSet } from "@/lib/api/types";
 
 type FieldName = Declaration["field"];
@@ -74,7 +75,7 @@ export function CorrectionForm({
             <option value="">A declaration we missed entirely</option>
             {rows.map((declaration, index) => (
               <option key={index} value={index}>
-                {declaration.field.replace(/_/g, " ")} — {declaration.text.slice(0, 40)}
+                {fieldLabel(declaration.field)} — {declaration.text.slice(0, 40)}
               </option>
             ))}
           </Select>
@@ -85,7 +86,7 @@ export function CorrectionForm({
             <option value="">Choose the correct field…</option>
             {FIELDS.map((field) => (
               <option key={field} value={field}>
-                {field.replace(/_/g, " ")}
+                {fieldLabel(field)}
               </option>
             ))}
           </Select>

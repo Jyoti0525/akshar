@@ -1,5 +1,5 @@
 import { Table, THead, TR, TH, TD, Num, Empty } from "@/components/ui/table";
-import { millimetres, percent } from "@/lib/format";
+import { fieldLabel, millimetres, percent } from "@/lib/format";
 import type { DeclarationSet } from "@/lib/api/types";
 
 /**
@@ -39,7 +39,7 @@ export function DeclarationTable({ declarations }: { declarations: DeclarationSe
         ) : (
           rows.map((declaration, index) => (
             <TR key={`${declaration.field}-${index}`}>
-              <TD className="font-medium">{declaration.field.replace(/_/g, " ")}</TD>
+              <TD className="font-medium">{fieldLabel(declaration.field)}</TD>
               <TD lang={declaration.script === "devanagari" ? "hi" : "en"}>{declaration.text}</TD>
               <TD className="text-fg-muted">{declaration.script}</TD>
               <Num

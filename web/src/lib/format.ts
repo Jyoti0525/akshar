@@ -242,3 +242,53 @@ export function ruleLabel(ruleId: string): string {
     .replace(/_/g, " ")
     .replace(/(^|[·]\s)(\w)/g, (m) => m.toUpperCase());
 }
+
+/**
+ * What each declaration field is called, in a person's words.
+ *
+ * ---------------------------------------------------------------------------
+ * THE FOURTH COPY OF THIS TABLE, AND THE REASON IT IS WORTH ONE MORE
+ * ---------------------------------------------------------------------------
+ * Four places on this side of the wire rendered a field name by doing
+ * `field.replace(/_/g, " ")` — the overlay, the declaration table, the
+ * correction form and the rule rows. That is not a naming scheme, it is a
+ * string operation, and it produced `fssai licence`, `mrp` and `storage use`
+ * on screen while the server-rendered exhibit of the same scan said
+ * `FSSAI licence`, `MRP` and `Storage or usage instruction`.
+ *
+ * An officer comparing the screen with the printed exhibit has to be able to
+ * see that they are the same scan. So this mirrors `evidence/annotate.py`'s
+ * `FIELD_LABELS` exactly, and `tests/unit/test_annotate_labels.py` asserts the
+ * two agree and that neither has a name `contracts.FieldName` does not define.
+ */
+export const FIELD_LABELS: Record<string, string> = {
+  mrp: "MRP",
+  net_quantity: "Net quantity",
+  mfg_date: "Date of manufacture",
+  expiry_date: "Best before / expiry",
+  manufacturer: "Manufacturer",
+  packer: "Packer",
+  importer: "Importer",
+  consumer_care: "Consumer care",
+  country_of_origin: "Country of origin",
+  generic_name: "Generic name",
+  batch: "Batch",
+  marketing_text: "Marketing text",
+  nutrition: "Nutritional information",
+  ingredients: "Ingredients",
+  storage_use: "Storage or usage instruction",
+  fssai_licence: "FSSAI licence",
+  barcode: "Barcode",
+  unit_sale_price: "Unit sale price",
+  other: "Unclassified text",
+};
+
+export function fieldLabel(field: string | null | undefined): string {
+  if (!field) return "";
+  const known = FIELD_LABELS[field];
+  if (known) return known;
+  // The safety net, not the scheme: a field added to `contracts` and not here
+  // renders oddly rather than crashing the page.
+  const spaced = field.replace(/_/g, " ");
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
