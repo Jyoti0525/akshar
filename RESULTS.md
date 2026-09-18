@@ -4226,3 +4226,101 @@ rate of 3 in 231 is measurable; a precision figure is not, and neither is a size
 floor, until a real card has been photographed. Printing
 `data/marker_card/akshar_card_A4.png` is already on the outstanding list, and it
 is what makes this tunable rather than guessable.
+
+## 37 hand-drawn frames, and the metric that was measuring a drawing convention — 2026-09-18 (night)
+
+The first Label Studio export arrived: 37 frames, 265 declaration boxes, two
+hours of work. It is the project's second independent ground truth after the 38
+declaration panels, and the first at **box** level rather than field presence.
+
+### Neither model can be trained on it, and the scripts said so themselves
+
+`training/detector/convert.py`: **37 package boxes, zero panel polygons.** The
+RTMDet-Ins config selects its checkpoint on `segm_mAP`, which needs masks. There
+are none.
+
+`training/classifier/train.py` refused outright:
+
+```
+9 labelled address declarations
+  manufacturer 5   packer 1   importer 0   consumer_care 3
+Too few examples to train.
+```
+
+Both refusals are the tools working. A head trained on 9 examples across four
+classes, one of which has none, would confidently never predict `importer`.
+
+### The annotation is real work, which is worth recording
+
+Compared against the proposals each task started from:
+
+| | |
+|---|---|
+| annotations byte-identical to the machine's proposal | **0 / 37** |
+| machine boxes deleted | **671** |
+| boxes drawn by hand | **186** |
+| median time per frame | **172 s** (2 hours total) |
+
+Nothing was rubber-stamped. `docs/annotation-guide.md` warns that *"a pre-label
+you leave alone is a label you have asserted"*; that did not happen here.
+
+### The metric that lied
+
+Scored the obvious way — box matching at IoU ≥ 0.5 — the pipeline reports:
+
+    recall    88/265 = 33.2%
+    precision 88/1088 = 8.1%
+
+Both are artefacts. The two sides are drawing different things:
+
+    annotator boxes are 6.4x the area of the pipeline's
+    pipeline boxes sitting inside one annotator box: median 1, mean 2.3, max 51
+
+The guide says *one box per declaration*, and a consumer-care declaration is a
+four-line address. The pipeline emits **lines**, because that is what
+`vision/ocr/lines.py` assembles and what the classifier reads. A generous box
+around four lines and a tight box around the first line describe the same
+declaration and overlap at an IoU near 0.15. **Reporting that as a miss measures
+a drawing convention, not a defect** — and a "detector" at 8% precision would
+have sent someone chasing the wrong bug for a day.
+
+`bench/annotated_frames.py` therefore scores **containment**: did the pipeline
+put text inside the region the annotator marked, and did it give it the same
+name. `--iou` still prints the IoU view, with a pointer to the docstring, so the
+convention gap is visible rather than hidden.
+
+### What it actually says
+
+| | |
+|---|---|
+| pipeline put text inside the box | **209/265 = 78.9%** |
+| …and gave it the same name | **184/209 = 88.0%** |
+| end to end | **184/265 = 69.4%** |
+
+**And the number that matters, which the three above flatter.** 207 of the 265
+boxes are `other`, and both sides agreeing that a trademark notice is not a
+declaration is agreement about nothing anyone will be prosecuted over. On the 58
+boxes the annotator gave a real name:
+
+    24/58 = 41.4%
+
+That is the honest figure, and the per-field breakdown says where it goes:
+
+| field | found | named |
+|---|---|---|
+| `net_quantity` | 9/9 | **5/9** |
+| `barcode` | 6/6 | **1/6** |
+| `mrp` | 2/4 | **0/4** |
+| `batch` | 2/5 | **0/5** |
+| `expiry_date` | 1/3 | **0/3** |
+| `manufacturer` | 3/5 | 2/5 |
+| `nutrition` | 4/4 | 4/4 |
+
+The pipeline **finds** the text 78.9% of the time. It is naming it that fails,
+and it fails in one direction: `barcode → other` ×5, `net_quantity → other` ×4,
+`batch → other` ×2, `mrp → other` ×2. Only twice did it name something the
+annotator called `other`, and never did it swap one real field for another.
+
+That shape is the regex tier behaving as designed — high precision, low recall,
+`other` whenever nothing matched — and it is exactly the recall the layout head
+exists to add. Which is the thing that cannot be trained yet.

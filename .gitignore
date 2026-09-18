@@ -119,3 +119,7 @@ scratch/
 # Playwright MCP scratch output (screenshots, snapshots) — never part of the record.
 .playwright-mcp/
 web/.playwright-mcp/
+
+# Label Studio drops its exports in whatever directory you were in.
+# The copy that counts is data/annotations/, which is tracked.
+project-*-at-*.json
