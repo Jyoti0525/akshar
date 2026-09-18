@@ -39,6 +39,41 @@ export async function serverFetch<T>(path: string, query?: Query): Promise<T> {
   return parsed as T;
 }
 
+/** What `tryServerFetch` learned but could not return.
+ *
+ *  `status` is the HTTP status when the API answered, and `null` when it never
+ *  did — a DNS failure, the API not running, a build-time probe. The
+ *  distinction matters to any page that would otherwise report "this does not
+ *  exist" when what actually happened was "your session ended": the middleware
+ *  only checks that the session cookie is *present*, so an expired token walks
+ *  past it and arrives here as a 401. */
+export interface FetchResult<T> {
+  data: T | null;
+  status: number | null;
+}
+
+export async function tryServerFetchResult<T>(
+  path: string,
+  query?: Query,
+): Promise<FetchResult<T>> {
+  try {
+    return { data: await serverFetch<T>(path, query), status: 200 };
+  } catch (error) {
+    const digest = (error as { digest?: unknown } | null)?.digest;
+    if (digest === "DYNAMIC_SERVER_USAGE") return { data: null, status: null };
+
+    const status = error instanceof ApiError ? error.status : null;
+    const reason =
+      error instanceof ApiError
+        ? `${error.status} ${error.message}`
+        : error instanceof Error
+          ? `${error.name}: ${error.message}`
+          : String(error);
+    console.warn(`[akshar] GET /api/v1${path} failed — ${reason}`);
+    return { data: null, status };
+  }
+}
+
 /** Returns `null` instead of throwing on 401/403, for the several views that
  *  would rather render an empty state than a stack trace.
  *
@@ -47,7 +82,11 @@ export async function serverFetch<T>(path: string, query?: Query): Promise<T> {
  *  simply not running — into one identical grey panel that says "or". That is
  *  fine for the officer reading the screen and useless for whoever has to fix
  *  it, and the log line is the only place the distinction survives. It goes to
- *  the server's stdout, never to the page. */
+ *  the server's stdout, never to the page.
+ *
+ *  Use `tryServerFetchResult` instead where the *reason* changes what the page
+ *  should say — a 401 is not a 404. */
+
 export async function tryServerFetch<T>(path: string, query?: Query): Promise<T | null> {
   try {
     return await serverFetch<T>(path, query);

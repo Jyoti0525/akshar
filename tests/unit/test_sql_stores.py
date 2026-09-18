@@ -276,6 +276,65 @@ def _insert_sku(store, sku: SkuRecord) -> None:
         )
 
 
+def test_a_stored_measurement_comes_back_as_a_number(stores):
+    """`measured`, `threshold` and `tolerance` are floats on the way out.
+
+    They are `NUMERIC` columns, so Postgres hands them back as `Decimal`, and a
+    `Decimal` serialises to JSON as a **string**. `contracts.Verdict` declares
+    all three as `float | None`, so a store returning Decimals puts the API in
+    breach of its own schema.
+
+    Nothing caught it for a long time because the scan itself never takes this
+    path — a fresh scan returns the engine's own Python floats. Only the *saved*
+    record does, so `POST /scans` served `0.5` and `GET /scans/{id}` served
+    `"0.5"`, and the full-record page attached to a notice died with `toFixed is
+    not a function` while the result card beside it rendered perfectly.
+
+    Trivially true of the in-memory store, which is the point: the assertion is
+    written against the shared contract so that the Postgres run is held to it
+    too, and that is the run where it fails.
+    """
+    scans, _ = stores
+    scan_id = scans.save(_scan()).record.payload["id"]
+    scans.save_verdicts(
+        scan_id,
+        [
+            {
+                "rule_id": "LMPC.CHAR.WIDTH_RATIO",
+                "rule_ref": "Rule 7(3) proviso",
+                "status": "PASS",
+                "severity": "low",
+                "measured": 0.5,
+                "threshold": 0.3333,
+                "tolerance": None,
+                "unit": "ratio",
+            },
+            {
+                "rule_id": "LMPC.CONTRAST.NUMERALS",
+                "rule_ref": "Rule 9(1)(b)",
+                "status": "PASS",
+                "severity": "medium",
+                "measured": 4.46840290211378,
+                "threshold": 3.0,
+                "tolerance": 0.2,
+            },
+        ],
+    )
+
+    stored = scans.verdicts_for(scan_id)
+    for verdict in stored:
+        for field in ("measured", "threshold", "tolerance"):
+            value = verdict[field]
+            assert value is None or type(value) is float, (
+                f"{verdict['rule_id']}.{field} came back as {type(value).__name__}; "
+                f"contracts.Verdict declares it float | None, and a Decimal is "
+                f"serialised to JSON as a string"
+            )
+
+    assert stored[0]["measured"] == pytest.approx(0.5)
+    assert stored[1]["tolerance"] == pytest.approx(0.2)
+
+
 def test_verdicts_round_trip_with_their_advisory_and_suppression_flags(stores):
     """The dashboard reads these three fields and counts nothing else. Section 11."""
     scans, _ = stores

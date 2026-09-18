@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { tryServerFetch } from "@/lib/api/server";
+import { tryServerFetchResult } from "@/lib/api/server";
 import { VerdictHeader } from "@/components/scan/verdict-header";
 import { RuleRows } from "@/components/scan/rule-rows";
 import { DeclarationTable } from "@/components/scan/declaration-table";
@@ -32,9 +32,33 @@ interface ScanRecord {
  */
 export default async function ScanDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const record = await tryServerFetch<ScanRecord>(`/scans/${id}`);
+  const { data: record, status } = await tryServerFetchResult<ScanRecord>(`/scans/${id}`);
 
   if (!record) {
+    // A 401 is not a 404, and saying so is the difference between an officer
+    // signing in again and an officer believing the record was lost. The
+    // middleware only checks that the session cookie is *present*, so an
+    // expired token reaches this page and the API answers 401 — which read as
+    // "not on the server" until 2026-09-18.
+    if (status === 401 || status === 403) {
+      return (
+        <Alert tone="review" title="Your session has ended">
+          The record is still on the server — this browser is no longer signed in.{" "}
+          <Link href={`/login?next=/scan/${id}`} className="underline">
+            Sign in again
+          </Link>{" "}
+          to open it.
+        </Alert>
+      );
+    }
+    if (status === null) {
+      return (
+        <Alert tone="review" title="The server could not be reached">
+          This is a connection problem, not a missing record. The scan is still on the server if it
+          was taken online. Try again in a moment.
+        </Alert>
+      );
+    }
     return (
       <Alert tone="review" title="Not found on the server">
         This scan is not on the server. If it was taken offline it is still in the outbox on the

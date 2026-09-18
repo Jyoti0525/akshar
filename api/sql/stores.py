@@ -66,6 +66,10 @@ from api.repository import (
 from api.sql import tables as t
 from evidence.chain import ChainedRecord, append, from_row
 
+_MEASURED_COLUMNS = frozenset({"measured", "threshold", "tolerance"})
+"""The `NUMERIC` columns on `verdicts`. Module level rather than class level
+because the comprehension in `verdicts_for` cannot see class scope."""
+
 CHAIN_LOCK_KEY = zlib.crc32(b"akshar.scans.chain")
 """A stable 32-bit key for `pg_advisory_xact_lock`.
 
@@ -330,12 +334,38 @@ class SqlScanStore:
         return [from_row(_payload_from_row(row)) for row in rows]
 
     def verdicts_for(self, scan_id: UUID) -> list[dict[str, Any]]:
+        """Stored verdicts, with the measurements as numbers rather than Decimals.
+
+        `measured`, `threshold` and `tolerance` are `NUMERIC` columns, so the
+        driver hands them back as `Decimal`, and a `Decimal` is serialised to
+        JSON as a **string**. `contracts.Verdict` declares all three as
+        `float | None`, so the stored row was leaving this method in breach of
+        the API's own contract.
+
+        It was invisible from the scan itself: a fresh scan returns the engine's
+        Python floats and never touches this path. Only the saved record does,
+        which is why `GET /scans/{id}` served `"0.5"` where `POST /scans` served
+        `0.5`, and why the full-record page — the one attached to a notice —
+        crashed with `toFixed is not a function` while the result card beside it
+        rendered perfectly. Measured 2026-09-18 on the two ratio rules that
+        carry a measurement at tier C, `LMPC.CHAR.WIDTH_RATIO` and
+        `LMPC.CONTRAST.NUMERALS`.
+
+        Coerced here rather than in the browser, because a client that repairs
+        its server's types is a client that hides the breach from every other
+        consumer — the DOCX report and the PDF read the same rows.
+        """
         with self.engine.connect() as conn:
             rows = conn.execute(
                 select(t.verdicts).where(t.verdicts.c.scan_id == scan_id).order_by(t.verdicts.c.id)
             ).all()
         return [
-            {k: v for k, v in row._mapping.items() if k not in {"id", "scan_id"}} for row in rows
+            {
+                key: float(value) if key in _MEASURED_COLUMNS and value is not None else value
+                for key, value in row._mapping.items()
+                if key not in {"id", "scan_id"}
+            }
+            for row in rows
         ]
 
     def latest_for_sku(self, sku_id: UUID) -> UUID | None:
