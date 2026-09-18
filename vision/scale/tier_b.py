@@ -25,10 +25,50 @@ from typing import Protocol
 
 from vision.types import Image, RectifyMethod, ScaleEstimate
 
-_MIN_OBSERVATIONS = 3
-"""Dimensions are averaged from prior tier-A scans. One observation could be a
-single bad marker fit propagating forever; three is enough for a median to be
-meaningful and small enough to be reached quickly."""
+_MIN_OBSERVATIONS = 1
+"""How many marker scans of a SKU unlock measurement without one.
+
+**This was three, and three was wrong.** The reasoning was that "one
+observation could be a single bad marker fit propagating forever" — true, and
+it is not what a refusal fixes. Requiring three meant somebody had to
+photograph *every SKU in Indian retail* three times with a calibration card
+before the system would measure anything, which is not a procedure that exists.
+The tier that was supposed to remove the prop had made it three times more
+expensive.
+
+The bad-fit risk is handled where it belongs, by three things that do not cost
+coverage: `observe` refuses an implausible measurement outright, `admits`
+refuses an outlier once there is an established mean to be an outlier from, and
+`_RELATIVE_ERROR_PRIOR` below prices a single observation honestly rather than
+pretending it is as good as thirty.
+
+That last one is what makes this safe, and it is worth being exact about why.
+`rules/checks/min_height_mm.py` turns a measurement within tolerance of the
+threshold into **REVIEW, never FAIL** — "convicting on a 0.1 mm margin would be
+dismantled in court". So a wide tolerance does not produce a wrong accusation.
+It produces "officer, check this one", which is the correct output of a
+measurement that is honest about its own uncertainty."""
+
+_MIN_FOR_OUTLIER_GUARD = 3
+"""And this one stays at three, for the reason the gate did not.
+
+`admits` rejects a measurement far from the established mean. Running that off
+a *single* prior observation would let one bad first fit lock a SKU against
+every correct measurement that followed — permanently, silently, and worse the
+longer it went unnoticed. An outlier test needs something to be an outlier
+from."""
+
+_RELATIVE_ERROR_PRIOR: dict[int, float] = {1: 0.10, 2: 0.06}
+"""Assumed relative error when there are too few observations to have measured
+one. Conservative rather than derived: with `n=1` there is no sample spread to
+compute, and the honest response is to assume the measurement is worse than a
+well-observed SKU rather than to assume it is as good.
+
+These widen the REVIEW band; they never narrow it (see `estimate`, which takes
+the larger of this and the measured spread). The failure mode is therefore
+"asked an officer to check a pack that was fine", not "passed a pack that was
+not" — and for a system whose whole design is about not making false
+accusations, that is the direction to be wrong in."""
 
 _METHOD_TOLERANCE_MULTIPLIER: dict[RectifyMethod, float] = {
     "quad": 1.0,
@@ -87,11 +127,15 @@ def estimate(
 
     # Two sources of error: how consistently the width was measured, and how
     # well this photo's rectification recovered the label rectangle.
-    relative = (
+    # The larger of what we measured and what we assume for a sample this small.
+    # A SKU seen once has no spread to report, and reporting none would claim a
+    # 2% measurement — which is a claim about thirty photographs, not one.
+    measured = (
         (dims.stddev_mm / dims.label_width_mm)
         if dims.stddev_mm is not None and dims.stddev_mm > 0
-        else 0.02
+        else 0.0
     )
+    relative = max(measured, _RELATIVE_ERROR_PRIOR.get(dims.observations, 0.02))
     tolerance = mm_per_px * relative * _METHOD_TOLERANCE_MULTIPLIER.get(rectify_method, 8.0)
 
     return ScaleEstimate(
@@ -101,7 +145,9 @@ def estimate(
         method="known_sku",
         detail=(
             f"Known SKU {dims.sku_id}: label width {dims.label_width_mm:.1f} mm "
-            f"from {dims.observations} prior scans, measured here at "
+            f"from {dims.observations} prior scan{'' if dims.observations == 1 else 's'}"
+            f"{' (few observations; tolerance widened)' if dims.observations < 3 else ''}"
+            f", measured here at "
             f"{width_px:.0f} px (rectify={rectify_method})"
         ),
     )
@@ -183,7 +229,7 @@ def observe(
 def admits(dims: SkuDimensions | None, observation: DimensionObservation) -> bool:
     """Whether an established SKU accepts this observation into its mean.
 
-    Until `_MIN_OBSERVATIONS` is reached there is nothing to be an outlier from
+    Until `_MIN_FOR_OUTLIER_GUARD` is reached there is nothing to be an outlier from
     and everything is admitted — the band would otherwise be set by whichever
     photograph happened to arrive first. After that, a measurement far outside
     the established spread is far more likely to be a bad marker fit, a
@@ -191,7 +237,7 @@ def admits(dims: SkuDimensions | None, observation: DimensionObservation) -> boo
     it is to be news about this label; it is dropped rather than averaged in,
     because averaging it in moves every future scan of the SKU.
     """
-    if dims is None or dims.observations < _MIN_OBSERVATIONS or dims.label_width_mm <= 0:
+    if dims is None or dims.observations < _MIN_FOR_OUTLIER_GUARD or dims.label_width_mm <= 0:
         return True
     spread = dims.stddev_mm if dims.stddev_mm and dims.stddev_mm > 0 else 0.0
     allowed = max(_OUTLIER_SIGMA * spread, _OUTLIER_FLOOR * dims.label_width_mm)

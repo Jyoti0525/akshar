@@ -342,6 +342,19 @@ class SkuSummary(BaseModel):
     label_w_mm: float | None = None
     label_h_mm: float | None = None
 
+    label_mm_observations: int = 0
+    """How many marker-measured scans the two dimensions above are the mean of.
+
+    Carried into the offline warm list deliberately. Without it a device that
+    has downloaded this row cannot tell a dimension somebody measured from one
+    somebody typed, and scale tier B would either trust both or neither. It is
+    also what sets the tolerance: a SKU seen once reports a wider REVIEW band
+    than one seen thirty times, and a phone with no signal has to be able to
+    make that distinction on its own."""
+
+    label_w_mm_stddev: float | None = None
+    """Spread across those observations, or None below two."""
+
 
 class SkuLookupResponse(BaseModel):
     hit: bool

@@ -45,6 +45,8 @@ def _summary(sku: SkuRecord) -> SkuSummary:
         scan_count=sku.scan_count,
         label_w_mm=sku.label_w_mm,
         label_h_mm=sku.label_h_mm,
+        label_mm_observations=sku.label_mm_observations,
+        label_w_mm_stddev=sku.label_w_mm_stddev,
     )
 
 

@@ -310,19 +310,41 @@ def test_tier_b_is_used_when_there_is_no_marker():
     assert estimate.mm_per_px == pytest.approx(118.0 / result.image.shape[1], rel=1e-6)
 
 
-def test_tier_b_refuses_a_single_observation():
-    """One prior scan could be one bad marker fit, propagated forever."""
+def test_tier_b_measures_from_a_single_observation_and_widens_the_band():
+    """This test used to assert the opposite, and the opposite was wrong.
+
+    The old policy refused below three prior scans, on the reasoning that "one
+    prior scan could be one bad marker fit, propagated forever". True, and a
+    refusal does not fix it -- it just meant somebody had to photograph every
+    SKU in Indian retail three times with a calibration card before anything
+    could be measured, which is not a procedure that exists.
+
+    The bad-fit risk lives where it costs no coverage: `observe` refuses an
+    implausible measurement, `admits` refuses an outlier once there is a mean
+    to be an outlier from, and a thin sample is priced in tolerance. Since
+    `min_height_mm` turns a measurement within tolerance of the threshold into
+    REVIEW and never FAIL, a wide band asks an officer to look. It cannot
+    convict.
+    """
     from vision.scale.tier_b import SkuDimensions, estimate
 
     canvas = on_canvas(blank_label())
-    assert (
-        estimate(
-            canvas,
-            cache_key="phash:1",
-            lookup=lambda _k: SkuDimensions(sku_id="X", label_width_mm=100.0, observations=1),
-        )
-        is None
+    thin = estimate(
+        canvas,
+        cache_key="phash:1",
+        lookup=lambda _k: SkuDimensions(sku_id="X", label_width_mm=100.0, observations=1),
     )
+    well_observed = estimate(
+        canvas,
+        cache_key="phash:1",
+        lookup=lambda _k: SkuDimensions(
+            sku_id="X", label_width_mm=100.0, observations=30, stddev_mm=0.4
+        ),
+    )
+    assert thin is not None and well_observed is not None
+    assert thin.mm_per_px == pytest.approx(well_observed.mm_per_px)
+    assert thin.tolerance is not None and well_observed.tolerance is not None
+    assert thin.tolerance > well_observed.tolerance
 
 
 def test_implausible_scale_is_rejected_rather_than_reported():

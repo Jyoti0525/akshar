@@ -208,21 +208,72 @@ def test_one_observation_reports_no_spread_rather_than_a_perfect_one():
     assert filled is not None and filled.label_w_mm_stddev is None
 
 
-def test_two_observations_are_still_not_enough_to_measure_against():
+def test_one_marker_scan_is_enough_to_measure_against():
+    """The gate was three, and three was a procedure nobody would ever complete.
+
+    Somebody would have had to photograph every SKU in Indian retail three
+    times with a calibration card before the system measured anything. One
+    observation now measures, and pays for its thinness in tolerance rather
+    than in refusal.
+    """
     store = InMemorySkuStore()
     record = store.add(sku())
-    for _ in range(2):
-        store.record_dimensions(record.id, width_mm=100.0, height_mm=150.0)
+    store.record_dimensions(record.id, width_mm=100.0, height_mm=150.0)
 
-    lookup = _dimension_lookup(store)
-    assert (
-        tier_b.estimate(
-            np.zeros((600, 400, 3), dtype=np.uint8),
-            cache_key="barcode:8901719101045",
-            lookup=lookup,
-        )
-        is None
+    estimate = tier_b.estimate(
+        np.zeros((600, 400, 3), dtype=np.uint8),
+        cache_key="barcode:8901719101045",
+        lookup=_dimension_lookup(store),
     )
+    assert estimate is not None
+    assert estimate.mm_per_px == pytest.approx(0.25)
+    assert "1 prior scan" in estimate.detail
+    assert "tolerance widened" in estimate.detail
+    # The detail is printed on the annotated exhibit, which cv2.putText renders
+    # in ASCII only. An em dash there comes out as a black lozenge on a legal
+    # document -- and this string is where a tier explains itself to an officer.
+    assert estimate.detail.isascii()
+
+
+def test_a_thin_sample_is_priced_in_tolerance_not_in_refusal():
+    """One observation must report a wider band than thirty consistent ones.
+
+    `min_height_mm` turns a measurement within tolerance of the threshold into
+    REVIEW, never FAIL, so a wide band cannot produce a false accusation — it
+    produces "officer, check this one". A *narrow* band from a single
+    photograph is what would be dangerous, because it would claim a precision
+    nobody measured.
+    """
+
+    def band(observations: int, stddev: float | None) -> float:
+        estimate = tier_b.estimate(
+            np.zeros((600, 400, 3), dtype=np.uint8),
+            cache_key="k",
+            lookup=lambda _key: tier_b.SkuDimensions(
+                sku_id="x",
+                label_width_mm=100.0,
+                observations=observations,
+                stddev_mm=stddev,
+            ),
+        )
+        assert estimate is not None and estimate.tolerance is not None
+        return estimate.tolerance
+
+    assert band(1, None) > band(2, None) > band(30, 0.5)
+    # A genuinely inconsistent SKU still reports its own measured spread, even
+    # once it is well observed: the prior is a floor, never a cap.
+    assert band(30, 20.0) > band(1, None)
+
+
+def test_a_single_bad_first_fit_cannot_lock_a_sku_out_forever():
+    """Why the outlier guard kept a threshold of three when the gate dropped to one.
+
+    Running `admits` off one prior observation would let a wrong first
+    measurement reject every correct one that followed — permanently, with no
+    error anywhere, and worse the longer it went unnoticed.
+    """
+    wrong_once = tier_b.SkuDimensions(sku_id="x", label_width_mm=40.0, observations=1)
+    assert tier_b.admits(wrong_once, observation(100.0))
 
 
 # ---------------------------------------------------------------------------
