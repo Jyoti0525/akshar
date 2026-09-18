@@ -9,6 +9,18 @@ matters: the corpus is photographs of real shops' stock.
 
 ---
 
+## 0. Open PowerShell, and be in the repository
+
+Everything below is **PowerShell**, not Command Prompt. The prompt tells you
+which you have: `PS C:\...>` is PowerShell, a bare `C:\Users\jyoti>` is Command
+Prompt, and `$env:NAME = "value"` in the second one fails with *"The filename,
+directory name, or volume label syntax is incorrect"* — the `set NAME=value`
+form is the Command Prompt equivalent.
+
+```powershell
+cd C:\Users\jyoti\codefiles\SIH_26034
+```
+
 ## 1. Install
 
 Label Studio is not in `requirements.txt` and should not be — it is a tool you
@@ -17,7 +29,16 @@ environment so its pins cannot argue with ours:
 
 ```powershell
 py -m venv .venv-label
-.venv-label\Scripts\pip install label-studio
+.venv-label\Scripts\python.exe -m pip install label-studio
+```
+
+It pulls Django, boto3 and google-cloud and takes a few minutes. **Let it
+finish.** If you interrupt it you get a `.venv-label` full of dependencies with
+no `label-studio` in it, which then fails in a way that looks like a PATH
+problem; re-running the same line fixes it. Check with:
+
+```powershell
+.venv-label\Scripts\python.exe -m pip show label-studio
 ```
 
 ## 2. Start it, pointed at our images
@@ -30,15 +51,22 @@ allowed to serve has to be **`data/`** and nothing above it.
 ```powershell
 $env:LOCAL_FILES_SERVING_ENABLED = "true"
 $env:LOCAL_FILES_DOCUMENT_ROOT   = "C:\Users\jyoti\codefiles\SIH_26034\data"
-.venv-label\Scripts\label-studio start
+.\.venv-label\Scripts\label-studio.exe start
 ```
+
+**Note the `.\` and the `.exe` on that last line, and do not drop either.**
+PowerShell reads a bare `.venv-label\Scripts\label-studio` as a *module* name,
+because the leading dot makes it look like one, and answers *"The module
+'.venv-label' could not be loaded"* — which sounds like a broken install and is
+not one.
 
 It opens `http://localhost:8080` and asks you to make an account. The account is
 local; use anything.
 
-> If images show as broken rectangles, this is the reason, every time. The two
-> environment variables have to be set **in the shell that starts the server**,
-> and the path must be the `data` folder itself.
+> If images show as broken rectangles, the two environment variables are the
+> reason, every time. They have to be set **in the shell that starts the
+> server** — a new tab has its own copy — and the path must be the `data`
+> folder itself, not the repository root.
 
 ## 3. Create the project
 

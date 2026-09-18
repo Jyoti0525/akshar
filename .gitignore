@@ -4,6 +4,11 @@ __pycache__/
 *.egg-info/
 .venv/
 venv/
+# The annotation tool gets its own environment so its pins cannot argue with
+# ours (docs/annotation-setup.md). The ".venv/" line above does not cover it --
+# that pattern matches the exact name -- and it is several hundred megabytes of
+# Django, boto3 and google-cloud that nobody wants in a git history.
+.venv-label/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
