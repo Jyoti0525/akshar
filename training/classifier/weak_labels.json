@@ -1,0 +1,1302 @@
+[
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.51.46 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Huhtamaki India Ltd.,",
+  "source": "same_line",
+  "raw_text": "Pig. Mtrt. Mfd. By: Huhtamaki India Ltd.,",
+  "confidence": 0.8114,
+  "box": [
+   341.2220458984375,
+   370.44525146484375,
+   283.555908203125,
+   16.88507080078125
+  ],
+  "cap_height_px": 11.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.51.46 (1).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "47HMLESTONE,DELHI-JAPUR HGHWAY MANESAR -122050 GUGRAMIHRIOR",
+  "source": "continuation",
+  "raw_text": "47HMLESTONE,DELHI-JAPUR HGHWAY MANESAR -122050 GUGRAMIHRIOR",
+  "confidence": 0.859,
+  "box": [
+   768.4961547851562,
+   322.7900695800781,
+   469.00775146484375,
+   19.385772705078125
+  ],
+  "cap_height_px": 14.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Shubhkart India Pvt. Ltd.",
+  "source": "continuation",
+  "raw_text": "Shubhkart India Pvt. Ltd.",
+  "confidence": 0.8546,
+  "box": [
+   48.163516998291016,
+   536.285400390625,
+   310.60247802734375,
+   34.031005859375
+  ],
+  "cap_height_px": 23.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "(East), Mumbai -400051, Maharashtra.",
+  "source": "continuation",
+  "raw_text": "(East), Mumbai -400051, Maharashtra.",
+  "confidence": 0.8546,
+  "box": [
+   55.986602783203125,
+   621.8314819335938,
+   419.4706115722656,
+   34.63720703125
+  ],
+  "cap_height_px": 22.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Shubhkart India Pvt. Ltd.",
+  "source": "continuation",
+  "raw_text": "Shubhkart India Pvt. Ltd.",
+  "confidence": 0.8468,
+  "box": [
+   59.10118103027344,
+   697.9487915039062,
+   298.93115234375,
+   28.1024169921875
+  ],
+  "cap_height_px": 21.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Building No. RA1, Ratan Logistics Park,",
+  "source": "continuation",
+  "raw_text": "Building No. RA1, Ratan Logistics Park,",
+  "confidence": 0.8468,
+  "box": [
+   60.17454147338867,
+   720.8145751953125,
+   463.0552062988281,
+   34.2138671875
+  ],
+  "cap_height_px": 18.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Village Amane, Behind Indian Oil Petrol",
+  "source": "continuation",
+  "raw_text": "Village Amane, Behind Indian Oil Petrol",
+  "confidence": 0.8468,
+  "box": [
+   62.600521087646484,
+   748.8945922851562,
+   459.2119140625,
+   32.2283935546875
+  ],
+  "cap_height_px": 4.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Maharashtra - 421302.",
+  "source": "continuation",
+  "raw_text": "Maharashtra - 421302.",
+  "confidence": 0.8468,
+  "box": [
+   66.25849151611328,
+   803.0346069335938,
+   238.72128295898438,
+   29.0037841796875
+  ],
+  "cap_height_px": 20.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.20.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Registered Offc: 296, KALUKHAN ROAD, P.0. BORAL,",
+  "source": "continuation",
+  "raw_text": "Registered Offc: 296, KALUKHAN ROAD, P.0. BORAL,",
+  "confidence": 0.8281,
+  "box": [
+   816.8705444335938,
+   211.69007873535156,
+   582.2526245117188,
+   41.04450988769531
+  ],
+  "cap_height_px": 19.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.20.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "DIST.: 24 PARGANAS (SOUTH), P.S. SONARPUR,",
+  "source": "continuation",
+  "raw_text": "DIST.: 24 PARGANAS (SOUTH), P.S. SONARPUR,",
+  "confidence": 0.8281,
+  "box": [
+   816.7545166015625,
+   243.20596313476562,
+   504.410888671875,
+   40.41412353515625
+  ],
+  "cap_height_px": 19.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.20.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PIN-700 154, WEST BENGAL.",
+  "source": "continuation",
+  "raw_text": "PIN-700 154, WEST BENGAL.",
+  "confidence": 0.8281,
+  "box": [
+   817.3607788085938,
+   275.6180114746094,
+   311.28973388671875,
+   34.437713623046875
+  ],
+  "cap_height_px": 19.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.20.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "KANDUAH FOOD PARK, PHASE-I, WBIDC, P.O. SANKRAIL",
+  "source": "continuation",
+  "raw_text": "KANDUAH FOOD PARK, PHASE-I, WBIDC, P.O. SANKRAIL",
+  "confidence": 0.8214,
+  "box": [
+   817.1687622070312,
+   338.7896423339844,
+   608.6679077148438,
+   39.02398681640625
+  ],
+  "cap_height_px": 19.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.20.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "DIST.: HOWRAH, PIN-711 302, WEST BENGAL",
+  "source": "continuation",
+  "raw_text": "DIST.: HOWRAH, PIN-711 302, WEST BENGAL",
+  "confidence": 0.8214,
+  "box": [
+   817.7377319335938,
+   372.7957458496094,
+   492.49615478515625,
+   34.111328125
+  ],
+  "cap_height_px": 20.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.23 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Federation Ltd., Amul Dairy Road Anand, Gujarat-",
+  "source": "continuation",
+  "raw_text": "Federation Ltd., Amul Dairy Road Anand, Gujarat-",
+  "confidence": 0.8578,
+  "box": [
+   908.5382690429688,
+   132.11431884765625,
+   326.92340087890625,
+   19.299774169921875
+  ],
+  "cap_height_px": 13.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.23 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "388001, India. Website: ww.amul.com",
+  "source": "continuation",
+  "raw_text": "388001, India. Website: ww.amul.com",
+  "confidence": 0.8578,
+  "box": [
+   909.5723266601562,
+   150.50697326660156,
+   262.85540771484375,
+   19.2303466796875
+  ],
+  "cap_height_px": 14.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.23.jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "Bannerghatta Main Road, Bangalore, Karnataka -",
+  "source": "continuation",
+  "raw_text": "Bannerghatta Main Road, Bangalore, Karnataka -",
+  "confidence": 0.8671,
+  "box": [
+   393.531005859375,
+   500.285888671875,
+   344.93798828125,
+   19.3145751953125
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.36 (1).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "BENGNLURU-560 024, KARNATAKA.",
+  "source": "continuation",
+  "raw_text": "BENGNLURU-560 024, KARNATAKA.",
+  "confidence": 0.8264,
+  "box": [
+   56.437294006347656,
+   665.6109008789062,
+   251.22906494140625,
+   31.6151123046875
+  ],
+  "cap_height_px": 7.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 718.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Nesté India Limited,",
+  "source": "continuation",
+  "raw_text": "Nesté India Limited,",
+  "confidence": 0.8718,
+  "box": [
+   854.8917846679688,
+   382.3586120605469,
+   107.198486328125,
+   18.8983154296875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Barakhamba Lane, New Delhi-110 001.",
+  "source": "continuation",
+  "raw_text": "Barakhamba Lane, New Delhi-110 001.",
+  "confidence": 0.8718,
+  "box": [
+   854.9885864257812,
+   419.6588439941406,
+   196.02117919921875,
+   18.34521484375
+  ],
+  "cap_height_px": 12.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.8353,
+  "box": [
+   884.7030639648438,
+   400.0718688964844,
+   204.57623291015625,
+   20.1968994140625
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram-122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram-122 002,",
+  "confidence": 0.8353,
+  "box": [
+   883.9260864257812,
+   435.45880126953125,
+   154.14471435546875,
+   18.61187744140625
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (2).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PHASE-1, GURUGRAM-122 002,",
+  "source": "continuation",
+  "raw_text": "PHASE-1, GURUGRAM-122 002,",
+  "confidence": 0.8601,
+  "box": [
+   879.7808227539062,
+   680.896728515625,
+   161.47430419921875,
+   19.550048828125
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (3).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "A-28, Sector-58, Noida-201301",
+  "source": "continuation",
+  "raw_text": "A-28, Sector-58, Noida-201301",
+  "confidence": 0.853,
+  "box": [
+   52.15175247192383,
+   435.0861511230469,
+   199.6433563232422,
+   21.270599365234375
+  ],
+  "cap_height_px": 14.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 642.0,
+  "label_h": 939.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (4).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PHASE-1, GURUGRAM - 122 002,",
+  "source": "continuation",
+  "raw_text": "PHASE-1, GURUGRAM - 122 002,",
+  "confidence": 0.8561,
+  "box": [
+   878.2948608398438,
+   665.2948608398438,
+   178.41021728515625,
+   16.4102783203125
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (4).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "HARYANA, INDIA.",
+  "source": "continuation",
+  "raw_text": "HARYANA, INDIA.",
+  "confidence": 0.8561,
+  "box": [
+   878.4688110351562,
+   685.4688110351562,
+   95.0623779296875,
+   16.0623779296875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "A-28, Sector-58, Noida-201301",
+  "source": "continuation",
+  "raw_text": "A-28, Sector-58, Noida-201301",
+  "confidence": 0.844,
+  "box": [
+   1223.279541015625,
+   693.2796020507812,
+   193.44091796875,
+   16.4407958984375
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30.jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PHASE-1, GURIGRAM - 122 002,",
+  "source": "continuation",
+  "raw_text": "PHASE-1, GURIGRAM - 122 002,",
+  "confidence": 0.8768,
+  "box": [
+   886.3184814453125,
+   665.3184814453125,
+   159.363037109375,
+   16.363037109375
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.46.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Nesté India Limited,",
+  "source": "continuation",
+  "raw_text": "Nesté India Limited,",
+  "confidence": 0.8718,
+  "box": [
+   854.8917846679688,
+   382.3586120605469,
+   107.198486328125,
+   18.8983154296875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.46.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Barakhamba Lane, New Delhi-110 001.",
+  "source": "continuation",
+  "raw_text": "Barakhamba Lane, New Delhi-110 001.",
+  "confidence": 0.8718,
+  "box": [
+   854.9885864257812,
+   419.6588439941406,
+   196.02117919921875,
+   18.34521484375
+  ],
+  "cap_height_px": 12.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.47.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.8353,
+  "box": [
+   884.7030639648438,
+   400.0718688964844,
+   204.57623291015625,
+   20.1968994140625
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.47.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram-122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram-122 002,",
+  "confidence": 0.8353,
+  "box": [
+   883.9260864257812,
+   435.45880126953125,
+   154.14471435546875,
+   18.61187744140625
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.47.jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PHASE-1, GURUGRAM-122 002,",
+  "source": "continuation",
+  "raw_text": "PHASE-1, GURUGRAM-122 002,",
+  "confidence": 0.8601,
+  "box": [
+   879.7808227539062,
+   680.896728515625,
+   161.47430419921875,
+   19.550048828125
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PHASE-1, GURUGRAM - 122 002,",
+  "source": "continuation",
+  "raw_text": "PHASE-1, GURUGRAM - 122 002,",
+  "confidence": 0.8561,
+  "box": [
+   878.2948608398438,
+   665.2948608398438,
+   178.41021728515625,
+   16.4102783203125
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "HARYANA, INDIA.",
+  "source": "continuation",
+  "raw_text": "HARYANA, INDIA.",
+  "confidence": 0.8561,
+  "box": [
+   878.4688110351562,
+   685.4688110351562,
+   95.0623779296875,
+   16.0623779296875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.48.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "A-28, Sector-58, Noida-201301",
+  "source": "continuation",
+  "raw_text": "A-28, Sector-58, Noida-201301",
+  "confidence": 0.853,
+  "box": [
+   52.15175247192383,
+   435.0861511230469,
+   199.6433563232422,
+   21.270599365234375
+  ],
+  "cap_height_px": 14.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 642.0,
+  "label_h": 939.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.49 (1).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PHASE-1, GURIGRAM - 122 002,",
+  "source": "continuation",
+  "raw_text": "PHASE-1, GURIGRAM - 122 002,",
+  "confidence": 0.8768,
+  "box": [
+   886.3184814453125,
+   665.3184814453125,
+   159.363037109375,
+   16.363037109375
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.49 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "A-28, Sector-58, Noida-201301",
+  "source": "continuation",
+  "raw_text": "A-28, Sector-58, Noida-201301",
+  "confidence": 0.844,
+  "box": [
+   1223.279541015625,
+   693.2796020507812,
+   193.44091796875,
+   16.4407958984375
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.57 (2).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "MAIN ROAD, BENGALURU-560005.",
+  "source": "continuation",
+  "raw_text": "MAIN ROAD, BENGALURU-560005.",
+  "confidence": 0.8318,
+  "box": [
+   145.56565856933594,
+   926.4446411132812,
+   300.92901611328125,
+   35.0499267578125
+  ],
+  "cap_height_px": 8.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.06 (1).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "ani Gardens, Powai, Mumbai -400076.",
+  "source": "continuation",
+  "raw_text": "ani Gardens, Powai, Mumbai -400076.",
+  "confidence": 0.8482,
+  "box": [
+   321.96356201171875,
+   1032.2564697265625,
+   272.84918212890625,
+   23.487060546875
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.08 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "36 Quality Road, Singapore 618806",
+  "source": "continuation",
+  "raw_text": "36 Quality Road, Singapore 618806",
+  "confidence": 0.8698,
+  "box": [
+   299.563232421875,
+   631.39794921875,
+   347.25970458984375,
+   26.91552734375
+  ],
+  "cap_height_px": 16.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.08 (2).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "703/B, Polaris, Off Marol Maroshi Road, Behind Sangeet Paza",
+  "source": "continuation",
+  "raw_text": "703/B, Polaris, Off Marol Maroshi Road, Behind Sangeet Paza",
+  "confidence": 0.7708,
+  "box": [
+   301.100830078125,
+   859.1155395507812,
+   601.7457275390625,
+   23.7689208984375
+  ],
+  "cap_height_px": 16.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.08 (2).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "Marol, Andheri (East), Mumbai - 400 059, Maharasinira, India",
+  "source": "continuation",
+  "raw_text": "Marol, Andheri (East), Mumbai - 400 059, Maharasinira, India",
+  "confidence": 0.7708,
+  "box": [
+   300.1170959472656,
+   885.11865234375,
+   585.9500732421875,
+   23.7626953125
+  ],
+  "cap_height_px": 15.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.22 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Dahanulawar Road, Near Dhram kata,",
+  "source": "continuation",
+  "raw_text": "Dahanulawar Road, Near Dhram kata,",
+  "confidence": 0.8666,
+  "box": [
+   137.7333984375,
+   631.1260986328125,
+   531.7887573242188,
+   45.825927734375
+  ],
+  "cap_height_px": 9.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.22 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "District-Palghar,401602, Maharashtra",
+  "source": "continuation",
+  "raw_text": "District-Palghar,401602, Maharashtra",
+  "confidence": 0.8666,
+  "box": [
+   139.29400634765625,
+   660.8670654296875,
+   524.7193603515625,
+   51.4619140625
+  ],
+  "cap_height_px": 21.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.23.jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "PO BOX 14760, MUMBAL 400 099",
+  "source": "continuation",
+  "raw_text": "PO BOX 14760, MUMBAL 400 099",
+  "confidence": 0.8333,
+  "box": [
+   792.325439453125,
+   1413.441162109375,
+   323.8682861328125,
+   34.1044921875
+  ],
+  "cap_height_px": 15.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.24.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "MATTEL TOYS (INDIA) PVT. LTD.",
+  "source": "same_line",
+  "raw_text": "Marketed by : MATTEL TOYS (INDIA) PVT. LTD.",
+  "confidence": 0.8457,
+  "box": [
+   152.51968383789062,
+   932.995361328125,
+   447.9295959472656,
+   33.5714111328125
+  ],
+  "cap_height_px": 15.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.24.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Bandra Kurla Complex, Bandra East, Mumbai - 400051",
+  "source": "continuation",
+  "raw_text": "Bandra Kurla Complex, Bandra East, Mumbai - 400051",
+  "confidence": 0.8457,
+  "box": [
+   152.9341278076172,
+   1004.627685546875,
+   484.5938720703125,
+   31.656005859375
+  ],
+  "cap_height_px": 15.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.24.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Dist, Valsad - 396 175, (Gujarat)",
+  "source": "continuation",
+  "raw_text": "Dist, Valsad - 396 175, (Gujarat)",
+  "confidence": 0.824,
+  "box": [
+   152.8382568359375,
+   1081.898681640625,
+   287.4183654785156,
+   30.072021484375
+  ],
+  "cap_height_px": 5.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.28.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Plot No. 26.27. 28, 30, 36& 37, Near Mamring Power",
+  "source": "continuation",
+  "raw_text": "Plot No. 26.27. 28, 30, 36& 37, Near Mamring Power",
+  "confidence": 0.8568,
+  "box": [
+   652.1712646484375,
+   1186.8514404296875,
+   424.5616455078125,
+   30.259521484375
+  ],
+  "cap_height_px": 9.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.28.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Mamring - 737132, South Sikim, India.ssal",
+  "source": "continuation",
+  "raw_text": "Mamring - 737132, South Sikim, India.ssal",
+  "confidence": 0.8568,
+  "box": [
+   653.8844604492188,
+   1225.2164306640625,
+   371.38079833984375,
+   31.718994140625
+  ],
+  "cap_height_px": 9.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.30.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "REGD. OFFICE, 3, CORPORATE PARK,",
+  "source": "continuation",
+  "raw_text": "REGD. OFFICE, 3, CORPORATE PARK,",
+  "confidence": 0.8569,
+  "box": [
+   171.2221221923828,
+   620.5050659179688,
+   411.503173828125,
+   25.9898681640625
+  ],
+  "cap_height_px": 19.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.30.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "SION - TROMBAY ROAD, MUMBAI,",
+  "source": "continuation",
+  "raw_text": "SION - TROMBAY ROAD, MUMBAI,",
+  "confidence": 0.8569,
+  "box": [
+   171.23240661621094,
+   644.8829345703125,
+   376.93646240234375,
+   27.600341796875
+  ],
+  "cap_height_px": 19.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.38.jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "STONE, DELHI-JAPUR HIGHWAY",
+  "source": "continuation",
+  "raw_text": "STONE, DELHI-JAPUR HIGHWAY",
+  "confidence": 0.7671,
+  "box": [
+   99.70276641845703,
+   879.7190551757812,
+   292.0650634765625,
+   37.0428466796875
+  ],
+  "cap_height_px": 8.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.06.04.jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "Telangana, India. Pincode - 500005",
+  "source": "continuation",
+  "raw_text": "Telangana, India. Pincode - 500005",
+  "confidence": 0.8506,
+  "box": [
+   288.92596435546875,
+   392.6515808105469,
+   202.14794921875,
+   14.46954345703125
+  ],
+  "cap_height_px": 10.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1280.0,
+  "label_h": 720.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.06.42 (1).jpeg",
+  "label": 1,
+  "field": "packer",
+  "text": "Jammu -181133 (INDIA)",
+  "source": "continuation",
+  "raw_text": "Jammu -181133 (INDIA)",
+  "confidence": 0.8766,
+  "box": [
+   405.1452941894531,
+   497.80548095703125,
+   182.78158569335938,
+   23.55426025390625
+  ],
+  "cap_height_px": 6.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 720.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.06.51 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Andheri (E). Mumbai 400 099, Maharashtra.",
+  "source": "continuation",
+  "raw_text": "Andheri (E). Mumbai 400 099, Maharashtra.",
+  "confidence": 0.7876,
+  "box": [
+   375.25457763671875,
+   689.9155883789062,
+   225.17266845703125,
+   14.1688232421875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 720.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.06.51 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "(B) Avalon Cosm. Pvt. Ltd., Plot No.F-6. Malegaon.",
+  "source": "continuation",
+  "raw_text": "(B) Avalon Cosm. Pvt. Ltd., Plot No.F-6. Malegaon.",
+  "confidence": 0.8557,
+  "box": [
+   374.6549072265625,
+   776.5537109375,
+   261.15625,
+   17.650634765625
+  ],
+  "cap_height_px": 10.75,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 720.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.06.51 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "MIDC, Sinnar, District Nashik, 422103. Maharashtra.",
+  "source": "continuation",
+  "raw_text": "MIDC, Sinnar, District Nashik, 422103. Maharashtra.",
+  "confidence": 0.8557,
+  "box": [
+   374.5258483886719,
+   795.08349609375,
+   268.5774841308594,
+   18.6192626953125
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 720.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.08 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Union Ltd.), Jibhaipura, Nadiad-Ahmedabad",
+  "source": "continuation",
+  "raw_text": "Union Ltd.), Jibhaipura, Nadiad-Ahmedabad",
+  "confidence": 0.8252,
+  "box": [
+   237.74658203125,
+   708.74755859375,
+   245.50592041015625,
+   16.6082763671875
+  ],
+  "cap_height_px": 4.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.08 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Road, Mehmedabad, Dist.: Kheda, Gujarat",
+  "source": "continuation",
+  "raw_text": "Road, Mehmedabad, Dist.: Kheda, Gujarat",
+  "confidence": 0.8252,
+  "box": [
+   237.67295837402344,
+   720.5032958984375,
+   239.6322479248047,
+   16.1051025390625
+  ],
+  "cap_height_px": 8.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.08 (2).jpeg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "GCMMF Ltd., Anand - 388 001",
+  "source": "continuation",
+  "raw_text": "GCMMF Ltd., Anand - 388 001",
+  "confidence": 0.861,
+  "box": [
+   243.25230407714844,
+   884.267333984375,
+   206.4905548095703,
+   17.403564453125
+  ],
+  "cap_height_px": 10.25,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.12 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "DABUR INDIA LTD.",
+  "source": "same_line",
+  "raw_text": "Marketed by: DABUR INDIA LTD.",
+  "confidence": 0.8384,
+  "box": [
+   279.46624755859375,
+   887.3200073242188,
+   143.08526611328125,
+   21.481689453125
+  ],
+  "cap_height_px": 12.25,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.26.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Dabur India Ltd,",
+  "source": "continuation",
+  "raw_text": "Dabur India Ltd,",
+  "confidence": 0.8677,
+  "box": [
+   280.36883544921875,
+   652.7742309570312,
+   71.275390625,
+   13.9151611328125
+  ],
+  "cap_height_px": 8.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.26.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Industrial Complex, Bari",
+  "source": "continuation",
+  "raw_text": "Industrial Complex, Bari",
+  "confidence": 0.8677,
+  "box": [
+   271.4965515136719,
+   685.380126953125,
+   108.01324462890625,
+   13.9129638671875
+  ],
+  "cap_height_px": 3.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.26.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Road, New Delhi - 110 002",
+  "source": "continuation",
+  "raw_text": "Road, New Delhi - 110 002",
+  "confidence": 0.8677,
+  "box": [
+   268.8689270019531,
+   716.888671875,
+   119.26123046875,
+   15.3177490234375
+  ],
+  "cap_height_px": 4.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ }
+]

@@ -526,20 +526,73 @@ def classify_line(line: OcrLine) -> FieldGuess:
     )
 
 
+_ADDRESS_COMPANY = re.compile(
+    r"(?i)\b(pvt|ltd|limited|llp|inc|industries|foods?|company|co\.|corp\w*|enterprises?"
+    r"|pharma\w*|mills?|works|agro|dairy|beverages?|products?|traders?|packers?|exports?)\b"
+)
+_ADDRESS_PIN = re.compile(r"(?i)(\b\d{6}\b|\bpin\s*[:\-]?\s*\d{3}\s?\d{3}\b|\b\d{3}\s\d{3}\b)")
+"""An Indian PIN, including the `PIN-700 154` spelling with a space in it."""
+
+_ADDRESS_PLACE = re.compile(
+    r"(?i)\b(road|rd\.|street|st\.|nagar|marg|dist|district|state|india|taluka|tehsil"
+    r"|village|phase|plot|sector|floor|building|estate|industrial|bypass|highway|lane"
+    r"|colony|chowk|bazar|bazaar|cross|layout|park|complex|premises|opp\.|near|behind"
+    r"|p\.?\s?o\.?\b|p\.?\s?s\.?\b|po\s*box|post\s*box|regd|registered\s*off\w*|off\w*\s*:)\b"
+)
+_ADDRESS_STATE = re.compile(
+    r"(?i)\b(west\s*bengal|maharashtra|gujarat|karnataka|tamil\s*nadu|kerala|punjab|haryana"
+    r"|rajasthan|odisha|orissa|bihar|assam|telangana|andhra|madhya\s*pradesh|uttar\s*pradesh"
+    r"|uttarakhand|jharkhand|chhattisgarh|goa|himachal|delhi|mumbai|pune|kolkata|chennai"
+    r"|bengaluru|bangalore|hyderabad|ahmedabad|nagpur|indore|jaipur|lucknow|kanpur|surat"
+    r"|noida|gurgaon|gurugram|thane|nashik|howrah|singapore|nepal|bhutan)\b"
+)
+
+
 def is_address_like(text: str) -> bool:
-    """Does this look like an address, and therefore need the model tier?
+    r"""Does this look like an address, and therefore need the model tier?
 
     Manufacturer, packer, importer and consumer care are all addresses. When
     one is *labelled* — `Manufactured by:` — regex settles it. When it is not,
     only position and context distinguish them, which is exactly and only what
     the 2M-parameter head is for.
+
+    Widened 2026-09-18 after measuring it against the corpus. The three
+    original signals were written for a whole address and were applied to a
+    single printed *line*, which is not the same string. An address on a pack
+    runs down four or five lines, and the middle ones carry no company suffix
+    and no city:
+
+        'DIST.: 24 PARGANAS (SOUTH), P.S. SONARPUR,'
+        'PIN-700 154, WEST BENGAL.'
+        'KANDUAH FOOD PARK, PHASE-I, WBIDC, P.O. SANKRAIL'
+
+    All three are addresses and all three scored 1. Measured over 80 random
+    corpus photographs, 61 of 76 continuation lines belonging to a *captioned*
+    manufacturer were rejected here — and since this function gates the
+    candidate list, those lines were never offered to the head at all. A
+    perfectly trained classifier could not have recovered them.
+
+    Two specific failures are worth naming. `\b\d{6}\b` misses `PIN-700 154`,
+    because packs print the PIN with a space in the middle. And two place words
+    on one line counted once, so a line saying both `DIST.` and `P.S.` scored
+    the same as a line saying neither.
+
+    Distinct place tokens are therefore counted, up to two. The threshold stays
+    at two signals: it is what keeps nutrition rows, ingredient lists and
+    storage instructions out, which was verified against twelve such lines
+    before this was widened.
     """
-    signals = (
-        re.search(r"(?i)\b(pvt|ltd|limited|llp|inc|industries|foods|company|co\.)\b", text),
-        re.search(r"\b\d{6}\b", text),  # Indian PIN code
-        re.search(r"(?i)\b(road|street|nagar|marg|dist|district|state|india)\b", text),
+    places = {match.group(0).lower() for match in _ADDRESS_PLACE.finditer(text)}
+    score = sum(
+        1
+        for signal in (
+            _ADDRESS_COMPANY.search(text),
+            _ADDRESS_PIN.search(text),
+            _ADDRESS_STATE.search(text),
+        )
+        if signal
     )
-    return sum(1 for signal in signals if signal) >= 2
+    return score + min(len(places), 2) >= 2
 
 
 __all__ = ["FieldGuess", "classify_line", "classify_text", "is_address_like"]

@@ -252,6 +252,134 @@ Per-field F1 remains `pending`: that needs the annotated corpus, and these are
 
 ---
 
+## The layout head, tier two — §14, §15b, M5. Measured 2026-09-18
+
+Three defects were found while building the weak-supervision path for this
+head. Two of them were costing verdicts on every scan and neither needed a
+model to fix.
+
+### The head was unreachable code
+
+`assemble.from_lines` has accepted `model_tier_predictions` since the tier was
+written, and `vision/pipeline.py` never passed it. Dropping trained weights into
+`data/models/` would have changed nothing at all, because nothing called the
+classifier. Wired 2026-09-18 as `_layout_head`, which returns "regex tier only"
+for each of the four reasons it cannot run and never raises.
+
+### Train and serve were embedding in different vector spaces
+
+`training/classifier/train.py` embedded with `all-MiniLM-L6-v2`;
+`_layout_head` embeds with `bge-small-en-v1.5`. Both are 384-dimensional, so
+`FEATURE_DIM` agreed, the assertion in `build_matrix` passed, and nothing
+raised. A head trained through that path would have been queried in a space it
+was never fitted to — scoring well on validation and predicting noise in
+production, which is the exact silent skew `vision/classify/features.py` was
+split into its own module to prevent.
+
+Training now embeds through `retrieval.embed`, the same call the pipeline
+serves with. **This is a deviation from §15b, which names MiniLM-L6.** The
+serving side was taken as the fixed point because `bge-small-en-v1.5` is the
+model that actually ships — 133 MB of it is already in `data/models/` for
+retrieval, it is already ONNX, and it needs no torch at inference. MiniLM ships
+nothing. It is the stronger model of the two on MTEB, and the plan's real
+requirement — *"384-d, frozen"* — is met exactly.
+
+### The candidate gate rejected the addresses the head exists to read
+
+`is_address_like` scored three signals and required two: a company suffix, a
+bare `\b\d{6}\b` PIN, or one of `road|street|nagar|marg|dist|district|state|india`.
+It was written for a whole address and is applied to a single printed *line*,
+and those are not the same string. An address on a pack runs down four or five
+lines and the middle ones carry neither a company nor a city:
+
+```
+'DIST.: 24 PARGANAS (SOUTH), P.S. SONARPUR,'
+'PIN-700 154, WEST BENGAL.'
+'KANDUAH FOOD PARK, PHASE-I, WBIDC, P.O. SANKRAIL'
+```
+
+Measured over 80 random corpus photographs: of 76 continuation lines belonging
+to a manufacturer the regex tier had *already identified by its caption*, **61
+were rejected here** — 80%. Since this function gates the candidate list, those
+lines were never offered to the head at all. No amount of training could have
+recovered them; the classifier would never have seen them.
+
+Two specific faults. `\b\d{6}\b` does not match `PIN-700 154`, because packs
+print the PIN with a space in it. And two place words on one line counted once,
+so a line saying both `DIST.` and `P.S.` scored the same as a line saying
+neither.
+
+Widened to four signals with distinct place tokens counted up to two. The
+threshold stays at two, which is what keeps panel copy out. Verified against 11
+real address lines drawn from the corpus and 12 lines of panel copy — nutrition
+rows, ingredient lists, storage instructions, an FSSAI licence, an MRP and a net
+quantity:
+
+| | Address lines | Panel copy |
+|---|---|---|
+| before | 4 of 11 accepted | 0 of 12 leaked |
+| after | **11 of 11 accepted** | **0 of 12 leaked** |
+
+1038 tests pass unchanged. The gate feeds only `_layout_head`, so widening it
+alters no verdict until a head ships.
+
+### The head was trained by weak supervision, and it is not shippable
+
+`training/classifier/harvest.py` labels addresses by distant supervision from
+the regex tier. That is not the self-training `convert.py` forbids: the regex
+tier holds no weights, was never fitted, and cannot have learned anything from
+the head it supervises. The harvest calls `classify_lines` with no
+`model_tier_predictions`, which is the only route a model opinion could take.
+
+The labels propagate **downward**. A first attempt stripped the caption out of
+a line and kept the remainder, which yielded 1 usable row in 60 photographs —
+because packs print `Marketed By:` on a line of its own and the address on the
+lines beneath it, so stripping leaves the empty string. What works is taking the
+caption line's label and applying it to its continuation body, which is already
+in the uncaptioned form the head meets at inference.
+
+Harvested over all 469 corpus photographs (`data/test_split/` untouched, and the
+script refuses that path outright):
+
+| | rows |
+|---|---|
+| manufacturer | 45 |
+| packer | 1 |
+| importer | **0** |
+| consumer_care | 19 |
+| **total** | **65, from 33 of 469 photographs** |
+
+Trained, split by photograph, 49 train / 16 validation:
+
+| class | F1 |
+|---|---|
+| manufacturer | 0.846 |
+| packer | 0.000 |
+| importer | not present in validation |
+| consumer_care | 0.400 |
+| macro (measured) | **0.463** |
+
+**§17 M5 asks for per-field F1 ≥ 0.85. Not met, and no weights were exported.**
+`data/models/field_classifier_int8.onnx` is deliberately still absent, so the
+pipeline continues to run regex-tier-only and says so.
+
+This is a finding about the corpus, not about the architecture. Sixty-five
+examples across 33 photographs cannot train a four-way classifier; one `packer`
+and zero `importer` cannot train two of its four classes at all, and `importer`
+is the class that decides whether Rule 6(1)(f) applies. A validation split of 16
+rows cannot measure one either — 0.846 on `manufacturer` rests on a handful of
+rows and should not be quoted as an accuracy.
+
+What would change it is hand annotation, which is section 16's outstanding work:
+the head needs address boxes labelled on the order of a few hundred packs, with
+`packer` and `importer` deliberately sought out rather than sampled. Until then
+the honest position is the one section 15b already allows — *shipping without
+this model is an acceptable outcome if the patterns separate the fields well
+enough* — with the gate fix above making the patterns reach materially further
+than they did.
+
+---
+
 ## Evidence chain — §17 M7, met in full
 
 M7 is the one acceptance criterion in the plan that needs no corpus, no weights

@@ -37,10 +37,15 @@ Section 15b: *"About 2M parameters — LayoutLMv3's 125M would overfit 400 photo
 badly. Being able to say 'we chose 2M over 125M because our corpus is 400
 images' is a better answer than the bigger number."*
 
-The 384-d MiniLM embedding is **frozen**, and it is where nearly all the
+The 384-d sentence embedding is **frozen**, and it is where nearly all the
 representational capacity lives. What trains here is a two-layer encoder over
 that plus fourteen geometry and one-hot features — small enough that four
 hundred photographs is a reasonable number of examples for it.
+
+The embedding is `bge-small-en-v1.5`, not the MiniLM-L6 §15b names, and the
+reason is recorded in `embed()` below: the pipeline serves with bge, MiniLM
+ships no weights, and the two disagreeing silently was a live defect rather
+than a preference.
 
 ---------------------------------------------------------------------------
 WHAT IS REPORTED, AND WHAT IS NOT
@@ -74,9 +79,10 @@ from vision.classify.features import FEATURE_DIM  # noqa: E402
 from vision.classify.model_tier import CLASSES, MODEL_FILENAME  # noqa: E402
 
 HIDDEN = 512
-"""Two layers of this over a 406-d input is roughly 0.5M trainable parameters,
-against the frozen 22M in MiniLM-L6 that produces 384 of those inputs. Section
-15b's "about 2M" is the whole head including the embedding it consumes."""
+"""Two layers of this over a 398-d input is roughly 0.34M trainable parameters,
+against the frozen 33M in bge-small-en-v1.5 that produces 384 of those inputs.
+Section 15b's "about 2M" is the whole head including the embedding it
+consumes."""
 
 FOCAL_GAMMA = 2.0
 """Section 14: focal loss, gamma 2. The imbalance here is not the violation
@@ -138,25 +144,105 @@ def rows_from_export(export: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def embed(texts: list[str]) -> np.ndarray:
-    """Frozen MiniLM-L6 sentence embeddings, 384-d.
+def rows_from_weak(path: Path) -> list[dict[str, Any]]:
+    """Rows from `training/classifier/harvest.py`.
 
-    Imported lazily and failing with an instruction rather than a traceback:
-    `sentence-transformers` is a training-only dependency and nothing in
-    `vision/` imports it, which is the arrangement `features.py` was written to
-    allow.
+    Distant supervision from the regex tier, not from a model — the harvest's
+    docstring makes that case at length and `rows_from_export`'s
+    annotations-only rule is untouched above.
+
+    The geometry arrives already in rectified pixels against the rectified
+    frame, because the harvest took it from the same `scan()` the pipeline
+    runs, so it is normalised here exactly as `geometry_features` normalises it
+    at inference rather than through Label Studio's percentages.
     """
-    try:
-        from sentence_transformers import SentenceTransformer
-    except ImportError:  # pragma: no cover
-        raise SystemExit(
-            "sentence-transformers is not installed. It is a training-only\n"
-            "dependency (vision/ takes the embedding from its caller):\n"
-            "    pip install sentence-transformers"
-        ) from None
+    rows = json.loads(path.read_text(encoding="utf-8"))
+    for row in rows:
+        row["label"] = int(row["label"])
+    return list(rows)
 
-    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-    return np.asarray(model.encode(texts, normalize_embeddings=True), dtype=np.float32)
+
+def build_matrix_weak(rows: list[dict[str, Any]]) -> tuple[np.ndarray, np.ndarray, list[str]]:
+    """(features, labels, image per row), built by the inference code itself.
+
+    `build_features` is imported and called rather than reimplemented, so there
+    is no second opinion about feature order to drift from the first. The
+    Label Studio path above cannot do this — it has percentages and no
+    `OcrLine` — which is precisely why it carries its own copy and this one
+    does not.
+    """
+    from vision.classify.features import build_features
+    from vision.types import Box, OcrLine
+
+    embeddings = embed([row["text"] for row in rows])
+    heights = [row["cap_height_px"] for row in rows if row.get("cap_height_px")]
+    median = float(np.median(heights)) if heights else None
+
+    features = []
+    for row, embedding in zip(rows, embeddings, strict=True):
+        x, y, w, h = row["box"]
+        line = OcrLine(
+            text=row["text"],
+            box=Box(x=x, y=y, w=w, h=h),
+            confidence=float(row.get("confidence", 1.0)),
+            script=row.get("script", "latin"),
+            cap_height_px=row.get("cap_height_px"),
+            panel_id=row.get("panel_id") or None,
+        )
+        features.append(
+            build_features(
+                line,
+                embedding,
+                label_w=float(row["label_w"]),
+                label_h=float(row["label_h"]),
+                median_cap_height_px=median,
+            )
+        )
+
+    matrix = np.stack(features)
+    assert matrix.shape[1] == FEATURE_DIM, (
+        f"built {matrix.shape[1]} features against {FEATURE_DIM}"
+    )
+    return (
+        matrix,
+        np.array([row["label"] for row in rows], dtype=np.int64),
+        [row["image"] for row in rows],
+    )
+
+
+def embed(texts: list[str]) -> np.ndarray:
+    """Frozen 384-d sentence embeddings, from the embedder that serves.
+
+    **This used to load `all-MiniLM-L6-v2` and that was a live train/serve
+    skew.** Section 15b names MiniLM-L6, and the constant in `features.py` is
+    still called a 384-d sentence embedding because that is what it is — but
+    `vision/pipeline.py::_layout_head`, which is the only code that ever calls
+    the head, embeds with `bge-small-en-v1.5` through `retrieval.embed`. Two
+    different models, both 384-dimensional, so `FEATURE_DIM` agreed and nothing
+    raised. The head would have been trained in one vector space and queried in
+    another, and the only symptom would have been a model that scored well here
+    and predicted noise in production. That is exactly the silent failure
+    `features.py`'s docstring exists to warn about.
+
+    `bge-small-en-v1.5` is the one that ships: 133 MB of it is already in
+    `data/models/` for retrieval, it is already an ONNX asset the server loads,
+    and it needs no torch at inference. MiniLM ships nothing. So the serving
+    side is the fixed point and training moves to meet it.
+
+    Passages, not queries — BGE's instruction prefix belongs to the query side
+    only, and a declaration on a package is neither a question nor being
+    searched for.
+    """
+    from retrieval import embed as embedder
+
+    ready = embedder.availability()
+    if not ready.ready:
+        raise SystemExit(
+            f"the sentence embedder is not available: {ready.detail}\n"
+            "It is the same one the pipeline serves with, so training cannot\n"
+            "substitute another model without skewing the head."
+        )
+    return np.asarray(embedder.shared().encode_passages(texts), dtype=np.float32)
 
 
 def build_matrix(rows: list[dict[str, Any]]) -> tuple[np.ndarray, np.ndarray, list[str]]:
@@ -259,7 +345,14 @@ def macro_f1(scores: dict[str, float | None]) -> float:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("export", type=Path, help="Label Studio JSON export")
+    parser.add_argument(
+        "export", type=Path, nargs="?", help="Label Studio JSON export (hand annotations)"
+    )
+    parser.add_argument(
+        "--weak",
+        type=Path,
+        help="weak labels from training/classifier/harvest.py (distant supervision)",
+    )
     parser.add_argument("--epochs", type=int, default=EPOCHS)
     parser.add_argument("--out", type=Path, default=ROOT / "data" / "models" / MODEL_FILENAME)
     parser.add_argument("--no-export", action="store_true", help="train and report, write nothing")
@@ -270,7 +363,16 @@ def main(argv: list[str] | None = None) -> int:
     except ImportError:  # pragma: no cover
         raise SystemExit('torch is not installed: pip install -e ".[training]"') from None
 
-    rows = rows_from_export(args.export)
+    if bool(args.export) == bool(args.weak):
+        raise SystemExit("pass either a Label Studio export or --weak, and not both")
+
+    weak = args.weak is not None
+    rows = rows_from_weak(args.weak) if weak else rows_from_export(args.export)
+    if weak:
+        print("** weak supervision: labels from the regex tier, not hand annotation **")
+        print("   A head trained this way inherits the patterns' blind spots. It can")
+        print("   generalise to addresses printed with no caption, which is the whole")
+        print("   point, but it cannot know anything the patterns never got right.\n")
     counts = Counter(CLASSES[row["label"]] for row in rows)
     print(f"{len(rows)} labelled address declarations")
     for name in CLASSES:
@@ -287,7 +389,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\n  ** {', '.join(absent)} has no examples. The head cannot learn a class")
         print("     it has never seen, and will confidently never predict it. **")
 
-    features, labels, images = build_matrix(rows)
+    features, labels, images = (build_matrix_weak if weak else build_matrix)(rows)
 
     # Split by photograph, not by row. Two addresses from one packet share a
     # layout, a font and a lighting condition; splitting rows at random puts
@@ -308,7 +410,7 @@ def main(argv: list[str] | None = None) -> int:
 
     model = build_model(torch)
     parameters = sum(p.numel() for p in model.parameters())
-    print(f"trainable parameters: {parameters:,} (plus 22M frozen in MiniLM-L6)")
+    print(f"trainable parameters: {parameters:,} (plus 33M frozen in bge-small-en-v1.5)")
 
     optimiser = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=0.01)
     schedule = torch.optim.lr_scheduler.CosineAnnealingLR(optimiser, T_max=args.epochs)
