@@ -66,6 +66,12 @@ _PROMOTIONAL = re.compile(
     r"(?i)(\b\d+\s*%\s*(off|extra|free)\b"
     r"|\b(rs\.?|₹)\s*\d+\s*off\b"
     r"|\b(save|combo|offer|discount|buy\s*\d+\s*get)\b"
+    # `SPECIAL PRICE ₹99` is `docs/annotation-guide.md`'s own worked example of
+    # a promotional graphic, and it matched nothing here until 2026-09-18 — it
+    # landed on `other`, which is the label for text nobody could read. The
+    # qualifier is what makes it promotional: a bare `PRICE` may introduce the
+    # real declaration, and `special`, `sale`, `new` and `intro` do not.
+    r"|\b(special|sale|new|intro(ductory)?)\s*price\b"
     r"|\bfree\s+(gift|inside|sample|pack|\d+\s*(mg|g|kg|ml|l)\b)"
     r"|\bextra\s+\d"
     # A COMPARISON is a claim about somebody else's price, never this pack's.
@@ -153,7 +159,25 @@ the stronger claim and the one an officer expects to see named."""
 
 _BARCODE = re.compile(r"\b\d{8}\b|\b\d{12,14}\b")
 """A bare run of 8 or 12-14 digits is an EAN/UPC, not a price and not a
-quantity. Real prices have separators or decimals and are far shorter."""
+quantity. Real prices have separators or decimals and are far shorter.
+
+**The gap between 8 and 12 is deliberate and stays open.** An Indian mobile
+number is ten digits, and a consumer-care helpline printed bare is exactly the
+sort of thing a widened rule would rename. Two of the five barcodes missed on
+the 2026-09-18 annotated set have 10 and 11 digits and are still missed, which
+is the right trade: calling a helpline a barcode would take a Rule 6(2)
+declaration off the pack."""
+
+_BARCODE_NOISE = re.compile(r'[\s"\'|।॥.\-]')
+"""Marks OCR invents inside a barcode, and nothing else.
+
+Whitespace was always stripped here. The rest are what the recogniser makes of
+the bars and the guard patterns either side of an EAN — measured on real packs
+as `"`, `|`, `।` and `॥`. Hyphens and full stops join them because a barcode is
+sometimes printed with the country prefix set off.
+
+Deliberately not `\\D`: stripping *every* non-digit would turn `Batch 24MRP07`
+into `2407` and any alphanumeric code into a candidate."""
 
 
 # ---------------------------------------------------------------------------
@@ -312,13 +336,31 @@ def _hard_negative(text: str) -> FieldGuess | None:
     if _DRAINED_OR_SECONDARY_WEIGHT.search(text):
         return FieldGuess("other", 0.85, "a secondary weight, not the net quantity declaration")
 
-    stripped = text.strip()
-    if _BARCODE.fullmatch(stripped.replace(" ", "")):
+    # OCR reads the bars either side of an EAN as punctuation and drops it into
+    # the middle of the number: measured 2026-09-18, `'"9048"6722'` and
+    # `'8901537"024014॥'` are both barcodes that matched nothing because of a
+    # quote mark. Stripping the marks OCR invents — and only those — recovers
+    # the digit run without touching the length rule, which is what keeps a
+    # ten-digit helpline from being called a barcode.
+    if _BARCODE.fullmatch(_BARCODE_NOISE.sub("", text.strip())):
         # Named rather than left as `other` since 2026-09-18. It was always
         # recognised as a barcode here; calling it one puts that on the
         # annotated photograph instead of making an officer guess why a box on
         # the barcode says `other`. No rule targets `barcode`.
         return FieldGuess("barcode", 0.80, "a barcode-length digit run, not a price or quantity")
+
+    # **The batch test below gets the text with its spaces, and that is load
+    # bearing.** Squeezing them out turns `MRP Rs 45` into `MRPRs45`, which is
+    # an alphanumeric run carrying the letters MRP — precisely the shape of the
+    # batch code the guard below exists to catch — and the retail sale price
+    # then disappears from the pack. That is the failure the comment under this
+    # one records having already been fixed once.
+    #
+    # Written out rather than left implicit because it was broken here on
+    # 2026-09-18 while the barcode strip above was being added: the two tests
+    # want different text, and sharing one variable between them is how they
+    # end up wanting the same.
+    stripped = text.strip()
 
     # A batch code containing the literal string MRP.
     #

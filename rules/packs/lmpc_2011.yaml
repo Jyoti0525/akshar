@@ -545,7 +545,11 @@ patterns:
     latin: '(?is)(?:pvt\.?\s*ltd|private\s+limited|limited|\bltd\b|llp|industries|foods|enterprises|products|company|\bco\.\b|corporation|mills|dairy|udyog).{0,400}(?:(?<!\d)\d{3}\s?\d{3}(?!\d)|\broad\b|\bstreet\b|\bmarg\b|\bnagar\b|\bphase\b|\bsector\b|\bplot\b|\bdist\b|\bindustrial\b|\bestate\b|\bvillage\b|\btaluka\b|\bp\.?o\.?\b|\bpin\b|\bhouse\b)|(?:(?<!\d)\d{3}\s?\d{3}(?!\d)|\broad\b|\bstreet\b|\bmarg\b|\bnagar\b|\bphase\b|\bsector\b|\bplot\b|\bdist\b|\bindustrial\b|\bestate\b|\bvillage\b|\btaluka\b|\bp\.?o\.?\b|\bpin\b|\bhouse\b).{0,400}(?:pvt\.?\s*ltd|private\s+limited|limited|\bltd\b|llp|industries|foods|enterprises|products|company|\bco\.\b|corporation|mills|dairy|udyog)'
 
   net_quantity_locate:                   # permissive — only job is to FIND it
-    latin: '(?i)(?<![A-Za-z0-9])(net\s*(wt|weight|qty|quantity)|net\s*cont(ent)?s?|qty\.?|contents)(?![A-Za-z])(?=[^0-9]|\d{1,5}(\.\d+)?\s*(mg|kg|ml|g|l|cm|mm|m|t|N|U)|$)'
+    # `wt?` rather than `wt`: packs print `NET W. 160 gms` and `NET W 30g`, and
+    # the bare `W` fell through to `other` on the 2026-09-18 annotated set. The
+    # lookahead below already requires a number and a lawful unit to follow, so
+    # widening the caption by one letter cannot fire on prose.
+    latin: '(?i)(?<![A-Za-z0-9])(net\s*(wt?|weight|qty|quantity)|net\s*cont(ent)?s?|qty\.?|contents)(?![A-Za-z])(?=[^0-9]|\d{1,5}(\.\d+)?\s*(mg|kg|ml|g|l|cm|mm|m|t|N|U)|$)'
     devanagari: '(शुद्ध|कुल)\s*(मात्रा|वजन|तौल)'
 
   net_quantity:                          # strict — value + lawful SI symbol
@@ -627,7 +631,14 @@ patterns:
     # address is introduced -- `Manufacturing Address of PL:` -- and without it
     # the line fell through to `mfg_date_locate`, whose `manufactur\w*` stem
     # reported an address as a date.
-    latin: '(?i)(?<![A-Za-z0-9])(manufactur\w*\s*(by|:)|manufactur\w*\s*(unit\s*)?(address|addr\b)|mf[dg]\.?\s*&?\s*(by|pkd)|mktd\.?\s*by|marketed\s*by|packed\s*by|imported\s*by|name\s*(and|&)\s*address)(?![A-Za-z0-9])'
+    # `manufac\w*` rather than `manufactur\w*`. OCR drops the `t`: measured
+    # 2026-09-18 on a Red Bull can, `MANUFACURED BY: RAUCH TRADING AG` was
+    # classified `other` and Rule 6(1)(a) went unevaluated on a pack that
+    # declares its manufacturer plainly. No ordinary English word begins
+    # `manufac` except a manufacture one, and the stem is still followed by
+    # `by`, `:` or `address`, so this widens what OCR can mangle and not what
+    # the pattern will accept.
+    latin: '(?i)(?<![A-Za-z0-9])(manufac\w*\s*(by|:)|manufac\w*\s*(unit\s*)?(address|addr\b)|mf[dg]\.?\s*&?\s*(by|pkd)|mktd\.?\s*by|marketed\s*by|packed\s*by|imported\s*by|name\s*(and|&)\s*address)(?![A-Za-z0-9])'
     devanagari: '(निर्माता|पैकर|आयातकर्ता)'
 
   # -- numerals ---------------------------------------------------------------

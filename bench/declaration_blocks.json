@@ -126,7 +126,7 @@
         "accuracy": 0.2174
       }
     },
-    "median_ms": 1041.1,
+    "median_ms": 1045.0,
     "coverage_mean": 0.9449
   },
   "images": [
@@ -135,7 +135,7 @@
       "product": "Sri Sri Tattva incense sticks, 15 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1931.9,
+      "ms": 1838.5,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -220,7 +220,7 @@
       "product": "Bajaj LEDZ Eterno inverter lamp 9W",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1585.8,
+      "ms": 1417.0,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -312,7 +312,7 @@
       "product": "Kokuyo Camlin Grip Pro 0.7 mm mechanical pencil",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1132.2,
+      "ms": 1104.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -409,7 +409,7 @@
       "product": "Kokuyo Camlin brush pen, 12 N assorted",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 856.3,
+      "ms": 872.2,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -515,7 +515,7 @@
       "product": "Go / Parag cheddar cheese block, 200 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1110.7,
+      "ms": 1110.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -623,7 +623,7 @@
       "product": "M.P coconut oil pouch",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1029.3,
+      "ms": 994.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": false,
@@ -705,7 +705,7 @@
       "product": "DOMS Inxtra ball point pen, 10 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 927.6,
+      "ms": 884.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -799,7 +799,7 @@
       "product": "face cream, 15 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 553.2,
+      "ms": 558.3,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -906,7 +906,7 @@
       "product": "Amul ghee pouch, 1 L",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1999.1,
+      "ms": 1996.0,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1023,7 +1023,7 @@
       "product": "Gillette Mach3 razor, 1 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1382.7,
+      "ms": 1340.9,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1119,7 +1119,7 @@
       "product": "Britannia Good Day, 120 g + 30 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 869.7,
+      "ms": 873.2,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -1225,7 +1225,7 @@
       "product": "Britannia Good Day butter cookies",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 840.2,
+      "ms": 837.1,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1317,7 +1317,7 @@
       "product": "L'Oreal hair product, 200 ml",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 983.5,
+      "ms": 1002.4,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -1418,7 +1418,7 @@
       "product": "Parle Happy Happy, 30 g + 5 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1041.1,
+      "ms": 1119.1,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1526,7 +1526,7 @@
       "product": "honey, 500 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1436.9,
+      "ms": 1399.5,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1625,7 +1625,7 @@
       "product": "Britannia Jim Jam, 50 g + 10 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1134.7,
+      "ms": 1180.0,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1739,7 +1739,7 @@
       "product": "The Derma Co lip balm, 4 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 844.5,
+      "ms": 883.8,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -1857,7 +1857,7 @@
       "product": "Ariel Matic front load liquid detergent, 2 L",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1185.8,
+      "ms": 1169.2,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1921,7 +1921,7 @@
       "product": "ITC Ship safety matches, 10 boxes",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 674.7,
+      "ms": 674.6,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2003,7 +2003,7 @@
       "product": "masala carton",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 536.4,
+      "ms": 541.7,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2082,7 +2082,7 @@
       "product": "tea, 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1727.5,
+      "ms": 1687.7,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2194,7 +2194,7 @@
       "product": "Rishabh Plast Clara Vintage 4 lunch box, 1 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 808.4,
+      "ms": 836.0,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -2295,7 +2295,7 @@
       "product": "Lijjat Udad Mini Papad family pack, 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1526.3,
+      "ms": 1520.3,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2413,7 +2413,7 @@
       "product": "Parle-G, 110 g + 20 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1127.9,
+      "ms": 1045.0,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2517,7 +2517,7 @@
       "product": "DOMS Tom and Jerry metal pencil box, 1 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1087.1,
+      "ms": 1059.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2615,7 +2615,7 @@
       "product": "Nakur Organic pickle, 500 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 609.6,
+      "ms": 551.9,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2722,7 +2722,7 @@
       "product": "boiled rice, 26 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 3154.2,
+      "ms": 3146.8,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2815,7 +2815,7 @@
       "product": "Himalayan rock salt (sendha namak), 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 2142.5,
+      "ms": 2124.5,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2922,7 +2922,7 @@
       "product": "Santoor soap multipack, 4 x 125 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 846.0,
+      "ms": 917.1,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3038,7 +3038,7 @@
       "product": "Santoor sandal and turmeric soap, 46 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1006.8,
+      "ms": 1042.0,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -3138,7 +3138,7 @@
       "product": "Mamaearth shampoo, 20 ml",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 684.3,
+      "ms": 664.6,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3229,7 +3229,7 @@
       "product": "SmartyPet pet shampoo, 200 ml",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 672.1,
+      "ms": 685.1,
       "usable": false,
       "quality_faults": [
         "glare"
@@ -3343,7 +3343,7 @@
       "product": "Plum body wash",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1050.2,
+      "ms": 1057.6,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3439,7 +3439,7 @@
       "product": "Supreme Harvest crystal sugar, 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1331.6,
+      "ms": 1366.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -3569,7 +3569,7 @@
       "product": "HUL detergent cake, 250 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 547.0,
+      "ms": 571.2,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -3675,7 +3675,7 @@
       "product": "Lijjat Udad Papad, 100 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1426.7,
+      "ms": 1480.4,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -3799,7 +3799,7 @@
       "product": "Venus Creme Bar toilet soap, 4 x 100 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 847.5,
+      "ms": 810.8,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3900,7 +3900,7 @@
       "product": "Whisper Ultra scented sanitary pads, 30 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 612.5,
+      "ms": 589.1,
       "usable": false,
       "quality_faults": [
         "resolution",
