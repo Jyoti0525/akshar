@@ -91,7 +91,7 @@ class ChainReport:
         )
 
 
-def _as_records(rows: Iterable[ChainedRecord | dict[str, Any]]) -> list[ChainedRecord]:
+def as_records(rows: Iterable[ChainedRecord | dict[str, Any]]) -> list[ChainedRecord]:
     return [row if isinstance(row, ChainedRecord) else from_row(row) for row in rows]
 
 
@@ -112,7 +112,7 @@ def verify_chain(
     Default is True, because silently accepting a missing front is exactly the
     deletion that is easiest to overlook.
     """
-    records: Sequence[ChainedRecord] = sorted(_as_records(rows), key=lambda r: r.chain_seq)
+    records: Sequence[ChainedRecord] = sorted(as_records(rows), key=lambda r: r.chain_seq)
     failures: list[ChainFailure] = []
 
     if not records:
@@ -211,7 +211,7 @@ def head_digest(rows: Iterable[ChainedRecord | dict[str, Any]]) -> str | None:
     an external copy, an actor with full write access can rewrite the tail and
     leave a chain that verifies cleanly.
     """
-    records = sorted(_as_records(rows), key=lambda r: r.chain_seq)
+    records = sorted(as_records(rows), key=lambda r: r.chain_seq)
     return records[-1].record_sha256 if records else None
 
 
@@ -219,6 +219,7 @@ __all__ = [
     "ChainFailure",
     "ChainReport",
     "FailureKind",
+    "as_records",
     "head_digest",
     "verify_chain",
 ]

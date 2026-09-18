@@ -99,6 +99,7 @@ the browser.
 | `AKSHAR_REDIS_URL` | api, worker | Dramatiq broker and the evidence spool. |
 | `AKSHAR_S3_*` | api, worker | MinIO or S3 for the evidence buckets. |
 | `AKSHAR_API_ORIGIN` | web | Server-side only. |
+| `AKSHAR_ANCHOR_LOG` | api, cron | The evidence anchor log. See §8 — the default is the weakest possible placement. |
 | `NODE_ENV=production` | web | The service worker only registers in production. |
 
 `.env` is gitignored and must never be committed. `.env.example` lists the full
@@ -177,3 +178,55 @@ Stated here rather than discovered later.
 - **On-device inference is not wired.** The bundle, the execution-path probe and
   the cache strategy are in place; the vision blocks still run on the server, so
   an offline scan is recorded at tier L4 and gets its verdict on sync.
+
+---
+
+## 8. The evidence anchor
+
+Section 6 gives every scan a hash chain, and `evidence/verify.py` is honest at
+the top about what a chain does not do: **it is tamper-evident, not
+tamper-proof.** Someone with write access to Postgres can rewrite a record,
+recompute every digest after it, and leave a chain that verifies cleanly.
+`tests/unit/test_evidence_chain.py` asserts exactly that, so nobody overclaims
+it in a hearing.
+
+What closes it is a copy the rewriter does not control.
+
+```bash
+# Publish the current head. Safe to run often; it writes nothing if the head
+# has not moved.
+python -m evidence.anchor
+
+# Check every published anchor against the chain as it stands now.
+python -m evidence.anchor --verify
+```
+
+`GET /api/v1/chain/status` reports the same check, and returns
+`anchor_status: "unanchored"` — never `ok` — until the log holds something.
+
+**Two operational decisions this repository cannot make for you, and the anchor
+is worth nothing without both.**
+
+1. **Put the log somewhere the API cannot quietly rewrite.** Set
+   `AKSHAR_ANCHOR_LOG` to a path on a different volume, an append-only mount, or
+   a share the API container holds write-but-not-truncate rights to. The default
+   (`data/evidence/anchors.jsonl`) sits beside everything else and is the
+   weakest arrangement there is; it is the default so the feature works out of
+   the box, not because it is adequate.
+2. **Send the line onward.** The plan's phrasing is *"an append-only log, a
+   daily line to the controller"*, and the second half is the half that
+   survives a compromised server. A nightly mail carrying the day's anchor to a
+   mailbox in a different administrative domain costs nothing and means a
+   wholesale rewrite must also reach the controller's inbox.
+
+Anchor **after each scan** if you can afford it, and nightly at worst. The
+anchor log localises damage: the earliest anchor that disagrees names the record
+that was altered, and every anchor before it still agreeing is what lets the
+department state in writing that the rest of the chain is intact. Anchoring once
+a week means a week of records can only be vouched for collectively.
+
+It is deliberately **not** written from the scan request path. An anchor volume
+that is full, unmounted or read-only would then fail the scan itself, and
+section 5's whole argument is that an officer walks away with a record even when
+everything else has gone wrong. A cron entry that fails loudly is the right
+place for it.

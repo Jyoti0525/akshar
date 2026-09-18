@@ -385,6 +385,33 @@ class ChainStatusResponse(BaseModel):
     head_sha256: str | None
     failures: list[str] = Field(default_factory=list)
 
+    # -- the anchor log, `evidence/anchor.py` --------------------------------
+    # `ok` above answers "is this chain internally consistent", which a
+    # wholesale rewrite also answers yes to. These answer the question that
+    # rewrite cannot: does the chain still match what was published about it
+    # before the rewrite could have happened?
+    anchor_status: Literal["ok", "unanchored", "failed", "unreadable"] = "unanchored"
+    """Three outcomes and a fault, because a boolean here would lie.
+
+    `ok=True` with an empty anchor log is true and useless — nothing disagreed
+    because nothing was asked. A reader who sees a green tick next to an
+    unanchored chain believes the department holds corroboration it does not
+    hold, which is worse than holding none knowingly. So **`unanchored` is its
+    own state** and never reads as success.
+
+    `unreadable` is the anchor file failing to parse, and it is deliberately not
+    folded into `failed`: one says the chain disagrees with its anchors, the
+    other says we cannot tell, and the person acting on this needs to know which
+    of those they are looking at."""
+
+    anchors: int = 0
+    """Anchors held in the log."""
+
+    anchors_checked: int = 0
+    """Anchors that could be compared against a record still stored."""
+
+    anchor_failures: list[str] = Field(default_factory=list)
+
 
 __all__ = [
     "BulkAccepted",

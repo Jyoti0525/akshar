@@ -305,6 +305,64 @@ def test_the_chain_stays_verifiable_across_a_partial_replay(client):
     assert status["ok"], status["failures"]
     assert status["checked"] == 4
 
+    # An unanchored chain never reports success. `ok` above says the chain is
+    # internally consistent, which a wholesale rewrite also says; a green tick
+    # beside an empty anchor log would tell a supervisor they hold corroboration
+    # they do not hold. See `evidence/anchor.py`.
+    assert status["anchor_status"] == "unanchored"
+    assert status["anchors"] == 0
+
+
+def test_the_anchor_status_turns_green_only_once_something_is_anchored(
+    client, stores, tmp_path, monkeypatch
+):
+    """`GET /chain/status` reports the anchor log, not just the chain.
+
+    Two states that a boolean would have merged: nothing published yet, and
+    everything published still agreeing.
+    """
+    import evidence.anchor as anchor_module
+    from api.routers import ops
+
+    log = tmp_path / "anchors.jsonl"
+    monkeypatch.setattr(ops, "anchor_path", lambda: log)
+
+    scans, *_ = stores
+    client.post(
+        "/api/v1/scans/listing", json={"text": "MRP Rs 45. Net 100 g."}, headers=_auth(OFFICER)
+    )
+
+    before = client.get("/api/v1/chain/status", headers=_auth(SUPERVISOR)).json()
+    assert before["anchor_status"] == "unanchored"
+
+    assert anchor_module.append_anchor(log, scans.all_records()) is not None
+
+    after = client.get("/api/v1/chain/status", headers=_auth(SUPERVISOR)).json()
+    assert after["anchor_status"] == "ok"
+    assert after["anchors"] == 1
+    assert after["anchors_checked"] == 1
+    assert after["anchor_failures"] == []
+
+
+def test_an_unreadable_anchor_log_is_reported_rather_than_swallowed(client, tmp_path, monkeypatch):
+    """ "We cannot tell" and "the chain disagrees" are different answers.
+
+    A corrupt or truncated anchor file is indistinguishable, from the endpoint,
+    from one somebody removed on purpose — so it is surfaced under its own
+    status rather than folded into `failed` or quietly ignored.
+    """
+    from api.routers import ops
+
+    log = tmp_path / "anchors.jsonl"
+    log.write_text("this is not an anchor\n", encoding="utf-8")
+    monkeypatch.setattr(ops, "anchor_path", lambda: log)
+
+    status = client.get("/api/v1/chain/status", headers=_auth(SUPERVISOR)).json()
+    assert status["anchor_status"] == "unreadable"
+    assert status["anchor_failures"]
+    # The chain itself is a separate question and is still answered.
+    assert status["ok"] is True
+
 
 def test_chain_seq_is_assigned_server_side_not_by_the_client(client, stores):
     """Section 5: "offline clients cannot possibly agree on ordering."
@@ -388,18 +446,14 @@ def test_a_listing_with_no_image_still_produces_verdicts(client):
 
 
 def test_a_listing_scan_is_chained_like_any_other(client):
-    response = client.post(
-        "/api/v1/scans/listing", json={"text": "MRP Rs. 45.00"}, headers=_auth()
-    )
+    response = client.post("/api/v1/scans/listing", json={"text": "MRP Rs. 45.00"}, headers=_auth())
     body = response.json()
     assert body["record_sha256"] and body["chain_seq"] == 0
 
 
 def test_the_report_is_not_awaited(client):
     """Section 8c: a PDF takes 300-800 ms and must never sit in front of an officer."""
-    response = client.post(
-        "/api/v1/scans/listing", json={"text": "MRP Rs. 45.00"}, headers=_auth()
-    )
+    response = client.post("/api/v1/scans/listing", json={"text": "MRP Rs. 45.00"}, headers=_auth())
     assert response.json()["report_status"] == "queued"
 
 
@@ -463,9 +517,7 @@ def test_reading_a_scan_is_logged(client, stores):
     eventually gets asked"."""
     _scans, _users, _skus, audit, _reviews = stores
     scan_id = uuid4()
-    client.post(
-        "/api/v1/scans/sync", json={"scans": [_sync_item(scan_id)]}, headers=_auth()
-    )
+    client.post("/api/v1/scans/sync", json={"scans": [_sync_item(scan_id)]}, headers=_auth())
 
     client.get(f"/api/v1/scans/{scan_id}", headers=_auth())
 
@@ -489,9 +541,7 @@ def test_a_correction_is_appended_and_the_scan_is_untouched(client, stores):
     """
     scans, _users, _skus, audit, _reviews = stores
     scan_id = uuid4()
-    client.post(
-        "/api/v1/scans/sync", json={"scans": [_sync_item(scan_id)]}, headers=_auth()
-    )
+    client.post("/api/v1/scans/sync", json={"scans": [_sync_item(scan_id)]}, headers=_auth())
     before = dict(scans.get(scan_id))
 
     response = client.post(

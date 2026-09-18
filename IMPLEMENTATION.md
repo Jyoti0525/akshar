@@ -163,7 +163,9 @@ were not on it:
     together, so no threshold has been touched. `RESULTS.md`, "38 labelled
     declaration panels"
 
-- [ ] **B5 evidence plan before OCR** — `rules/applicability.py` gains a standalone entry point emitting `EvidencePlan { need, need_geometry }` from `PackageContext` alone. Rule 24 wholesale asks for 3 declarations not 6; a Rule 26 exemption ends the scan **before OCR**, ~150 ms, `NOT_APPLICABLE`
+- [x] **B5 evidence plan before OCR** — built 2026-09-18. `rules/applicability.py::plan_evidence` emits `EvidencePlan { need, need_geometry, need_pdp_polygon, must_declare, out_of_scope }` from `PackageContext` and the loaded pack alone. It runs **the same `evaluate_applicability` the engine runs**, against an empty `DeclarationSet`, rather than a second pre-OCR copy of the gate that could drift out of step with the first — which works only because every clause declines on a missing quantity (`compare_to_limit` returns `None`, not a verdict). Measured: an institutional or industrial buyer, a 5 g sachet and a 60 kg sack all settle with `need` empty and the rule quoted, before a pixel is read; wholesale narrows `must_declare` to three
+  - **Two findings it forced, both the opposite of the obvious.** *One:* `need` is **not a licence to skip OCR**, and the type says so at length. `present` checks find a declaration with `locate()`, which searches the label's text rather than the classifier's output — `LMPC.MFR.PRESENT` targets `manufacturer` alone and finds it through a pattern that also matches `Packed by`, which is why **no rule in the pack targets `packer` at all**. Narrowing text extraction by `need` would produce a manufacturer nobody could find. The safe uses are: stop when `out_of_scope`; skip scale when `need_geometry` is empty; skip segmentation when `need_pdp_polygon` is false. *Two:* an **unknown** quantity must never exempt a package. The 10 g exemption is the tempting one and the quantity is normally printed on the pack — precisely what has not been read yet — so treating a missing quantity as "small" would clear every package in India while reporting success. A test asserts it in both directions
+  - **`must_declare` is not `need`,** and Rule 24 is the whole of the distinction: a wholesale carton must declare three things and is still not licensed to print an unreadable price, so `mrp` stays in `need` while leaving `must_declare`. 12 tests, `tests/unit/test_evidence_plan.py`
 - [ ] **B4 version diffing** — align to the stored reference, re-read only changed regions. **Shorten the OCR work, never the legal evaluation** — every rule still runs against the full DeclarationSet
 - [ ] **B4 ORB keypoint matching** — fallback for re-print variants, after barcode → pHash → embedding
 - [ ] **B7 two-pass recognition** — low-confidence crops re-cropped from **original full-resolution pixels** and re-read
@@ -366,12 +368,40 @@ were not on it:
       after which a changed upstream artifact fails loudly instead of silently
       altering every measurement, which matters because `scans.model_versions`
       writes that digest into a legal record.
-- [ ] **Publish the chain head digest somewhere outside the database.** A chain
-      is tamper-*evident*, not tamper-*proof*: an actor with full write access
-      can rewrite a record and re-chain everything after it, and the result
-      verifies cleanly. `head_digest()` exists and there is a test asserting
-      exactly this limit. Anchoring it externally — an append-only log, a daily
-      line to the controller — is what closes it, and it costs one row.
+- [x] **Publish the chain head digest somewhere outside the database** — built
+      2026-09-18 as `evidence/anchor.py`. A chain is tamper-*evident*, not
+      tamper-*proof*: an actor with full write access can rewrite a record and
+      re-chain everything after it, and the result verifies cleanly.
+      `test_a_wholesale_rewrite_verifies_which_is_why_the_head_is_published`
+      asserts that limit deliberately; this is its other half. The head digest
+      and its sequence are appended to a file that is not the database, and
+      every anchor is later re-checked against the live chain — the record now
+      at sequence 42 must still hash to what was anchored for 42.
+      **Proved against the real chain, without touching it**: the eight stored
+      records were read, one rewritten in memory and everything after it
+      re-chained; `verify_chain` returned ok and the anchor returned
+      `ANCHOR_MISMATCH at sequence 7`
+  - **The anchor lines are chained to each other**, because an append-only file
+      on the same disk as the database is one `>` away from being rewritten too.
+      A forger must now rewrite every subsequent line rather than edit one, and
+      any copy taken at any moment pins everything up to that moment. Editing a
+      line and deleting a middle line are separately detected and separately
+      named
+  - **Three refusals that are the point rather than polish.** Re-anchoring a
+      head that has *changed* at the same sequence raises instead of appending —
+      a second agreeing line would bury the disagreement the log exists to
+      expose. An unparseable line raises rather than being skipped, because a
+      log that quietly ignores its unreadable part attests to less than its
+      reader believes. And `anchor_status` on `GET /chain/status` has a distinct
+      **`unanchored`** state that never reads as success: `ok` next to an empty
+      log is true and useless, and tells a supervisor they hold corroboration
+      they do not hold
+  - Deliberately **not** written from the scan request path: a full or read-only
+      anchor volume would then fail the scan itself, against section 5's whole
+      argument. `python -m evidence.anchor` and `--verify`; `docs/deployment.md`
+      §8 carries the two operational decisions the code cannot make — put the
+      log where the API cannot quietly rewrite it, and send the line onward.
+      12 tests, `tests/unit/test_evidence_anchor.py`
 - [x] Schema executed against a live Postgres 17.11 + pgvector 0.8.6. The
       `rule_chunks` table for tier-2 search was added the same way, and
       `tests/unit/test_sql_stores.py` checks it against `api/sql/tables.py`

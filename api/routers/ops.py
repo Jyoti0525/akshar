@@ -15,6 +15,8 @@ from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from api.config import get_settings
 from api.deps import ScanStoreDep, require_role
 from api.schemas import ChainStatusResponse, HealthResponse
+from evidence.anchor import default_path as anchor_path
+from evidence.anchor import verify_anchors
 from evidence.verify import head_digest, verify_chain
 from retrieval.citations import DOCUMENTS as RULEBOOK_DOCUMENTS
 from retrieval.citations import load_index
@@ -170,9 +172,34 @@ async def chain_status(scans: ScanStoreDep) -> ChainStatusResponse:
     """
     records = scans.all_records()
     report = verify_chain(records)
+
+    # The anchor log answers the question `verify_chain` cannot. A wholesale
+    # rewrite is internally consistent and reports ok=True above; what it cannot
+    # do is match digests published before the rewrite.
+    #
+    # A log that cannot be read is reported as a failure, not swallowed. The one
+    # circumstance in which this file is unreadable and it does not matter is
+    # indistinguishable, from here, from the one in which someone has removed
+    # it.
+    try:
+        anchors = verify_anchors(anchor_path(), records)
+        anchor_failures = list(anchors.failures)
+        held, compared = anchors.anchors, anchors.checked
+        # "Nothing disagreed" and "nothing was asked" are different answers.
+        status = "ok" if anchors.ok else "failed"
+        if held == 0:
+            status = "unanchored"
+    except (OSError, ValueError) as exc:
+        anchor_failures = [f"the anchor log could not be read: {exc}"]
+        status, held, compared = "unreadable", 0, 0
+
     return ChainStatusResponse(
         checked=report.checked,
         ok=report.ok,
         head_sha256=head_digest(records),
         failures=[str(failure) for failure in report.failures],
+        anchor_status=status,
+        anchors=held,
+        anchors_checked=compared,
+        anchor_failures=anchor_failures,
     )

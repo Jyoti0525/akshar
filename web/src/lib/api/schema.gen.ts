@@ -966,6 +966,24 @@ export interface components {
             head_sha256: string | null;
             /** Failures */
             failures?: string[];
+            /**
+             * Anchor Status
+             * @default unanchored
+             * @enum {string}
+             */
+            anchor_status: "ok" | "unanchored" | "failed" | "unreadable";
+            /**
+             * Anchors
+             * @default 0
+             */
+            anchors: number;
+            /**
+             * Anchors Checked
+             * @default 0
+             */
+            anchors_checked: number;
+            /** Anchor Failures */
+            anchor_failures?: string[];
         };
         /**
          * CorrectionRequest
@@ -1012,7 +1030,7 @@ export interface components {
              * Field
              * @enum {string}
              */
-            field: "mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "other";
+            field: "mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "nutrition" | "ingredients" | "storage_use" | "fssai_licence" | "barcode" | "unit_sale_price" | "other";
             /** Text */
             text: string;
             /**
@@ -1611,7 +1629,7 @@ export interface components {
              */
             severity: "high" | "medium" | "low";
             /** Field */
-            field?: ("mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "other") | null;
+            field?: ("mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "nutrition" | "ingredients" | "storage_use" | "fssai_licence" | "barcode" | "unit_sale_price" | "other") | null;
             /** Found */
             found?: string | null;
             /** Expected */
