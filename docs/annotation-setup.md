@@ -105,18 +105,25 @@ files**, and set
 at `corpus` covers both directories the tasks reference — 231 frames in
 `corpus/originals` and 248 in `corpus/images`.
 
-The wizard has four steps. On **Import Settings & Preview**, set two things so
-that this storage can never import anything:
+The wizard has four steps. **Import Settings & Preview** is the one that matters,
+and its defaults are wrong for us:
 
-- **Leave "Recursive scan" off.** It is off by default and that is the important
+- **Replace the File Filter Regex.** It arrives pre-filled with
+  `.*\.(json|jsonl|parquet)$`, and the Import Method beside it defaults to
+  *Tasks — treat each JSON, JSONL or Parquet as one or more task definitions*.
+  Together those match `audit.json` and `audit_per_image.json` — 227 KB of
+  corpus audit data sitting in that folder — and hand them to `load_tasks_json`
+  to be parsed as task definitions. Type **`(?!)`** instead, a negative
+  lookahead that can never match; `iter_objects` skips any key the regex does
+  not match, so the importable set becomes empty regardless of anything else.
+  (`^$` works identically if the field objects to the lookahead.)
+- **Leave "Scan all sub-folders" off.** It is off by default and it is the other
   guard. `iter_objects` uses `path.glob('*')` without it and then skips
-  directories, so a scan of `corpus` sees only the three loose files that
-  happen to sit there (`audit.json`, `audit_per_image.json`,
-  `review_sheet.jpg`) and cannot reach the photographs in `originals/` and
-  `images/` at all. Switching it on makes `rglob('*')` find all 479.
-- **File Filter Regex: `(?!)`** — a negative lookahead that can never match.
-  `iter_objects` skips any key the regex does not match, so this makes the set
-  of importable files empty regardless of anything else.
+  directories, so a scan of `corpus` cannot reach the photographs in
+  `originals/` and `images/` at all. Switching it on makes it `rglob('*')` and
+  finds all 479.
+- **Then press "Load Preview".** It should list **nothing**. That is the
+  confirmation that the storage is inert, and it costs one click.
 
 > ⚠️ **This storage is a permission row, not a data source.**
 >
