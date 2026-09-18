@@ -31,7 +31,7 @@
     <Label value="unknown" background="#c7c7c7"/>
   </PolygonLabels>
 
-  <Header value="3. Declarations. One box per field. marketing_text is for promotional price graphics; other is for text you cannot read -- never a guess."/>
+  <Header value="3. Declarations under the rules. One box per field. A promotional price graphic is marketing_text, NEVER mrp."/>
   <RectangleLabels name="declarations" toName="image">
     <Label value="mrp" background="#e6194b"/>
     <Label value="net_quantity" background="#3cb44b"/>
@@ -45,6 +45,30 @@
     <Label value="generic_name" background="#fabebe"/>
     <Label value="batch" background="#008080"/>
     <Label value="marketing_text" background="#9a6324"/>
+
+    <!--
+      The six below are NOT declarations under the Packaged Commodities Rules
+      and no rule targets them. They are here because an officer reading a panel
+      of `other` cannot tell "we saw this and it is not a declaration" from "we
+      could not read this", and those are opposite statements. Measured on
+      rocksalt.jpg: 37 boxes came back `other` and 17 of them were the nutrition
+      table, the storage note and the FSSAI licence: things with perfectly good
+      names.
+
+      They also exist to keep two specific mistakes apart. `nutrition` carries
+      numbers with units and `unit_sale_price` carries a price; if either were
+      ever admitted as the net quantity or the retail sale price, a compliant
+      pack would be judged on the wrong figure. Label them as themselves.
+    -->
+    <Label value="nutrition" background="#4a7c59"/>
+    <Label value="ingredients" background="#6b705c"/>
+    <Label value="storage_use" background="#7f5539"/>
+    <Label value="fssai_licence" background="#3d5a80"/>
+    <Label value="barcode" background="#5c5470"/>
+    <Label value="unit_sale_price" background="#a44a3f"/>
+
+    <!-- Text you cannot read. Never a guess, and never "not a declaration"
+         either; the six above cover that case. -->
     <Label value="other" background="#808080"/>
   </RectangleLabels>
 

@@ -4144,3 +4144,85 @@ pass has least to offer; full-resolution photographs of *angled* declaration
 blocks would put those eleven changes on a measured footing in either direction.
 Until then the honest position is that B7 is finished and unproven, which is a
 different thing from finished and good.
+
+## A marker that was not there — 2026-09-18 (evening)
+
+Found while answering a question about why the pre-labels say `other` so often.
+The question was about annotation. The answer turned out to be a scan that
+returned nothing from a photograph that contained everything.
+
+### What happened
+
+`IMG_0640.JPG` is a sharp 3024×4032 photograph of the back of a Pepsi can: the
+ingredients, the nutrition table, `MFD. BY`, `MKT. BY`, the FSSAI licence,
+`NET QUANTITY: 300 ml`, the MRP line, and a consumer-care address with a
+helpline. The full pipeline read **zero lines**, exited at tier **L4**, and
+produced the message *"Nothing legible was recovered."*
+
+The text detector was not the problem. Run directly on the same file it proposes
+**47 regions**, and `read_regions` reads **43** of them.
+
+The image handed to OCR was **31 × 168 pixels**.
+
+`cv2.aruco.detectMarkers` had found a marker on the can — a 68 × 56 px patch,
+**0.03% of the frame**, its four edges measuring 66, 34, 33 and 48 px. There is
+no marker card in that photograph. There is no marker card anywhere in this
+corpus; the card has not been printed yet. `rectify` took that false positive,
+mapped its corners to a square, applied the homography to the whole frame, and
+collapsed a 12-megapixel photograph into a sliver.
+
+### Why nothing caught it
+
+`warp_to_marker` already refuses a degenerate warp — in one direction:
+
+```python
+if out_w < 8.0 or out_h < 8.0:
+    return None
+if out_w > w * _MAX_WARP_GROWTH or out_h > h * _MAX_WARP_GROWTH:
+    return None  # grazing angle: the plane runs to the horizon
+```
+
+The growth guard is relative and the shrink guard is **absolute, at 8 pixels**.
+`31 × 168` clears it comfortably. What is wrong with that output is not its size
+but its size *relative to the frame that produced it*, and nothing measured that.
+
+The fix is the growth guard read backwards, using the same constant rather than
+a new one: a plane that collapses by more than the factor we already refuse to
+let it grow by is degenerate for the same reason, whether the marker is real or
+imagined.
+
+```python
+if out_w * _MAX_WARP_GROWTH < w or out_h * _MAX_WARP_GROWTH < h:
+    return None
+```
+
+### Measured over the 231 camera originals
+
+Markers were detected on **3 frames**. **All three are false positives** — the
+corpus contains no marker card — and all three damaged the scan.
+
+| frame | marker | rectified to | before | after |
+|---|---|---|---|---|
+| `IMG_0640.JPG` | 0.031% of frame | 31 × 168 | L4, **0** declarations | L2, **43** |
+| `IMG_0713.JPG` | 0.023% of frame | 18 × 419 | L4, **0** declarations | L2, **43** |
+| `IMG_0704.JPG` | 0.086% of frame | 684 × 3000 | L3, **5** lines | unchanged |
+
+The third is left alone deliberately. It collapses to 17% of the frame's area,
+not 0.04%, so it clears the guard — and it is still being harmed: the raw frame
+offers 69 regions and the marker path yields 5. Tightening the threshold until
+that case flips too would be fitting a constant to three photographs.
+
+### What is deliberately not fixed
+
+**Marker acceptance itself.** `detect_markers` already takes a `marker_ids`
+argument and its docstring already anticipates this exact failure — *"a stray
+marker in the frame — on another product's packaging, on a shelf tag — would
+otherwise be measured as if it were the reference"* — but it defaults to `None`
+because an officer may be issued a card from any batch. That is a real
+trade-off and it belongs to whoever runs the deployment.
+
+More to the point: **this corpus contains zero true positives.** A false-positive
+rate of 3 in 231 is measurable; a precision figure is not, and neither is a size
+floor, until a real card has been photographed. Printing
+`data/marker_card/akshar_card_A4.png` is already on the outstanding list, and it
+is what makes this tunable rather than guessable.

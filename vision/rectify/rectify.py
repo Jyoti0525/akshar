@@ -261,6 +261,24 @@ def warp_to_marker(
         return None
     if out_w > w * _MAX_WARP_GROWTH or out_h > h * _MAX_WARP_GROWTH:
         return None  # grazing angle: the plane runs to the horizon
+    if out_w * _MAX_WARP_GROWTH < w or out_h * _MAX_WARP_GROWTH < h:
+        # The same refusal, in the direction nobody had guarded. Found
+        # 2026-09-18 on IMG_0640.JPG: a false-positive ArUco hit on a 68x56 px
+        # patch of a Pepsi can -- 0.03% of the frame, and there is no marker
+        # card anywhere in that photograph -- warped a 3024x4032 image down to
+        # **31x168**. OCR proposed nothing, the scan exited L4, and the officer
+        # was told "nothing legible was recovered" about a sharp 12-megapixel
+        # photograph of a declaration panel.
+        #
+        # The absolute 8 px floor above cannot catch that: 31x168 clears it
+        # comfortably. What is wrong is not the output's size but its size
+        # *relative to what came in* — a plane that collapses by more than the
+        # factor we already refuse to let it grow by is being read at an angle
+        # that puts the rest of the pack below one pixel, whether the marker is
+        # real or imagined. Returning None falls back to the quad, or to
+        # identity, and a full-resolution frame with no scale beats a sliver
+        # with one.
+        return None
 
     shrink = min(1.0, _MAX_WARP_SIDE / max(out_w, out_h))
     translation = np.array(
