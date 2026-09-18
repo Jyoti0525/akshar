@@ -63,10 +63,54 @@ not one.
 It opens `http://localhost:8080` and asks you to make an account. The account is
 local; use anything.
 
-> If images show as broken rectangles, the two environment variables are the
-> reason, every time. They have to be set **in the shell that starts the
-> server** — a new tab has its own copy — and the path must be the `data`
-> folder itself, not the repository root.
+> The two environment variables have to be set **in the shell that starts the
+> server** — a new tab has its own copy of the environment and will not have
+> them.
+
+### They are necessary and they are not sufficient
+
+**Label Studio 1.23 will still refuse to serve the images after this, and the
+error it gives does not say why.** You get a pink panel reading *"There was an
+issue loading URL from $image value"* and a list of suggestions about CORS and
+URL schemes, none of which is the problem.
+
+The reason is in `io_storages/localfiles/views.py`:
+
+```python
+localfiles_storage = LocalFilesImportStorage.objects.annotate(...).filter(
+    _full_path__startswith=F('path')
+)
+if localfiles_storage.exists():
+    user_has_permissions = any(...)
+
+if user_has_permissions and os.path.exists(full_path):
+    ...serve...
+else:
+    return HttpResponseNotFound()
+```
+
+The environment variables get you past the `403`. Serving the file additionally
+requires a **Local Files storage row whose path is a prefix of the file's
+directory**, and with no such row `user_has_permissions` stays `False` and every
+image 404s. Older versions served on the document root alone, which is why most
+of the guides on the internet stop at step 2.
+
+So, in the project: **Settings → Cloud Storage → Add Source Storage → Local
+files**, and set
+
+    Absolute local path:  C:\Users\jyoti\codefiles\SIH_26034\data\corpus
+
+`corpus`, not `data`. The validator rejects a path equal to
+`LOCAL_FILES_DOCUMENT_ROOT` and requires a strict subdirectory of it. One entry
+at `corpus` covers both directories the tasks reference — 231 frames in
+`corpus/originals` and 248 in `corpus/images`.
+
+> ⚠️ **Add the storage. Do not press Sync Storage.**
+>
+> Adding the row is all the permission check needs. *Syncing* walks the
+> directory and imports every file as a **new task**, which would put a second
+> copy of all 479 photographs into the project — this time with no machine
+> proposals on them — and you would not notice until the task count read 958.
 
 ## 3. Create the project
 
