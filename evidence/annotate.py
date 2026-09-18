@@ -88,6 +88,17 @@ FIELD_LABELS: dict[str, str] = {
     "generic_name": "Generic name",
     "batch": "Batch",
     "marketing_text": "Marketing text",
+    # The six non-statutory names, added to `contracts` 2026-09-10 and to this
+    # table 2026-09-19. Until then they fell through to
+    # `name.replace("_", " ").capitalize()` and an exhibit handed to a
+    # manufacturer read **"Fssai licence"**. The fallback is a safety net, not a
+    # naming scheme, and `tests/unit/test_annotate_labels.py` now says so.
+    "nutrition": "Nutritional information",
+    "ingredients": "Ingredients",
+    "storage_use": "Storage or usage instruction",
+    "fssai_licence": "FSSAI licence",
+    "barcode": "Barcode",
+    "unit_sale_price": "Unit sale price",
     "other": "Unclassified text",
 }
 
