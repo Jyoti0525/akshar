@@ -191,7 +191,11 @@ _LOCAL_PATTERNS: dict[FieldName, tuple[str, ...]] = {
         # many Indian packs -- measured 2026-09-10, `'UBD: 13 APR 2027'`
         # classified as `other`. Anchored to a following separator and digit
         # so it cannot fire on the letters appearing inside a word.
-        r"(?i)\b(best\s*(before|by)|use\s*by|expiry|exp\.?\s*date|consume\s*before)\b",
+        # `(best|use)\s*(before|by)` rather than `best (before|by)|use by`: packs
+        # print **Use Before** as often as Use By, and it matched nothing until
+        # 2026-09-19 — the caption was read, named `other`, and Rule 6(1)(d)'s
+        # date went unevaluated on a pack that declares it.
+        r"(?i)\b((best|use)\s*(before|by)|expiry|exp\.?\s*date|consume\s*before)\b",
         r"(?i)\bu\.?b\.?d\.?\s*[:\-]?\s*\d",
         r"(सर्वोत्तम|उपयोग|समाप्ति)\s*(से\s*पहले|तिथि)",
     ),
@@ -216,6 +220,17 @@ _LOCAL_PATTERNS: dict[FieldName, tuple[str, ...]] = {
     ),
     "packer": (
         r"(?i)\bpacked\s*by\b",
+        # `Packed & Marketed By:` is one declaration naming one entity in two
+        # roles, and it is what a great many Indian packs print instead of
+        # `Packed by`. Without this it matched no packer pattern at all and fell
+        # through to `mfg_date` — a Rule 6(1)(a) packer read as a date. Measured
+        # on a Bangalore salt pack, 2026-09-19.
+        #
+        # `packer` and not `manufacturer`: Rule 6(1)(a) names three roles and the
+        # pack is telling us which one it is. Where the same address also serves
+        # as consumer care the pack says so separately, and rule 7 of the
+        # annotation guide is explicit that these stay four fields.
+        r"(?i)\bpacked\s*(&|and)\s*(marketed|mktd\.?)\s*by\b",
         r"पैकर|पैक\s*किया",
     ),
     "batch": (

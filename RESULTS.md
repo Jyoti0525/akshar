@@ -4324,3 +4324,70 @@ annotator called `other`, and never did it swap one real field for another.
 That shape is the regex tier behaving as designed — high precision, low recall,
 `other` whenever nothing matched — and it is exactly the recall the layout head
 exists to add. Which is the thing that cannot be trained yet.
+
+## One pack, scanned by the user, found two bugs the corpus had not — 2026-09-19
+
+A single salt packet, scanned through the running app, with the annotated
+evidence image read by eye. It exposed two defects that 469 corpus frames, 38
+labelled panels and 37 hand-annotated frames had all missed.
+
+### `Packed & Marketed By:` was a manufacturing date
+
+```
+'Packed & Marketed By:'  ->  mfg_date (0.88)
+    reason: matched mfg_date locate pattern on 'Packed'
+```
+
+A Rule 6(1)(a) packer declaration handed to a date-format check. `mfg_date_locate`
+already carries a guard against exactly this, written after `MFG BY ABC Foods`
+classified as a date — but it was spelled `(?!\s*(&\s*)?(by|pkd)\b)`, which
+blocks `Packed & by`, a thing no pack prints, and not `Packed & Marketed By`,
+which a great many print. The guard now reaches across one optional role word,
+and `packer` gains the phrasing outright.
+
+### `Use Before` matched nothing
+
+The expiry pattern read `best\s*(before|by)|use\s*by` — three of the four
+combinations. `Use Before` is as common on Indian packs as `Use By`, and it was
+being read, named `other`, and Rule 6(1)(d)'s date left unevaluated.
+
+### And the measurement that matters
+
+Both fixes came from a pack in **neither** ground-truth set. Scored on the 38
+held-out panels:
+
+| | before | after |
+|---|---|---|
+| presence micro F1 | 0.7506 | **0.7685** |
+| recall | 0.6078 | **0.6314** |
+| precision | 0.9810 | **0.9817** |
+| `expiry_date` F1 | 0.67 | **0.82** |
+| `packer` | 0.00 / 0 of 2 | **P 1.00, R 0.50** |
+| expiry value accuracy | 5/22 | **7/22** |
+
+Recall rose and precision did not fall, which is the shape a real fix has: it
+did not trade one for the other.
+
+**This is also the clearest evidence so far that the rule tier is not being
+fitted to its test sets.** The previous round of fixes came from the 37
+annotated frames, improved that set (41.4% → 46.6%) and left the held-out panels
+untouched — the honest reading of which was "improved what guided it, and
+nothing else". This round came from a pack outside both sets and moved the
+held-out number. Fresh data keeps finding real bugs, which is what a
+*non*-overfitted rule tier looks like.
+
+### What the same scan could not do, and why none of it is a naming bug
+
+Seven checks reported **Not measured**, all of them height rules, all for one
+reason: `No scale was recovered (tier C)`. There is no marker card in the
+photograph because the card has not been printed. That is a sheet of A4, not a
+code change, and it converts seven `NO_DATA` rows into real millimetre
+measurements on every scan thereafter.
+
+Two values sat in boxes named `other` while their captions were named correctly
+— `Net Wt.` found, `: 1 KG` not; `Batch No.` found, `MKM A068891` not. That is
+the caption-to-value association gap already measured on 2026-09-10 (the MRP
+numeral unassociated on 11 of 38 frames, `associate.py` reaching 4x line height
+against observed gaps of 4.3-9.2). It is a known defect with a known cause and
+it is not the classifier failing to name text; it is two boxes that were never
+joined.

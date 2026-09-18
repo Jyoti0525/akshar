@@ -574,7 +574,15 @@ patterns:
     # abbreviation. And `address` joins the negative guard beside `by`: the
     # stem `manufactur\w*` was claiming `Manufacturing Address of PL:`, which
     # names a *place* under Rule 6(1)(a) and not a date under 6(1)(d).
-    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*(&\s*)?(by|pkd)\b)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
+    # The `by` guard reaches across a conjunction since 2026-09-19. It was
+    # written as `(&\s*)?(by|pkd)`, which blocks `Packed & by` -- a thing no pack
+    # prints -- and not `Packed & Marketed By:`, which a Bangalore salt pack
+    # prints plainly. That line classified as `mfg_date` at 0.88 and a Rule
+    # 6(1)(a) packer declaration was handed to a date-format check, which is the
+    # identical failure this comment's neighbour above records having fixed once
+    # for `MFG BY ABC Foods`. One optional role word between the conjunction and
+    # the `by` is what the phrasing actually varies by.
+    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*((&|and)\s*)?((marketed|mktd\.?|imported|manufactured|mfd\.?|mfg\.?)\s*)?(by|pkd)\b)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
     devanagari: '(निर्माण|पैकिंग)\s*(की\s*)?(तिथि|माह)'
 
   mfg_date:                              # Rule 6(1)(d) — month AND year

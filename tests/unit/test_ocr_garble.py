@@ -66,8 +66,22 @@ guards = [
     # A promotional graphic is never the retail sale price.
     ("Rs. 20 OFF", "marketing_text"),
     ("SPECIAL PRICE 99", "marketing_text"),
-    # The four address fields stay four fields.
+    # The four address fields stay four fields. `Packed & Marketed By:` read as
+    # `mfg_date` until 2026-09-19 -- a Rule 6(1)(a) packer handed to a date
+    # check, found on a real Bangalore salt pack.
+    ("Packed & Marketed By:", "packer"),
+    ("Packed and Marketed By:", "packer"),
+    ("Packed & Mktd. By:", "packer"),
     ("Packed by: ABC Foods", "packer"),
+    # ...and dates that are dates must survive that guard being widened.
+    ("Packed on 11/2025", "mfg_date"),
+    ("Packing Date: 11/2025", "mfg_date"),
+    ("Date of Packaging", "mfg_date"),
+    ("Month & Year : 15/05/2024", "mfg_date"),
+    ("MFG BY ABC Foods", "manufacturer"),
+    # `Use Before` is as common on Indian packs as `Use By` and matched nothing.
+    ("Use Before", "expiry_date"),
+    ("USE BEFORE : 14/05/2026", "expiry_date"),
     ("Imported by: XYZ Traders", "importer"),
     ("Manufactured by: Parle Products", "manufacturer"),
     # Undamaged captions keep working.
