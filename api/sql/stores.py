@@ -40,12 +40,15 @@ from typing import Any
 from uuid import UUID
 
 from sqlalchemy import (
+    Numeric,
     String,
     and_,
+    case,
     cast,
     delete,
     func,
     insert,
+    literal,
     literal_column,
     select,
     text,
@@ -239,8 +242,23 @@ def _sku(row: Row) -> SkuRecord:
         phash=f"{int(phash, 2):016x}" if phash else None,
         label_w_mm=_as_float(m["label_w_mm"]),
         label_h_mm=_as_float(m["label_h_mm"]),
+        label_mm_observations=int(m["label_mm_observations"] or 0),
+        # Welford's M2 is what is stored; the standard deviation is derived
+        # here so no caller has to know that, and so the storage form stays
+        # free to change. Undefined below two observations, and `None` says
+        # that rather than `0.0` — a zero spread would read as a perfectly
+        # measured SKU and produce a tolerance of nothing.
+        label_w_mm_stddev=_stddev(
+            _as_float(m["label_w_mm_m2"]), int(m["label_mm_observations"] or 0)
+        ),
         scan_count=m["scan_count"],
     )
+
+
+def _stddev(m2: float | None, observations: int) -> float | None:
+    if m2 is None or observations < 2:
+        return None
+    return (max(m2, 0.0) / (observations - 1)) ** 0.5
 
 
 class SqlSkuStore:
@@ -302,6 +320,52 @@ class SqlSkuStore:
                 update(t.skus)
                 .where(t.skus.c.id == sku_id)
                 .values(scan_count=t.skus.c.scan_count + 1)
+            )
+
+    def record_dimensions(self, sku_id: UUID, *, width_mm: float, height_mm: float) -> None:
+        """Welford, as one UPDATE, for the same reason as the increment above.
+
+        Every right-hand side below reads the row as it was *before* this
+        statement, which is what makes the three-line recurrence safe to write
+        as a single atomic update:
+
+            n'    = n + 1
+            mean' = mean + (x - mean) / n'
+            M2'   = M2 + (x - mean) * (x - mean')
+
+        Reading the row into Python first would lose an observation whenever two
+        photographs of the same SKU finish together — silently, since the count
+        would simply be one lower than the number of scans that took place, and
+        nothing anywhere would report an error.
+
+        `label_mm_observations = 0` makes the stored mean invisible to the
+        recurrence: a dimension seeded by hand is replaced by the first real
+        observation rather than averaged with it, because it was never measured
+        and has no weight to carry.
+        """
+        count = t.skus.c.label_mm_observations
+        mean = case((count == 0, literal(0.0)), else_=func.coalesce(t.skus.c.label_w_mm, 0.0))
+        height_mean = case(
+            (count == 0, literal(0.0)), else_=func.coalesce(t.skus.c.label_h_mm, 0.0)
+        )
+        delta = literal(width_mm) - mean
+        new_count = count + 1
+        new_mean = mean + delta / cast(new_count, Numeric)
+        with self.engine.begin() as conn:
+            conn.execute(
+                update(t.skus)
+                .where(t.skus.c.id == sku_id)
+                .values(
+                    label_w_mm=new_mean,
+                    label_h_mm=height_mean
+                    + (literal(height_mm) - height_mean) / cast(new_count, Numeric),
+                    label_w_mm_m2=case(
+                        (count == 0, literal(0.0)),
+                        else_=func.coalesce(t.skus.c.label_w_mm_m2, 0.0)
+                        + delta * (literal(width_mm) - new_mean),
+                    ),
+                    label_mm_observations=new_count,
+                )
             )
 
 

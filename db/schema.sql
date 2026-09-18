@@ -71,6 +71,23 @@ CREATE TABLE IF NOT EXISTS skus (
   label_w_mm   NUMERIC,
   label_h_mm   NUMERIC,
 
+  -- The two columns above are a RUNNING MEAN, and a mean without its count is
+  -- not a measurement. Tier B refuses to answer below three observations
+  -- (`vision/scale/tier_b._MIN_OBSERVATIONS`) precisely so that one bad marker
+  -- fit cannot become the dimension every later photograph of this SKU is
+  -- measured against -- and it cannot count without somewhere to count.
+  --
+  -- `label_w_mm_m2` is Welford's M2, the running sum of squared deviations.
+  -- Storing M2 rather than the standard deviation is what lets a new
+  -- observation be folded in by a single UPDATE, with no read-then-write: this
+  -- is written from several worker threads at once and a read-modify-write
+  -- loses observations silently, exactly as it would for `scan_count`.
+  -- The standard deviation is derived on read, and it feeds the REVIEW band
+  -- directly, so a SKU measured inconsistently reports a wide tolerance rather
+  -- than a falsely tight one.
+  label_mm_observations INT NOT NULL DEFAULT 0,
+  label_w_mm_m2         NUMERIC NOT NULL DEFAULT 0,
+
   scan_count   INT NOT NULL DEFAULT 0,
   first_seen   TIMESTAMPTZ NOT NULL DEFAULT now(),
 

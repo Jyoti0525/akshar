@@ -55,6 +55,7 @@ def test_every_section_10_table_exists(table):
     [
         "brand", "brand_group", "variant", "pack_size", "category", "barcode",
         "phash", "embedding", "label_w_mm", "label_h_mm", "scan_count", "first_seen",
+        "label_mm_observations", "label_w_mm_m2",
     ],
 )
 def test_skus_carries_its_columns(column):
@@ -93,6 +94,25 @@ def test_pack_size_is_inside_the_unique_constraint():
     assert match, "no unique constraint on skus"
     columns = {part.strip() for part in match.group(1).split(",")}
     assert columns == {"brand", "variant", "pack_size"}, columns
+
+
+def test_the_label_dimensions_carry_their_observation_count():
+    """`label_w_mm` is a running mean, and a mean without its count is not one.
+
+    Scale tier B refuses to answer below three observations so that one bad
+    marker fit cannot become the dimension every later photograph of the SKU is
+    measured against. With nowhere to count, that guard was permanently tripped
+    and the tier was dead code with passing tests — every photograph needed the
+    marker card, which is the procedure section 17 says officers will forget.
+
+    `label_w_mm_m2` is Welford's M2. It is stored rather than the standard
+    deviation so an observation can be folded in by one UPDATE whose right-hand
+    sides read the pre-update row; a read-then-write loses observations
+    silently when two photographs of one SKU finish together.
+    """
+    assert "label_mm_observations int not null default 0" in FLAT
+    assert "label_w_mm_m2" in FLAT
+    assert "not null default 0" in FLAT
 
 
 def test_brand_group_exists_because_a_notice_is_addressed_to_the_parent():

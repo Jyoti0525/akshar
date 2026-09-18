@@ -315,6 +315,27 @@ def bump_scan_count(*, sku_id: str) -> None:
     _resources()["skus"].bump_scan_count(UUID(sku_id))
 
 
+@dramatiq.actor(queue_name=QUEUE_BULK, max_retries=MAX_RETRIES)
+def record_sku_dimensions(*, sku_id: str, width_mm: float, height_mm: float) -> None:
+    """Fold one marker-measured label into a SKU's running mean — scale tier B.
+
+    The write half of the tier that lets the *next* officer photograph this pack
+    without the marker card at all. `api.scanning._teach_dimensions` has already
+    decided this observation is allowed to teach; this only stores it.
+
+    Here rather than inline for `bump_scan_count`'s reason — it is an UPDATE of
+    the same row for every packet of the SKU on the shelf — and safe to retry
+    only because it is *not* idempotent in a way that matters: a duplicated
+    delivery adds one more observation of a measurement that was genuinely
+    taken, which moves a mean of three by at most its own spread and moves a
+    mean of thirty by nothing. Dropping the observation entirely would be worse,
+    since an empty repository is what kept this tier dark for a fortnight.
+    """
+    _resources()["skus"].record_dimensions(
+        UUID(sku_id), width_mm=float(width_mm), height_mm=float(height_mm)
+    )
+
+
 def _enqueue(task: str, *, queue: str, **kwargs: Any) -> None:
     """Actors enqueueing actors — bulk ingestion still defers its own uploads."""
     from api.deps.resources import enqueue as send
@@ -326,6 +347,7 @@ __all__ = [
     "MAX_RETRIES",
     "bump_scan_count",
     "ingest_bulk_image",
+    "record_sku_dimensions",
     "render_report",
     "store_annotation",
     "store_evidence",

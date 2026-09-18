@@ -33,7 +33,8 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Any, Protocol
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, Any, Protocol
 from uuid import UUID, uuid4
 
 from api.config import Settings
@@ -49,6 +50,9 @@ from contracts import (
 from evidence import redact, storage
 from rules.engine import evaluate
 from rules.loader import load_rulepack
+
+if TYPE_CHECKING:  # pragma: no cover - `vision/` is imported lazily, inside
+    from vision.scale import tier_b  # the functions that use it
 
 MAX_UPLOAD_BYTES = 16 * 1024 * 1024
 """Refuse anything larger, before decoding it. Sixteen megabytes is generous for
@@ -300,6 +304,105 @@ def _resolve_sku(skus: SkuStore, identity) -> SkuRecord | None:
 
 
 # ---------------------------------------------------------------------------
+# Scale tier B — the tier that works without the marker card
+# ---------------------------------------------------------------------------
+#
+# Section 17, M2: "B falls out free once the repository fills, and it's the
+# elegant one: the more the system has seen, the less it needs the marker."
+#
+# It does not fall out free. It falls out once both of these exist, and until
+# 2026-09-19 neither did: `vision/scale/tier_b.py` was implemented, tested, and
+# reachable from nothing. Every marker measurement an officer took was
+# discarded, so the repository stayed empty, so the tier never fired, so every
+# photograph needed the card — which is the procedure section 17 says officers
+# will forget.
+
+
+def _sku_dimensions(sku: SkuRecord | None) -> tier_b.SkuDimensions | None:
+    from vision.scale import tier_b
+
+    if sku is None or not sku.label_w_mm:
+        return None
+    return tier_b.SkuDimensions(
+        sku_id=str(sku.id),
+        label_width_mm=float(sku.label_w_mm),
+        label_height_mm=float(sku.label_h_mm) if sku.label_h_mm else None,
+        observations=sku.label_mm_observations,
+        stddev_mm=sku.label_w_mm_stddev,
+    )
+
+
+def _dimension_lookup(skus: SkuStore):
+    """Build the callable `vision.pipeline.scan` reads scale tier B through.
+
+    The key is `vision.types.Identity.cache_key()` — `barcode:...` or
+    `phash:...` — and it is resolved back through `_resolve_sku`, deliberately,
+    so that the tier and the verdict cache agree about which SKU a photograph
+    is of. Two resolution orders would mean a pack could be measured against
+    one SKU's stored label and judged against another's cached verdicts.
+    """
+
+    def lookup(cache_key: str):
+        kind, _, value = cache_key.partition(":")
+        if kind == "barcode" and value:
+            identity = SimpleNamespace(barcode=value, phash=None)
+        elif kind == "phash" and value:
+            try:
+                identity = SimpleNamespace(barcode=None, phash=int(value, 16))
+            except ValueError:  # pragma: no cover - the key is ours to format
+                return None
+        else:  # pragma: no cover - `cache_key()` emits nothing else
+            return None
+        return _sku_dimensions(_resolve_sku(skus, identity))
+
+    return lookup
+
+
+def _teach_dimensions(outcome, sku: SkuRecord | None, enqueue: Enqueuer | None) -> None:
+    """Record what this scan measured, if it is allowed to teach.
+
+    **The primary frame only.** An officer who walks round the pack sends
+    several photographs of several *different planes*, and the front panel and
+    the back panel of one carton are not the same width. Folding both into one
+    running mean would not merely widen the spread, it would make the mean the
+    average of two different rectangles — so one scan contributes at most one
+    observation, which is also what makes `label_mm_observations` readable as
+    "how many scans this came from".
+
+    `tier_b.observe` refuses everything that must not teach (tier B feeding
+    itself, a padded detector-box crop, an implausible number) and `admits`
+    refuses an outlier against an established SKU. Both are in `vision/`
+    because both are measurement decisions, not storage ones.
+    """
+    from vision.scale import tier_b
+
+    if enqueue is None or sku is None or outcome.rectified is None:
+        return
+    observation = tier_b.observe(
+        outcome.scale,
+        width_px=float(outcome.rectified.shape[1]),
+        height_px=float(outcome.rectified.shape[0]),
+        rectify_method=outcome.rectify_method,
+    )
+    if observation is None or not tier_b.admits(_sku_dimensions(sku), observation):
+        return
+
+    from workers.broker import QUEUE_BULK
+
+    # The low queue, with `bump_scan_count`, and for the identical reason: it is
+    # an UPDATE of one row, and a shelf of forty packets of the same SKU is that
+    # same row forty times. A dimension that is a few seconds stale costs
+    # nothing — the next photograph of this pack is not being taken this second.
+    enqueue(
+        "record_sku_dimensions",
+        queue=QUEUE_BULK,
+        sku_id=str(sku.id),
+        width_mm=observation.width_mm,
+        height_mm=observation.height_mm,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Evidence — redact, hash, and decide who uploads
 # ---------------------------------------------------------------------------
 
@@ -485,6 +588,12 @@ def run_scan(
         else None
     )
     images = [redact.decode_image(chunk) for chunk in payloads]
+
+    # Offered to every frame, unlike the verdict cache above. A stored label
+    # dimension is a fact about the SKU rather than about one photograph, so
+    # there is no reason a second frame should be denied it — and a frame whose
+    # marker card fell outside the shot is exactly the frame that needs it.
+    dimensions = _dimension_lookup(skus)
     scan_context = ScanContext.of(
         str(request.scan_id),
         [
@@ -492,6 +601,7 @@ def run_scan(
                 image,
                 source=request.source,
                 cache_lookup=lookup,
+                dimension_lookup=dimensions,
                 rulepack_version=pack.version_string,
             )
             for image in images
@@ -664,6 +774,8 @@ def run_scan(
         # critical path." It feeds the offline cache warm list, and being a few
         # seconds stale costs nothing.
         enqueue("bump_scan_count", queue=QUEUE_BULK, sku_id=str(sku.id))
+
+    _teach_dimensions(outcome, sku, enqueue)
 
     if len(frame_records) > 1:
         frame_records = tuple(

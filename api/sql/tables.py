@@ -101,6 +101,9 @@ skus = Table(
     Column("embedding", Vector(512)),
     Column("label_w_mm", Numeric),
     Column("label_h_mm", Numeric),
+    # A running mean is not a measurement without its count. See 0005.
+    Column("label_mm_observations", Integer, nullable=False, default=0),
+    Column("label_w_mm_m2", Numeric, nullable=False, default=0),
     Column("scan_count", Integer, nullable=False, default=0),
     Column("first_seen", DateTime(timezone=True)),
 )

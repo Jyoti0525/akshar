@@ -55,6 +55,17 @@ class SkuRecord:
     phash: str | None = None
     label_w_mm: float | None = None
     label_h_mm: float | None = None
+
+    label_mm_observations: int = 0
+    """How many marker-measured scans `label_w_mm` is the mean of. Scale tier B
+    will not answer below three, so a dimension seeded by hand — which arrives
+    here with a count of zero — is displayed but never measured against."""
+
+    label_w_mm_stddev: float | None = None
+    """Spread across those observations, derived from the stored Welford M2.
+    None until there are two. It becomes the measurement tolerance, so an
+    inconsistently measured SKU reports REVIEW rather than a confident FAIL."""
+
     scan_count: int = 0
     brand_group: str | None = None
 
@@ -219,6 +230,21 @@ class SkuStore(Protocol):
         On a shelf of forty packets this is the same row forty times, so putting
         it in the scan response would add a row lock to the hot path and
         serialise a burst of scans behind each other.
+        """
+        ...
+
+    def record_dimensions(self, sku_id: UUID, *, width_mm: float, height_mm: float) -> None:
+        """Fold one marker-measured label into this SKU's running mean.
+
+        This is the write half of scale tier B — the tier that lets the *next*
+        officer photograph this pack with no marker card at all. Section 17, M2:
+        "the more the system has seen, the less it needs the marker".
+
+        Called only for a tier-A scan that rectified through a real label quad;
+        `vision.scale.tier_b.observe` decides that, and `admits` decides whether
+        an established SKU accepts the number. Off the critical path with
+        `bump_scan_count`, and for the same reason: it is an UPDATE of the same
+        row for every packet on the shelf.
         """
         ...
 
@@ -523,6 +549,38 @@ class InMemorySkuStore:
             if sku.id == sku_id:
                 self._skus[index] = replace(sku, scan_count=sku.scan_count + 1)
                 return
+
+    def record_dimensions(self, sku_id: UUID, *, width_mm: float, height_mm: float) -> None:
+        """Welford, in Python, under the same lock discipline as the SQL store.
+
+        The arithmetic is deliberately identical to `SqlSkuStore`'s single
+        UPDATE — same update order, same meaning for `label_w_mm_m2` — because
+        a demo running on this store and a district running on Postgres must
+        reach the same millimetre from the same photographs, or tier B is
+        untestable anywhere it is cheap to test.
+        """
+        for index, sku in enumerate(self._skus):
+            if sku.id != sku_id:
+                continue
+            count = sku.label_mm_observations + 1
+            mean = sku.label_w_mm if sku.label_mm_observations else 0.0
+            mean = mean if mean is not None else 0.0
+            delta = width_mm - mean
+            updated_mean = mean + delta / count
+            m2 = (sku.label_w_mm_stddev or 0.0) ** 2 * max(sku.label_mm_observations - 1, 0)
+            m2 += delta * (width_mm - updated_mean)
+
+            height_mean = sku.label_h_mm if sku.label_mm_observations else 0.0
+            height_mean = height_mean if height_mean is not None else 0.0
+
+            self._skus[index] = replace(
+                sku,
+                label_w_mm=updated_mean,
+                label_h_mm=height_mean + (height_mm - height_mean) / count,
+                label_mm_observations=count,
+                label_w_mm_stddev=((m2 / (count - 1)) ** 0.5) if count > 1 else None,
+            )
+            return
 
 
 @dataclass
