@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { signInWithPlaceholder } from "./session-fixture";
 
 /**
  * The aeroplane-mode run. Section 18 asks for it by name, and it is the only
@@ -10,21 +11,14 @@ import { expect, test } from "@playwright/test";
  *
  * The session cookie is set directly rather than by signing in, because signing
  * in is the one thing that genuinely needs a network and this file is about what
- * happens after it is gone. The value is never validated by the API in these
- * tests — the middleware only checks that a session exists, and no request
- * reaches the server once the context is offline.
+ * happens after it is gone. Its signature is never checked by anything: no
+ * request reaches the API once the context is offline, and the gate reads only
+ * the expiry. See `session-fixture.ts` for why that is a real JWT and not a
+ * convenient string.
  */
 test.describe("with the radio off", () => {
   test.beforeEach(async ({ context }) => {
-    await context.addCookies([
-      {
-        name: "akshar_at",
-        value: "offline-test-session",
-        domain: "127.0.0.1",
-        path: "/",
-      },
-      { name: "akshar_role", value: "officer", domain: "127.0.0.1", path: "/" },
-    ]);
+    await signInWithPlaceholder(context);
   });
 
   test("a scan taken offline is recorded, queued, and never lost", async ({ page, context }) => {

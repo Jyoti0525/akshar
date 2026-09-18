@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { signInWithPlaceholder } from "./session-fixture";
 
 /**
  * The camera opens, and the picture actually arrives.
@@ -23,10 +24,7 @@ import { expect, test } from "@playwright/test";
  */
 test.describe("the camera", () => {
   test.beforeEach(async ({ context, page }) => {
-    await context.addCookies([
-      { name: "akshar_at", value: "camera-test-session", domain: "127.0.0.1", path: "/" },
-      { name: "akshar_role", value: "officer", domain: "127.0.0.1", path: "/" },
-    ]);
+    await signInWithPlaceholder(context);
 
     // `addInitScript` rather than `page.evaluate`, so the stub is installed
     // before any application code runs on every document in the page.
@@ -120,6 +118,11 @@ test.describe("the camera", () => {
     await expect(page.getByText("The camera did not open")).toBeVisible();
     await expect(page.getByText(/secure connection/)).toBeVisible();
     // The upload path is the way out, and it has to still be offered.
-    await expect(page.getByText("Upload a photograph")).toBeVisible();
+    // (The label is `scanner.tsx`'s, read from it rather than remembered: this
+    // line looked for "Upload a photograph" from the first commit onwards and
+    // the button has always said "Upload photographs", so the test never
+    // passed. Found 2026-09-18 when the session fix made the rest of the file
+    // run again.)
+    await expect(page.getByText("Upload photographs")).toBeVisible();
   });
 });
