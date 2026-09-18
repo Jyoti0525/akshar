@@ -46,6 +46,19 @@ export interface CaptureInput {
    * Several *packages* is the bulk endpoint, not this.
    */
   extraFrames?: Blob[];
+  /**
+   * Height in millimetres of the pack face that is towards the camera, measured
+   * with a ruler. **Required** — the API refuses a photo-channel scan without
+   * it, and not by oversight.
+   *
+   * It is what makes printed-character height measurable at all. A photograph
+   * has no scale of its own: a small packet close up and a large one further
+   * away are the same pixels. Without a known length in the frame the three
+   * rules under Rule 7(2) and 7(3) cannot be checked, and a report that came
+   * back having silently examined 28 of 31 rules would read exactly like one
+   * that examined all 31.
+   */
+  packHeightMm: number;
   district?: string | null;
   category?: string | null;
   geo?: GeoPoint | null;
@@ -81,6 +94,7 @@ export async function capture(input: CaptureInput): Promise<CaptureOutcome> {
     form.append("image", frame, `${scanId}-${index}.jpg`);
   });
   form.set("scan_id", scanId);
+  form.set("pack_height_mm", String(input.packHeightMm));
   if (input.district) form.set("district", input.district);
   if (input.category) form.set("category", input.category);
   if (input.geo) {

@@ -50,6 +50,7 @@ from contracts import (
 from evidence import redact, storage
 from rules.engine import evaluate
 from rules.loader import load_rulepack
+from vision.scale import operator as operator_scale
 
 if TYPE_CHECKING:  # pragma: no cover - `vision/` is imported lazily, inside
     from vision.scale import tier_b  # the functions that use it
@@ -122,6 +123,21 @@ class ScanRequest:
     geo: dict[str, float] | None = None
     captured_at: datetime | None = None
     context: PackageContext | None = None
+
+    pack_height_mm: float | None = None
+    """Height of the photographed face, measured with a ruler by the officer.
+
+    **Required on the `photo` channel**, and that is a deliberate refusal to
+    degrade quietly. Without a scale the three `min_height_mm` rules return
+    NO_DATA — the honest answer, but one that reads on a report as though the
+    check was performed. Asking for one number at capture time is a smaller
+    cost than an inspection that silently examined 28 rules out of 31.
+
+    It cannot be required on the other two channels and is not: a bulk image is
+    a studio render from an e-commerce listing and `listing_text` has no pack at
+    all, so there is nothing for anybody to hold a ruler against. Those keep the
+    marker/repository/no-scale ladder they already had.
+    """
 
     extra_frames: tuple[bytes, ...] = ()
     """The second and later photographs of the SAME package.
@@ -556,6 +572,24 @@ def run_scan(
             f"{len(payloads)} photographs were sent for one package; the limit "
             f"is {MAX_FRAMES}. Several packages is a bulk upload."
         )
+    if request.source == "photo" and request.pack_height_mm is None:
+        raise ValueError(
+            "the height of the photographed face is required, in millimetres. "
+            "Measure the side of the pack that faces the camera with a ruler "
+            "and enter it; without it the three printed-height rules cannot be "
+            "checked at all."
+        )
+    if request.pack_height_mm is not None:
+        low, high = operator_scale.PLAUSIBLE_HEIGHT_MM
+        if not (low <= request.pack_height_mm <= high):
+            raise ValueError(
+                f"{request.pack_height_mm:g} mm is not a plausible height for a "
+                f"packaged commodity ({low:g}-{high:g} mm). A decimal point in "
+                f"the wrong place here would make every printed character "
+                f"measure ten times too small, and every height rule would fail "
+                f"a compliant pack."
+            )
+
     for index, chunk in enumerate(payloads):
         if len(chunk) > MAX_UPLOAD_BYTES:
             raise ValueError(
@@ -602,6 +636,7 @@ def run_scan(
                 source=request.source,
                 cache_lookup=lookup,
                 dimension_lookup=dimensions,
+                operator_height_mm=request.pack_height_mm,
                 rulepack_version=pack.version_string,
             )
             for image in images

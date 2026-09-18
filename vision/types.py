@@ -198,7 +198,7 @@ def _project(matrix: Image, point: Point) -> Point:
 # Scale (M2)
 # ---------------------------------------------------------------------------
 
-ScaleMethod = Literal["aruco", "known_sku", "none"]
+ScaleMethod = Literal["aruco", "operator_height", "known_sku", "none"]
 """How `mm_per_px` was obtained.
 
 ``aruco``      a printed marker of known physical size (tier A, section 8b B3).

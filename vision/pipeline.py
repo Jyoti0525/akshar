@@ -302,6 +302,7 @@ def scan(
     source: SourceChannel = "photo",
     cache_lookup: CacheLookup | None = None,
     dimension_lookup: tier_b.DimensionLookup | None = None,
+    operator_height_mm: float | None = None,
     online: bool = True,
     marker_edge_mm: float = tier_a.MARKER_EDGE_MM,
     marker_dictionary: str = tier_a.DEFAULT_DICTIONARY,
@@ -449,6 +450,7 @@ def scan(
         dictionary=marker_dictionary,
         cache_key=identity.cache_key(),
         lookup=dimension_lookup,
+        operator_height_mm=operator_height_mm,
         # A studio artwork render from an e-commerce listing cannot contain a
         # physical marker card, so tier A has nothing to find and is skipped
         # rather than run and rejected.

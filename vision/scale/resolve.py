@@ -13,7 +13,7 @@ therefore has no error return: it always yields a `ScaleEstimate`.
 
 from __future__ import annotations
 
-from vision.scale import tier_a, tier_b, tier_c
+from vision.scale import operator, tier_a, tier_b, tier_c
 from vision.types import Image, RectifyMethod, ScaleEstimate
 
 _MAX_PLAUSIBLE_MM_PER_PX = 2.0
@@ -32,6 +32,50 @@ def _plausible(estimate: ScaleEstimate | None) -> bool:
     return _MIN_PLAUSIBLE_MM_PER_PX <= estimate.mm_per_px <= _MAX_PLAUSIBLE_MM_PER_PX
 
 
+_DISAGREEMENT_LIMIT = 0.15
+"""How far a marker and a typed pack height may differ before the disagreement
+is folded into the tolerance. Fifteen per cent is far wider than either should
+be wrong on its own, so crossing it means one of them is wrong about something
+structural -- a card at a different depth from the label, or a decimal point."""
+
+
+def _cross_checked(marker: ScaleEstimate, typed: ScaleEstimate | None) -> ScaleEstimate:
+    """Two independent measurements of the same photograph, so compare them.
+
+    The marker wins, because it is measured from the image rather than typed.
+    But when the two disagree materially, that disagreement is the best estimate
+    of how wrong we might be, and burying it would be the one thing this
+    codebase must not do: `95` typed as `9.5` is a factor of ten that produces
+    no visible symptom at all, and a scan that saw both numbers and said nothing
+    would be hiding evidence it already had.
+
+    Note what this does NOT do: it never overrides the marker with the typed
+    figure, and it never fails the scan. It widens the REVIEW band and says so
+    in a sentence an officer can read.
+    """
+    if typed is None or typed.mm_per_px is None or marker.mm_per_px is None:
+        return marker
+
+    gap = abs(typed.mm_per_px - marker.mm_per_px) / marker.mm_per_px
+    if gap <= _DISAGREEMENT_LIMIT:
+        return marker
+
+    widened = max(marker.tolerance or 0.0, marker.mm_per_px * gap)
+    return ScaleEstimate(
+        tier=marker.tier,
+        mm_per_px=marker.mm_per_px,
+        tolerance=widened,
+        method=marker.method,
+        detail=(
+            f"{marker.detail}; the entered pack height disagrees by {gap * 100:.0f}% "
+            f"(it implies {typed.mm_per_px:.4f} mm/px), so the tolerance is widened. "
+            f"Check the entered height and whether the marker card lay at the same "
+            f"distance from the camera as the label."
+        ),
+        reference_box=marker.reference_box,
+    )
+
+
 def resolve_scale(
     raw: Image,
     rectified: Image,
@@ -43,6 +87,7 @@ def resolve_scale(
     marker_ids: frozenset[int] | None = None,
     cache_key: str | None = None,
     lookup: tier_b.DimensionLookup | None = None,
+    operator_height_mm: float | None = None,
     allow_tier_a: bool = True,
 ) -> ScaleEstimate:
     """Best available scale for this photograph. Never fails.
@@ -51,8 +96,22 @@ def resolve_scale(
     warps to the label face and would crop a marker card lying beside the pack
     out of existence. `rectified` is what tier B measures and what every glyph
     is measured in, so both tiers return mm per *rectified* pixel.
+
+    `operator_height_mm` is the height of the photographed face, measured with a
+    ruler by the person holding the pack. It sits inside tier A rather than
+    beside it because it is the same kind of evidence: a known physical length
+    in *this* photograph, not an inference from other photographs. It is tried
+    after the marker and is used when there is no marker — which, on the 231
+    millimetre-grade frames in this corpus, is all of them.
     """
     notes: list[str] = []
+
+    typed = operator.estimate(
+        rectified, height_mm=operator_height_mm, rectify_method=rectify_method
+    )
+    if operator_height_mm is not None and not _plausible(typed):
+        notes.append(f"entered pack height {operator_height_mm:g} mm gives an implausible scale")
+        typed = None
 
     if allow_tier_a:
         found = tier_a.estimate(
@@ -65,12 +124,15 @@ def resolve_scale(
         )
         if _plausible(found):
             assert found is not None
-            return found
+            return _cross_checked(found, typed)
         notes.append(
             "tier A rejected: implausible scale"
             if found is not None
             else "tier A: no acceptable reference marker"
         )
+
+    if typed is not None:
+        return typed
 
     found_b = tier_b.estimate(
         rectified,

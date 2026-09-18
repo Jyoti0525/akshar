@@ -323,6 +323,19 @@ async def scan_photo(
             )
         ),
     ],
+    pack_height_mm: Annotated[
+        float,
+        Form(
+            description=(
+                "REQUIRED. Height in millimetres of the pack face that is "
+                "towards the camera, measured with a ruler. This is what makes "
+                "the printed-character heights measurable: without it the three "
+                "height rules under Rule 7(2) and 7(3) cannot be checked. "
+                "Measure the face in the photograph, not the tallest side of the "
+                "carton."
+            )
+        ),
+    ],
     scan_id: Annotated[UUID | None, Form()] = None,
     category: Annotated[str | None, Form()] = None,
     district: Annotated[str | None, Form()] = None,
@@ -338,6 +351,14 @@ async def scan_photo(
     same reason `/sync` accepts one — an officer on a bad connection retries the
     upload, and the second attempt must return the first attempt's answer rather
     than create a second inspection record of the same packet.
+
+    **`pack_height_mm` is required and has no default.** It could have been
+    optional, and then a hurried officer would leave it blank, the scan would
+    fall through to no scale, and the report would come back having quietly
+    examined 28 of 31 rules with nothing on its face to say so. NO_DATA is the
+    honest answer to "we had no ruler"; it is the wrong answer to "nobody was
+    asked". One number at capture time is cheaper than an inspection that has to
+    be done again.
 
     **The scan runs in a thread.** `run_scan` is several hundred milliseconds of
     OpenCV and ONNX Runtime, all of it holding the GIL in C code that never
@@ -383,6 +404,7 @@ async def scan_photo(
                 category=category,
                 geo=geo,
                 captured_at=captured_at,
+                pack_height_mm=pack_height_mm,
             ),
             scans=scans,
             skus=skus,

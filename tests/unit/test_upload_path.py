@@ -185,7 +185,18 @@ def _auth(user: UserRecord = OFFICER) -> dict[str, str]:
     return {"Authorization": f"Bearer {token}"}
 
 
+PACK_HEIGHT_MM = 95.0
+"""Every photo-channel upload carries one, because the route requires one.
+
+Not a fixture detail — it is the point. `pack_height_mm` is what makes the
+three `min_height_mm` rules answerable, and it has no default on the route
+precisely so that a client cannot omit it and receive a report that quietly
+checked 28 of 31 rules.
+"""
+
+
 def _upload(client, payload: bytes | None = None, **form):
+    form.setdefault("pack_height_mm", PACK_HEIGHT_MM)
     return client.post(
         "/api/v1/scans",
         headers=_auth(),
@@ -465,7 +476,7 @@ def test_the_digest_in_the_row_is_over_the_bytes_the_worker_will_upload(world):
     exist anywhere.
     """
     result = run_scan(
-        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, district="Khordha"),
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, district="Khordha", pack_height_mm=PACK_HEIGHT_MM),
         scans=world["scans"],
         skus=world["skus"],
         settings=SETTINGS,
@@ -483,7 +494,7 @@ def test_the_digest_in_the_row_is_over_the_bytes_the_worker_will_upload(world):
 def test_the_verdict_comes_back_before_the_evidence_is_uploaded(world):
     """Section 8c: evidence upload is off the critical path."""
     result = run_scan(
-        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id),
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, pack_height_mm=PACK_HEIGHT_MM),
         scans=world["scans"],
         skus=world["skus"],
         settings=SETTINGS,
@@ -502,7 +513,7 @@ def test_the_verdict_comes_back_before_the_evidence_is_uploaded(world):
 def test_the_upload_happens_inline_when_the_queue_will_not_take_it(world):
     """A slow response beats a missing photograph."""
     result = run_scan(
-        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id),
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, pack_height_mm=PACK_HEIGHT_MM),
         scans=world["scans"],
         skus=world["skus"],
         settings=SETTINGS,
@@ -593,7 +604,7 @@ def test_scan_count_is_bumped_on_the_bulk_queue_never_inline(world, monkeypatch)
     monkeypatch.setattr(scanning, "_resolve_sku", lambda _skus, _identity: sku)
 
     run_scan(
-        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id),
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, pack_height_mm=PACK_HEIGHT_MM),
         scans=world["scans"],
         skus=world["skus"],
         settings=SETTINGS,
@@ -785,7 +796,7 @@ def wired(world, monkeypatch):
 
 def test_the_worker_uploads_the_spooled_bytes_and_only_those(wired):
     result = run_scan(
-        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id),
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, pack_height_mm=PACK_HEIGHT_MM),
         scans=wired["scans"],
         skus=wired["skus"],
         settings=SETTINGS,
@@ -828,7 +839,7 @@ def test_the_worker_refuses_bytes_that_do_not_match_the_chained_row(wired):
 def test_a_duplicate_delivery_uploads_nothing_a_second_time(wired):
     """The bucket is versioned and write-once; a second PUT reads as an overwrite."""
     result = run_scan(
-        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id),
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, pack_height_mm=PACK_HEIGHT_MM),
         scans=wired["scans"],
         skus=wired["skus"],
         settings=SETTINGS,
@@ -854,8 +865,26 @@ def test_the_bulk_queue_runs_the_same_scan_the_route_runs(wired):
     """Section 12: "if it diverges, two products exist and only one is tested"."""
     payload = _packet_jpeg()
 
-    interactive = run_scan(
-        ScanRequest(payload=payload, officer_id=OFFICER.id, category="biscuits"),
+    # BOTH SIDES ARE THE QUEUE'S OWN INPUTS, and that is the point of the test.
+    #
+    # It used to compare a photo-channel scan against a queued one. That stopped
+    # being a fair comparison once the photo channel began requiring a
+    # ruler-measured pack height: a scale does not merely add millimetres to the
+    # output, it changes WHICH crops the ROI ranker reads (see
+    # `roi.DECLARATION_BAND_MM` -- without a millimetre the eight crops go to the
+    # largest print on the pack). Two different inputs producing two different
+    # readings proves nothing about whether the worker reimplemented anything.
+    #
+    # So the inputs are held identical and the question stays the real one from
+    # section 12: does the queue run `run_scan`, or a second copy of it? "If it
+    # diverges, two products exist and only one is tested."
+    direct = run_scan(
+        ScanRequest(
+            payload=payload,
+            officer_id=OFFICER.id,
+            source="bulk_image",
+            category="biscuits",
+        ),
         scans=InMemoryScanStore(),
         skus=wired["skus"],
         settings=SETTINGS,
@@ -883,19 +912,25 @@ def test_the_bulk_queue_runs_the_same_scan_the_route_runs(wired):
     assert job.completed == 1 and job.failed == 0
     bulk_row = wired["scans"].get(scan_id)
     # Same extraction, different provenance. `captured_at` and `source` are the
-    # two fields that are *meant* to differ between a queued image and one an
-    # officer shot, so they are lifted out before the comparison -- and the
+    # two fields that are *meant* to differ between a queued image and one run
+    # directly, so they are lifted out before the comparison -- and the
     # comparison only became meaningful at all once the recogniser was present:
     # before that both sides were the empty dict and this asserted nothing.
+    #
+    # Nothing else is excluded, deliberately. An exclusion list is how a parity
+    # test rots into asserting nothing, and the inputs above are now identical
+    # precisely so that none is needed.
     provenance = ("captured_at", "source")
-    expected = (
-        interactive.declarations.model_dump(mode="json") if interactive.declarations else {}
-    )
+    expected = direct.declarations.model_dump(mode="json") if direct.declarations else {}
     assert {k: v for k, v in bulk_row["declaration_set"].items() if k not in provenance} == {
         k: v for k, v in expected.items() if k not in provenance
     }
     assert bulk_row["declaration_set"], "the bulk path extracted nothing at all"
     assert bulk_row["source"] == "bulk_image"
+
+    # With identical inputs the scale agrees too -- neither side has a ruler.
+    assert expected["geometry"]["scale_tier"] == "C"
+    assert bulk_row["declaration_set"]["geometry"]["scale_tier"] == "C"
 
 
 def test_one_bad_file_fails_only_itself(wired):
@@ -1107,6 +1142,7 @@ def test_the_render_worker_stores_into_the_derived_bucket(wired):
 
 def _upload_frames(client, count: int, **form):
     """Repeat the `image` field, which is how one pack arrives from several sides."""
+    form.setdefault("pack_height_mm", PACK_HEIGHT_MM)
     return client.post(
         "/api/v1/scans",
         headers=_auth(),
@@ -1166,3 +1202,67 @@ def test_too_many_photographs_is_a_bad_request_not_a_slow_one(client):
     response = _upload_frames(client, 6)
     assert response.status_code == 400
     assert "bulk upload" in response.json()["detail"]
+
+
+# ---------------------------------------------------------------------------
+# The pack height is required, and required is the point
+# ---------------------------------------------------------------------------
+
+
+def test_a_photo_without_a_pack_height_is_refused(client):
+    """Not optional, at the user's explicit instruction, and he was right.
+
+        "see no make the fields permanent to be entered we dont want our system
+         to bypass those rules right"
+
+    Optional would mean a hurried officer leaves it blank, the scan falls
+    through to no scale, and the report comes back having quietly examined 28 of
+    31 rules with nothing on its face to say so. NO_DATA is the honest answer to
+    "there was no ruler". It is the wrong answer to "nobody was asked".
+    """
+    response = client.post(
+        "/api/v1/scans",
+        headers=_auth(),
+        files={"image": ("packet.jpg", _packet_jpeg(), "image/jpeg")},
+        data={},
+    )
+    assert response.status_code == 422
+
+
+def test_a_decimal_slip_is_refused_with_a_sentence_that_explains_the_danger(client):
+    """`9.5` for `95` is one keystroke and a factor of ten, and it has NO visible
+    symptom: every character simply measures ten times too small and every
+    height rule fails a compliant pack."""
+    response = _upload(client, pack_height_mm=0.5)
+    assert response.status_code == 400
+    assert "plausible height" in response.json()["detail"]
+
+
+def test_a_measured_height_reaches_the_millimetre_rules(client):
+    """The whole chain, end to end: a number off a ruler becomes a scale tier,
+    and the three `min_height_mm` rules stop returning NO_DATA."""
+    body = _upload(client, pack_height_mm=95.0).json()
+    geometry = body["declarations"]["geometry"]
+    assert geometry["scale_tier"] == "A"
+    assert geometry["mm_per_px"] is not None
+
+
+def test_without_one_the_same_photograph_is_tier_c(client):
+    """The contrast, stated rather than assumed. Same image, no ruler: the
+    scan still runs and 28 rules still answer -- it does not fail, it declines
+    to measure."""
+    from api.scanning import ScanRequest, run_scan
+
+    # `bulk_image`, because the photo channel cannot omit it any more.
+    result = run_scan(
+        ScanRequest(payload=_packet_jpeg(), officer_id=OFFICER.id, source="bulk_image"),
+        scans=InMemoryScanStore(),
+        skus=InMemorySkuStore(),
+        settings=SETTINGS,
+        spool=InMemorySpool(),
+        objects=None,
+        enqueue=None,
+    )
+    assert result.declarations is not None
+    assert result.declarations.geometry.scale_tier == "C"
+    assert result.verdicts, "tier C is not a failure: the other rules still run"

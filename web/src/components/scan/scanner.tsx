@@ -59,6 +59,23 @@ export function Scanner() {
 
   const [category, setCategory] = useState("");
   const [district, setDistrict] = useState("");
+
+  /**
+   * The height of the pack face in the photograph, off a ruler, in millimetres.
+   *
+   * Held as a string rather than a number because an empty `<input type=number>`
+   * reads as `NaN`, and "the officer has not typed anything yet" and "the
+   * officer typed nonsense" are different states that the capture button has to
+   * be able to tell apart.
+   *
+   * **There is no default and there is no skip.** A photograph has no scale of
+   * its own -- a small pack close up and a large one further away are the same
+   * pixels -- so without a known length in the frame the three printed-height
+   * rules cannot be answered at all. Making this optional would mean a hurried
+   * officer leaves it blank and the report comes back having quietly examined
+   * 28 of 31 rules, with nothing on its face to say which.
+   */
+  const [heightMm, setHeightMm] = useState("");
   const [geo, setGeo] = useState<GeoPoint | null>(null);
   const [profile, setProfile] = useState<RuntimeProfile | null>(null);
 
@@ -91,6 +108,14 @@ export function Scanner() {
     );
   }, []);
 
+  const packHeightMm = Number.parseFloat(heightMm);
+  // The same band the API enforces (`vision.scale.operator.PLAUSIBLE_HEIGHT_MM`).
+  // Checked here as well so the officer is stopped before the shutter rather
+  // than after the upload -- 9.5 typed for 95 is one keystroke and a factor of
+  // ten, and it has no visible symptom in the result.
+  const heightIsUsable =
+    Number.isFinite(packHeightMm) && packHeightMm >= 5 && packHeightMm <= 2000;
+
   const submit = useCallback(
     async (blobs: Blob[]) => {
       const [first, ...rest] = blobs;
@@ -109,6 +134,7 @@ export function Scanner() {
         const outcome = await capture({
           image: first,
           extraFrames: rest,
+          packHeightMm,
           category: category || null,
           district: district || null,
           geo,
@@ -121,7 +147,7 @@ export function Scanner() {
         setBusy(false);
       }
     },
-    [category, district, geo],
+    [category, district, geo, packHeightMm],
   );
 
   const shoot = useCallback(async () => {
@@ -165,6 +191,45 @@ export function Scanner() {
               onChange={(event) => setDistrict(event.target.value)}
             />
           </div>
+        </div>
+
+        {/*
+          Full width and on its own row, because it is not one more optional
+          detail beside category and district -- it is the input the printed
+          height rules cannot be answered without, and the only field on this
+          screen that is genuinely required.
+        */}
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="pack-height">
+            Height of the side facing the camera, in millimetres
+          </Label>
+          <Input
+            id="pack-height"
+            type="number"
+            inputMode="decimal"
+            min={5}
+            max={2000}
+            step="0.5"
+            required
+            aria-describedby="pack-height-help"
+            aria-invalid={heightMm !== "" && !heightIsUsable}
+            value={heightMm}
+            placeholder="e.g. 95"
+            onChange={(event) => setHeightMm(event.target.value)}
+          />
+          <p id="pack-height-help" className="text-sm text-fg-muted">
+            Measure the face you are photographing with a ruler — not the tallest
+            side of the box. This is what lets the printed letters be measured in
+            millimetres; without it the three character-height rules cannot be
+            checked.
+          </p>
+          {heightMm !== "" && !heightIsUsable ? (
+            <p className="text-sm text-fail">
+              That is not a plausible height for a pack (5–2000 mm). Check the
+              decimal point: 9.5 entered instead of 95 would make every printed
+              character measure ten times too small.
+            </p>
+          ) : null}
         </div>
 
         {showViewfinder ? (
@@ -213,7 +278,7 @@ export function Scanner() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Button onClick={shoot} disabled={busy || !live}>
+              <Button onClick={shoot} disabled={busy || !live || !heightIsUsable}>
                 {busy
                   ? "Reading…"
                   : tray.length > 0

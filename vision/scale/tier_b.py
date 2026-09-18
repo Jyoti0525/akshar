@@ -195,12 +195,19 @@ def observe(
 
     Three refusals, and each one is a way the repository could be poisoned:
 
-    **Only tier A teaches.** A tier-B scan must never feed itself. Its width in
-    millimetres was *derived from the stored mean*, so storing it back would
-    reinforce whatever that mean already was and drive the stddev towards zero
-    — the estimate would grow more confident the more it was repeated, which is
-    the precise shape of a measurement that has stopped measuring anything.
-    Tier C has no millimetre at all.
+    **Only tier A teaches**, which now means either a marker card or a height
+    the officer measured with a ruler and typed in. Both are direct physical
+    measurements of *this* photograph, which is exactly what the repository
+    needs to be built from, and the ruler is the one that will actually happen:
+    it needs no printed card, so one officer typing one number is enough for
+    every later scan of that product to measure with nothing in hand.
+
+    A tier-B scan must never feed itself. Its width in millimetres was *derived
+    from the stored mean*, so storing it back would reinforce whatever that mean
+    already was and drive the stddev towards zero — the estimate would grow more
+    confident the more it was repeated, which is the precise shape of a
+    measurement that has stopped measuring anything. Tier C has no millimetre at
+    all.
 
     **Only a `quad` rectification teaches.** The detector-box path crops an
     axis-aligned box with padding around the label, so its width is the

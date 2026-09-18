@@ -153,6 +153,14 @@ export interface paths {
          *     upload, and the second attempt must return the first attempt's answer rather
          *     than create a second inspection record of the same packet.
          *
+         *     **`pack_height_mm` is required and has no default.** It could have been
+         *     optional, and then a hurried officer would leave it blank, the scan would
+         *     fall through to no scale, and the report would come back having quietly
+         *     examined 28 of 31 rules with nothing on its face to say so. NO_DATA is the
+         *     honest answer to "we had no ruler"; it is the wrong answer to "nobody was
+         *     asked". One number at capture time is cheaper than an inspection that has to
+         *     be done again.
+         *
          *     **The scan runs in a thread.** `run_scan` is several hundred milliseconds of
          *     OpenCV and ONNX Runtime, all of it holding the GIL in C code that never
          *     awaits. Called directly from this coroutine it would block the event loop
@@ -828,6 +836,11 @@ export interface components {
              * @description The photograph, JPEG or PNG. Repeat the field to send several photographs OF THE SAME PACKAGE — front, back, side. They are read separately, their evidence is unioned, and the rules are evaluated once on the union. Several packages is /scans/bulk.
              */
             image: string[];
+            /**
+             * Pack Height Mm
+             * @description REQUIRED. Height in millimetres of the pack face that is towards the camera, measured with a ruler. This is what makes the printed-character heights measurable: without it the three height rules under Rule 7(2) and 7(3) cannot be checked. Measure the face in the photograph, not the tallest side of the carton.
+             */
+            pack_height_mm: number;
             /** Scan Id */
             scan_id?: string | null;
             /** Category */
@@ -1489,6 +1502,13 @@ export interface components {
             label_w_mm?: number | null;
             /** Label H Mm */
             label_h_mm?: number | null;
+            /**
+             * Label Mm Observations
+             * @default 0
+             */
+            label_mm_observations: number;
+            /** Label W Mm Stddev */
+            label_w_mm_stddev?: number | null;
         };
         /**
          * SyncItem
