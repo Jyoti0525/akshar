@@ -4036,3 +4036,111 @@ These split into two different problems and neither should be fixed by reflex:
   `_split_wide_runs` cutting one ink run into slivers to match the character
   count. A measurement bug, fixable, and it needs its own careful pass rather
   than a floor invented to make five photographs pass.
+
+## The second pass that scored better by reading less — 2026-09-18
+
+B7 asks for *"low-confidence crops re-cropped from original full-resolution
+pixels and re-read"*. It is built, it works, and it is **switched off**, and this
+section is why — because the first version of it was actively harmful in a way
+that no test would have caught and the acceptance criterion looked obviously
+correct.
+
+### The rule that rewarded the failure it was meant to exclude
+
+The safety property seemed unarguable: keep the second reading only when it is
+**more confident** than the first. A pass that can only raise confidence cannot
+make anything worse, so it is free to leave switched on.
+
+`ctc_decode` computes confidence as the **mean of the kept per-step scores**:
+
+```python
+scores = logits.max(axis=1)
+...
+confidence = float(np.mean(kept_scores)) if kept_scores else 0.0
+```
+
+A decoder that drops the characters it finds hardest therefore comes back with a
+**higher** score, for a shorter and worse reading. "More confident" and "better"
+are not the same quantity, and on small print they point in opposite directions.
+
+Measured over 20 corpus frames, the confidence-only rule made **17 text changes**
+of which one was right:
+
+| first pass | conf | second pass | conf |
+|---|---|---|---|
+| `Ske Inernatonal: B-57, Lawrence Ro` | 0.74 | `SkeInterationat: -57Lence Rod` | 0.75 |
+| `c.N 1310010409` | 0.56 | `  No 130029` | 0.58 |
+| `N 310` | 0.43 | `N2` | 0.50 |
+| `[014814` | 0.76 | **`1014814`** | 0.90 |
+
+The second row is a licence number losing four digits, on an enforcement record,
+scored as an improvement. The last row is the one genuine fix in the set.
+
+**The corpus found this, not the tests.** Every unit test passed throughout: the
+stub returned a more confident reading and the code kept it, exactly as designed.
+What was wrong was the design, and the only thing that could say so was running
+it over real labels.
+
+### What it became
+
+Two conditions now, and the first is the one that matters:
+
+- **A second reading may not be shorter than the first.** Characters dropped are
+  evidence dropped, and the metric actively rewards dropping them.
+- **It must win by `MIN_CONFIDENCE_GAIN` (0.10).** A gain of 0.01 on a mean of a
+  dozen softmax scores is rounding, not a better reading.
+
+The crop was wrong too, in a way that explains the direction of the damage.
+Warping straight from the photograph to the recogniser's 48 px input is a large
+downsample through `warpPerspective`, which has no area filter and therefore
+aliases — small print turns to moiré and reads *worse* than the thrice-resampled
+version it was replacing. It now resamples at the quad's native density and
+reduces with `INTER_AREA`, which integrates over source pixels instead of
+sampling every sixth row.
+
+Same 20 frames after both fixes: **2 text changes**, one of them the `[014814`
+fix. The golden suite, which had shifted by `ocr_confidence 0.33 → 0.35`, went
+back to passing untouched — the margin refuses that gain as noise, which is the
+guard doing its job rather than a snapshot being re-recorded.
+
+### And then it was measured, and it does not pay for itself
+
+Two questions, asked separately.
+
+**Does it help?** The bench was run twice, back to back, over the 38 hand-labelled
+declaration panels — the only ground truth this project has.
+
+| | second pass off | second pass on |
+|---|---|---|
+| presence micro F1 | 0.7506 | **0.7506** |
+| precision / recall | 0.981 / 0.6078 | **0.981 / 0.6078** |
+| mrp value accuracy | 19/38 | **19/38** |
+| net_quantity | 25/34 | **25/34** |
+| mfg_date | 14/32 | **14/32** |
+
+Every per-field precision and recall identical. The two bench JSONs differ in
+their timing fields and **in nothing else**.
+
+**What does it cost?** Timed in isolation over those panels: **median 0.2 ms**,
+because on most scans no line falls below the threshold and the pass never
+starts. But it fired on **4 of 14** frames, and when it fires it costs **336 ms
+on average, up to 953 ms** — against section 4's 561 ms budget for the entire
+scan.
+
+On 70 unlabelled corpus frames (1,915 lines) it changed 11 texts. Some are
+plainly right — `[014814`→`1014814`, `6`→`760`, `A=`→`59.82`. At least one is
+plainly wrong — `THORN`→`THDEA`. **The rest cannot be scored, because the corpus
+has no ground truth**, which is the entire reason the 38 labelled panels exist.
+
+So: a third of scans paying a third of a second, for eleven changes in two
+thousand lines that nobody can adjudicate, against a labelled set that puts the
+effect at exactly zero. `second_pass.ENABLED = False`, with the measurement
+written into the constant's docstring and the call left wired in
+`vision/pipeline.py` behind it. Turning it on is one boolean.
+
+**What would settle it** is the set already asked for. The 38 panels are
+close-ups whose rectification barely resamples, which is precisely where this
+pass has least to offer; full-resolution photographs of *angled* declaration
+blocks would put those eleven changes on a measured footing in either direction.
+Until then the honest position is that B7 is finished and unproven, which is a
+different thing from finished and good.

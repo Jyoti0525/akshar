@@ -56,7 +56,15 @@ if TYPE_CHECKING:  # pragma: no cover - typing only
     from collections.abc import Sequence
 
     from vision.pipeline import ScanOutcome
-    from vision.types import XYWH, DetectionResult, Identity, Image, OcrResult, ScaleEstimate
+    from vision.types import (
+        XYWH,
+        DetectionResult,
+        Identity,
+        Image,
+        OcrResult,
+        ScaleEstimate,
+        Transform,
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -137,6 +145,19 @@ class ScanContext:
         caller that wants them.
         """
         return getattr(self.primary, "rectified", None)
+
+    @property
+    def transform(self) -> Transform | None:  # B3
+        """The primary frame's way back to the photograph it was taken from.
+
+        Section 8b names `transforms` in B3's slot and this is it. It belongs to
+        **one** frame, like `rectified` and `scale` beside it: on a three-shot
+        scan each photograph has its own homography, and a declaration read from
+        the second frame cannot be drawn on the first. `frames[i].transform` is
+        the one that matches `frames[i]`, and a caller annotating a multi-frame
+        scan has to pair them itself rather than reach for this.
+        """
+        return getattr(self.primary, "transform", None)
 
     @property
     def quality(self) -> CaptureQuality | None:  # B1

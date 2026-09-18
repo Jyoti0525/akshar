@@ -86,6 +86,114 @@ class RectifyResult:
     warp — the single most dangerous unit slip in the project."""
 
 
+@dataclass(frozen=True, slots=True)
+class Transform:
+    """The way back to the photograph. AKSHAR.md section 8b, B3.
+
+    Every `Box` in a `DeclarationSet` is in **rectified** space — the contract
+    says so in `contracts/declarations.py`, and it has to, because a height in
+    raw camera pixels is not proportional to printed height and cannot be
+    converted to millimetres by one scalar. That is the right space to measure
+    in and the wrong space to *show* anyone: section 6 wants an annotated
+    exhibit, and an exhibit has to be the officer's photograph with the measured
+    region marked on it. Nobody disputing a finding will accept a warped
+    rectangle they have never seen as evidence of what was on their pack.
+
+    So the forward matrix is kept rather than the rectified image alone, and
+    this carries the inverse with it.
+
+    ---------------------------------------------------------------------------
+    **A box does not map back to a box.** It maps back to a quadrilateral.
+
+    That is not a detail to round off. A perspective warp does not preserve
+    right angles, so the four corners of a rectified box land on four points
+    that are not, in general, the corners of an axis-aligned rectangle — on a
+    steeply angled shot they are visibly a trapezium. Drawing the bounding box
+    of those four points would mark a region *larger than the one measured*, on
+    an exhibit whose entire purpose is to show exactly what was measured. So
+    `box_to_original` returns a `Quad` and there is deliberately no function
+    here that returns an `XYWH`: a caller that wants one has to compute it
+    itself, and thereby has to know it is approximating.
+    """
+
+    homography: Image
+    """3x3, raw photograph -> rectified. The same matrix `RectifyResult` carries;
+    held here so the context can offer the round trip without the image."""
+
+    method: RectifyMethod
+    original_size: tuple[int, int]
+    """`(height, width)` of the photograph as decoded, so a caller can tell
+    whether a mapped point landed outside the frame it is about to draw on."""
+
+    rectified_size: tuple[int, int]
+    """`(height, width)` of the flattened label the boxes are measured in."""
+
+    @property
+    def is_identity(self) -> bool:
+        """True when rectification did nothing — no warp, no deskew.
+
+        Worth asking: a second pass that re-crops from the original gains
+        nothing when the original and the rectified image are the same pixels.
+        """
+        import numpy as _np
+
+        return bool(_np.allclose(self.homography, _np.eye(3), atol=1e-9))
+
+    def inverse(self) -> Image | None:
+        """Rectified -> raw. `None` when the matrix is singular.
+
+        Returned rather than raised. A degenerate homography is a bad
+        photograph, not a bug, and the consequence is one missing annotation on
+        an exhibit rather than a failed scan.
+        """
+        import numpy as _np
+
+        try:
+            return _np.linalg.inv(_np.asarray(self.homography, dtype=_np.float64))
+        except _np.linalg.LinAlgError:  # pragma: no cover - needs a singular warp
+            return None
+
+    def point_to_original(self, point: Point) -> Point | None:
+        inverse = self.inverse()
+        if inverse is None:
+            return None
+        return _project(inverse, point)
+
+    def point_to_rectified(self, point: Point) -> Point:
+        return _project(_as_matrix(self.homography), point)
+
+    def box_to_original(self, box: Box) -> Quad | None:
+        """The four corners of a rectified box, on the original photograph.
+
+        Corner order is preserved — top-left, top-right, bottom-right,
+        bottom-left *as they were in rectified space* — so a polygon drawn
+        through them never self-intersects, however the perspective moved them.
+        """
+        inverse = self.inverse()
+        if inverse is None:
+            return None
+        x, y, w, h = float(box.x), float(box.y), float(box.w), float(box.h)
+        corners = ((x, y), (x + w, y), (x + w, y + h), (x, y + h))
+        mapped = tuple(_project(inverse, corner) for corner in corners)
+        return mapped  # type: ignore[return-value]
+
+
+def _as_matrix(matrix: Image) -> Image:
+    import numpy as _np
+
+    return _np.asarray(matrix, dtype=_np.float64)
+
+
+def _project(matrix: Image, point: Point) -> Point:
+    import numpy as _np
+
+    vec = _np.array([point[0], point[1], 1.0], dtype=_np.float64)
+    out = _as_matrix(matrix) @ vec
+    if abs(out[2]) < 1e-12:  # pragma: no cover - degenerate homography
+        return point
+    return float(out[0] / out[2]), float(out[1] / out[2])
+
+
 # ---------------------------------------------------------------------------
 # Scale (M2)
 # ---------------------------------------------------------------------------
@@ -353,4 +461,5 @@ __all__ = [
     "ScaleMethod",
     "ScaleTier",
     "TextRegion",
+    "Transform",
 ]

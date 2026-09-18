@@ -27,7 +27,7 @@ that is not an image.
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Literal, Protocol
 
 from contracts import CaptureQuality, DeclarationSet, Framing, SourceChannel
@@ -36,7 +36,7 @@ from vision.classify import assemble
 from vision.degradation import Degradation
 from vision.detect import detector
 from vision.identify import identify
-from vision.ocr import roi
+from vision.ocr import roi, second_pass
 from vision.quality import assess as assess_quality
 from vision.quality import assess_framing
 from vision.rectify.rectify import rectify
@@ -50,8 +50,10 @@ from vision.types import (
     OcrResult,
     Point,
     RectifyMethod,
+    RectifyResult,
     ScaleEstimate,
     TextRegion,
+    Transform,
 )
 
 ExitPath = Literal["unusable", "cache_hit", "no_package", "full"]
@@ -125,6 +127,19 @@ class ScanOutcome:
 
     scale: ScaleEstimate | None = None
     rectify_method: RectifyMethod | None = None
+
+    transform: Transform | None = None
+    """B3's way back to the photograph — the homography, and its inverse.
+
+    `rectified` above is what the boxes were measured in; this is what turns one
+    of those boxes into the quadrilateral it occupies on the officer's original
+    photograph. Section 6 asks for an annotated exhibit, and an exhibit has to
+    be the photograph that was taken rather than a warped rectangle nobody has
+    seen.
+
+    Kept beside `rectified` rather than folded into it because it outlives the
+    pixels: three numbers per corner serialise, and a 12-megapixel array does
+    not. None on both early exits and wherever OpenCV never ran."""
     detection: DetectionResult | None = None
     ocr: OcrResult | None = None
     message: str = ""
@@ -217,6 +232,24 @@ must carry (Rules 6(1)(e) and 6(1)(b)), so a pack where neither appears is
 either unreadable or was read in the wrong eight places, and both are worth a
 second look.
 """
+
+
+def _transform_of(rectified: RectifyResult, original: Image) -> Transform | None:
+    """Pair M1's matrix with the two frame sizes, or `None` if there isn't one.
+
+    The sizes are carried because the matrix alone cannot say whether a mapped
+    point landed inside the photograph. A caller drawing an exhibit needs to
+    know that; a caller measuring does not, which is why nothing in the
+    measurement path reads this.
+    """
+    if rectified.homography is None:
+        return None
+    return Transform(
+        homography=rectified.homography,
+        method=rectified.method,
+        original_size=original.shape[:2],
+        rectified_size=rectified.image.shape[:2],
+    )
 
 
 def _read_and_escalate(
@@ -443,6 +476,29 @@ def scan(
             detect_version=detect_version,
         )
         versions["ocr"] = ocr_result.model_version
+
+        # -- B7: the doubtful lines, read again from the photograph ---------
+        #
+        # After the escalation rather than inside it, and the order matters.
+        # Escalation asks "did we read *enough of* the label"; this asks "did
+        # we read *correctly* what we found". Running it first would spend the
+        # budget re-reading lines the wider pass was about to supersede.
+        #
+        # It can only raise a line's confidence, and it touches no geometry —
+        # see `vision/ocr/second_pass.py` for why the tempting second half of
+        # that (re-measuring cap height on the sharper crop) is deliberately
+        # not done.
+        # `ENABLED` is False on the evidence of 2026-09-18 and that constant
+        # carries the measurement: zero change to every accuracy figure on the
+        # 38 labelled panels, against 336 ms whenever it fires. The call is left
+        # here, wired and tested, so turning it on is one boolean rather than a
+        # re-integration.
+        if second_pass.ENABLED:
+            transform = _transform_of(rectified, image)
+            improved, second = second_pass.reread(image, transform, ocr_result.lines)
+            if second.ran:
+                ocr_result = replace(ocr_result, lines=improved)
+                timings["ocr_second_pass"] = second.elapsed_ms
     except runtime.ModelUnavailableError:
         ocr_result = OcrResult()
     timings["ocr"] = (time.perf_counter() - started) * 1000.0
@@ -468,6 +524,7 @@ def scan(
             scale=scale,
             rectified=rectified.image,
             rectify_method=rectified.method,
+            transform=_transform_of(rectified, image),
             degradation=tier,
             timings_ms=timings,
             model_versions=versions,
@@ -537,6 +594,7 @@ def scan(
         scale=scale,
         rectified=rectified.image,
         rectify_method=rectified.method,
+        transform=_transform_of(rectified, image),
         degradation=tier,
         timings_ms=timings,
         model_versions=versions,
