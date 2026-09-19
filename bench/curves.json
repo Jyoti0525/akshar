@@ -1,0 +1,351 @@
+{
+ "confusion": {
+  "mrp": {
+   "tp": 28,
+   "fp": 0,
+   "fn": 10,
+   "tn": 0
+  },
+  "net_quantity": {
+   "tp": 27,
+   "fp": 0,
+   "fn": 7,
+   "tn": 4
+  },
+  "mfg_date": {
+   "tp": 26,
+   "fp": 0,
+   "fn": 10,
+   "tn": 2
+  },
+  "expiry_date": {
+   "tp": 18,
+   "fp": 3,
+   "fn": 5,
+   "tn": 12
+  },
+  "batch": {
+   "tp": 18,
+   "fp": 1,
+   "fn": 7,
+   "tn": 11
+  },
+  "manufacturer": {
+   "tp": 15,
+   "fp": 0,
+   "fn": 14,
+   "tn": 8
+  },
+  "packer": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 1,
+   "tn": 36
+  },
+  "importer": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 1,
+   "tn": 37
+  },
+  "generic_name": {
+   "tp": 23,
+   "fp": 2,
+   "fn": 4,
+   "tn": 9
+  },
+  "consumer_care": {
+   "tp": 19,
+   "fp": 0,
+   "fn": 6,
+   "tn": 12
+  },
+  "country_of_origin": {
+   "tp": 9,
+   "fp": 0,
+   "fn": 6,
+   "tn": 23
+  }
+ },
+ "pr_curve": [
+  {
+   "threshold": 0.0,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.05,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.1,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.15,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.2,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.25,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.3,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.35,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.4,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.45,
+   "precision": 0.9684,
+   "recall": 0.7216,
+   "f1": 0.827,
+   "tp": 184,
+   "fp": 6,
+   "fn": 71
+  },
+  {
+   "threshold": 0.5,
+   "precision": 0.9683,
+   "recall": 0.7176,
+   "f1": 0.8243,
+   "tp": 183,
+   "fp": 6,
+   "fn": 72
+  },
+  {
+   "threshold": 0.55,
+   "precision": 0.9683,
+   "recall": 0.7176,
+   "f1": 0.8243,
+   "tp": 183,
+   "fp": 6,
+   "fn": 72
+  },
+  {
+   "threshold": 0.6,
+   "precision": 0.9758,
+   "recall": 0.6314,
+   "f1": 0.7667,
+   "tp": 161,
+   "fp": 4,
+   "fn": 94
+  },
+  {
+   "threshold": 0.65,
+   "precision": 0.9756,
+   "recall": 0.6275,
+   "f1": 0.7637,
+   "tp": 160,
+   "fp": 4,
+   "fn": 95
+  },
+  {
+   "threshold": 0.7,
+   "precision": 0.981,
+   "recall": 0.6078,
+   "f1": 0.7506,
+   "tp": 155,
+   "fp": 3,
+   "fn": 100
+  },
+  {
+   "threshold": 0.75,
+   "precision": 0.9796,
+   "recall": 0.5647,
+   "f1": 0.7164,
+   "tp": 144,
+   "fp": 3,
+   "fn": 111
+  },
+  {
+   "threshold": 0.8,
+   "precision": 0.9902,
+   "recall": 0.3961,
+   "f1": 0.5658,
+   "tp": 101,
+   "fp": 1,
+   "fn": 154
+  },
+  {
+   "threshold": 0.85,
+   "precision": 1.0,
+   "recall": 0.2314,
+   "f1": 0.3758,
+   "tp": 59,
+   "fp": 0,
+   "fn": 196
+  },
+  {
+   "threshold": 0.9,
+   "precision": 1.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "tp": 0,
+   "fp": 0,
+   "fn": 255
+  },
+  {
+   "threshold": 0.95,
+   "precision": 1.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "tp": 0,
+   "fp": 0,
+   "fn": 255
+  },
+  {
+   "threshold": 1.0,
+   "precision": 1.0,
+   "recall": 0.0,
+   "f1": 0.0,
+   "tp": 0,
+   "fp": 0,
+   "fn": 255
+  }
+ ],
+ "bland_altman": {
+  "points": [
+   {
+    "image": "images/bodywash_bottle_300ml/front.jpg",
+    "product": "bodywash bottle",
+    "ruler_mm": 2.0,
+    "ours_mm": 2.353,
+    "mean_mm": 2.176,
+    "diff_mm": 0.353
+   },
+   {
+    "image": "images/glucond_1kg/front.jpg",
+    "product": "glucond",
+    "ruler_mm": 4.0,
+    "ours_mm": 4.41,
+    "mean_mm": 4.205,
+    "diff_mm": 0.41
+   },
+   {
+    "image": "images/hammer_earphones_1unit/tilt.jpg",
+    "product": "hammer earphones",
+    "ruler_mm": 1.0,
+    "ours_mm": 1.288,
+    "mean_mm": 1.144,
+    "diff_mm": 0.288
+   },
+   {
+    "image": "images/match_box/front.jpg",
+    "product": "match box",
+    "ruler_mm": 1.0,
+    "ours_mm": 0.467,
+    "mean_mm": 0.734,
+    "diff_mm": -0.533
+   },
+   {
+    "image": "images/match_box/tilt.jpg",
+    "product": "match box",
+    "ruler_mm": 1.0,
+    "ours_mm": 0.509,
+    "mean_mm": 0.755,
+    "diff_mm": -0.491
+   },
+   {
+    "image": "images/maxo_dish_wash_gel_125ml/front.jpg",
+    "product": "maxo dish wash gel",
+    "ruler_mm": 3.0,
+    "ours_mm": 2.698,
+    "mean_mm": 2.849,
+    "diff_mm": -0.302
+   },
+   {
+    "image": "images/maxo_dish_wash_gel_125ml/tilt.jpg",
+    "product": "maxo dish wash gel",
+    "ruler_mm": 3.0,
+    "ours_mm": 2.982,
+    "mean_mm": 2.991,
+    "diff_mm": -0.018
+   },
+   {
+    "image": "images/turmeric_powder_10g/front.jpg",
+    "product": "turmeric powder",
+    "ruler_mm": 2.0,
+    "ours_mm": 2.277,
+    "mean_mm": 2.138,
+    "diff_mm": 0.277
+   },
+   {
+    "image": "images/turmeric_powder_10g/tilt.jpg",
+    "product": "turmeric powder",
+    "ruler_mm": 2.0,
+    "ours_mm": 2.2,
+    "mean_mm": 2.1,
+    "diff_mm": 0.2
+   },
+   {
+    "image": "images/yogabar_oats_725g/tilt.jpg",
+    "product": "yogabar oats",
+    "ruler_mm": 4.0,
+    "ours_mm": 1.99,
+    "mean_mm": 2.995,
+    "diff_mm": -2.01
+   }
+  ],
+  "n": 10,
+  "bias_mm": -0.1826,
+  "sd_mm": 0.7315,
+  "upper_loa_mm": 1.2511,
+  "lower_loa_mm": -1.6163
+ },
+ "panels": 38
+}

@@ -1,0 +1,31 @@
+{
+ "negatives": 9,
+ "negatives_rejected": 7,
+ "true_reject_rate": 0.7778,
+ "positives": 38,
+ "positives_passed": 17,
+ "pass_rate": 0.4474,
+ "positives_wrongly_rejected": [
+  "agarbati.webp",
+  "camlinbrush.jpg",
+  "frshcream.jpg",
+  "goodday.jpg",
+  "gulabjal.jpg",
+  "happyhappy.png",
+  "jimjam.jpg",
+  "lipbalm.jpg",
+  "liquid_detergent.jpg",
+  "matches.jpg",
+  "mdhpavmasala.jpg",
+  "namkeen.webp",
+  "pickle.jpg",
+  "santoor.jpg",
+  "santoor1.jpg",
+  "shampoo.jpg",
+  "shampoo2.webp",
+  "skin.jpg",
+  "surfexcel.webp",
+  "venus_creme.webp",
+  "whisper.jpg"
+ ]
+}
