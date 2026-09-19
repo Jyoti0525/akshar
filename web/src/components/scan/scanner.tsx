@@ -75,7 +75,20 @@ export function Scanner() {
    * officer leaves it blank and the report comes back having quietly examined
    * 28 of 31 rules, with nothing on its face to say which.
    */
-  const [heightMm, setHeightMm] = useState("");
+  const [heightValue, setHeightValue] = useState("");
+  /**
+   * Centimetres by default, because that is what people measuring a packet
+   * with a school ruler actually say.
+   *
+   * The field used to be millimetres only, and on 2026-09-19 an officer typed
+   * `20` for a Glucon-D jar 150 mm tall -- 20 being the centimetre-ish number
+   * in their head. Every letter on the pack then measured seven and a half
+   * times too small and the system issued a Rule 7(3) contravention against a
+   * compliant manufacturer. Asking which unit, instead of demanding one and
+   * hoping, is the cheap half of the fix; `vision/scale/coherence.py` is the
+   * half that catches it when this one is answered wrongly anyway.
+   */
+  const [heightUnit, setHeightUnit] = useState<"cm" | "mm">("cm");
   const [geo, setGeo] = useState<GeoPoint | null>(null);
   const [profile, setProfile] = useState<RuntimeProfile | null>(null);
 
@@ -108,7 +121,12 @@ export function Scanner() {
     );
   }, []);
 
-  const packHeightMm = Number.parseFloat(heightMm);
+  // The API takes millimetres and only millimetres. The conversion happens
+  // here, once, and the converted figure is shown back on screen -- mixed units
+  // travelling through a legal record is how the Glucon-D jar got convicted in
+  // the first place.
+  const typed = Number.parseFloat(heightValue);
+  const packHeightMm = Number.isFinite(typed) ? typed * (heightUnit === "cm" ? 10 : 1) : Number.NaN;
   // The same band the API enforces (`vision.scale.operator.PLAUSIBLE_HEIGHT_MM`).
   // Checked here as well so the officer is stopped before the shutter rather
   // than after the upload -- 9.5 typed for 95 is one keystroke and a factor of
@@ -213,34 +231,57 @@ export function Scanner() {
           screen that is genuinely required.
         */}
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="pack-height">
-            Height of the side facing the camera, in millimetres
-          </Label>
-          <Input
-            id="pack-height"
-            type="number"
-            inputMode="decimal"
-            min={5}
-            max={2000}
-            step="0.5"
-            required
-            aria-describedby="pack-height-help"
-            aria-invalid={heightMm !== "" && !heightIsUsable}
-            value={heightMm}
-            placeholder="e.g. 95"
-            onChange={(event) => setHeightMm(event.target.value)}
-          />
+          <Label htmlFor="pack-height">Height of the side facing the camera</Label>
+          <div className="flex gap-2">
+            <Input
+              id="pack-height"
+              type="number"
+              inputMode="decimal"
+              min={heightUnit === "cm" ? 0.5 : 5}
+              max={heightUnit === "cm" ? 200 : 2000}
+              step={heightUnit === "cm" ? "0.1" : "0.5"}
+              required
+              className="flex-1"
+              aria-describedby="pack-height-help"
+              aria-invalid={heightValue !== "" && !heightIsUsable}
+              value={heightValue}
+              placeholder={heightUnit === "cm" ? "e.g. 15" : "e.g. 150"}
+              onChange={(event) => setHeightValue(event.target.value)}
+            />
+            <Select
+              aria-label="Unit of the height you entered"
+              className="w-28"
+              value={heightUnit}
+              onChange={(event) => setHeightUnit(event.target.value as "cm" | "mm")}
+            >
+              <option value="cm">cm</option>
+              <option value="mm">mm</option>
+            </Select>
+          </div>
+          {/*
+            The converted figure, shown back. This is the guard that actually
+            works: an officer who has picked the wrong unit sees "the scan will
+            use 20 mm" under a jar they know is a hand tall, and fixes it before
+            the shutter rather than after a notice.
+          */}
+          {heightIsUsable ? (
+            <p className="text-sm text-fg-muted">
+              The scan will measure this pack as <strong>{packHeightMm.toFixed(0)} mm</strong> tall.
+            </p>
+          ) : null}
           <p id="pack-height-help" className="text-sm text-fg-muted">
             Measure the face you are photographing with a ruler — not the tallest
             side of the box. This is what lets the printed letters be measured in
             millimetres; without it the three character-height rules cannot be
             checked.
           </p>
-          {heightMm !== "" && !heightIsUsable ? (
+          {heightValue !== "" && !heightIsUsable ? (
             <p className="text-sm text-fail">
-              That is not a plausible height for a pack (5–2000 mm). Check the
-              decimal point: 9.5 entered instead of 95 would make every printed
-              character measure ten times too small.
+              That is not a plausible height for a pack (
+              {heightUnit === "cm" ? "0.5–200 cm" : "5–2000 mm"}). Check the unit
+              beside the box and the decimal point — a figure ten times too small
+              makes every printed character measure ten times too small with it,
+              and nothing about the result looks wrong.
             </p>
           ) : null}
         </div>
