@@ -21,6 +21,8 @@ contrast is a deception finding as much as a readability one.
 
 from __future__ import annotations
 
+import re
+
 from contracts import DeclarationSet, PackageContext, VerdictStatus
 from rules.checks._common import category_blocks, condition_blocks, measured_for
 from rules.models import CheckOutcome, Rule, Rulepack
@@ -28,6 +30,18 @@ from rules.models import CheckOutcome, Rule, Rulepack
 _TOLERANCE = 0.2
 """Contrast is estimated from pixel statistics under shop lighting. A result
 this close to the threshold is REVIEW, not FAIL."""
+
+_NUMERAL = re.compile(r"\d")
+"""Any decimal digit in any script.
+
+Python's `\\d` is Unicode-aware on a `str`, so the Devanagari digits are digits
+here without a second pattern. A pack that prints its price in them has printed
+its price, and a script-shaped hole in Rule 9(1)(b) is not something this
+project ships."""
+
+
+def _has_numerals(text: str | None) -> bool:
+    return bool(text) and _NUMERAL.search(text or "") is not None
 
 
 def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -> CheckOutcome:
@@ -52,6 +66,36 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
     declarations = measured_for(ds, fields)
     if not declarations:
         return CheckOutcome.no_data("Declaration not read; its absence is reported separately.")
+
+    if rule.opt("requires_numerals", False):
+        # ---------------------------------------------------------------------
+        # THE FALSE ACCUSATION THIS PREVENTS
+        # ---------------------------------------------------------------------
+        # A face serum carton, scanned live on 2026-09-19, was failed under
+        # Rule 9(1)(b) at 1.888:1 against a threshold of 3.000:1. The crop that
+        # number was computed on read `MRP: ₹` -- the caption, and nothing else.
+        # The figures were printed on an inkjet-coded label to its right, came
+        # back from the detector as one 385 px block, and were never read at
+        # all (see `vision/ocr/rows.py`).
+        #
+        # So the pack was told its price was illegible on the evidence of a
+        # measurement taken somewhere the price is not. Both rules that use this
+        # check are about the FIGURES -- 9(1)(b) says so in the gazette, and
+        # 18(5) is about a price obliterated or altered -- and a caption is not
+        # a figure. Where the digits were not read, there is nothing here to
+        # measure and the honest answer is that we have no data, which is also
+        # the answer that cannot convict anybody of our own OCR failure.
+        #
+        # The declaration's ABSENCE is a separate finding under the presence
+        # rules, and it still fires. Only the legibility verdict is withdrawn.
+        with_numerals = [d for d in declarations if _has_numerals(d.text)]
+        if not with_numerals:
+            return CheckOutcome.no_data(
+                "Only the caption of this declaration was read, not its figures, so there "
+                "are no numerals to measure the contrast of. Photograph the panel again "
+                "with the printed value filling more of the frame."
+            )
+        declarations = with_numerals
 
     measured = [d.contrast_ratio for d in declarations if d.contrast_ratio is not None]
     if not measured:

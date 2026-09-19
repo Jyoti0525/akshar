@@ -235,7 +235,16 @@ _LOCAL_PATTERNS: dict[FieldName, tuple[str, ...]] = {
         r"पैकर|पैक\s*किया",
     ),
     "batch": (
-        r"(?i)\b(batch|b\.?\s*no\.?|lot\s*(no\.?)?|code)\s*[:\-]?\s*[A-Z0-9]",
+        # `lot(?![a-z])` and `code(?![a-z])`, not a bare `\b`. The value pattern
+        # ends in `[A-Z0-9]`, so a word boundary after the label is not enough:
+        # `LOTION` is `lot` followed by a character that is both a letter and an
+        # acceptable first character of a batch code, and it matched on `LOTI`.
+        # Every body lotion, calamine lotion and cleansing lotion on the corpus
+        # therefore had its Rule 6(1)(b) generic name read as a Rule 6(1)(c)
+        # batch number -- a mandatory declaration lost and a false one asserted
+        # in its place, off one word. `LOT123` and `LOT No. 4` still match,
+        # because a digit and a space are not letters. Found 2026-09-19.
+        r"(?i)\b(batch|b\.?\s*no\.?|lot(?![a-z])\s*(no\.?)?|code(?![a-z]))\s*[:\-]?\s*[A-Z0-9]",
         # The same label with its value in another detected region. `B.NO.:`
         # was read as a line of its own on a Keventer pack and classified
         # `other`, so Rule 6(1)(c) had nothing to attach to. Anchored to the

@@ -239,6 +239,16 @@ _GROUPS: dict[str, tuple[str, ...]] = {
         "perfume", "lip balm", "lipstick", "nail polish", "kajal", "kohl",
         "sunscreen", "toothpaste", "tooth powder", "mouthwash", "shaving cream",
         "shaving gel", "after shave", "razor", "razors", "blade", "hair remover",
+        # Added 2026-09-19 from a live scan: a carton printing `Face Serum.
+        # Made in India` had no generic name found, because `serum` was not a
+        # word this list knew. Every term here is a commodity noun off an
+        # Indian cosmetics pack, and none is five characters or fewer with a
+        # near neighbour in ordinary English -- `serum` is matched exactly,
+        # since `_TOLERANCE` grants nothing under six characters.
+        "serum", "face serum", "hair serum", "body wash", "shower gel",
+        "face scrub", "body scrub", "face mask", "hair mask", "lip gloss",
+        "hand cream", "foot cream", "body butter", "cleanser", "face cleanser",
+        "hair serum", "beard oil",
     ),
     "hygiene and paper": (
         "sanitary pads", "sanitary napkins", "sanitary napkin", "panty liner",
@@ -558,7 +568,7 @@ panel -- which is not where Rule 6(1)(b) expects one. Ingredient lists on the
 corpus routinely run past eight lines."""
 
 
-def _whole_line_term(text: str) -> str | None:
+def whole_line_term(text: str) -> str | None:
     """The term this line is, rather than the term this line contains.
 
     Exact and unabbreviated: no tolerance, no substring. It is the strictest
@@ -666,7 +676,7 @@ def identify(
             # `ADDED SUGARS` and `ENERGY` are not terms and stay where they
             # are; `CRYSTAL SUGAR` is one. Nothing is lost if this is wrong --
             # no rule targets `nutrition` either.
-            term = _whole_line_term(line.text)
+            term = whole_line_term(line.text)
             if term is None:
                 continue
             candidates.append((line.cap_height_px or 0.0, index, term))
@@ -708,4 +718,5 @@ __all__ = [
     "guess",
     "identify",
     "match",
+    "whole_line_term",
 ]

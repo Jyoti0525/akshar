@@ -191,3 +191,47 @@ def test_a_licence_number_on_a_line_with_a_real_declaration_loses() -> None:
 def test_the_dates_on_those_same_packs_are_still_dates() -> None:
     assert classify_text("Mfg. Date: 11-2023").field == "mfg_date"
     assert classify_text("MFD 12/2024").field == "mfg_date"
+
+
+# ---------------------------------------------------------------------------
+# 5. A lotion is not a lot number
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "BODY LOTION",  # corpus, and the pack's own generic name
+        "CALAMINE LOTION",
+        "Cleansing Lotion",
+        "lotion",
+    ],
+)
+def test_a_lotion_is_not_a_batch_number(text: str) -> None:
+    """The batch pattern ends in `[A-Z0-9]`, so a word boundary after `lot` was
+    never enough: the `I` of `LOTION` is both a letter and a perfectly good
+    first character of a batch code, and the pattern matched on `LOTI`.
+
+    Every body lotion, calamine lotion and cleansing lotion on the corpus
+    therefore lost its Rule 6(1)(b) generic name -- the commodity tier only
+    looks at lines still marked `other` -- and gained a Rule 6(1)(c) batch
+    number the pack does not declare. A mandatory declaration destroyed and a
+    false one asserted in its place, off one word.
+    """
+    assert classify_text(text).field != "batch"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "LOT No 123",
+        "LOT: A45",
+        "LOT123",  # a digit is not a letter, so this still matches
+        "lot no 9",
+        "Batch No. B77A6571",
+        "B.No.: 12",
+        "CODE: X9",
+    ],
+)
+def test_the_batch_codes_packs_actually_print_are_still_batch_codes(text: str) -> None:
+    assert classify_text(text).field == "batch"

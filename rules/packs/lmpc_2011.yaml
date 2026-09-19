@@ -986,6 +986,7 @@ rules:
     check: min_contrast
     fields: [mrp, net_quantity]           # numerals of these two only
     min_ratio: 3.0
+    requires_numerals: true               # measure the FIGURES, never the caption
     skip_if: { surface_in: [blown, molded, glass, plastic_formed] }
     message: "Retail sale price and net quantity numerals must contrast conspicuously with the background."
 
@@ -1073,6 +1074,7 @@ rules:
     check: min_contrast
     field: mrp
     min_ratio: 2.0
+    requires_numerals: true               # a defaced price is a defaced FIGURE
     respondent: dealer                # NOT the manufacturer
     suppresses: LMPC.CONTRAST.NUMERALS   # one measurement -> one verdict
     only_if: { sticker_or_overprint_detected: true }

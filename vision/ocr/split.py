@@ -156,7 +156,7 @@ def _coverage(text: str, fragments: list[tuple[str, int, int]]) -> float:
     return counted / total if total else 0.0
 
 
-def _slice_box(box: Box, text: str, start: int, end: int) -> Box:
+def slice_box(box: Box, text: str, start: int, end: int) -> Box:
     """The part of `box` that holds `text[start:end]`, by character offset."""
     n = max(len(text), 1)
     if box.w >= box.h:  # set across the page
@@ -184,7 +184,7 @@ def unweld_line(line: OcrLine) -> list[OcrLine]:
         dataclasses.replace(
             line,
             text=frag,
-            box=_slice_box(line.box, text, start, end),
+            box=slice_box(line.box, text, start, end),
             # Character geometry describes the parent's characters at the
             # parent's offsets; carrying it onto a fragment would hand
             # `min_width_ratio` boxes belonging to a different piece of text.
@@ -205,4 +205,4 @@ def unweld(lines: list[OcrLine]) -> list[OcrLine]:
     return out
 
 
-__all__ = ["MIN_COVERAGE", "MIN_FRAGMENTS", "unweld", "unweld_line"]
+__all__ = ["MIN_COVERAGE", "MIN_FRAGMENTS", "slice_box", "unweld", "unweld_line"]

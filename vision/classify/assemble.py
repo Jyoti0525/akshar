@@ -40,6 +40,7 @@ from vision.classify.regex_tier import FieldGuess
 from vision.measure.orientation import glyph_axis
 from vision.measure.to_mm import to_mm
 from vision.ocr.script import script_of_text
+from vision.ocr.sentences import unstitch
 from vision.types import Box, OcrLine, Point, ScaleEstimate
 
 MIN_EMIT_CONFIDENCE = 0.25
@@ -492,6 +493,12 @@ def from_listing_text(
                 engine="listing_text",
             )
         )
+
+    # A listing writes its attributes one per line, but its description field
+    # routinely runs two declarations together -- `Face Serum. Made in India`
+    # is as common in a marketplace blurb as it is on the carton. The same cut
+    # the photo channel makes, on the same terms. See `vision/ocr/sentences.py`.
+    lines = unstitch(lines)
 
     guesses = classify_lines(lines)
     declarations = [

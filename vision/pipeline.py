@@ -36,7 +36,7 @@ from vision.classify import assemble
 from vision.degradation import Degradation
 from vision.detect import detector
 from vision.identify import identify
-from vision.ocr import roi, second_pass, split
+from vision.ocr import roi, second_pass, sentences, split
 from vision.quality import assess as assess_quality
 from vision.quality import assess_framing
 from vision.rectify.rectify import rectify
@@ -556,6 +556,14 @@ def scan(
     # Splitting it here, before anything classifies or pairs, is what lets the
     # existing association see three values where it saw an unmatchable string.
     ocr_result = replace(ocr_result, lines=split.unweld(ocr_result.lines))
+
+    # And the mirror image of that: one region carrying two DECLARATIONS with a
+    # full stop between them. A face serum carton prints `Face Serum. Made in
+    # India` across the foot of its panel; the region can only be given one
+    # name, `country_of_origin` takes it, and Rule 6(1)(b)'s generic name is
+    # lost from a pack that sets it in the largest type on the panel. See
+    # `vision/ocr/sentences.py` for why the cut is this conservative.
+    ocr_result = replace(ocr_result, lines=sentences.unstitch(ocr_result.lines))
 
     timings["ocr"] = (time.perf_counter() - started) * 1000.0
 
