@@ -70,7 +70,14 @@ def _with_opencv(image: Image) -> list[str]:
 def _with_pyzbar(image: Image) -> list[str]:  # pragma: no cover - optional extra
     try:
         from pyzbar import pyzbar
-    except ImportError:
+    except Exception:
+        # Deliberately not `ImportError`. On Windows the wheel installs
+        # cleanly and ships `libzbar-64.dll`, but that DLL links against the
+        # Visual C++ 2013 runtime, which is not present by default. The import
+        # then fails with FileNotFoundError -- an OSError, not an ImportError --
+        # so the narrow guard let it through and a machine that had *installed*
+        # the optional extra decoded fewer barcodes than one that had not.
+        # "Optional" has to mean every way an optional dependency can be absent.
         return []
     try:
         return [obj.data.decode("ascii", "ignore") for obj in pyzbar.decode(image)]
