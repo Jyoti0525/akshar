@@ -70,15 +70,53 @@ def test_the_drawing_lands_where_the_declaration_is():
     A rectangle at x=100..340, y=200..240 must change those pixels and leave a
     patch far away untouched. If somebody ever draws on the raw photograph
     instead of the rectified label, the coordinates stop meaning this.
+
+    The far-away patch is below and to the *left* of the box on purpose. A
+    leader line runs rightward from a box to its row in the key, so anything to
+    the right of a declaration is legitimately drawable; only the space the pen
+    has no business in proves the point.
     """
     blank = _label()
     result = annotate.draw(blank, [_declaration()])
 
     on_the_box = result.image[200:241, 100:341]
-    far_away = result.image[500:560, 700:880]
+    far_away = result.image[500:560, 20:90]
 
     assert not np.array_equal(on_the_box, blank[200:241, 100:341])
-    assert np.array_equal(far_away, blank[500:560, 700:880])
+    assert np.array_equal(far_away, blank[500:560, 20:90])
+
+
+def test_the_photograph_is_not_painted_over_by_the_key():
+    """The whole point of the 2026-09-19 restyle.
+
+    The key is its own panel, so the exhibit is larger than the photograph and
+    `label_box` says where the photograph ends. Before this, the captions were
+    chips laid on the packaging, and the answer to "what does the artwork under
+    that caption say" was "we covered it up".
+    """
+    result = annotate.draw(_label(), [_declaration(), _declaration("net_quantity")])
+
+    assert result.label_box == (0, 0, 900, 600)
+    assert result.image.shape[:2] != (600, 900), "no key panel was added"
+
+
+def test_a_wide_label_gets_its_key_underneath_and_a_tall_one_beside():
+    """Not a style choice; it is what keeps the exhibit from being mostly blank.
+
+    A declaration panel is usually landscape. One tall column of eighteen rows
+    beside it made an exhibit twice the height of the photograph with the lower
+    half empty, and a PDF scales that down until the millimetre figures are
+    unreadable.
+    """
+    rows = [_declaration(), _declaration("net_quantity"), _declaration("batch")]
+
+    wide = annotate.draw(_label(900, 600), rows)
+    tall = annotate.draw(_label(600, 900), rows)
+
+    assert wide.image.shape[1] == 900, "a landscape label must not grow wider"
+    assert wide.image.shape[0] > 600
+    assert tall.image.shape[1] > 600, "a portrait label must not grow taller"
+    assert tall.image.shape[0] == 900
 
 
 def test_the_measured_glyphs_are_outlined_separately():
@@ -176,10 +214,106 @@ def test_the_legend_is_derived_from_the_colours_that_draw():
             *annotate.BOX_COLOURS.values(),
             annotate.NUMERAL_COLOUR,
             annotate.CONTEXT_COLOUR,
+            annotate.GROUP_COLOUR,
         )
     }
 
     assert {colour for _, _, colour in annotate.LEGEND} <= used
+
+
+def test_the_legend_and_the_key_panel_use_one_set_of_words():
+    """`STATUS_WORDS` feeds both, so the report's legend cannot come to describe
+    a status the exhibit has stopped naming that way."""
+    for status, word in annotate.STATUS_WORDS.items():
+        assert any(label == word for label, _meaning, _colour in annotate.LEGEND), status
+
+
+# ---------------------------------------------------------------------------
+# One printed block, and the lines drawn to a finding
+# ---------------------------------------------------------------------------
+
+
+def _address(field: str, y: float):
+    return _declaration(
+        field, box=Box(x=60.0, y=y, w=300.0, h=26.0), height_mm=None, height_mm_tolerance=None
+    )
+
+
+def test_an_address_printed_as_one_paragraph_is_enclosed_once():
+    """Four rectangles around four lines of one address read as four findings.
+
+    The rules judge manufacturer, packer and consumer care separately and the
+    key still lists them separately; the region only says what the label did.
+    """
+    result = annotate.draw(
+        _label(),
+        [_address("manufacturer", 100.0), _address("packer", 132.0), _address("consumer_care", 164.0)],
+    )
+
+    assert result.regions == 1
+    assert result.boxes == 3, "grouping must not merge the boxes it encloses"
+
+
+def test_declarations_scattered_across_the_panel_are_not_enclosed():
+    """A region round two boxes at opposite corners is a rectangle round the
+    whole label asserting a closeness the printing does not have."""
+    result = annotate.draw(
+        _label(),
+        [_address("manufacturer", 20.0), _address("packer", 540.0)],
+    )
+
+    assert result.regions == 0
+
+
+def test_one_address_line_alone_is_not_a_block():
+    assert annotate.draw(_label(), [_address("manufacturer", 100.0)]).regions == 0
+
+
+def test_the_region_carries_no_status_of_its_own():
+    """The guard that keeps grouping from becoming an accusation.
+
+    A failing manufacturer beside a passing packer must not paint the packer's
+    address with the manufacturer's verdict, so the enclosing colour is fixed
+    and is none of the status colours.
+    """
+    assert annotate.GROUP_COLOUR not in set(annotate.BOX_COLOURS.values())
+
+    failing = annotate.draw(
+        _label(),
+        [_address("manufacturer", 100.0), _address("packer", 132.0)],
+        statuses={"manufacturer": "FAIL"},
+    )
+
+    assert failing.regions == 1
+
+
+def test_only_a_finding_gets_a_line_drawn_to_its_row():
+    """A leader from every box to every row is twelve crossing lines, which is
+    the clutter back in a new form. The numbered badge finds the rest."""
+    blank = _label()
+    declarations = [_declaration(), _declaration("net_quantity")]
+
+    quiet = annotate.draw(blank, declarations, statuses={"mrp": "PASS", "net_quantity": "PASS"})
+    accused = annotate.draw(blank, declarations, statuses={"mrp": "FAIL", "net_quantity": "PASS"})
+
+    # Empty label below both boxes and clear of every badge. Only a leader on
+    # its way to the key can put a mark here.
+    lane = (slice(300, 560), slice(60, 500))
+    assert np.array_equal(quiet.image[lane], blank[lane]), "a passing box drew a line"
+    assert not np.array_equal(accused.image[lane], blank[lane])
+
+
+def test_nothing_drawn_on_the_exhibit_is_outside_ascii():
+    """`cv2.putText` renders one black lozenge per character it has no glyph
+    for. On the line of an exhibit that says what was measured."""
+    for text in (
+        *annotate.FIELD_LABELS.values(),
+        *annotate.STATUS_WORDS.values(),
+        *(title for title, _fields in annotate.FAMILIES),
+        annotate.caption_for(_declaration()),
+        annotate.measurement_for(_declaration()),
+    ):
+        assert text.isascii(), text
 
 
 # ---------------------------------------------------------------------------
@@ -198,8 +332,12 @@ def test_a_large_label_is_scaled_down_and_the_boxes_scale_with_it():
 
     result = annotate.draw(big, [declaration])
 
-    assert max(result.image.shape[:2]) == annotate.MAX_EDGE_PX
-    factor = result.image.shape[1] / 3600.0
+    # MAX_EDGE_PX budgets the *photograph*. The key beside it is flat colour and
+    # ASCII, which is the cheapest thing a JPEG can carry.
+    _x, _y, label_w, label_h = result.label_box
+    assert max(label_w, label_h) == annotate.MAX_EDGE_PX
+
+    factor = label_w / 3600.0
     x, y = int(2000 * factor), int(1500 * factor)
     patch = result.image[y : y + 40, x : x + 40]
     assert not np.array_equal(patch, np.full_like(patch, 220))

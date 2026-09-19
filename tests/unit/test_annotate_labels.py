@@ -97,3 +97,45 @@ def test_the_browser_calls_every_field_what_the_exhibit_calls_it():
     is one nobody should have to give.
     """
     assert _web_field_labels() == FIELD_LABELS
+
+
+# ---------------------------------------------------------------------------
+# And the order the key panel puts them in
+# ---------------------------------------------------------------------------
+
+
+def test_every_field_belongs_to_a_family_in_the_key():
+    """The same drift, one table further along.
+
+    `FAMILIES` decides which heading a declaration is listed under on the
+    exhibit. A field missing from it still gets drawn and still gets a row --
+    it falls to "Other declarations" -- but an exhibit that files the MRP under
+    "Other declarations" is one a reader has to be told to ignore.
+    """
+    from evidence.annotate import FAMILIES
+
+    placed = {field for _title, fields in FAMILIES for field in fields}
+    declared = set(typing.get_args(FieldName)) - {"other"}
+
+    assert not sorted(declared - placed), (
+        f"{sorted(declared - placed)} would be listed under 'Other declarations'"
+    )
+    assert not sorted(placed - declared), (
+        f"FAMILIES files {sorted(placed - declared)}, which contracts does not define"
+    )
+
+
+def test_no_field_is_filed_under_two_headings():
+    from evidence.annotate import FAMILIES
+
+    seen: list[str] = [field for _title, fields in FAMILIES for field in fields]
+    assert len(seen) == len(set(seen))
+
+
+def test_the_address_block_is_a_subset_of_the_name_and_address_family():
+    """The region drawn on the photograph and the heading in the key have to
+    agree, or the exhibit brackets four boxes and lists them apart."""
+    from evidence.annotate import ADDRESS_BLOCK, FAMILIES
+
+    family = next(fields for title, fields in FAMILIES if title == "Name and address")
+    assert set(ADDRESS_BLOCK) <= set(family)

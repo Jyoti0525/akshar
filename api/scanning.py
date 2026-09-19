@@ -518,10 +518,13 @@ def prepare_annotation(
         return None, f"no annotated image: {drawing.detail}"
 
     warped = getattr(outcome, "rectify_method", "identity") != "identity"
+    # The exhibit is a composite — the label on the left, the key beside it — so
+    # "the whole frame is the package" is the label's own rectangle, which
+    # `annotate.draw` reports, and not the extent of the canvas. Handing
+    # redaction the canvas would declare the key panel to be packaging.
     height, width = drawing.image.shape[:2]
-    result = redact.redact_faces(
-        drawing.image, package_box=(0, 0, width, height) if warped else None
-    )
+    package = drawing.label_box or (0, 0, width, height)
+    result = redact.redact_faces(drawing.image, package_box=package if warped else None)
     if blur_faces and not result.safe_to_store:
         return None, (
             "no annotated image: face redaction is required by section 18 and "
