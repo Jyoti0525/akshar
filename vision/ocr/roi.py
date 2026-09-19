@@ -36,7 +36,7 @@ from vision.measure.cap_height import measure_cap_height, measure_numeral_height
 from vision.measure.characters import character_boxes, numerals_of
 from vision.measure.contrast import contrast_ratio
 from vision.measure.orientation import unrotate_box
-from vision.ocr import detect_text, dictionary, recognise
+from vision.ocr import detect_text, dictionary, recognise, rows
 from vision.ocr import script as script_mod
 from vision.ocr.lines import merge_into_lines
 from vision.types import Box, Image, OcrLine, OcrResult, PanelId, Point, TextRegion
@@ -469,7 +469,14 @@ def propose_lines(
     # crop budget is applied is what makes eight crops enough -- and it is the
     # difference between handing the classifier `'MRP Rs.'` and `'10'`, which
     # declare nothing apiece, and handing it `'MRP Rs. 10'`. See vision.ocr.lines.
-    return merge_into_lines(proposals), detect_ms, detect_version
+    #
+    # And the mirror of it, in the same breath and for the same reason. Dense
+    # coded print shrinks to one blob in DBNet's mask, so a block of five
+    # declarations can arrive as a single region four lines tall -- which a
+    # line recogniser returns as one stray character. `unstack` cuts those back
+    # into lines before the budget is applied, so each one competes for a crop
+    # on its own merits. See vision.ocr.rows.
+    return rows.unstack(rectified, merge_into_lines(proposals)), detect_ms, detect_version
 
 
 def run(

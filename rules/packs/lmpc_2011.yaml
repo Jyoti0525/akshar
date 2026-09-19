@@ -596,11 +596,19 @@ patterns:
     # three can introduce a month and year. `for` joins it too -- `Manufactured
     # for Acme` names the marketer under 6(1)(a).
     #
+    # `Mfg. Lic. No.: JK/21-22/COS-8/334` is a cosmetics MANUFACTURING LICENCE
+    # under the Drugs and Cosmetics Rules, and it was reported to an officer as
+    # this pack's date of manufacture -- measured 2026-09-19 on a live scan of a
+    # face serum carton. `mf[dg]` matched `Mfg` and nothing looked at the word
+    # after it. A licence number is not a date in any of the forms 6(1)(d)
+    # allows, so `lic` joins the vetoes; `vision.classify.regex_tier` then names
+    # the line `licence`, which is what it is.
+    #
     # `mkd` is `mktd` with the `t` dropped, which is how a real pack came back;
     # the veto reaches across a conjunction to an optional role word and could
     # not see it, so `MFD & MKD By` was a packing date. The same spelling is
     # added to `manufacturer_locate`, which is where that line belongs.
-    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur(?!er)\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*((&|and)\s*)?((marketed|mk(td|t|d)\.?|imported|manufactured|mfd\.?|mfg\.?)\s*)?(by|for|pkd)\b)(?!\s*(with|using|under)\b)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
+    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur(?!er)\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*((&|and)\s*)?((marketed|mk(td|t|d)\.?|imported|manufactured|mfd\.?|mfg\.?)\s*)?(by|for|pkd)\b)(?!\s*(with|using|under)\b)(?!\W{0,3}lic)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
     devanagari: '(निर्माण|पैकिंग)\s*(की\s*)?(तिथि|माह)'
 
   mfg_date:                              # Rule 6(1)(d) — month AND year

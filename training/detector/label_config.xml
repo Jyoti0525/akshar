@@ -64,6 +64,9 @@
     <Label value="ingredients" background="#6b705c"/>
     <Label value="storage_use" background="#7f5539"/>
     <Label value="fssai_licence" background="#3d5a80"/>
+    <!-- A manufacturing or cosmetics licence: a different statute, a
+         different issuing authority, and never to be called an FSSAI one. -->
+    <Label value="licence" background="#34607a"/>
     <Label value="barcode" background="#5c5470"/>
     <Label value="unit_sale_price" background="#a44a3f"/>
 

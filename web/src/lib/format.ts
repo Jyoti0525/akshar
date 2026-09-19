@@ -278,6 +278,7 @@ export const FIELD_LABELS: Record<string, string> = {
   ingredients: "Ingredients",
   storage_use: "Storage or usage instruction",
   fssai_licence: "FSSAI licence",
+  licence: "Licence number",
   barcode: "Barcode",
   unit_sale_price: "Unit sale price",
   other: "Unclassified text",

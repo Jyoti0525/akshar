@@ -418,8 +418,9 @@ def _hard_negative(text: str) -> FieldGuess | None:
 
 _DECLARATION_CAPTION = re.compile(
     r"(?i)\b(m\.?r\.?p|max(imum)?\s*retail|net\s*(wt|weight|qty|quantity|content)"
-    r"|manufactur\w*|marketed\s*by|packed\s*by|imported\s*by|consumer\s*care|customer\s*care"
-    r"|batch|lot\s*no|best\s*before|use\s*by|mfg|mfd|pkd"
+    r"|manufactur\w*(?!\W{0,3}lic)|marketed\s*by|packed\s*by|imported\s*by"
+    r"|consumer\s*care|customer\s*care"
+    r"|batch|lot\s*no|best\s*before|use\s*by|(?:mfg|mfd|pkd)(?!\W{0,3}lic)"
     r"|country\s*of\s*origin|made\s*in|product\s*of)\b"
 )
 """A line carrying one of these belongs to the declaration patterns, full stop.
@@ -546,6 +547,34 @@ one. The bare 14-digit run stays -- that is the licence's own shape, and on
 `/ssCIf Lic, No.`"""
 
 
+_LICENCE = re.compile(
+    r"(?i)\blic(?:en[cs]e)?[.,]?\s*n[o0][.,:;\-\s]*"
+    r"(?=[A-Za-z0-9/\-]*\d)[A-Za-z0-9][A-Za-z0-9/\-]{3,}"
+)
+"""A licence number that is not an FSSAI one, and there are plenty.
+
+`Mfg. Lic. No.: JK/21-22/COS-8/334` is a cosmetics manufacturing licence under
+the Drugs and Cosmetics Rules. Measured 2026-09-19 on a live scan of a face
+serum carton, it was shown to an officer as **the pack's date of manufacture**,
+boxed and measured at 1.39 mm. Vetoing it out of `mfg_date_locate` fixes the
+false date; naming it here is the other half, because `other` on a line that
+plainly reads `Mfg. Lic. No.` tells an officer we could not read it when in
+fact we read it perfectly.
+
+Tried after `_FSSAI`, which is the more specific claim: an FSSAI number is
+fourteen digits and this pattern would happily take it.
+
+**It may not be called `fssai_licence`.** A cosmetics licence is issued by a
+State Licensing Authority under a different statute, and putting the words
+"FSSAI licence" on an enforcement exhibit beside a number that is nothing of
+the kind is the sort of error that gets a notice set aside.
+
+The code must carry a digit. Without that the phrase alone matched `'License
+No., pleas'` -- a clipped consumer-care sentence off `ghee.jpg` -- which is the
+same false positive `_FSSAI` was tightened for earlier today, and it would have
+walked straight back in through this door."""
+
+
 def _non_statutory(text: str) -> FieldGuess | None:
     """Name what the panel carries that is not a Rule 6(1) declaration.
 
@@ -601,6 +630,8 @@ def _non_statutory(text: str) -> FieldGuess | None:
         return FieldGuess("storage_use", 0.85, "storage or usage instruction, not a declaration")
     if _FSSAI.search(text):
         return FieldGuess("fssai_licence", 0.85, "an FSSAI licence number, not a declaration")
+    if _LICENCE.search(text):
+        return FieldGuess("licence", 0.85, "a licence number, not a declaration")
 
     return None
 

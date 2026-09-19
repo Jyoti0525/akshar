@@ -150,3 +150,44 @@ def test_a_declaration_caption_still_blocks_a_non_statutory_name() -> None:
     once; completed, it fires 56 times."""
     guessed = classify_text("MANUFACTURED FOR:LIC. No.10013022002253").field
     assert guessed != "fssai_licence"
+
+
+# ---------------------------------------------------------------------------
+# 4. A licence number is not a date
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        # The line off the face serum carton, exactly as the recogniser
+        # returned it. It was boxed on the officer's exhibit as "Date of
+        # manufacture, 1.39 mm".
+        "Mfg. Lic. No.: JK/21-22/C0S-8/334",
+        "Mfg Licence No: KA/123/2020",
+        "Manufacturing Lic. No. ABC/12/34",
+    ],
+)
+def test_a_manufacturing_licence_is_not_a_manufacturing_date(text: str) -> None:
+    assert classify_text(text).field == "licence"
+
+
+def test_a_cosmetics_licence_is_not_called_an_fssai_licence() -> None:
+    """Different statute, different issuing authority. Putting the words
+    "FSSAI licence" on an exhibit beside a State cosmetics licence number is
+    the sort of error that gets a notice set aside."""
+    assert classify_text("Mfg. Lic. No.: JK/21-22/COS-8/334").field != "fssai_licence"
+    assert classify_text("Lic. No. 10012022001320").field == "fssai_licence"
+
+
+def test_a_licence_number_on_a_line_with_a_real_declaration_loses() -> None:
+    """The caption guard is what keeps a non-statutory name from swallowing a
+    declaration printed beside it, and widening it for `lic` must not open
+    that door."""
+    assert classify_text("Net Wt 500 g Lic No 12345678901234").field == "net_quantity"
+    assert classify_text("MRP Rs 45 Lic No AB/12/34").field == "mrp"
+
+
+def test_the_dates_on_those_same_packs_are_still_dates() -> None:
+    assert classify_text("Mfg. Date: 11-2023").field == "mfg_date"
+    assert classify_text("MFD 12/2024").field == "mfg_date"

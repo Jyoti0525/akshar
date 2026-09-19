@@ -1043,7 +1043,7 @@ export interface components {
              * Field
              * @enum {string}
              */
-            field: "mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "nutrition" | "ingredients" | "storage_use" | "fssai_licence" | "barcode" | "unit_sale_price" | "other";
+            field: "mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "nutrition" | "ingredients" | "storage_use" | "fssai_licence" | "licence" | "barcode" | "unit_sale_price" | "other";
             /** Text */
             text: string;
             /**
@@ -1649,7 +1649,7 @@ export interface components {
              */
             severity: "high" | "medium" | "low";
             /** Field */
-            field?: ("mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "nutrition" | "ingredients" | "storage_use" | "fssai_licence" | "barcode" | "unit_sale_price" | "other") | null;
+            field?: ("mrp" | "net_quantity" | "mfg_date" | "expiry_date" | "manufacturer" | "packer" | "importer" | "consumer_care" | "country_of_origin" | "generic_name" | "batch" | "marketing_text" | "nutrition" | "ingredients" | "storage_use" | "fssai_licence" | "licence" | "barcode" | "unit_sale_price" | "other") | null;
             /** Found */
             found?: string | null;
             /** Expected */
