@@ -120,6 +120,19 @@ export function Scanner() {
     async (blobs: Blob[]) => {
       const [first, ...rest] = blobs;
       if (!first) return;
+      // The shutter is disabled without a height, but the file input was not,
+      // so choosing a photograph posted NaN and the officer met a raw 422 from
+      // the API with no idea which field it meant. The guard belongs here
+      // rather than on the controls alone: every way into a scan goes through
+      // this function, and the next one added will be guarded by default.
+      if (!heightIsUsable) {
+        setError(
+          "Enter the height of the face you are photographing, in millimetres, " +
+            "before uploading. Without it the printed letters cannot be converted " +
+            "to millimetres and the three character-height rules cannot be checked.",
+        );
+        return;
+      }
       setBusy(true);
       setError(null);
       setResult(null);
@@ -147,7 +160,7 @@ export function Scanner() {
         setBusy(false);
       }
     },
-    [category, district, geo, packHeightMm],
+    [category, district, geo, packHeightMm, heightIsUsable],
   );
 
   const shoot = useCallback(async () => {
@@ -311,12 +324,26 @@ export function Scanner() {
             <Button onClick={() => void startCamera()} disabled={busy}>
               Use camera
             </Button>
-            <label className="inline-flex h-touch cursor-pointer items-center rounded-md border border-border px-4 text-base hover:bg-surface-2">
+            {/*
+              Disabled without a height, exactly as the shutter is. A control
+              that accepts the file and then fails is worse than one that says
+              in advance what it is waiting for.
+            */}
+            <label
+              aria-disabled={!heightIsUsable}
+              className={
+                "inline-flex h-touch items-center rounded-md border border-border px-4 text-base " +
+                (heightIsUsable
+                  ? "cursor-pointer hover:bg-surface-2"
+                  : "cursor-not-allowed opacity-50")
+              }
+            >
               Upload photographs
               <input
                 type="file"
                 accept="image/*"
                 multiple
+                disabled={!heightIsUsable || busy}
                 className="sr-only"
                 onChange={(event) => {
                   // Several files here means several photographs of ONE pack.
@@ -328,7 +355,11 @@ export function Scanner() {
               />
             </label>
             <span className="text-sm text-fg-muted">
-              {geo ? "Location captured" : "No location — the scan still records"}
+              {heightIsUsable
+                ? geo
+                  ? "Location captured"
+                  : "No location — the scan still records"
+                : "Enter the pack height above to enable capture"}
             </span>
           </div>
         )}
