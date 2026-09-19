@@ -1,0 +1,67 @@
+{
+ "total_missed": 71,
+ "buckets": {
+  "C1": 24,
+  "C2": 31,
+  "C?": 9,
+  "B": 4,
+  "D": 3
+ },
+ "by_field": {
+  "manufacturer": {
+   "C1": 9,
+   "B": 1,
+   "C2": 4
+  },
+  "country_of_origin": {
+   "C2": 5,
+   "B": 1
+  },
+  "mrp": {
+   "C?": 3,
+   "D": 1,
+   "C2": 4,
+   "C1": 2
+  },
+  "mfg_date": {
+   "C2": 4,
+   "B": 2,
+   "C1": 2,
+   "C?": 1,
+   "D": 1
+  },
+  "batch": {
+   "C2": 1,
+   "C1": 3,
+   "C?": 3
+  },
+  "consumer_care": {
+   "C2": 5,
+   "C1": 1
+  },
+  "importer": {
+   "C1": 1
+  },
+  "net_quantity": {
+   "C2": 4,
+   "C1": 1,
+   "C?": 1,
+   "D": 1
+  },
+  "expiry_date": {
+   "C1": 3,
+   "C2": 2
+  },
+  "generic_name": {
+   "C2": 2,
+   "C?": 1,
+   "C1": 1
+  },
+  "packer": {
+   "C1": 1
+  }
+ },
+ "regions_proposed": 1148,
+ "regions_read": 1092,
+ "frames_budget_bound": 16
+}
