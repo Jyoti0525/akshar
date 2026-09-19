@@ -418,8 +418,9 @@ def _hard_negative(text: str) -> FieldGuess | None:
 
 _DECLARATION_CAPTION = re.compile(
     r"(?i)\b(m\.?r\.?p|max(imum)?\s*retail|net\s*(wt|weight|qty|quantity|content)"
-    r"|manufactur|marketed\s*by|packed\s*by|imported\s*by|consumer\s*care|customer\s*care"
-    r"|batch|lot\s*no|best\s*before|use\s*by|mfg|mfd|pkd|country\s*of\s*origin)\b"
+    r"|manufactur\w*|marketed\s*by|packed\s*by|imported\s*by|consumer\s*care|customer\s*care"
+    r"|batch|lot\s*no|best\s*before|use\s*by|mfg|mfd|pkd"
+    r"|country\s*of\s*origin|made\s*in|product\s*of)\b"
 )
 """A line carrying one of these belongs to the declaration patterns, full stop.
 
@@ -472,7 +473,34 @@ _STORAGE_USE = re.compile(
     r"directions?\s*for\s*use|how\s*to\s*use|recommended\s*usage|shake\s*well|"
     r"once\s*opened|airtight|away\s*from\s*(sun|direct|heat)|do\s*not\s*freeze)\b"
 )
-_FSSAI = re.compile(r"(?i)(\bfssai\b|lic\.?\s*no\.?|licen[cs]e\s*no\.?|\b\d{14}\b)")
+_FSSAI = re.compile(
+    r"(?i)(\bf?ssai"
+    r"|lic(?:en[cs]e)?[.,]?\s*n[o0][.,:;\-\s]*\d"
+    r"|\b\d{14}\b)"
+)
+"""An FSSAI licence number, and the two ways this pattern used to invent one.
+
+**A licence caption with no licence number is not a licence.** The phrase alone
+was enough before, so `'License No., pleas'` -- four words clipped out of
+`ghee.jpg`'s *"quote the Batch No. and License No., please"*, a consumer-care
+sentence -- was named an FSSAI licence on the officer's exhibit. Requiring a
+digit after the caption costs nothing real: every genuine licence line in the
+38-panel set carries its number on the same line, and one that truly carries
+the caption alone still matches on the word `fssai` printed beside it.
+
+**The digit is what does the work, so the word boundary can go.** `PUBLIC
+NOTICE` contains `lic no` and was the reason for a leading `\\b` -- but it is
+not followed by a number, so the digit already refuses it, and the boundary was
+refusing real licences instead. Across the 469-frame corpus it cost three:
+`OLIC NO 1012013`, `ANLIC. NO.10104` and `ssaiLicense No.1001404700153`, each
+one a licence whose first letters OCR welded to the word before.
+
+`f?ssai` and the run of punctuation are the same concession to what the
+recogniser returns: `LIC. NO.: 10U12U1200066` and `LIC. No.-1001404700042` are
+both licences printed plainly and both have two marks where the pattern allowed
+one. The bare 14-digit run stays -- that is the licence's own shape, and on
+`udadpapad.jpg` it is the only thing left after the caption is read as
+`/ssCIf Lic, No.`"""
 
 
 def _non_statutory(text: str) -> FieldGuess | None:

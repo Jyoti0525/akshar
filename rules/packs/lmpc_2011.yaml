@@ -582,7 +582,25 @@ patterns:
     # identical failure this comment's neighbour above records having fixed once
     # for `MFG BY ABC Foods`. One optional role word between the conjunction and
     # the `by` is what the phrasing actually varies by.
-    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*((&|and)\s*)?((marketed|mktd\.?|imported|manufactured|mfd\.?|mfg\.?)\s*)?(by|pkd)\b)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
+    # Three more ways the stem named a date that was not one, all measured
+    # 2026-09-19 on the 38-panel set:
+    #
+    #   'reliable growers and manufacturers to'        -> mfg_date
+    #   'Our products are processed and packed with'   -> mfg_date
+    #   'MFD & MKD By'                                 -> mfg_date
+    #
+    # A *manufacturer* is a person and never a date, so `manufactur(?!er)`
+    # keeps manufacture, manufactured and manufacturing and drops the agent
+    # noun. `with|using|under` joins the `by` veto for the same reason `by` is
+    # there: what follows the stem says what the stem meant, and none of those
+    # three can introduce a month and year. `for` joins it too -- `Manufactured
+    # for Acme` names the marketer under 6(1)(a).
+    #
+    # `mkd` is `mktd` with the `t` dropped, which is how a real pack came back;
+    # the veto reaches across a conjunction to an optional role word and could
+    # not see it, so `MFD & MKD By` was a packing date. The same spelling is
+    # added to `manufacturer_locate`, which is where that line belongs.
+    latin: '(?i)(?<![A-Za-z0-9])(mf[dg]|manufactur(?!er)\w*|packed|pkd|pkg|date\s*of\s*(mfg|mfd|manufactur\w*|pack\w*|pkg|pkd|import\w*)|(pack(ing|aging)|mfg|mfd|manufacturing)\s*date|month\s*(and|&)\s*year)(?!\s*((&|and)\s*)?((marketed|mk(td|t|d)\.?|imported|manufactured|mfd\.?|mfg\.?)\s*)?(by|for|pkd)\b)(?!\s*(with|using|under)\b)(?!\w*\s*(address|addr\b))(?![A-Za-z0-9])'
     devanagari: '(निर्माण|पैकिंग)\s*(की\s*)?(तिथि|माह)'
 
   mfg_date:                              # Rule 6(1)(d) — month AND year
@@ -646,7 +664,18 @@ patterns:
     # `manufac` except a manufacture one, and the stem is still followed by
     # `by`, `:` or `address`, so this widens what OCR can mangle and not what
     # the pattern will accept.
-    latin: '(?i)(?<![A-Za-z0-9])(manufac\w*\s*(by|:)|manufac\w*\s*(unit\s*)?(address|addr\b)|mf[dg]\.?\s*&?\s*(by|pkd)|mktd\.?\s*by|marketed\s*by|packed\s*by|imported\s*by|name\s*(and|&)\s*address)(?![A-Za-z0-9])'
+    # `MFD & MKD By` is one line off a pickle jar and it names a person under
+    # Rule 6(1)(a). It reached `mfg_date` instead, because this pattern's
+    # `mf[dg]\.?\s*&?\s*(by|pkd)` allowed a conjunction but nothing between the
+    # conjunction and the `by` -- and `MKD` is `MKTD` with the `t` dropped by
+    # OCR, the same mangling `manufac\w*` above was widened for.
+    # `Manufactured for:` names a person for the same reason `Marketed by:`
+    # does -- the pack was made on someone else's behalf and it is that
+    # someone whose name and address Rule 6(1)(a) is after. It is listed here
+    # rather than left to fall through because `mfg_date_locate` now vetoes
+    # `manufactured for` outright, and a line naming an entity must land
+    # somewhere better than `other`.
+    latin: '(?i)(?<![A-Za-z0-9])(manufac\w*\s*(by|for|:)|manufac\w*\s*(unit\s*)?(address|addr\b)|mf[dg]\.?\s*((&|and)\s*)?((mk(td|t|d)\.?|marketed|packed|pkd\.?)\s*)?(by|pkd)|mk(td|t|d)\.?\s*by|marketed\s*by|packed\s*by|imported\s*by|name\s*(and|&)\s*address)(?![A-Za-z0-9])'
     devanagari: '(निर्माता|पैकर|आयातकर्ता)'
 
   # -- numerals ---------------------------------------------------------------
