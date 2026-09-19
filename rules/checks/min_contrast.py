@@ -97,15 +97,31 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
             )
         declarations = with_numerals
 
-    measured = [d.contrast_ratio for d in declarations if d.contrast_ratio is not None]
+    measured = [d for d in declarations if d.contrast_ratio is not None]
     if not measured:
         return CheckOutcome.no_data("Contrast was not measured for this declaration.")
 
-    worst = min(measured)
+    # The declaration itself, not just its number. `field_name` used to be
+    # `fields[0]` unconditionally, so a rule covering `[mrp, net_quantity]`
+    # reported every finding against the MRP however it arose. On a face serum
+    # carton scanned 2026-09-19 the worst reading came off `Net Qty: 30 ml` at
+    # 1.888 and the officer was shown "Numeral contrast — MRP", with the box on
+    # the exhibit drawn round a price that measured 3.34 and was perfectly
+    # legible. A verdict has to point at the thing it was computed from, or the
+    # person acting on it goes and looks at the wrong declaration.
+    poorest = min(measured, key=lambda d: d.contrast_ratio or 0.0)
+    worst = float(poorest.contrast_ratio or 0.0)
+
+    # Per-crop, floored at the constant. A sharp crop reports a fraction of a
+    # point and the band stays where it was; a crop that is out of focus
+    # reports more than a point, and that is not a measurement of the pack. See
+    # `vision.measure.contrast.contrast_band`.
+    tolerance = max(_TOLERANCE, poorest.contrast_ratio_tolerance or 0.0)
+
     status: VerdictStatus
     if worst >= threshold:
         status = "PASS"
-    elif worst + _TOLERANCE >= threshold:
+    elif worst + tolerance >= threshold:
         status = "REVIEW"
     else:
         status = "FAIL"
@@ -117,6 +133,6 @@ def check(rule: Rule, ds: DeclarationSet, ctx: PackageContext, pack: Rulepack) -
         measured=worst,
         threshold=threshold,
         unit="ratio",
-        tolerance=_TOLERANCE,
-        field_name=primary,
+        tolerance=tolerance,
+        field_name=poorest.field if poorest.field in fields else primary,
     )

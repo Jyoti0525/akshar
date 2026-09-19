@@ -350,20 +350,94 @@ def test_a_spool_that_cannot_accept_bytes_says_so_rather_than_raising():
     assert len(spool) == 0
 
 
+class DeadRedis:
+    def set(self, *args, **kwargs):
+        raise ConnectionError("redis is down")
+
+    def pipeline(self, *args, **kwargs):
+        raise ConnectionError("redis is down")
+
+
 def test_a_redis_outage_is_a_false_put_not_an_exception():
     """The caller then uploads inline. An evidence path that fails when the
     queue fails is not an evidence path."""
+    assert RedisSpool(client=DeadRedis()).put("scan-1", b"pixels") is False
 
-    class DeadRedis:
-        def set(self, *args, **kwargs):
-            raise ConnectionError("redis is down")
+
+def test_a_redis_outage_on_take_raises_rather_than_reporting_an_empty_slot():
+    """This assertion was the opposite way round until 2026-09-19, and that is
+    how every photograph went missing.
+
+    `take` swallowed every exception and returned `None`. The caller reads
+    `None` as *"there are no bytes here, so there is nothing to upload"* and
+    returns quietly — which is right for a slot that has already been drained
+    and catastrophic for a slot it could not read. On the dev stack the two
+    were indistinguishable for days: `akshar-evidence` held zero objects while
+    every scan row went on recording an `image_key`, and the worker log carried
+    a reassuring warning for each one.
+
+    A raise is the correct answer because it is also the recoverable one.
+    Dramatiq retries the actor, and the bytes are still in the spool to retry
+    against precisely because the failed `take` did not delete them.
+    """
+    spool = RedisSpool(client=DeadRedis())
+    with pytest.raises(ConnectionError):
+        spool.take("scan-1")
+
+
+def test_take_is_atomic_so_two_workers_cannot_both_upload():
+    """The object store is versioned and write-once: a second PUT makes a
+    second version of an object that should have exactly one, which reads to an
+    auditor as evidence being overwritten.
+
+    It was `GETDEL` for this, guarded by `getattr(client, "getdel")` — which
+    asks the client library about a **server** command. `redis-py` has had the
+    method since 4.0; Redis grew the command in 6.2; the dev stack runs 3.0.504.
+    A transaction needs nothing newer than Redis 1.2, so there is no capability
+    left to get wrong.
+    """
+    store: dict[str, bytes] = {}
+    calls: list[str] = []
+
+    class Tx:
+        def __init__(self):
+            self.ops = []
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+        def get(self, name):
+            self.ops.append(("get", name))
+
+        def delete(self, name):
+            self.ops.append(("delete", name))
+
+        def execute(self):
+            out = []
+            for op, name in self.ops:
+                calls.append(op)
+                out.append(store.get(name) if op == "get" else store.pop(name, None))
+            return out
+
+    class Redis30:
+        def set(self, name, payload, ex=None):
+            store[name] = payload
+
+        def pipeline(self, transaction=False):
+            assert transaction, "the read and the delete must be one transaction"
+            return Tx()
 
         def getdel(self, *args, **kwargs):
-            raise ConnectionError("redis is down")
+            raise AssertionError("GETDEL is not available on every supported server")
 
-    spool = RedisSpool(client=DeadRedis())
-    assert spool.put("scan-1", b"pixels") is False
+    spool = RedisSpool(client=Redis30())
+    assert spool.put("scan-1", b"pixels")
+    assert spool.take("scan-1") == b"pixels"
     assert spool.take("scan-1") is None
+    assert calls == ["get", "delete", "get", "delete"]
 
 
 # ---------------------------------------------------------------------------

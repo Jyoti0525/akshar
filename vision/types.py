@@ -377,6 +377,13 @@ class OcrLine:
     contrast_ratio: float | None = None
     """WCAG ratio against the local background, for Rules 9(1)(b) and 18(5)."""
 
+    contrast_tolerance: float | None = None
+    """How far `contrast_ratio` can be trusted, measured on the same crop.
+
+    Wide where the crop is out of focus, near zero where it is sharp. See
+    `vision.measure.contrast.contrast_band` for why a legibility verdict
+    without this became a false accusation against a legible pack."""
+
     rotation_k: int = 0
     """Quarter-turns anticlockwise applied to read this line, 0 for upright text.
 

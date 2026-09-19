@@ -34,7 +34,7 @@ import numpy as np
 from vision import runtime
 from vision.measure.cap_height import measure_cap_height, measure_numeral_height
 from vision.measure.characters import character_boxes, numerals_of
-from vision.measure.contrast import contrast_ratio
+from vision.measure.contrast import contrast_band
 from vision.measure.orientation import unrotate_box
 from vision.ocr import detect_text, dictionary, recognise, rows
 from vision.ocr import script as script_mod
@@ -422,6 +422,10 @@ def read_regions(
             )
         ]
 
+        # Ratio AND error bar, from one pass over the same crop. A verdict
+        # needs both: see `vision.measure.contrast.contrast_band`.
+        band = contrast_band(oriented)
+
         lines.append(
             OcrLine(
                 text=result.text,
@@ -434,7 +438,8 @@ def read_regions(
                 cap_height_px=cap.cap_height_px if cap else None,
                 numeral_box=numerals_of(result.text, boxes),
                 numeral_height_px=numeral_height,
-                contrast_ratio=contrast_ratio(oriented),
+                contrast_ratio=None if band is None else band[0],
+                contrast_tolerance=None if band is None else band[1],
                 rotation_k=k,
             )
         )

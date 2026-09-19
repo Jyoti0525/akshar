@@ -235,3 +235,53 @@ def test_a_lotion_is_not_a_batch_number(text: str) -> None:
 )
 def test_the_batch_codes_packs_actually_print_are_still_batch_codes(text: str) -> None:
     assert classify_text(text).field == "batch"
+
+
+# ---------------------------------------------------------------------------
+# 6. One dropped letter, and a declared date reported undeclared
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        # The face serum carton prints `Mfg. date:` above its coded values.
+        # This is what the recogniser returned for it, and the pack was
+        # reported for declaring no date of manufacture.
+        "Mg. date:",
+        "Mf. date:",
+        "Md date",
+        # And the spellings that always worked, which must keep working.
+        "Mfg. date:",
+        "Mfd. date:",
+        "MFG. DATE",
+        "Manufacturing Date",
+        "Packaging Date",
+    ],
+)
+def test_a_date_caption_survives_a_dropped_letter(text: str) -> None:
+    """`mf[dg]` needs both letters and `mend_label_noise` will not touch a word
+    under five characters -- one edit reaches too many real words at that
+    length. So a single lost `f` took a mandatory declaration off a pack that
+    prints it in plain words two lines above its use-by date.
+
+    The literal word `date` immediately after is what makes the repair safe:
+    `mg`, `mf` and `md` are ambiguous on their own and not ambiguous at all
+    when the next word is `date`.
+    """
+    assert classify_text(text).field == "mfg_date"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "500 mg",
+        "Contains 250 mg per serving",
+        "Mg. Lic. No.: JK/21-22/C0S-8/334",  # the same pack, six lines up
+        "Exp. date:",
+        "Use before:",
+        "Best before date",
+    ],
+)
+def test_the_repair_does_not_reach_anything_else(text: str) -> None:
+    assert classify_text(text).field != "mfg_date"

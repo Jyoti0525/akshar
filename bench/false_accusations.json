@@ -382,7 +382,7 @@
   },
   {
     "image": "gulabjal.jpg",
-    "blocking": 1,
+    "blocking": 0,
     "false": 0,
     "guard_withheld": true,
     "extracted": [
@@ -399,14 +399,7 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.CONTRAST.NUMERALS",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "happyhappy.png",

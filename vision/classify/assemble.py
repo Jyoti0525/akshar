@@ -125,6 +125,7 @@ def _declaration_from_line(
         ocr_confidence=max(0.0, min(1.0, line.confidence)),
         field_confidence=max(0.0, min(1.0, guess.confidence)),
         contrast_ratio=line.contrast_ratio,
+        contrast_ratio_tolerance=line.contrast_tolerance,
         char_boxes=line.char_boxes,
         text_rotation_k=line.rotation_k,
         numeral_box=line.numeral_box,
@@ -197,6 +198,7 @@ def _joined_line(label: OcrLine, value: OcrLine) -> OcrLine:
         numeral_box=value.numeral_box,
         numeral_height_px=value.numeral_height_px,
         contrast_ratio=value.contrast_ratio,
+        contrast_tolerance=value.contrast_tolerance,
         rotation_k=value.rotation_k,
     )
 

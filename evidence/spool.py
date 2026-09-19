@@ -135,11 +135,33 @@ class RedisSpool:
     module opens no connection of its own, so the redaction-to-upload hand-off
     is testable with `fakeredis`, with a stub, or with nothing at all.
 
-    `GETDEL` is used rather than `GET` then `DEL` because two workers must not
-    both receive the same payload — the object store is versioned and
-    write-once, and a duplicate PUT would create a second version of an object
-    that is supposed to have exactly one, which reads to an auditor as an
-    overwrite of evidence.
+    The payload must reach exactly one worker — the object store is versioned
+    and write-once, and a duplicate PUT would create a second version of an
+    object that is supposed to have exactly one, which reads to an auditor as
+    an overwrite of evidence. A `MULTI/EXEC` of `GET` then `DEL` gives that:
+    Redis runs a transaction to completion without interleaving, so of two
+    workers racing on one slot, one gets the bytes and the other gets `None`.
+
+    ---------------------------------------------------------------------------
+    WHY NOT `GETDEL`, WHICH IS THE OBVIOUS ANSWER
+    ---------------------------------------------------------------------------
+    It was `GETDEL`, guarded by `getattr(client, "getdel", None)`. That checks
+    the **client library**, and `redis-py` has had the method since 4.0. The
+    command is a **server** feature, added in Redis 6.2.
+
+    The dev stack here runs Redis 3.0.504. So the guard passed, the server
+    answered `unknown command 'GETDEL'`, the `except Exception: return None`
+    below turned that into "the entry is not there", and the worker logged a
+    reassuring warning and returned. **Every photograph of every scan taken on
+    that stack was discarded**, while its scan row went on recording an
+    `image_key` for an object that had never been written. `akshar-evidence`
+    held zero objects; the bytes were still sitting in Redis, unread, until
+    their TTL expired. Found 2026-09-19, by going to look for the photograph
+    behind a defect report and finding the bucket empty.
+
+    A capability test that asks the wrong side of the wire is worse than no
+    test. `MULTI/EXEC` needs nothing newer than Redis 1.2, so there is no
+    capability to test any more.
     """
 
     client: Any
@@ -159,16 +181,28 @@ class RedisSpool:
         return True
 
     def take(self, key: str) -> bytes | None:
-        try:
-            getdel = getattr(self.client, "getdel", None)
-            if getdel is not None:
-                return getdel(self._key(key))
-            payload = self.client.get(self._key(key))
+        """The bytes, removed. Raises if Redis could not answer.
+
+        **A transport failure is not an empty slot** and must never be reported
+        as one: the caller's whole contract is "no bytes here, so there is
+        nothing to upload", and answering that to a broken connection is how
+        evidence goes missing quietly. A raise lets Dramatiq retry, and the
+        bytes are still in the spool to retry against precisely because the
+        delete did not happen.
+        """
+        name = self._key(key)
+        pipe = getattr(self.client, "pipeline", None)
+        if pipe is None:  # a stub that is a plain mapping-like client
+            payload = self.client.get(name)
             if payload is not None:
-                self.client.delete(self._key(key))
+                self.client.delete(name)
             return payload
-        except Exception:
-            return None
+
+        with pipe(transaction=True) as tx:
+            tx.get(name)
+            tx.delete(name)
+            payload, _ = tx.execute()
+        return payload
 
     def discard(self, key: str) -> None:
         # Best effort by contract: the entry has a TTL, so a Redis that is down

@@ -1066,6 +1066,8 @@ export interface components {
             field_confidence: number;
             /** Contrast Ratio */
             contrast_ratio?: number | null;
+            /** Contrast Ratio Tolerance */
+            contrast_ratio_tolerance?: number | null;
             /** Char Boxes */
             char_boxes?: components["schemas"]["Box"][];
             numeral_box?: components["schemas"]["Box"] | null;

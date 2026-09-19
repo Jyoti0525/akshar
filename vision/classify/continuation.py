@@ -54,7 +54,8 @@ evidence image draws, so an officer sees one rectangle round the whole address
 instead of one round its first line.
 
 Every measured pixel still comes from the anchor: `cap_height_px`,
-`numeral_box`, `numeral_height_px` and `contrast_ratio` are the first line's.
+`numeral_box`, `numeral_height_px` and `contrast_ratio` (with its tolerance)
+are the first line's.
 Rule 7 measures glyphs, and the glyphs of a six-line block have no single
 height. Taking the union's height would report an address as 40 mm tall.
 """
@@ -341,6 +342,7 @@ def merge(anchor: OcrLine, body: list[OcrLine]) -> OcrLine:
         numeral_box=anchor.numeral_box,
         numeral_height_px=anchor.numeral_height_px,
         contrast_ratio=anchor.contrast_ratio,
+        contrast_tolerance=anchor.contrast_tolerance,
         rotation_k=anchor.rotation_k,
     )
 

@@ -287,6 +287,16 @@ class Declaration(BaseModel):
     """WCAG-style ratio of the glyph luminance against local background, for
     Rule 9(1)(b) and Rule 18(5)."""
 
+    contrast_ratio_tolerance: float | None = None
+    """How far `contrast_ratio` can be trusted, from the crop's own pixels.
+
+    The twin of `height_mm_tolerance`, and it exists for the same reason: a
+    measurement is an estimate and section 8b will not let an error bar that
+    crosses a threshold become a verdict. A sharp crop reports a fraction of a
+    point here; one that is out of focus reports more than a point, because a
+    soft crop measures the lens rather than the printer. See
+    `vision.measure.contrast.contrast_band`."""
+
     # -- additive, non-breaking: needed by checks the plan specifies ---------
 
     char_boxes: list[Box] = Field(default_factory=list)

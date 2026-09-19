@@ -93,6 +93,7 @@ def store_evidence(
     and write-once, and a second PUT would create a second version of an object
     that should have exactly one — which reads to an auditor as an overwrite.
     """
+    from evidence import spool as spool_mod
     from evidence import storage
 
     resources = _resources()
@@ -102,11 +103,22 @@ def store_evidence(
     slot = scan_id if frame == 0 else f"{scan_id}:frame{frame}"
     payload = resources["spool"].take(slot)
     if payload is None:
-        logger.warning(
-            "evidence for scan %s (frame %d) was not in the spool; either it "
-            "was already uploaded or the spool entry expired",
+        # `error`, not `warning`, and it no longer offers the reader a benign
+        # explanation. The old message read "either it was already uploaded or
+        # the spool entry expired", and for every scan on the dev stack it was
+        # neither -- the spool's `take` was failing against an old Redis and
+        # reporting the failure as an empty slot (see `evidence/spool.py`). A
+        # log line that guesses a harmless cause is how a silent evidence leak
+        # survives inspection: the leak was visible in this log for days.
+        logger.error(
+            "evidence for scan %s (frame %d) was NOT in the spool. The scan row "
+            "records an image_key for an object that will not exist; "
+            "`evidence.verify` will report it. Causes, in order of likelihood: "
+            "the spool entry expired (TTL %ds), the message was delivered twice, "
+            "or the spool is not reachable.",
             scan_id,
             frame,
+            spool_mod.DEFAULT_TTL_SECONDS,
         )
         return
 
@@ -151,7 +163,13 @@ def store_annotation(*, scan_id: str, captured_at: str) -> None:
     resources = _resources()
     payload = resources["spool"].take(f"annot:{scan_id}")
     if payload is None:
-        logger.warning("annotation for scan %s was not in the spool", scan_id)
+        # See `store_evidence`: the same silent loss took every annotated
+        # exhibit with it, and the same reason applies for saying so plainly.
+        logger.error(
+            "annotation for scan %s was NOT in the spool; the exhibit will be "
+            "missing from this scan's report",
+            scan_id,
+        )
         return
 
     objects = resources["objects"]
