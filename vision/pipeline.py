@@ -40,7 +40,7 @@ from vision.ocr import roi, second_pass
 from vision.quality import assess as assess_quality
 from vision.quality import assess_framing
 from vision.rectify.rectify import rectify
-from vision.scale import tier_a, tier_b, tier_c
+from vision.scale import coherence, tier_a, tier_b, tier_c
 from vision.scale.resolve import resolve_scale
 from vision.types import (
     XYWH,
@@ -571,6 +571,34 @@ def scan(
         model_tier_predictions=predictions,
     )
     timings["classify"] = (time.perf_counter() - started) * 1000.0
+
+    # -- does the scale survive contact with what it measured? --------------
+    #
+    # The last place a wrong pack height can be caught, and the only place the
+    # one that got through can be. Every earlier guard asks whether the entered
+    # number is believable; 20 mm is believable, and on a 150 mm jar it made
+    # every letter measure seven and a half times too small and failed a
+    # compliant pack on character height. The evidence that it was wrong exists
+    # only here, in the result. See vision/scale/coherence.py.
+    #
+    # Demotion is to tier C and the declarations are re-assembled against it,
+    # so what comes out is exactly what a scan with no scale at all would have
+    # said -- not a scan with a scale quietly blanked out of it.
+    incoherent = coherence.implausible(declarations.declarations)
+    if incoherent is not None:
+        scale = tier_c.estimate(incoherent)
+        declarations = assemble.from_lines(
+            ocr_result.lines,
+            scale,
+            source=source,
+            coverage=ocr_result.coverage,
+            degradation_tier=tier.tier,
+            pdp_polygon=pdp_polygon,
+            rectified=rectified.method == "quad",
+            is_embossed=is_embossed,
+            model_versions=versions,
+            model_tier_predictions=predictions,
+        )
 
     # -- B1, second half: was the declaration panel in shot? ----------------
     #
