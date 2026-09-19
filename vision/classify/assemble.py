@@ -34,7 +34,7 @@ from contracts import (
     LabelGeometry,
     SourceChannel,
 )
-from vision.classify import continuation, regex_tier
+from vision.classify import commodity, continuation, regex_tier
 from vision.classify.associate import Association, associate
 from vision.classify.regex_tier import FieldGuess
 from vision.measure.orientation import glyph_axis
@@ -234,7 +234,36 @@ def classify_lines(
         if 0 <= index < len(guesses):
             guesses[index] = prediction
 
-    return _withdraw_contradictions(guesses, reader_fields)
+    guesses = _withdraw_contradictions(guesses, reader_fields)
+    return _name_the_commodity(lines, guesses)
+
+
+def _name_the_commodity(lines: list[OcrLine], guesses: list[FieldGuess]) -> list[FieldGuess]:
+    """Last tier, and deliberately last.
+
+    Rule 6(1)(b)'s generic name is the one declaration packs habitually print
+    with no caption, so it is the one the caption patterns cannot reach: 1 of
+    27 on the labelled panels before this ran. `vision.classify.commodity`
+    recognises the commodity noun itself.
+
+    It runs after everything else and only over lines still marked `other`, so
+    a captioned declaration is never overridden and a line the reader claimed
+    is never taken back. If any tier above has already named a generic name,
+    this one stands down -- a pack declares its commodity once, and a second
+    claim would be the duplicate-MRP failure of 2026-09-19 in another field.
+    """
+    if any(guess.field == "generic_name" for guess in guesses):
+        return guesses
+
+    found = commodity.identify(lines, guesses)
+    if found is None:
+        return guesses
+
+    index, term = found
+    return [
+        commodity.guess(term) if position == index else guess
+        for position, guess in enumerate(guesses)
+    ]
 
 
 SINGLE_VALUED = frozenset(

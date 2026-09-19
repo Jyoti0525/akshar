@@ -10,14 +10,14 @@
     },
     "framing_recall": {
       "measured": 38,
-      "correct": 36,
-      "recall": 0.9474,
+      "correct": 38,
+      "recall": 1.0,
       "note": "RECALL ONLY. Every frame in this set shows a declaration panel, so there are no negatives and precision is unmeasurable here. Do not read a false-positive rate off this number."
     },
     "presence_micro": {
-      "precision": 0.9817,
-      "recall": 0.6314,
-      "f1": 0.7685,
+      "precision": 0.9781,
+      "recall": 0.702,
+      "f1": 0.8174,
       "support": 255
     },
     "presence_per_field": {
@@ -46,9 +46,9 @@
         "support": 23
       },
       "generic_name": {
-        "precision": 1.0,
-        "recall": 0.037,
-        "f1": 0.0714,
+        "precision": 0.95,
+        "recall": 0.7037,
+        "f1": 0.8085,
         "support": 27
       },
       "importer": {
@@ -90,8 +90,8 @@
     },
     "mandatory_recall": {
       "precision": 1.0,
-      "recall": 0.6085,
-      "f1": 0.7566,
+      "recall": 0.7037,
+      "f1": 0.8261,
       "support": 189
     },
     "values": {
@@ -126,7 +126,7 @@
         "accuracy": 0.2174
       }
     },
-    "median_ms": 1029.5,
+    "median_ms": 1083.9,
     "coverage_mean": 0.9449
   },
   "images": [
@@ -135,7 +135,7 @@
       "product": "Sri Sri Tattva incense sticks, 15 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 2058.1,
+      "ms": 2114.7,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -220,7 +220,7 @@
       "product": "Bajaj LEDZ Eterno inverter lamp 9W",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1621.4,
+      "ms": 1889.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -237,6 +237,7 @@
       ],
       "found": [
         "country_of_origin",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
@@ -244,14 +245,13 @@
       ],
       "hit": [
         "country_of_origin",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "generic_name",
@@ -261,6 +261,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
@@ -312,7 +313,7 @@
       "product": "Kokuyo Camlin Grip Pro 0.7 mm mechanical pencil",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1103.1,
+      "ms": 1106.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -329,18 +330,19 @@
       ],
       "found": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "missed": [
-        "generic_name",
         "manufacturer"
       ],
       "spurious": [],
@@ -354,6 +356,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -409,7 +412,7 @@
       "product": "Kokuyo Camlin brush pen, 12 N assorted",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 855.1,
+      "ms": 884.8,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -515,7 +518,7 @@
       "product": "Go / Parag cheddar cheese block, 200 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1085.2,
+      "ms": 1106.5,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -623,11 +626,11 @@
       "product": "M.P coconut oil pouch",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 989.1,
+      "ms": 1027.6,
       "usable": true,
       "quality_faults": [],
-      "shows_declarations": false,
-      "framing_fault": "no_declaration_panel",
+      "shows_declarations": true,
+      "framing_fault": null,
       "text_regions": 19,
       "coverage": 0.8636,
       "expected": [
@@ -639,15 +642,16 @@
         "mrp"
       ],
       "found": [
-        "expiry_date"
+        "expiry_date",
+        "generic_name"
       ],
       "hit": [
-        "expiry_date"
+        "expiry_date",
+        "generic_name"
       ],
       "missed": [
         "batch",
         "country_of_origin",
-        "generic_name",
         "mfg_date",
         "mrp"
       ],
@@ -657,7 +661,9 @@
         "mfg_date",
         "mrp"
       ],
-      "mandatory_hit": [],
+      "mandatory_hit": [
+        "generic_name"
+      ],
       "values": {
         "mrp": {
           "wanted": [
@@ -705,7 +711,7 @@
       "product": "DOMS Inxtra ball point pen, 10 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 895.1,
+      "ms": 911.1,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -723,19 +729,20 @@
       ],
       "found": [
         "consumer_care",
+        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "consumer_care",
+        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
       ],
       "missed": [
         "country_of_origin",
-        "generic_name",
         "mfg_date"
       ],
       "spurious": [],
@@ -749,6 +756,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
@@ -797,7 +805,7 @@
       "product": "face cream, 15 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 568.4,
+      "ms": 570.1,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -818,6 +826,7 @@
         "batch",
         "country_of_origin",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -825,13 +834,12 @@
       "hit": [
         "batch",
         "country_of_origin",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [
         "expiry_date"
       ],
@@ -842,6 +850,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -904,7 +913,7 @@
       "product": "Amul ghee pouch, 1 L",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 2039.0,
+      "ms": 2122.8,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -923,6 +932,7 @@
       "found": [
         "batch",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -938,7 +948,9 @@
         "consumer_care",
         "manufacturer"
       ],
-      "spurious": [],
+      "spurious": [
+        "generic_name"
+      ],
       "mandatory_expected": [
         "consumer_care",
         "manufacturer",
@@ -1021,7 +1033,7 @@
       "product": "Gillette Mach3 razor, 1 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1276.5,
+      "ms": 1356.4,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1039,18 +1051,19 @@
       ],
       "found": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "missed": [
-        "generic_name",
         "importer",
         "manufacturer"
       ],
@@ -1065,6 +1078,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -1093,7 +1107,7 @@
           "all": true,
           "any": true,
           "read": [
-            "CONTENTS: 1NRAZOR (RAZOR COMPRISING OF 1N HANDLE &"
+            "CONTENTS: 1NRAZOR 1N CARTRIDGE)"
           ]
         },
         "mfg_date": {
@@ -1117,7 +1131,7 @@
       "product": "Britannia Good Day, 120 g + 30 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 833.1,
+      "ms": 861.5,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -1223,7 +1237,7 @@
       "product": "Britannia Good Day butter cookies",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 849.6,
+      "ms": 920.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1315,7 +1329,7 @@
       "product": "L'Oreal hair product, 200 ml",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 971.9,
+      "ms": 991.0,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -1416,7 +1430,7 @@
       "product": "Parle Happy Happy, 30 g + 5 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1069.8,
+      "ms": 1078.8,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1438,15 +1452,16 @@
       "found": [
         "batch",
         "expiry_date",
+        "generic_name",
         "net_quantity"
       ],
       "hit": [
         "batch",
         "expiry_date",
+        "generic_name",
         "net_quantity"
       ],
       "missed": [
-        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp"
@@ -1460,6 +1475,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "net_quantity"
       ],
       "values": {
@@ -1524,7 +1540,7 @@
       "product": "honey, 500 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1442.2,
+      "ms": 1410.7,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -1541,19 +1557,19 @@
       "found": [
         "batch",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "batch",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [
         "expiry_date"
       ],
@@ -1564,6 +1580,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -1623,7 +1640,7 @@
       "product": "Britannia Jim Jam, 50 g + 10 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1165.7,
+      "ms": 1177.8,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1646,18 +1663,19 @@
       "found": [
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp"
       ],
       "hit": [
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp"
       ],
       "missed": [
         "batch",
-        "generic_name",
         "manufacturer",
         "net_quantity"
       ],
@@ -1672,6 +1690,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp"
       ],
@@ -1737,7 +1756,7 @@
       "product": "The Derma Co lip balm, 4 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 878.5,
+      "ms": 917.3,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -1858,14 +1877,14 @@
       "product": "Ariel Matic front load liquid detergent, 2 L",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1177.8,
+      "ms": 1217.8,
       "usable": false,
       "quality_faults": [
         "glare",
         "overexposed"
       ],
-      "shows_declarations": false,
-      "framing_fault": "wrong_panel",
+      "shows_declarations": true,
+      "framing_fault": null,
       "text_regions": 28,
       "coverage": 0.7179,
       "expected": [
@@ -1876,12 +1895,15 @@
         "mrp",
         "net_quantity"
       ],
-      "found": [],
-      "hit": [],
+      "found": [
+        "generic_name"
+      ],
+      "hit": [
+        "generic_name"
+      ],
       "missed": [
         "consumer_care",
         "country_of_origin",
-        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
@@ -1894,7 +1916,9 @@
         "mrp",
         "net_quantity"
       ],
-      "mandatory_hit": [],
+      "mandatory_hit": [
+        "generic_name"
+      ],
       "values": {
         "mrp": {
           "wanted": [
@@ -1922,7 +1946,7 @@
       "product": "ITC Ship safety matches, 10 boxes",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 684.3,
+      "ms": 750.9,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2004,7 +2028,7 @@
       "product": "masala carton",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 548.8,
+      "ms": 593.2,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2083,7 +2107,7 @@
       "product": "tea, 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1677.2,
+      "ms": 1854.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2195,7 +2219,7 @@
       "product": "Rishabh Plast Clara Vintage 4 lunch box, 1 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 783.3,
+      "ms": 894.6,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -2296,7 +2320,7 @@
       "product": "Lijjat Udad Mini Papad family pack, 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1466.4,
+      "ms": 1602.7,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2317,6 +2341,7 @@
         "batch",
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "net_quantity"
@@ -2325,12 +2350,12 @@
         "batch",
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "net_quantity"
       ],
       "missed": [
-        "generic_name",
         "mrp"
       ],
       "spurious": [],
@@ -2344,6 +2369,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "net_quantity"
@@ -2414,7 +2440,7 @@
       "product": "Parle-G, 110 g + 20 g extra",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1094.5,
+      "ms": 1217.5,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2518,7 +2544,7 @@
       "product": "DOMS Tom and Jerry metal pencil box, 1 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1142.5,
+      "ms": 1211.8,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2537,6 +2563,7 @@
       "found": [
         "consumer_care",
         "country_of_origin",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
@@ -2545,14 +2572,13 @@
       "hit": [
         "consumer_care",
         "country_of_origin",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "consumer_care",
@@ -2564,6 +2590,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
@@ -2617,7 +2644,7 @@
       "product": "Nakur Organic pickle, 500 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 610.0,
+      "ms": 681.6,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2724,7 +2751,7 @@
       "product": "boiled rice, 26 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 3254.2,
+      "ms": 3448.9,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2741,19 +2768,19 @@
       "found": [
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "generic_name",
@@ -2762,6 +2789,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -2817,7 +2845,7 @@
       "product": "Himalayan rock salt (sendha namak), 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 2156.2,
+      "ms": 2211.5,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2922,7 +2950,7 @@
       "product": "Santoor soap multipack, 4 x 125 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 839.6,
+      "ms": 896.8,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3040,7 +3068,7 @@
       "product": "Santoor sandal and turmeric soap, 46 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 960.0,
+      "ms": 1083.9,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -3063,18 +3091,19 @@
       "found": [
         "country_of_origin",
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mrp"
       ],
       "hit": [
         "country_of_origin",
+        "generic_name",
         "manufacturer",
         "mrp"
       ],
       "missed": [
         "batch",
         "consumer_care",
-        "generic_name",
         "mfg_date",
         "net_quantity"
       ],
@@ -3090,6 +3119,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "manufacturer",
         "mrp"
       ],
@@ -3140,7 +3170,7 @@
       "product": "Mamaearth shampoo, 20 ml",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 667.2,
+      "ms": 737.8,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3160,19 +3190,20 @@
       ],
       "found": [
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
       ],
       "missed": [
         "batch",
-        "generic_name",
         "mfg_date"
       ],
       "spurious": [],
@@ -3184,6 +3215,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
@@ -3236,7 +3268,7 @@
       "product": "SmartyPet pet shampoo, 200 ml",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 684.3,
+      "ms": 737.4,
       "usable": false,
       "quality_faults": [
         "glare"
@@ -3350,7 +3382,7 @@
       "product": "Plum body wash",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1029.5,
+      "ms": 1120.6,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3446,7 +3478,7 @@
       "product": "Supreme Harvest crystal sugar, 1 kg",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1342.2,
+      "ms": 1454.8,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -3468,6 +3500,7 @@
         "batch",
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -3476,12 +3509,12 @@
         "batch",
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "missed": [
-        "generic_name",
         "manufacturer",
         "packer"
       ],
@@ -3496,6 +3529,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -3576,7 +3610,7 @@
       "product": "HUL detergent cake, 250 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 573.5,
+      "ms": 601.9,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -3682,7 +3716,7 @@
       "product": "Lijjat Udad Papad, 100 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 1402.1,
+      "ms": 1534.3,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -3703,6 +3737,7 @@
         "batch",
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
@@ -3712,14 +3747,13 @@
         "batch",
         "consumer_care",
         "expiry_date",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "consumer_care",
@@ -3731,6 +3765,7 @@
       ],
       "mandatory_hit": [
         "consumer_care",
+        "generic_name",
         "manufacturer",
         "mfg_date",
         "mrp",
@@ -3806,7 +3841,7 @@
       "product": "Venus Creme Bar toilet soap, 4 x 100 g",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 815.7,
+      "ms": 835.5,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3824,19 +3859,19 @@
       ],
       "found": [
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
       "hit": [
         "expiry_date",
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "generic_name"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "generic_name",
@@ -3845,6 +3880,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
+        "generic_name",
         "mfg_date",
         "mrp",
         "net_quantity"
@@ -3911,7 +3947,7 @@
       "product": "Whisper Ultra scented sanitary pads, 30 N",
       "exit_path": "full",
       "tier": "L2",
-      "ms": 592.4,
+      "ms": 618.4,
       "usable": false,
       "quality_faults": [
         "resolution",
