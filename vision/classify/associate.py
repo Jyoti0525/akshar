@@ -76,39 +76,26 @@ runs.
 
 from __future__ import annotations
 
+import dataclasses
 import re
 from dataclasses import dataclass
 
 from contracts import FieldName
+from vision.classify import shapes
 from vision.classify.regex_tier import FieldGuess
 from vision.ocr.lines import _gap, _horizontal, _line_height, _overlaps
 from vision.types import Box, OcrLine
 
 # -- what a value of each field looks like ----------------------------------
 
-_DAY = r"(?:0?[1-9]|[12]\d|3[01])"
-_MONTH = r"(?:0?[1-9]|1[0-2])"
-_YEAR = r"(?:19\d{2}|20\d{2}|[2-9]\d|1[5-9])"
-"""Four digits, or two digits from 15 on.
-
-A two-digit year below 15 is not a year on a pack in circulation, and admitting
-one turns `342-00` and `92.00` into dates. That was the single largest source of
-cross-matching when these patterns were first drawn."""
-
-_SEP = r"\s*[/.\->]\s*"
-"""`>` is in there because the recogniser reads a slash as one often enough to
-matter -- `'1 PKD. : 29>7/20'` on `parleg.jpg`."""
-
-_MONTH_NAME = r"(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*"
-
-_DATE = (
-    rf"(?<![\d])(?:"
-    rf"{_DAY}{_SEP}{_MONTH}{_SEP}{_YEAR}"
-    rf"|\d{{0,2}}\s*{_MONTH_NAME}\s*[.\-/]?\s*{_YEAR}"
-    rf"|{_DAY}\s*{_SEP}?\s*{_MONTH_NAME}{_SEP}{_YEAR}"
-    rf"|{_MONTH}{_SEP}{_YEAR}"
-    rf")(?![\d])"
-)
+# The date grammar lives in `shapes` because `regex_tier` needs it too and
+# cannot import this module -- see that file for the barcode bug that forced
+# the move. Re-exported under the old private names so the patterns below
+# and every reference in this file read unchanged.
+_SEP = shapes.SEP
+_MONTH_NAME = shapes.MONTH_NAME
+_DATE_CORE = shapes.DATE_CORE
+_DATE = shapes.DATE
 
 QUANTITY_UNITS = (
     r"m?[glL]|kg|kL|mg|mcg|µg|ug|ml|mL|cl|dl|cc|"
@@ -152,6 +139,36 @@ ASSOCIABLE: dict[FieldName, re.Pattern[str]] = {
 """Fields set as a label beside a value, and what that value looks like.
 
 Ordering matters and is `SPECIFICITY` below, not this dict's insertion order.
+"""
+
+ANCHORED: dict[FieldName, re.Pattern[str]] = {
+    "net_quantity": re.compile(rf"(?i)\d{{1,5}}(?:[.,]\d{{1,3}})?\s*(?:{QUANTITY_UNITS})"),
+    "mfg_date": re.compile(rf"(?i)(?:{_DATE_CORE})"),
+    "expiry_date": re.compile(rf"(?i)(?:{_DATE_CORE})"),
+    "batch": re.compile(
+        r"(?=[A-Z0-9\-]*[A-Z])(?=[A-Z0-9\-]*\d)"
+        r"(?:[A-Z0-9]{4,}|[A-Z0-9]+(?:-[A-Z0-9]+)+|[A-Z]{1,2}\s\d{3,8})"
+    ),
+    "mrp": re.compile(r"\d{1,5}(?:[.,\-]\d{2})?(?:\s*/-)?"),
+}
+"""The same shapes, anchored, with the boundary guards removed.
+
+`ASSOCIABLE` searches a line and its guards are what make that safe: `(?![\\d])`
+on the end of a date is why `342-00` is not read as one. Those same guards make
+it structurally unable to see a value that has been printed hard against the
+next one -- `'09-08-202308-11-2023M-09'`, where the recogniser emitted nothing
+for the column gaps.
+
+So `vision.ocr.split` consumes such a run left to right with these instead. The
+guards are not needed there and would be wrong: position in the string is doing
+the work the lookarounds do here, and a fragment is accepted only if the tokens
+account for the entire line.
+
+**Never use these to search, and note there is no `\\A`.** They are written for
+`Pattern.match(text, offset)`, which already anchors at the offset it is given.
+An `\\A` would anchor to the start of the whole string instead, so every token
+after the first would fail to match and a welded row would silently come back
+unsplit -- which is how this was first written.
 """
 
 SPECIFICITY: tuple[FieldName, ...] = (
@@ -289,6 +306,87 @@ def _distance(a: Box, b: Box) -> float:
     return abs(a.cx - b.cx) + abs(a.cy - b.cy)
 
 
+_MONTHS = {
+    name: number
+    for number, name in enumerate(
+        ("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"), 1
+    )
+}
+
+_NUMERIC_DATE = re.compile(rf"(\d{{1,4}}){_SEP}(\d{{1,2}})(?:{_SEP}(\d{{2,4}}))?")
+_NAMED_DATE = re.compile(
+    rf"(\d{{0,2}})\s*[./\-]?\s*({_MONTH_NAME})\s*[.\-/]?\s*(\d{{2,4}})", re.I
+)
+"""`23/SEP/2025` puts a separator between the day and the month name, so the
+day is not simply adjacent to it. Without that optional mark the match begins
+at `SEP` and the day is silently lost -- which still orders correctly against
+another month, and would quietly mis-order two dates in the same month."""
+
+
+def _date_key(text: str) -> tuple[int, int, int] | None:
+    """A sortable (year, month, day) for a date fragment, or `None`.
+
+    Deliberately forgiving and deliberately not a `datetime`. It exists to
+    answer one question -- which of two dates is later -- and a fragment that
+    cannot answer it returns `None` rather than a guess. Day is 0 where the
+    pack printed only a month and year, which orders it before any day in that
+    month and is the conservative direction for the only comparison made.
+    """
+    named = _NAMED_DATE.search(text)
+    if named:
+        day, month_name, year = named.groups()
+        month = _MONTHS.get(month_name[:3].upper())
+        if month:
+            return (_full_year(year), month, int(day or 0))
+
+    numeric = _NUMERIC_DATE.search(text)
+    if numeric:
+        first, second, third = numeric.groups()
+        if third is None:  # MM/YYYY or MM/YY
+            return (_full_year(second), int(first), 0)
+        return (_full_year(third), int(second), int(first))
+    return None
+
+
+def _full_year(value: str) -> int:
+    year = int(value)
+    return year if year > 99 else 2000 + year
+
+
+def _unswap_dates(found: list[Association], lines: list[OcrLine]) -> list[Association]:
+    """An expiry is after a manufacture date. Where it is not, they are swapped.
+
+    `mfg_date` and `expiry_date` share one shape by construction -- nothing in
+    `18/12/22` says which it is -- so the pairing separates them by distance,
+    and on a coded strip printed as two columns that is a coin toss. On
+    `goodday.jpg` it came up tails: `PKD.` took `18/12/22` and `USE BY` took
+    `19/06/22`, both wrong, and the officer was shown a pack that expired six
+    months before it was made.
+
+    Chronology is the one fact available that distance is not. It is applied
+    only where both fields were filled by association and both fragments parse,
+    because that is the only situation this ambiguity arises in -- and only to
+    swap, never to drop: if the dates are already in order nothing happens, and
+    a pack genuinely printing an impossible pair keeps both values so the
+    report shows what is on it.
+    """
+    by_field = {a.field: a for a in found}
+    mfg, expiry = by_field.get("mfg_date"), by_field.get("expiry_date")
+    if mfg is None or expiry is None:
+        return found
+
+    made, expires = _date_key(lines[mfg.value].text), _date_key(lines[expiry.value].text)
+    if made is None or expires is None or expires >= made:
+        return found
+
+    note = " (the two dates were in the wrong order and have been exchanged)"
+    swapped = {
+        id(mfg): dataclasses.replace(mfg, field="expiry_date", reason=mfg.reason + note),
+        id(expiry): dataclasses.replace(expiry, field="mfg_date", reason=expiry.reason + note),
+    }
+    return [swapped.get(id(a), a) for a in found]
+
+
 def associate(lines: list[OcrLine], guesses: list[FieldGuess]) -> list[Association]:
     """Pair each value-less field label with the value printed beside it.
 
@@ -358,7 +456,7 @@ def associate(lines: list[OcrLine], guesses: list[FieldGuess]) -> list[Associati
             )
         )
 
-    return sorted(found, key=lambda a: a.label)
+    return sorted(_unswap_dates(found, lines), key=lambda a: a.label)
 
 
 __all__ = [

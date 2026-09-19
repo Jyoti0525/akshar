@@ -45,6 +45,7 @@ from functools import lru_cache
 
 from contracts import FieldName
 from rules.loader import load_rulepack
+from vision.classify import shapes
 from vision.types import OcrLine, Script
 
 
@@ -357,7 +358,16 @@ def _hard_negative(text: str) -> FieldGuess | None:
     # quote mark. Stripping the marks OCR invents — and only those — recovers
     # the digit run without touching the length rule, which is what keeps a
     # ten-digit helpline from being called a barcode.
-    if _BARCODE.fullmatch(_BARCODE_NOISE.sub("", text.strip())):
+    # A date is not a barcode, and the length rule cannot tell: `_BARCODE_NOISE`
+    # strips hyphens and full stops, so `09-08-2023` becomes `09082023` -- eight
+    # digits, the length of an EAN-8. Every `DD-MM-YYYY` on every pack was
+    # classified `barcode` here, and `associate` only offers lines left as
+    # `other` as values, so a date named here could never reach the declaration
+    # it belonged to. Asked before the length test because the shape is the
+    # stronger statement: the pack said what this is.
+    if not shapes.is_date(text.strip()) and _BARCODE.fullmatch(
+        _BARCODE_NOISE.sub("", text.strip())
+    ):
         # Named rather than left as `other` since 2026-09-18. It was always
         # recognised as a barcode here; calling it one puts that on the
         # annotated photograph instead of making an officer guess why a box on

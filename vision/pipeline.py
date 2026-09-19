@@ -36,7 +36,7 @@ from vision.classify import assemble
 from vision.degradation import Degradation
 from vision.detect import detector
 from vision.identify import identify
-from vision.ocr import roi, second_pass
+from vision.ocr import roi, second_pass, split
 from vision.quality import assess as assess_quality
 from vision.quality import assess_framing
 from vision.rectify.rectify import rectify
@@ -549,6 +549,14 @@ def scan(
                 timings["ocr_second_pass"] = second.elapsed_ms
     except runtime.ModelUnavailableError:
         ocr_result = OcrResult()
+
+    # A coded strip sets its values in columns under their labels, and the
+    # recogniser emits nothing for a column gap: `udadpapad.jpg` comes back as
+    # one region reading '09-08-202308-11-2023M-09' for three declarations.
+    # Splitting it here, before anything classifies or pairs, is what lets the
+    # existing association see three values where it saw an unmatchable string.
+    ocr_result = replace(ocr_result, lines=split.unweld(ocr_result.lines))
+
     timings["ocr"] = (time.perf_counter() - started) * 1000.0
 
     tier = degradation.assign(
