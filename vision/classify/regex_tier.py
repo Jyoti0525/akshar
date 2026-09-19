@@ -461,6 +461,49 @@ _NUTRITION = re.compile(
     r"serving\s*size|servings?\s*per|kcal|\brda\b|dietary\s*allowance|"
     r"per\s*100\s*(g|ml)|amount\s*per)\b"
 )
+"""Vocabulary that belongs to a nutrition panel.
+
+**A nutrient name with no figure beside it is still a nutrition row, and
+requiring one cost 192 of them.** That was tried on 2026-09-19 and measured the
+same day: packs set the nutrition table in two columns and the detector returns
+each column as its own region, so `ENERGY`, `PROTEIN`, `CARBOHYDRATE`, `TOTAL
+SUGARS` and `TRANS FAT` arrive as bare labels with their figures in a separate
+box. It is the same column split `vision.ocr.split` un-welds from the other
+side.
+
+What that attempt was trying to fix is real and is fixed elsewhere: `CRYSTAL
+SUGAR` is the generic name on `sugar.jpg` and `sugars?` claims it. A nutrient
+word is reclaimed by `vision.classify.commodity` when the whole line is a
+commodity term exactly, which `TOTAL SUGARS` and `ENERGY` are not."""
+
+
+def _is_nutrition(text: str) -> bool:
+    return bool(_NUTRITION.search(text))
+
+
+_PANEL_HEADING = re.compile(
+    r"(?i)\b(ingredients?|nutrition\w*|nutritive|amount\s*per|per\s*100\s*(g|ml)"
+    r"|serving\s*size|servings?\s*per|allergen)\b"
+)
+
+
+def is_panel_heading(text: str) -> bool:
+    """Does this line *introduce* an ingredients or nutrition panel?
+
+    Narrower than `_NUTRITION` and `_INGREDIENTS`, and the two questions are
+    genuinely different. Those ask what a line belongs to, which is what puts
+    the right name on the exhibit. This asks whether a line is the *top* of a
+    block, which is what `vision.classify.commodity` needs before it will let a
+    line cast a shadow over everything printed beneath it.
+
+    Measured on `rocksalt.jpg`: the pack sets its nutrition table with each
+    nutrient on its own line, so `Energy`, `Sodium`, `Potassium`, `Calcium` and
+    `Carbohydrate` were each named `nutrition` -- correctly -- and each then
+    anchored a block walk of its own. One of those walks ran down the panel and
+    swallowed `Mt (Sondha Namak)`, which is the pack's generic name. A table row
+    is not a heading, and only a heading may claim what is under it.
+    """
+    return bool(_PANEL_HEADING.search(text))
 _INGREDIENTS = re.compile(
     r"(?i)\b(ingredients?|emulsifier|preservative|antioxidant|raising\s*agent|"
     r"acidity\s*regulat\w*|stabili[sz]er|anticaking|humectant|"
@@ -520,9 +563,30 @@ def _non_statutory(text: str) -> FieldGuess | None:
     bare-price guard, because `UNIT SALE PRICE : ₹ 75.00` says what it is. The
     bare-price guard then protects every uncaptioned price line. Only after
     both does an uncaptioned rate get claimed.
+
+    **The nutrition panel is settled before any of that, and it has to be.**
+    `_BARE_PRICE` looks for `rs` with no letter boundary in front of it, which
+    is deliberate -- OCR welds the caption onto the figure often enough that
+    `MRPRS.750` and `M p alatRS.750` are both real lines off real packs, and
+    refusing them would cost a pack its price. But `Sugars 13.5g` ends in those
+    same two letters, so seventeen lines across the corpus -- `Total Sugars
+    46g`, `OF WHICH SUGARS 24.8g`, `-added sugars 0.0g` -- were read as
+    carrying a price and dropped straight through to the declaration patterns,
+    which is how a nutrition row came to be shown to an officer as `other`.
+
+    Asking about nutrition first costs the price guards nothing, because
+    `_DECLARATION_CAPTION` above has already returned for every line carrying
+    `MRP`, `maximum retail` or a net-quantity caption. What is left for the
+    nutrition test to see is a line with a nutrient name, a figure, and no
+    declaration caption anywhere on it.
     """
     if _DECLARATION_CAPTION.search(text):
         return None
+
+    if _is_nutrition(text):
+        return FieldGuess("nutrition", 0.85, "nutritional information, not a declaration")
+    if _INGREDIENTS.search(text):
+        return FieldGuess("ingredients", 0.85, "ingredient list, not a declaration")
 
     if _USP_CAPTION.search(text):
         return FieldGuess("unit_sale_price", 0.85, "unit sale price, captioned as such")
@@ -533,10 +597,6 @@ def _non_statutory(text: str) -> FieldGuess | None:
     if _USP_RATE.search(text):
         return FieldGuess("unit_sale_price", 0.80, "a price expressed per unit of quantity")
 
-    if _NUTRITION.search(text):
-        return FieldGuess("nutrition", 0.85, "nutritional information, not a declaration")
-    if _INGREDIENTS.search(text):
-        return FieldGuess("ingredients", 0.85, "ingredient list, not a declaration")
     if _STORAGE_USE.search(text):
         return FieldGuess("storage_use", 0.85, "storage or usage instruction, not a declaration")
     if _FSSAI.search(text):
@@ -690,4 +750,10 @@ def is_address_like(text: str) -> bool:
     return score + min(len(places), 2) >= 2
 
 
-__all__ = ["FieldGuess", "classify_line", "classify_text", "is_address_like"]
+__all__ = [
+    "FieldGuess",
+    "classify_line",
+    "classify_text",
+    "is_address_like",
+    "is_panel_heading",
+]

@@ -214,7 +214,7 @@ class Continuation:
     field: FieldName
 
 
-def _continues(cursor: Box, candidate: Box) -> bool:
+def continues(cursor: Box, candidate: Box) -> bool:
     """Is `candidate` the next line of the block `cursor` belongs to?"""
     height = max(cursor.h, candidate.h)
     if height <= 0:
@@ -277,7 +277,7 @@ def find(
                 continue  # above the cursor: not a continuation of it
             if lines[index].rotation_k != lines[anchor].rotation_k:
                 continue
-            if not _continues(cursor, lines[index].box):
+            if not continues(cursor, lines[index].box):
                 continue  # not the next line of this block; look further down
 
             # From here the line IS the next line of the block, so what it is
@@ -351,6 +351,7 @@ __all__ = [
     "MAX_LINES",
     "MULTILINE_FIELDS",
     "Continuation",
+    "continues",
     "find",
     "merge",
 ]

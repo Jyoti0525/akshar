@@ -619,7 +619,7 @@ patterns:
   consumer_care_locate:
     # `ca[rn]e\s*(no|cell|line)` covered "Care Cell" but not `Regd. Office &
     # Consumer Cell:`, which is Dabur's wording and matched nothing.
-    latin: '(?i)(?<![A-Za-z0-9])(consumer\s*ca[rn]e\w*|customer\s*ca[rn]e\w*|cus[a-z]omer\s*ca[rn]e\w*|ca[rn]e\s*(no|cell|line)|(consumer|customer)\s*(cell|desk|service|relations)|(for|in\s*case\s*of)\s*[\w\s/,]{0,24}?(complaint|quer|grievance|feedb)\w*|reach\s*us|helpline|toll[\s\-]?free)'
+    latin: '(?i)(?<![A-Za-z0-9])(consumer\s*c?a[rn]e\w*|customer\s*c?a[rn]e\w*|cus[a-z]omer\s*c?a[rn]e\w*|ca[rn]e\s*(no|cell|line)|(consumer|customer)\s*(cell|desk|service|relations|complaints?|quer(y|ies))|(for|in\s*case\s*of)\s*[\w\s/,]{0,24}?(complaint|quer|grievance|feedb)\w*|reach\s*us|helpline|toll[\s\-]?free)'
     devanagari: 'उपभोक्ता\s*(सेवा|शिकायत)'
 
   consumer_care_phone:                   # Rule 6(2) — telephone is mandatory

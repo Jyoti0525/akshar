@@ -46,7 +46,11 @@ def _line(text: str, *, cap: float | None = 20.0, y: float = 0.0) -> OcrLine:
         ("LED LAMPS", "led lamps"),
         ("DETERGENT CAKE", "detergent cake"),
         ("SCENTED SANITARY PADS", "sanitary pads"),
-        ("HIMALAYAN ROCK SALT / SENDHA NAMAK", "rock salt"),
+        # Two names for one commodity on one line, and the longer wins. It read
+        # `rock salt` until `sendha namak` was added to the lexicon on
+        # 2026-09-19; both are the right answer and the reason string now
+        # carries the one the pack prints second.
+        ("HIMALAYAN ROCK SALT / SENDHA NAMAK", "sendha namak"),
         ("Brush Pen (Assorted Shades)", "brush pen"),
     ],
 )
