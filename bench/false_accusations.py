@@ -44,6 +44,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:  # pragma: no cover
     sys.path.insert(0, str(ROOT))
 
+from bench.declaration_blocks import DEFAULT_PACK_HEIGHT_MM  # noqa: E402
 from contracts import PackageContext  # noqa: E402
 from rules.checks._common import reading_supports_an_absence  # noqa: E402
 from rules.engine import evaluate  # noqa: E402
@@ -87,7 +88,14 @@ def main() -> int:
         image = cv2.imread(str(DATA / "images" / name))
         if image is None:
             continue
-        outcome = scan(image, quality_gate=False)
+        # The typed pack height, because `api.scanning.run_scan` refuses a
+        # photograph without one -- so a scan with no scale is a branch no
+        # officer can reach, and `roi.rank_regions` reads different text on
+        # either side of it. A false-accusation count taken off the other
+        # branch is a count of accusations the product does not make.
+        outcome = scan(
+            image, quality_gate=False, operator_height_mm=DEFAULT_PACK_HEIGHT_MM
+        )
         ds = outcome.declarations
         if ds is None:
             continue

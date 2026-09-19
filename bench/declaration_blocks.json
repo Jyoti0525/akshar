@@ -15,16 +15,16 @@
       "note": "RECALL ONLY. Every frame in this set shows a declaration panel, so there are no negatives and precision is unmeasurable here. Do not read a false-positive rate off this number."
     },
     "presence_micro": {
-      "precision": 0.9788,
-      "recall": 0.7255,
-      "f1": 0.8333,
+      "precision": 0.9684,
+      "recall": 0.7216,
+      "f1": 0.827,
       "support": 255
     },
     "presence_per_field": {
       "batch": {
-        "precision": 1.0,
+        "precision": 0.9474,
         "recall": 0.72,
-        "f1": 0.8372,
+        "f1": 0.8182,
         "support": 25
       },
       "consumer_care": {
@@ -46,9 +46,9 @@
         "support": 23
       },
       "generic_name": {
-        "precision": 0.9583,
+        "precision": 0.92,
         "recall": 0.8519,
-        "f1": 0.902,
+        "f1": 0.8846,
         "support": 27
       },
       "importer": {
@@ -65,20 +65,20 @@
       },
       "mfg_date": {
         "precision": 1.0,
-        "recall": 0.75,
-        "f1": 0.8571,
+        "recall": 0.7222,
+        "f1": 0.8387,
         "support": 36
       },
       "mrp": {
         "precision": 1.0,
-        "recall": 0.6842,
-        "f1": 0.8125,
+        "recall": 0.7368,
+        "f1": 0.8485,
         "support": 38
       },
       "net_quantity": {
         "precision": 1.0,
-        "recall": 0.8529,
-        "f1": 0.9206,
+        "recall": 0.7941,
+        "f1": 0.8852,
         "support": 34
       },
       "packer": {
@@ -90,52 +90,54 @@
     },
     "mandatory_recall": {
       "precision": 1.0,
-      "recall": 0.7354,
-      "f1": 0.8476,
+      "recall": 0.7302,
+      "f1": 0.844,
       "support": 189
     },
     "values": {
       "mrp": {
         "scored": 38,
-        "any": 19,
-        "all": 19,
-        "accuracy": 0.5
+        "any": 22,
+        "all": 22,
+        "accuracy": 0.5789
       },
       "net_quantity": {
         "scored": 34,
-        "any": 25,
-        "all": 25,
-        "accuracy": 0.7353
+        "any": 24,
+        "all": 24,
+        "accuracy": 0.7059
       },
       "mfg_date": {
         "scored": 32,
-        "any": 16,
-        "all": 16,
-        "accuracy": 0.5
+        "any": 15,
+        "all": 15,
+        "accuracy": 0.4688
       },
       "expiry_date": {
         "scored": 22,
-        "any": 8,
-        "all": 8,
-        "accuracy": 0.3636
+        "any": 7,
+        "all": 7,
+        "accuracy": 0.3182
       },
       "batch": {
         "scored": 23,
-        "any": 6,
-        "all": 6,
-        "accuracy": 0.2609
+        "any": 4,
+        "all": 4,
+        "accuracy": 0.1739
       }
     },
-    "median_ms": 1266.2,
-    "coverage_mean": 0.9449
+    "median_ms": 1125.6,
+    "coverage_mean": 0.955,
+    "pack_height_mm": 150.0,
+    "scale_path": "operator height 150 mm, as the API requires"
   },
   "images": [
     {
       "image": "agarbati.webp",
       "product": "Sri Sri Tattva incense sticks, 15 N",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 2126.7,
+      "tier": "L0",
+      "ms": 1912.6,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -219,13 +221,13 @@
       "image": "bajaj.jpg",
       "product": "Bajaj LEDZ Eterno inverter lamp 9W",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1911.6,
+      "tier": "L0",
+      "ms": 1362.4,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 36,
+      "text_regions": 37,
       "coverage": 1.0,
       "expected": [
         "country_of_origin",
@@ -278,7 +280,7 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP \u0930 745.00 (incl. of all taxes)"
+            "MRP \u0931 745.00 (incl. of all taxes)"
           ]
         },
         "net_quantity": {
@@ -298,11 +300,13 @@
           "wanted": [
             "02/2024"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "02/2024"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "MANUFACTURED ON :"
+            "MANUFACTURED ON : 02-2024"
           ]
         }
       },
@@ -312,13 +316,13 @@
       "image": "camlin.webp",
       "product": "Kokuyo Camlin Grip Pro 0.7 mm mechanical pencil",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1341.3,
+      "tier": "L0",
+      "ms": 1116.1,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 30,
+      "text_regions": 26,
       "coverage": 1.0,
       "expected": [
         "consumer_care",
@@ -374,8 +378,8 @@
           "all": true,
           "any": true,
           "read": [
-            "New MRP(Incl.of all taxes):? 29.00",
-            "MRP (Incl. of all taxes) :  30.00"
+            "New MRP(Incl.of alltaxes):29.00",
+            "MRP (Incl. of all taxes) : \u20b9 30.00"
           ]
         },
         "net_quantity": {
@@ -411,16 +415,16 @@
       "image": "camlinbrush.jpg",
       "product": "Kokuyo Camlin brush pen, 12 N assorted",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1179.0,
+      "tier": "L0",
+      "ms": 1082.4,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 28,
-      "coverage": 1.0,
+      "text_regions": 36,
+      "coverage": 0.973,
       "expected": [
         "batch",
         "consumer_care",
@@ -436,6 +440,7 @@
         "consumer_care",
         "generic_name",
         "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "hit": [
@@ -443,12 +448,12 @@
         "consumer_care",
         "generic_name",
         "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "missed": [
         "country_of_origin",
-        "manufacturer",
-        "mrp"
+        "manufacturer"
       ],
       "spurious": [],
       "mandatory_expected": [
@@ -463,6 +468,7 @@
         "consumer_care",
         "generic_name",
         "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "values": {
@@ -473,7 +479,9 @@
           "matched": [],
           "all": false,
           "any": false,
-          "read": []
+          "read": [
+            "MRP (inc. ofall taxes):\u0930"
+          ]
         },
         "net_quantity": {
           "wanted": [
@@ -521,13 +529,13 @@
       "image": "cheese.jpg",
       "product": "Go / Parag cheddar cheese block, 200 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1708.1,
+      "tier": "L0",
+      "ms": 1165.0,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 31,
+      "text_regions": 30,
       "coverage": 1.0,
       "expected": [
         "batch",
@@ -584,7 +592,7 @@
           "all": false,
           "any": false,
           "read": [
-            "MRP \u0930\u0903"
+            "MRP \u0930\u0941"
           ]
         },
         "net_quantity": {
@@ -629,14 +637,14 @@
       "image": "coconut_oil.jpg",
       "product": "M.P coconut oil pouch",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1244.5,
+      "tier": "L0",
+      "ms": 1062.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 19,
-      "coverage": 0.8636,
+      "text_regions": 23,
+      "coverage": 0.875,
       "expected": [
         "batch",
         "country_of_origin",
@@ -695,7 +703,7 @@
           "all": false,
           "any": false,
           "read": [
-            "BEST BEFORE MONTHS ROMDATE OFPACKING"
+            "BEST BEFORE MONTHS ROMDATE FPACKING"
           ]
         },
         "batch": {
@@ -714,14 +722,14 @@
       "image": "doms.webp",
       "product": "DOMS Inxtra ball point pen, 10 N",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1229.3,
+      "tier": "L0",
+      "ms": 1122.8,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 34,
-      "coverage": 0.9714,
+      "text_regions": 35,
+      "coverage": 1.0,
       "expected": [
         "consumer_care",
         "country_of_origin",
@@ -776,7 +784,7 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP: 250.00 MD:10/2024 2500 Per Number"
+            "MRP: 250.00 MFD:10/2024 25.00 Per Number"
           ]
         },
         "net_quantity": {
@@ -808,8 +816,8 @@
       "image": "frshcream.jpg",
       "product": "face cream, 15 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 632.8,
+      "tier": "L0",
+      "ms": 636.7,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -868,7 +876,7 @@
           "all": false,
           "any": false,
           "read": [
-            "MRP? 6000"
+            "MRP-? ind dfal tes \u096840perg"
           ]
         },
         "net_quantity": {
@@ -881,7 +889,7 @@
           "all": true,
           "any": true,
           "read": [
-            "NETWEIGHT: 15g"
+            "NET WEIGHT: 15g"
           ]
         },
         "mfg_date": {
@@ -895,7 +903,7 @@
           "any": true,
           "read": [
             "MFG DATE 08/23",
-            "TRE DATE OF MANUFACTURNG"
+            "THE DATE OFMANUFACTURING"
           ]
         },
         "batch": {
@@ -916,14 +924,14 @@
       "image": "ghee.jpg",
       "product": "Amul ghee pouch, 1 L",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 2604.0,
+      "tier": "L0",
+      "ms": 2135.3,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 58,
-      "coverage": 0.9492,
+      "text_regions": 55,
+      "coverage": 0.9636,
       "expected": [
         "batch",
         "consumer_care",
@@ -978,7 +986,7 @@
           "all": true,
           "any": true,
           "read": [
-            "E-12, MRP:650.00"
+            "E-12,MRP:650.00"
           ]
         },
         "net_quantity": {
@@ -1015,7 +1023,7 @@
           "all": false,
           "any": false,
           "read": [
-            "HAN 2 MONTHS OR EXPIRY DATE,"
+            "TAN 2 MONTHS OR EXPIRY DATE,"
           ]
         },
         "batch": {
@@ -1026,7 +1034,7 @@
           "all": false,
           "any": false,
           "read": [
-            "the Batch No.ands"
+            "the Batch No. ands"
           ]
         }
       },
@@ -1036,14 +1044,14 @@
       "image": "gillete.jpg",
       "product": "Gillette Mach3 razor, 1 N",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1791.4,
+      "tier": "L0",
+      "ms": 1500.9,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 48,
-      "coverage": 0.9796,
+      "text_regions": 49,
+      "coverage": 1.0,
       "expected": [
         "consumer_care",
         "generic_name",
@@ -1111,7 +1119,7 @@
           "all": true,
           "any": true,
           "read": [
-            "CONTENTS: 1NRAZOR 1N CARTRIDGE)"
+            "CONTENTS: 1N RAZOR"
           ]
         },
         "mfg_date": {
@@ -1134,16 +1142,16 @@
       "image": "goodday.jpg",
       "product": "Britannia Good Day, 120 g + 30 g extra",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1096.5,
+      "tier": "L0",
+      "ms": 956.9,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 17,
-      "coverage": 1.0,
+      "text_regions": 21,
+      "coverage": 0.9545,
       "expected": [
         "batch",
         "expiry_date",
@@ -1155,20 +1163,22 @@
       "found": [
         "batch",
         "expiry_date",
-        "mfg_date",
-        "net_quantity"
+        "generic_name",
+        "mfg_date"
       ],
       "hit": [
         "batch",
         "expiry_date",
-        "mfg_date",
-        "net_quantity"
+        "mfg_date"
       ],
       "missed": [
         "manufacturer",
-        "mrp"
+        "mrp",
+        "net_quantity"
       ],
-      "spurious": [],
+      "spurious": [
+        "generic_name"
+      ],
       "mandatory_expected": [
         "manufacturer",
         "mfg_date",
@@ -1176,8 +1186,7 @@
         "net_quantity"
       ],
       "mandatory_hit": [
-        "mfg_date",
-        "net_quantity"
+        "mfg_date"
       ],
       "values": {
         "mrp": {
@@ -1196,34 +1205,28 @@
           "matched": [],
           "all": false,
           "any": false,
-          "read": [
-            "BISCUTS NET WEIGHT12030gEMRA"
-          ]
+          "read": []
         },
         "mfg_date": {
           "wanted": [
             "19/06/22"
           ],
-          "matched": [
-            "19/06/22"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "USE BY. (INCL OF19/06/22"
+            "PKD.11B19:52 ALLTAXES)18/12/22"
           ]
         },
         "expiry_date": {
           "wanted": [
             "18/12/22"
           ],
-          "matched": [
-            "18/12/22"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "PKD.11B19:52 ALL TAXES)18/12/22"
+            "USE BY."
           ]
         },
         "batch": {
@@ -1234,7 +1237,7 @@
           "all": false,
           "any": false,
           "read": [
-            "OTER LOTNO."
+            "OTHER LOT No."
           ]
         }
       },
@@ -1244,14 +1247,14 @@
       "image": "goodday_butter.jpg",
       "product": "Britannia Good Day butter cookies",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1122.2,
+      "tier": "L0",
+      "ms": 940.7,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 15,
-      "coverage": 0.9333,
+      "text_regions": 17,
+      "coverage": 1.0,
       "expected": [
         "batch",
         "expiry_date",
@@ -1296,11 +1299,13 @@
           "wanted": [
             "21/07/25"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "21/07/25"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "USE BY 18/03/25"
+            "PKD. ALLTAXES)21/07/25"
           ]
         },
         "expiry_date": {
@@ -1311,20 +1316,18 @@
           "all": false,
           "any": false,
           "read": [
-            "PKD. ALL TAXES)21/07/25"
+            "USE BY"
           ]
         },
         "batch": {
           "wanted": [
             "B0725\u00b0A"
           ],
-          "matched": [
-            "B0725\u00b0A"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "LOT No. B07250A"
+            "LOT No. NE00"
           ]
         }
       },
@@ -1334,16 +1337,16 @@
       "image": "gulabjal.jpg",
       "product": "L'Oreal hair product, 200 ml",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1232.2,
+      "tier": "L0",
+      "ms": 1193.0,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 26,
-      "coverage": 0.8276,
+      "text_regions": 32,
+      "coverage": 0.8158,
       "expected": [
         "batch",
         "consumer_care",
@@ -1389,7 +1392,7 @@
           "all": true,
           "any": true,
           "read": [
-            "Rs.259.00"
+            "Rs.259.00 16022"
           ]
         },
         "net_quantity": {
@@ -1435,8 +1438,8 @@
       "image": "happyhappy.png",
       "product": "Parle Happy Happy, 30 g + 5 g extra",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1163.2,
+      "tier": "L0",
+      "ms": 1282.2,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1444,8 +1447,8 @@
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 15,
-      "coverage": 0.9375,
+      "text_regions": 21,
+      "coverage": 0.913,
       "expected": [
         "batch",
         "expiry_date",
@@ -1459,18 +1462,19 @@
         "batch",
         "expiry_date",
         "generic_name",
+        "mrp",
         "net_quantity"
       ],
       "hit": [
         "batch",
         "expiry_date",
         "generic_name",
+        "mrp",
         "net_quantity"
       ],
       "missed": [
         "manufacturer",
-        "mfg_date",
-        "mrp"
+        "mfg_date"
       ],
       "spurious": [],
       "mandatory_expected": [
@@ -1482,6 +1486,7 @@
       ],
       "mandatory_hit": [
         "generic_name",
+        "mrp",
         "net_quantity"
       ],
       "values": {
@@ -1489,10 +1494,14 @@
           "wanted": [
             "5.00"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
-          "read": []
+          "matched": [
+            "5.00"
+          ],
+          "all": true,
+          "any": true,
+          "read": [
+            "MRP25.00(20.17 1872"
+          ]
         },
         "net_quantity": {
           "wanted": [
@@ -1504,7 +1513,7 @@
           "all": true,
           "any": true,
           "read": [
-            "NET WEIGHT: 30g+5EXTRA-35gMRPE5.0AXE(0.17 INCL OF ALL TAXES"
+            "NET WEIGHT: 30g+5g*EXTRA-35g"
           ]
         },
         "mfg_date": {
@@ -1524,7 +1533,7 @@
           "all": false,
           "any": false,
           "read": [
-            "USE BY: 4/3/23 8A"
+            "USE BY: 1/3/23 8 A"
           ]
         },
         "batch": {
@@ -1545,13 +1554,13 @@
       "image": "honey.jpg",
       "product": "honey, 500 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1699.1,
+      "tier": "L0",
+      "ms": 1528.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 27,
+      "text_regions": 28,
       "coverage": 1.0,
       "expected": [
         "batch",
@@ -1596,22 +1605,26 @@
           "wanted": [
             "335.00"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "335.00"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "MRP NRS. 500"
+            "MRP NRS. 335.00"
           ]
         },
         "net_quantity": {
           "wanted": [
             "500 g"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "500 g"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "Net Weight:"
+            "Net Weight: 500 g"
           ]
         },
         "mfg_date": {
@@ -1622,20 +1635,18 @@
           "all": false,
           "any": false,
           "read": [
-            "Pkd."
+            "Pkd"
           ]
         },
         "batch": {
           "wanted": [
             "NB00246"
           ],
-          "matched": [
-            "NB00246"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "Lot No. NB00246"
+            "Lot No. 0P-20"
           ]
         }
       },
@@ -1645,8 +1656,8 @@
       "image": "jimjam.jpg",
       "product": "Britannia Jim Jam, 50 g + 10 g extra",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1506.3,
+      "tier": "L0",
+      "ms": 1188.9,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1654,7 +1665,7 @@
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 27,
+      "text_regions": 28,
       "coverage": 1.0,
       "expected": [
         "batch",
@@ -1670,19 +1681,18 @@
         "consumer_care",
         "expiry_date",
         "generic_name",
-        "mfg_date",
         "mrp"
       ],
       "hit": [
         "consumer_care",
         "expiry_date",
         "generic_name",
-        "mfg_date",
         "mrp"
       ],
       "missed": [
         "batch",
         "manufacturer",
+        "mfg_date",
         "net_quantity"
       ],
       "spurious": [],
@@ -1697,7 +1707,6 @@
       "mandatory_hit": [
         "consumer_care",
         "generic_name",
-        "mfg_date",
         "mrp"
       ],
       "values": {
@@ -1711,7 +1720,7 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP.Z 10.00 LEA1E"
+            "MRP.3 10.00 LCEABE"
           ]
         },
         "net_quantity": {
@@ -1730,9 +1739,7 @@
           "matched": [],
           "all": false,
           "any": false,
-          "read": [
-            "PKD."
-          ]
+          "read": []
         },
         "expiry_date": {
           "wanted": [
@@ -1761,16 +1768,16 @@
       "image": "lipbalm.jpg",
       "product": "The Derma Co lip balm, 4 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1108.1,
+      "tier": "L0",
+      "ms": 968.0,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 32,
-      "coverage": 0.9091,
+      "text_regions": 34,
+      "coverage": 1.0,
       "expected": [
         "batch",
         "consumer_care",
@@ -1790,6 +1797,7 @@
         "generic_name",
         "manufacturer",
         "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "hit": [
@@ -1800,11 +1808,10 @@
         "generic_name",
         "manufacturer",
         "mfg_date",
+        "mrp",
         "net_quantity"
       ],
-      "missed": [
-        "mrp"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "consumer_care",
@@ -1819,6 +1826,7 @@
         "generic_name",
         "manufacturer",
         "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "values": {
@@ -1826,22 +1834,25 @@
           "wanted": [
             "329.00"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
-          "read": []
+          "matched": [
+            "329.00"
+          ],
+          "all": true,
+          "any": true,
+          "read": [
+            "M.RP\u0930",
+            "\u20b9329.00"
+          ]
         },
         "net_quantity": {
           "wanted": [
             "4 g"
           ],
-          "matched": [
-            "4 g"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "Net Content: 4g"
+            "Net Content:"
           ]
         },
         "mfg_date": {
@@ -1852,7 +1863,7 @@
           "all": false,
           "any": false,
           "read": [
-            "Mfg. Date:"
+            "Mfg Date"
           ]
         },
         "expiry_date": {
@@ -1863,7 +1874,7 @@
           "all": false,
           "any": false,
           "read": [
-            "Use Before :"
+            "Use Before : 05/22"
           ]
         },
         "batch": {
@@ -1874,7 +1885,7 @@
           "all": false,
           "any": false,
           "read": [
-            "Batch No.:"
+            "Batch No. BY4F003"
           ]
         }
       },
@@ -1884,8 +1895,8 @@
       "image": "liquid_detergent.jpg",
       "product": "Ariel Matic front load liquid detergent, 2 L",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1481.5,
+      "tier": "L0",
+      "ms": 1347.7,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -1953,8 +1964,8 @@
       "image": "matches.jpg",
       "product": "ITC Ship safety matches, 10 boxes",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 906.4,
+      "tier": "L0",
+      "ms": 627.6,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2035,8 +2046,8 @@
       "image": "mdhpavmasala.jpg",
       "product": "masala carton",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 707.5,
+      "tier": "L0",
+      "ms": 608.2,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2084,7 +2095,7 @@
           "all": false,
           "any": false,
           "read": [
-            "MRP\u0930 (incl. of all taxes)"
+            "MRP\u0930 (incl. of l txes)"
           ]
         },
         "expiry_date": {
@@ -2114,13 +2125,13 @@
       "image": "milksoap.jpg",
       "product": "tea, 1 kg",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 2045.0,
+      "tier": "L0",
+      "ms": 1677.4,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 17,
+      "text_regions": 15,
       "coverage": 1.0,
       "expected": [
         "batch",
@@ -2164,11 +2175,13 @@
           "wanted": [
             "480"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "480"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "M.R.P.\u0930 (ncl. of all taxes)"
+            "M.R.P.\u0930 480"
           ]
         },
         "net_quantity": {
@@ -2182,7 +2195,7 @@
           "any": true,
           "read": [
             "CONTENTS : TEA",
-            "Net Weight 1kg."
+            "Net Weight :1kg."
           ]
         },
         "mfg_date": {
@@ -2193,8 +2206,7 @@
           "all": false,
           "any": false,
           "read": [
-            "Month of Pkd. : 30SEP-20",
-            "(When Packed)"
+            "Month of Pkd. :"
           ]
         },
         "expiry_date": {
@@ -2216,7 +2228,7 @@
           "all": false,
           "any": false,
           "read": [
-            "Lot No. 10CT-20"
+            "Lot No. 010CT-2023"
           ]
         }
       },
@@ -2226,8 +2238,8 @@
       "image": "namkeen.webp",
       "product": "Rishabh Plast Clara Vintage 4 lunch box, 1 N",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1069.5,
+      "tier": "L0",
+      "ms": 989.3,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -2291,7 +2303,7 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP: \u0931802.00 (Incl. Of All Taxes)"
+            "MRP: \u20b9802.00 (Incl. Of All Taxes)"
           ]
         },
         "net_quantity": {
@@ -2327,14 +2339,14 @@
       "image": "papad.jpg",
       "product": "Lijjat Udad Mini Papad family pack, 1 kg",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1953.6,
+      "tier": "L0",
+      "ms": 2861.5,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 69,
-      "coverage": 0.9143,
+      "text_regions": 73,
+      "coverage": 0.9861,
       "expected": [
         "batch",
         "consumer_care",
@@ -2435,11 +2447,13 @@
           "wanted": [
             "M-09"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "M-09"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "BATCH NO. M-0"
+            "BATCH NO. M-09"
           ]
         }
       },
@@ -2449,8 +2463,8 @@
       "image": "parleg.jpg",
       "product": "Parle-G, 110 g + 20 g extra",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1446.6,
+      "tier": "L0",
+      "ms": 1125.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2508,18 +2522,20 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP10.00 INCL. OF ALL TAXES"
+            "MRP 10.00 INCL. OF ALL TAXES"
           ]
         },
         "net_quantity": {
           "wanted": [
             "110g+20g EXTRA"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "110g+20g EXTRA"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "NET WEIGHT: 1109+20g EXTRA= 1"
+            "NET WEIGHT: 110g+20g EXTRA= 1"
           ]
         },
         "mfg_date": {
@@ -2532,7 +2548,7 @@
           "all": true,
           "any": true,
           "read": [
-            "1 PKD. : 29>7/20 BATCH: KA 29C B"
+            "PKD. : 29/7/20 BATCH: KA 29C B"
           ]
         },
         "batch": {
@@ -2543,7 +2559,7 @@
           "all": false,
           "any": false,
           "read": [
-            "LAST CHARACTER OF THE BATCHINDICATES THE ADDRE MUMBAI, MH-400057"
+            "LAST CHARACTER OF THE BATCHINDICATES THEADDRES"
           ]
         }
       },
@@ -2553,13 +2569,13 @@
       "image": "pencilbox.webp",
       "product": "DOMS Tom and Jerry metal pencil box, 1 N",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1391.5,
+      "tier": "L0",
+      "ms": 1110.2,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 32,
+      "text_regions": 31,
       "coverage": 1.0,
       "expected": [
         "consumer_care",
@@ -2617,7 +2633,7 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP:\u20b9120.00 (incl. of all taxes)"
+            "MRP: \u0930120.00 (incl. of all taxes)"
           ]
         },
         "net_quantity": {
@@ -2653,8 +2669,8 @@
       "image": "pickle.jpg",
       "product": "Nakur Organic pickle, 500 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 832.5,
+      "tier": "L0",
+      "ms": 726.8,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -2677,18 +2693,17 @@
         "batch",
         "consumer_care",
         "manufacturer",
-        "mrp",
         "net_quantity"
       ],
       "hit": [
         "consumer_care",
         "manufacturer",
-        "mrp",
         "net_quantity"
       ],
       "missed": [
         "expiry_date",
-        "mfg_date"
+        "mfg_date",
+        "mrp"
       ],
       "spurious": [],
       "mandatory_expected": [
@@ -2701,7 +2716,6 @@
       "mandatory_hit": [
         "consumer_care",
         "manufacturer",
-        "mrp",
         "net_quantity"
       ],
       "values": {
@@ -2709,26 +2723,20 @@
           "wanted": [
             "225/-"
           ],
-          "matched": [
-            "225/-"
-          ],
-          "all": true,
-          "any": true,
-          "read": [
-            "ams sed M.R.P 225/-"
-          ]
+          "matched": [],
+          "all": false,
+          "any": false,
+          "read": []
         },
         "net_quantity": {
           "wanted": [
             "500gm."
           ],
-          "matched": [
-            "500gm."
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "Net Weight 500gm"
+            "Net Weight 50gm."
           ]
         },
         "mfg_date": {
@@ -2758,8 +2766,8 @@
       "image": "rice.jpg",
       "product": "boiled rice, 26 kg",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 3774.0,
+      "tier": "L0",
+      "ms": 3269.6,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -2778,17 +2786,17 @@
         "expiry_date",
         "generic_name",
         "mfg_date",
-        "mrp",
-        "net_quantity"
+        "mrp"
       ],
       "hit": [
         "expiry_date",
         "generic_name",
         "mfg_date",
-        "mrp",
+        "mrp"
+      ],
+      "missed": [
         "net_quantity"
       ],
-      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "generic_name",
@@ -2799,8 +2807,7 @@
       "mandatory_hit": [
         "generic_name",
         "mfg_date",
-        "mrp",
-        "net_quantity"
+        "mrp"
       ],
       "values": {
         "mrp": {
@@ -2820,14 +2827,10 @@
           "wanted": [
             "26 KG"
           ],
-          "matched": [
-            "26 KG"
-          ],
-          "all": true,
-          "any": true,
-          "read": [
-            "Net Quantity: 26 KC"
-          ]
+          "matched": [],
+          "all": false,
+          "any": false,
+          "read": []
         },
         "expiry_date": {
           "wanted": [
@@ -2852,14 +2855,14 @@
       "image": "rocksalt.jpg",
       "product": "Himalayan rock salt (sendha namak), 1 kg",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 2654.8,
+      "tier": "L0",
+      "ms": 2616.1,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 48,
-      "coverage": 0.8364,
+      "text_regions": 53,
+      "coverage": 0.8475,
       "expected": [
         "batch",
         "consumer_care",
@@ -2875,6 +2878,7 @@
         "consumer_care",
         "expiry_date",
         "generic_name",
+        "mfg_date",
         "mrp",
         "net_quantity",
         "packer"
@@ -2884,13 +2888,12 @@
         "consumer_care",
         "expiry_date",
         "generic_name",
+        "mfg_date",
         "mrp",
         "net_quantity",
         "packer"
       ],
-      "missed": [
-        "mfg_date"
-      ],
+      "missed": [],
       "spurious": [],
       "mandatory_expected": [
         "consumer_care",
@@ -2902,6 +2905,7 @@
       "mandatory_hit": [
         "consumer_care",
         "generic_name",
+        "mfg_date",
         "mrp",
         "net_quantity"
       ],
@@ -2939,7 +2943,9 @@
           "matched": [],
           "all": false,
           "any": false,
-          "read": []
+          "read": [
+            "thmical Packed"
+          ]
         },
         "batch": {
           "wanted": [
@@ -2949,7 +2955,7 @@
           "all": false,
           "any": false,
           "read": [
-            "Batch No. R-12"
+            "Batch No."
           ]
         }
       },
@@ -2959,8 +2965,8 @@
       "image": "santoor.jpg",
       "product": "Santoor soap multipack, 4 x 125 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1168.5,
+      "tier": "L0",
+      "ms": 937.7,
       "usable": false,
       "quality_faults": [
         "resolution"
@@ -3010,13 +3016,11 @@
           "wanted": [
             "300.00"
           ],
-          "matched": [
-            "300.00"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "MRP \u0930: 300 .00"
+            "MRP \u0930: 300"
           ]
         },
         "net_quantity": {
@@ -3036,14 +3040,12 @@
           "wanted": [
             "11/2023"
           ],
-          "matched": [
-            "11/2023"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
             "(when packed)",
-            "Mfg. Date: 11-2023"
+            "Mfg. Date:"
           ]
         },
         "expiry_date": {
@@ -3061,13 +3063,11 @@
           "wanted": [
             "FKGB013"
           ],
-          "matched": [
-            "FKGB013"
-          ],
-          "all": true,
-          "any": true,
+          "matched": [],
+          "all": false,
+          "any": false,
           "read": [
-            "Batch No: FE68013"
+            "Batch No:"
           ]
         }
       },
@@ -3077,8 +3077,8 @@
       "image": "santoor1.jpg",
       "product": "Santoor sandal and turmeric soap, 46 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1266.2,
+      "tier": "L0",
+      "ms": 1209.4,
       "usable": false,
       "quality_faults": [
         "glare",
@@ -3138,11 +3138,13 @@
           "wanted": [
             "10"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
+          "matched": [
+            "10"
+          ],
+          "all": true,
+          "any": true,
           "read": [
-            "MRP @ USP /g (incl. of al taxes) #MFD Toilet Soap GR. 3 TFM 68%"
+            "'MRP @USP /g (ncl. of all taxes) MFD * 10 @r0.22/g"
           ]
         },
         "net_quantity": {
@@ -3179,15 +3181,15 @@
       "image": "shampoo.jpg",
       "product": "Mamaearth shampoo, 20 ml",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1003.0,
+      "tier": "L0",
+      "ms": 731.5,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 22,
+      "text_regions": 23,
       "coverage": 1.0,
       "expected": [
         "batch",
@@ -3199,14 +3201,12 @@
         "net_quantity"
       ],
       "found": [
-        "expiry_date",
         "generic_name",
         "manufacturer",
         "mrp",
         "net_quantity"
       ],
       "hit": [
-        "expiry_date",
         "generic_name",
         "manufacturer",
         "mrp",
@@ -3214,6 +3214,7 @@
       ],
       "missed": [
         "batch",
+        "expiry_date",
         "mfg_date"
       ],
       "spurious": [],
@@ -3261,14 +3262,10 @@
           "wanted": [
             "Use Before 30 Months From Mfg. Date"
           ],
-          "matched": [
-            "Use Before 30 Months From Mfg. Date"
-          ],
-          "all": true,
-          "any": true,
-          "read": [
-            "Use Before 30 Months From Mfy. Dale (ncl of alxes)4.95 Rs/ml"
-          ]
+          "matched": [],
+          "all": false,
+          "any": false,
+          "read": []
         }
       },
       "blank_labels": []
@@ -3277,8 +3274,8 @@
       "image": "shampoo2.webp",
       "product": "SmartyPet pet shampoo, 200 ml",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 832.1,
+      "tier": "L0",
+      "ms": 766.5,
       "usable": false,
       "quality_faults": [
         "glare"
@@ -3286,7 +3283,7 @@
       "shows_declarations": true,
       "framing_fault": null,
       "text_regions": 18,
-      "coverage": 0.9474,
+      "coverage": 1.0,
       "expected": [
         "batch",
         "consumer_care",
@@ -3299,19 +3296,19 @@
       "found": [
         "expiry_date",
         "manufacturer",
-        "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "hit": [
         "expiry_date",
         "manufacturer",
-        "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "missed": [
         "batch",
         "consumer_care",
-        "mrp"
+        "mfg_date"
       ],
       "spurious": [],
       "mandatory_expected": [
@@ -3323,7 +3320,7 @@
       ],
       "mandatory_hit": [
         "manufacturer",
-        "mfg_date",
+        "mrp",
         "net_quantity"
       ],
       "values": {
@@ -3331,10 +3328,14 @@
           "wanted": [
             "170.00"
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
-          "read": []
+          "matched": [
+            "170.00"
+          ],
+          "all": true,
+          "any": true,
+          "read": [
+            "Maximum Retail Price :170.00 hncdusive of alltaxes"
+          ]
         },
         "net_quantity": {
           "wanted": [
@@ -3353,14 +3354,10 @@
           "wanted": [
             "JAN-25"
           ],
-          "matched": [
-            "JAN-25"
-          ],
-          "all": true,
-          "any": true,
-          "read": [
-            "Mfg Date: JAN-25"
-          ]
+          "matched": [],
+          "all": false,
+          "any": false,
+          "read": []
         },
         "expiry_date": {
           "wanted": [
@@ -3391,16 +3388,16 @@
       "image": "skin.jpg",
       "product": "Plum body wash",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1396.8,
+      "tier": "L0",
+      "ms": 1138.0,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 34,
-      "coverage": 0.8649,
+      "text_regions": 28,
+      "coverage": 0.7879,
       "expected": [
         "batch",
         "consumer_care",
@@ -3413,18 +3410,19 @@
       "found": [
         "batch",
         "consumer_care",
+        "expiry_date",
         "manufacturer",
         "mrp"
       ],
       "hit": [
         "batch",
         "consumer_care",
+        "expiry_date",
         "manufacturer",
         "mrp"
       ],
       "missed": [
         "country_of_origin",
-        "expiry_date",
         "mfg_date"
       ],
       "spurious": [],
@@ -3464,10 +3462,14 @@
           "wanted": [
             "Use before 24 months from Mfd."
           ],
-          "matched": [],
-          "all": false,
-          "any": false,
-          "read": []
+          "matched": [
+            "Use before 24 months from Mfd."
+          ],
+          "all": true,
+          "any": true,
+          "read": [
+            "Use before 24months from."
+          ]
         },
         "batch": {
           "wanted": [
@@ -3487,8 +3489,8 @@
       "image": "sugar.jpg",
       "product": "Supreme Harvest crystal sugar, 1 kg",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1821.2,
+      "tier": "L0",
+      "ms": 1682.8,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
@@ -3555,7 +3557,7 @@
           "all": true,
           "any": true,
           "read": [
-            "MRP: 80.00"
+            "MRP:80.00 (inclusive of atxes)"
           ]
         },
         "net_quantity": {
@@ -3581,7 +3583,7 @@
           "all": true,
           "any": true,
           "read": [
-            "PKD : 08/04/2024"
+            "PKD:08/04/2024"
           ]
         },
         "expiry_date": {
@@ -3594,7 +3596,7 @@
           "all": true,
           "any": true,
           "read": [
-            "USE BY:08/04/2025"
+            "USEBY: 08/04/2025"
           ]
         },
         "batch": {
@@ -3607,7 +3609,7 @@
           "all": true,
           "any": true,
           "read": [
-            "BATCH N.: MK08D2451"
+            "BATCH No. : MK08D2451"
           ]
         }
       },
@@ -3617,8 +3619,8 @@
       "image": "surfexcel.webp",
       "product": "HUL detergent cake, 250 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 686.4,
+      "tier": "L0",
+      "ms": 720.7,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -3627,7 +3629,7 @@
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 10,
+      "text_regions": 9,
       "coverage": 1.0,
       "expected": [
         "batch",
@@ -3690,7 +3692,7 @@
           "all": true,
           "any": true,
           "read": [
-            "FOR 'MP (INCL OFALLTAXES) NETWT. WHEN PACKED 250g"
+            "FOR MPP (NCL OFALLTAXES). NETWT.WHEN PACKED250g"
           ]
         },
         "mfg_date": {
@@ -3703,8 +3705,8 @@
           "all": true,
           "any": true,
           "read": [
-            "USP, #MFD. SEE CODING AREA.",
-            "MFG. BYREAD CHARACTERS FOLLOWING O:Z1 HUL, U1 DAPADA\u2013396230. HACONAVANEUETN22.05.24/1C3"
+            "USP, #MFD. SEE CODING AREA. HACONAVTAE UUEDETEEN22.05.24/1C3",
+            "Pkg.Mr1. Md.y: AmcO CPCBRgn.N.PR050-GA0510-22"
           ]
         },
         "batch": {
@@ -3723,14 +3725,14 @@
       "image": "udadpapad.jpg",
       "product": "Lijjat Udad Papad, 100 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1879.7,
+      "tier": "L0",
+      "ms": 2808.9,
       "usable": true,
       "quality_faults": [],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 68,
-      "coverage": 0.7975,
+      "text_regions": 81,
+      "coverage": 1.0,
       "expected": [
         "batch",
         "consumer_care",
@@ -3748,7 +3750,6 @@
         "generic_name",
         "manufacturer",
         "mfg_date",
-        "mrp",
         "net_quantity"
       ],
       "hit": [
@@ -3758,10 +3759,11 @@
         "generic_name",
         "manufacturer",
         "mfg_date",
-        "mrp",
         "net_quantity"
       ],
-      "missed": [],
+      "missed": [
+        "mrp"
+      ],
       "spurious": [],
       "mandatory_expected": [
         "consumer_care",
@@ -3776,7 +3778,6 @@
         "generic_name",
         "manufacturer",
         "mfg_date",
-        "mrp",
         "net_quantity"
       ],
       "values": {
@@ -3784,14 +3785,10 @@
           "wanted": [
             "37-00"
           ],
-          "matched": [
-            "37-00"
-          ],
-          "all": true,
-          "any": true,
-          "read": [
-            "Maximum Retail Price \u0931\u094d. 37-00"
-          ]
+          "matched": [],
+          "all": false,
+          "any": false,
+          "read": []
         },
         "net_quantity": {
           "wanted": [
@@ -3852,15 +3849,15 @@
       "image": "venus_creme.webp",
       "product": "Venus Creme Bar toilet soap, 4 x 100 g",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 1003.2,
+      "tier": "L0",
+      "ms": 889.9,
       "usable": false,
       "quality_faults": [
         "resolution"
       ],
       "shows_declarations": true,
       "framing_fault": null,
-      "text_regions": 18,
+      "text_regions": 20,
       "coverage": 1.0,
       "expected": [
         "expiry_date",
@@ -3935,7 +3932,7 @@
           "any": true,
           "read": [
             "PKD",
-            "(When Packed) 02/2019"
+            "(When Packed) : 02/2019"
           ]
         },
         "expiry_date": {
@@ -3958,8 +3955,8 @@
       "image": "whisper.jpg",
       "product": "Whisper Ultra scented sanitary pads, 30 N",
       "exit_path": "full",
-      "tier": "L2",
-      "ms": 833.9,
+      "tier": "L0",
+      "ms": 714.7,
       "usable": false,
       "quality_faults": [
         "resolution",
@@ -3980,6 +3977,7 @@
         "net_quantity"
       ],
       "found": [
+        "batch",
         "consumer_care",
         "generic_name",
         "mfg_date",
@@ -3996,7 +3994,9 @@
         "manufacturer",
         "mrp"
       ],
-      "spurious": [],
+      "spurious": [
+        "batch"
+      ],
       "mandatory_expected": [
         "consumer_care",
         "generic_name",
@@ -4030,7 +4030,7 @@
           "all": false,
           "any": false,
           "read": [
-            "NET QUANTITY 3ON PADS"
+            "NET QUANTITY 3OM PADS"
           ]
         },
         "expiry_date": {

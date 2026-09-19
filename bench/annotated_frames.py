@@ -129,6 +129,7 @@ def main(argv: list[str] | None = None) -> int:
 
     import cv2
 
+    from bench.declaration_blocks import DEFAULT_PACK_HEIGHT_MM
     from vision.pipeline import scan
 
     tasks = json.loads(args.export.read_text(encoding="utf-8"))
@@ -157,7 +158,15 @@ def main(argv: list[str] | None = None) -> int:
             continue
         frames += 1
 
-        outcome = scan(image, quality_gate=False, online=False)
+        outcome = scan(
+            image,
+            quality_gate=False,
+            online=False,
+            # Same reason as `bench/false_accusations.py`: an exhibit drawn
+            # off the no-scale branch shows boxes the officer's scan never
+            # produced.
+            operator_height_mm=DEFAULT_PACK_HEIGHT_MM,
+        )
         declarations = outcome.declarations
         predicted: list[Box] = (
             [(d.box.x, d.box.y, d.box.w, d.box.h, d.field) for d in declarations.declarations]

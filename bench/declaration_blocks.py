@@ -2,6 +2,55 @@
 
     .venv/Scripts/python.exe bench/declaration_blocks.py
     .venv/Scripts/python.exe bench/declaration_blocks.py --only parleg.jpg --verbose
+    .venv/Scripts/python.exe bench/declaration_blocks.py --tier-c
+
+---------------------------------------------------------------------------
+THE PACK HEIGHT, AND WHY THIS FILE USED TO MEASURE THE WRONG BRANCH
+---------------------------------------------------------------------------
+Until 2026-09-19 this bench called `scan()` with no `operator_height_mm`, and
+every number it has ever printed came from a branch **the product cannot
+reach**. `api.scanning.run_scan` refuses a photograph without a typed pack
+height -- it raises before the pipeline is entered -- so a scale always exists
+in production. Here there was none, and `roi.rank_regions` has two entirely
+separate behaviours either side of that:
+
+    mm_per_px is None   rank the regions by pixel height
+    mm_per_px present   rank by how close the print is to a statutory size
+
+`MAX_REGIONS` caps how many regions are read, so the two branches read
+*different text off the same photograph*. It was found by scanning
+`rocksalt.jpg` through the running API to check a deployment and getting a
+different answer from the bench: the bench read `'Mt (Sondha Namak)'` and named
+the commodity; the API read `'al (enth Namak'` and did not.
+
+**The default is now the production path**, and `--tier-c` is how you ask for
+the other one -- which is still worth asking for, because the listing and bulk
+channels genuinely have no operator to type a height.
+
+---------------------------------------------------------------------------
+WHY ONE ASSUMED HEIGHT IS AN HONEST STAND-IN
+---------------------------------------------------------------------------
+Nobody has measured these 38 packs with a ruler, and inventing 38 numbers to
+put in the ground truth would be fabricating evidence. So the bench types one
+number for every pack, and the question is whether that ruins the measurement.
+
+Measured across a 3.7x range on all 38, which is far wider than any officer
+could be wrong by:
+
+    typed height     60 mm     100 mm    150 mm    220 mm
+    presence F1      0.8262    0.8288    0.8270    0.8381
+    precision        0.9734    0.9735    0.9684    0.9643
+    mandatory R      0.7249    0.7354    0.7302    0.7460
+
+A 3.7x error moves F1 by 0.012. It is insensitive because `DECLARATION_BAND_MM`
+spans 0.8 mm to 12 mm -- a factor of fifteen -- so a badly wrong scale still
+leaves most declarations inside the band. **This does not transfer to the height
+rules**, where the typed number is the measurement itself and an error goes
+straight into the millimetres; those are scored nowhere in this file and stay
+NO_DATA on all 38 for want of a marker card.
+
+So: the reading numbers below are sound with an assumed height, and they should
+be re-run against measured heights when the ruler set arrives.
 
 ---------------------------------------------------------------------------
 WHY THIS SET AND NOT THE CORPUS
@@ -80,6 +129,14 @@ GROUND_TRUTH = DATA / "ground_truth.json"
 MANIFEST = DATA / "manifest.json"
 REPORT = ROOT / "bench" / "declaration_blocks.json"
 
+DEFAULT_PACK_HEIGHT_MM = 150.0
+"""The height this bench types in when nobody has measured the pack.
+
+An assumption, stated as one. See the module docstring for the sweep that says
+a 3.7x error in it moves presence F1 by 0.012 -- which is what makes a single
+constant a fair stand-in for 38 unmeasured packs, and what makes it useless for
+anything that reports millimetres."""
+
 MANDATORY: tuple[FieldName, ...] = (
     "generic_name",
     "net_quantity",
@@ -157,13 +214,15 @@ def score_values(truth: dict[str, Any], declarations: list[Any]) -> dict[str, di
     return scored
 
 
-def run_one(path: Path, entry: dict[str, Any]) -> dict[str, Any]:
+def run_one(
+    path: Path, entry: dict[str, Any], *, pack_height_mm: float | None = None
+) -> dict[str, Any]:
     image = cv2.imread(str(path))
     if image is None:
         return {"image": entry["image"], "error": "cannot decode"}
 
     started = time.perf_counter()
-    outcome = scan(image, quality_gate=False)
+    outcome = scan(image, quality_gate=False, operator_height_mm=pack_height_mm)
     elapsed_ms = (time.perf_counter() - started) * 1000.0
 
     truth: dict[str, Any] = entry["fields"]
@@ -337,7 +396,29 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--only", action="append", help="run just these image names")
     parser.add_argument("--verbose", action="store_true", help="print per-image detail")
+    parser.add_argument(
+        "--pack-height-mm",
+        type=float,
+        default=DEFAULT_PACK_HEIGHT_MM,
+        help=(
+            "height of the photographed face, as an officer would type it. "
+            "THIS IS THE PATH THE API TAKES -- see the module docstring. "
+            "Without it the run has no scale and `roi.rank_regions` falls back "
+            "to ranking by pixel height, which is a branch the product cannot "
+            "reach for a photograph."
+        ),
+    )
+    parser.add_argument(
+        "--tier-c",
+        action="store_true",
+        help=(
+            "run with no scale at all, as the listing and bulk channels do. "
+            "A photograph never reaches this branch through the API."
+        ),
+    )
     args = parser.parse_args()
+    if args.tier_c:
+        args.pack_height_mm = None
 
     truth = json.loads(GROUND_TRUTH.read_text("utf-8"))
     entries = truth["images"]
@@ -357,7 +438,7 @@ def main() -> int:
 
     rows = []
     for index, entry in enumerate(entries, start=1):
-        row = run_one(IMAGES / entry["image"], entry)
+        row = run_one(IMAGES / entry["image"], entry, pack_height_mm=args.pack_height_mm)
         rows.append(row)
         flag = "" if not row.get("missed") else "  missed: " + ",".join(row["missed"])
         print(
@@ -370,9 +451,16 @@ def main() -> int:
             print("      " + json.dumps(row, indent=6)[6:-1].strip())
 
     summary = summarise(rows)
+    summary["pack_height_mm"] = args.pack_height_mm
+    summary["scale_path"] = (
+        "tier C, no scale -- NOT the path a photograph takes through the API"
+        if args.pack_height_mm is None
+        else f"operator height {args.pack_height_mm:g} mm, as the API requires"
+    )
 
     print("=" * 78)
     print(f"images                                  {summary['read']}/{summary['images']} read")
+    print(f"scale path                              {summary['scale_path']}")
     cq = summary["capture_quality"]
     print(
         f"M0 capture gate, pass rate on usable    {cq['usable']}/{cq['measured']}  {cq['pass_rate']}"
@@ -405,6 +493,14 @@ def main() -> int:
     print("-" * 78)
     print(f"median scan                             {summary['median_ms']} ms")
     print(f"mean coverage                           {summary['coverage_mean']}")
+
+    if args.only:
+        # A one-image run is a debugging aid and its summary is not a result.
+        # Writing it here replaced the committed 38-frame report with a report
+        # of one frame, which is the kind of thing that is noticed a week later
+        # when a number moves for no reason.
+        print("\n--only: report not written (a partial run is not a result)")
+        return 0
 
     REPORT.write_text(
         json.dumps({"summary": summary, "images": rows}, indent=2) + "\n", encoding="utf-8"

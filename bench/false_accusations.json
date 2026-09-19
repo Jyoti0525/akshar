@@ -5,6 +5,7 @@
     "false": 0,
     "guard_withheld": false,
     "extracted": [
+      "barcode",
       "consumer_care",
       "country_of_origin",
       "generic_name",
@@ -70,8 +71,8 @@
   },
   {
     "image": "camlin.webp",
-    "blocking": 2,
-    "false": 0,
+    "blocking": 3,
+    "false": 1,
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
@@ -97,6 +98,12 @@
         "was_extracted": null
       },
       {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "FALSE",
+        "was_extracted": true
+      },
+      {
         "rule": "LMPC.CHAR.WIDTH_RATIO",
         "field": null,
         "verdict": "needs-eye",
@@ -106,14 +113,15 @@
   },
   {
     "image": "camlinbrush.jpg",
-    "blocking": 2,
-    "false": 2,
+    "blocking": 0,
+    "false": 0,
     "guard_withheld": false,
     "extracted": [
       "batch",
       "consumer_care",
       "generic_name",
       "mfg_date",
+      "mrp",
       "net_quantity",
       "other",
       "unit_sale_price"
@@ -128,20 +136,7 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.MRP.PRESENT",
-        "field": "mrp",
-        "verdict": "FALSE",
-        "was_extracted": false
-      },
-      {
-        "rule": "LMPC.CARE.PRESENT",
-        "field": "consumer_care",
-        "verdict": "FALSE",
-        "was_extracted": true
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "cheese.jpg",
@@ -176,7 +171,7 @@
   },
   {
     "image": "coconut_oil.jpg",
-    "blocking": 1,
+    "blocking": 0,
     "false": 0,
     "guard_withheld": true,
     "extracted": [
@@ -193,19 +188,12 @@
       "mfg_date",
       "mrp"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "doms.webp",
-    "blocking": 1,
-    "false": 1,
+    "blocking": 0,
+    "false": 0,
     "guard_withheld": false,
     "extracted": [
       "consumer_care",
@@ -225,14 +213,7 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": [
-      {
-        "rule": "LMPC.DATE.PRESENT",
-        "field": "mfg_date",
-        "verdict": "FALSE",
-        "was_extracted": false
-      }
-    ]
+    "accusations": []
   },
   {
     "image": "frshcream.jpg",
@@ -274,7 +255,7 @@
   },
   {
     "image": "ghee.jpg",
-    "blocking": 2,
+    "blocking": 4,
     "false": 2,
     "guard_withheld": false,
     "extracted": [
@@ -304,6 +285,18 @@
         "was_extracted": false
       },
       {
+        "rule": "LMPC.MRP.NUMERAL_HEIGHT",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.NETQTY.NUMERAL_HEIGHT",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
         "rule": "LMPC.CARE.PRESENT",
         "field": "consumer_care",
         "verdict": "FALSE",
@@ -313,7 +306,7 @@
   },
   {
     "image": "gillete.jpg",
-    "blocking": 0,
+    "blocking": 1,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -334,7 +327,14 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": []
+    "accusations": [
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
   },
   {
     "image": "goodday.jpg",
@@ -345,8 +345,8 @@
       "batch",
       "expiry_date",
       "fssai_licence",
+      "generic_name",
       "mfg_date",
-      "net_quantity",
       "other",
       "unit_sale_price"
     ],
@@ -386,7 +386,6 @@
     "false": 0,
     "guard_withheld": true,
     "extracted": [
-      "ingredients",
       "mrp",
       "other",
       "unit_sale_price"
@@ -402,7 +401,7 @@
     ],
     "accusations": [
       {
-        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
+        "rule": "LMPC.CONTRAST.NUMERALS",
         "field": null,
         "verdict": "needs-eye",
         "was_extracted": null
@@ -411,13 +410,14 @@
   },
   {
     "image": "happyhappy.png",
-    "blocking": 0,
-    "false": 0,
-    "guard_withheld": true,
+    "blocking": 3,
+    "false": 2,
+    "guard_withheld": false,
     "extracted": [
       "batch",
       "expiry_date",
       "generic_name",
+      "mrp",
       "net_quantity",
       "nutrition",
       "other"
@@ -431,11 +431,30 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": []
+    "accusations": [
+      {
+        "rule": "LMPC.MFR.PRESENT",
+        "field": "manufacturer",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.DATE.PRESENT",
+        "field": "mfg_date",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "TRUE",
+        "was_extracted": false
+      }
+    ]
   },
   {
     "image": "honey.jpg",
-    "blocking": 3,
+    "blocking": 4,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -475,13 +494,19 @@
         "field": null,
         "verdict": "needs-eye",
         "was_extracted": null
+      },
+      {
+        "rule": "LMPC.NETQTY.EXCLUSION_ZONE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
       }
     ]
   },
   {
     "image": "jimjam.jpg",
-    "blocking": 2,
-    "false": 1,
+    "blocking": 4,
+    "false": 2,
     "guard_withheld": false,
     "extracted": [
       "barcode",
@@ -489,8 +514,6 @@
       "expiry_date",
       "fssai_licence",
       "generic_name",
-      "marketing_text",
-      "mfg_date",
       "mrp",
       "other",
       "unit_sale_price"
@@ -513,7 +536,19 @@
         "was_extracted": false
       },
       {
+        "rule": "LMPC.DATE.PRESENT",
+        "field": "mfg_date",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
         "rule": "LMPC.READABLE.THROUGH_CONTENTS",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
         "field": null,
         "verdict": "needs-eye",
         "was_extracted": null
@@ -522,8 +557,8 @@
   },
   {
     "image": "lipbalm.jpg",
-    "blocking": 0,
-    "false": 0,
+    "blocking": 1,
+    "false": 1,
     "guard_withheld": false,
     "extracted": [
       "batch",
@@ -533,6 +568,7 @@
       "generic_name",
       "manufacturer",
       "mfg_date",
+      "mrp",
       "net_quantity",
       "other"
     ],
@@ -547,7 +583,14 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": []
+    "accusations": [
+      {
+        "rule": "LMPC.CARE.PRESENT",
+        "field": "consumer_care",
+        "verdict": "FALSE",
+        "was_extracted": true
+      }
+    ]
   },
   {
     "image": "liquid_detergent.jpg",
@@ -570,7 +613,7 @@
   },
   {
     "image": "matches.jpg",
-    "blocking": 0,
+    "blocking": 1,
     "false": 0,
     "guard_withheld": true,
     "extracted": [
@@ -585,7 +628,14 @@
       "mrp",
       "net_quantity"
     ],
-    "accusations": []
+    "accusations": [
+      {
+        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
   },
   {
     "image": "mdhpavmasala.jpg",
@@ -759,14 +809,13 @@
   },
   {
     "image": "pickle.jpg",
-    "blocking": 1,
-    "false": 1,
+    "blocking": 2,
+    "false": 2,
     "guard_withheld": false,
     "extracted": [
       "batch",
       "consumer_care",
       "manufacturer",
-      "mrp",
       "net_quantity",
       "other"
     ],
@@ -780,6 +829,12 @@
     ],
     "accusations": [
       {
+        "rule": "LMPC.MRP.PRESENT",
+        "field": "mrp",
+        "verdict": "FALSE",
+        "was_extracted": false
+      },
+      {
         "rule": "LMPC.DATE.PRESENT",
         "field": "mfg_date",
         "verdict": "FALSE",
@@ -789,7 +844,7 @@
   },
   {
     "image": "rice.jpg",
-    "blocking": 2,
+    "blocking": 3,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -798,7 +853,6 @@
       "generic_name",
       "mfg_date",
       "mrp",
-      "net_quantity",
       "other",
       "unit_sale_price"
     ],
@@ -821,19 +875,27 @@
         "field": "consumer_care",
         "verdict": "TRUE-blank-on-pack",
         "was_extracted": true
+      },
+      {
+        "rule": "LMPC.READABLE.THROUGH_CONTENTS",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
       }
     ]
   },
   {
     "image": "rocksalt.jpg",
-    "blocking": 1,
-    "false": 1,
+    "blocking": 2,
+    "false": 0,
     "guard_withheld": false,
     "extracted": [
       "batch",
       "consumer_care",
       "expiry_date",
       "generic_name",
+      "ingredients",
+      "mfg_date",
       "mrp",
       "net_quantity",
       "nutrition",
@@ -854,10 +916,16 @@
     ],
     "accusations": [
       {
-        "rule": "LMPC.DATE.PRESENT",
-        "field": "mfg_date",
-        "verdict": "FALSE",
-        "was_extracted": false
+        "rule": "LMPC.MRP.NUMERAL_HEIGHT",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.NETQTY.NUMERAL_HEIGHT",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
       }
     ]
   },
@@ -944,7 +1012,6 @@
     "false": 1,
     "guard_withheld": false,
     "extracted": [
-      "expiry_date",
       "generic_name",
       "manufacturer",
       "mrp",
@@ -990,7 +1057,7 @@
       "expiry_date",
       "manufacturer",
       "marketing_text",
-      "mfg_date",
+      "mrp",
       "net_quantity",
       "other"
     ],
@@ -1014,12 +1081,13 @@
   },
   {
     "image": "skin.jpg",
-    "blocking": 4,
+    "blocking": 3,
     "false": 1,
     "guard_withheld": false,
     "extracted": [
       "batch",
       "consumer_care",
+      "expiry_date",
       "manufacturer",
       "mrp",
       "other"
@@ -1051,18 +1119,12 @@
         "field": null,
         "verdict": "needs-eye",
         "was_extracted": null
-      },
-      {
-        "rule": "LMPC.QTY.UNIT_MAGNITUDE",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
       }
     ]
   },
   {
     "image": "sugar.jpg",
-    "blocking": 0,
+    "blocking": 2,
     "false": 0,
     "guard_withheld": false,
     "extracted": [
@@ -1089,11 +1151,24 @@
       "net_quantity",
       "packer"
     ],
-    "accusations": []
+    "accusations": [
+      {
+        "rule": "LMPC.MRP.NUMERAL_HEIGHT",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      },
+      {
+        "rule": "LMPC.NETQTY.NUMERAL_HEIGHT",
+        "field": null,
+        "verdict": "needs-eye",
+        "was_extracted": null
+      }
+    ]
   },
   {
     "image": "surfexcel.webp",
-    "blocking": 3,
+    "blocking": 1,
     "false": 1,
     "guard_withheld": false,
     "extracted": [
@@ -1118,18 +1193,6 @@
         "field": "mrp",
         "verdict": "FALSE",
         "was_extracted": false
-      },
-      {
-        "rule": "LMPC.CHAR.WIDTH_RATIO",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
-      },
-      {
-        "rule": "LMPC.QTY.WHEN_PACKED",
-        "field": null,
-        "verdict": "needs-eye",
-        "was_extracted": null
       }
     ]
   },
@@ -1147,7 +1210,6 @@
       "ingredients",
       "manufacturer",
       "mfg_date",
-      "mrp",
       "net_quantity",
       "nutrition",
       "other"
@@ -1213,12 +1275,12 @@
     "false": 3,
     "guard_withheld": false,
     "extracted": [
+      "batch",
       "consumer_care",
       "generic_name",
       "mfg_date",
       "net_quantity",
-      "other",
-      "unit_sale_price"
+      "other"
     ],
     "printed": [
       "consumer_care",
