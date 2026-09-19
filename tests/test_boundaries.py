@@ -241,8 +241,32 @@ def test_vision_does_not_import_transport_or_persistence() -> None:
     cache, but both take a callable from the caller rather than opening a
     database. That keeps the whole pipeline runnable in a unit test, and it is
     what lets the identical code run in a browser where there is no Postgres.
+
+    The label reader in `vision/vlm/` is the same arrangement one step further
+    out: it calls a hosted model, and it does so through a `Reader` the
+    application installs. An HTTP client or a vendor SDK imported here would
+    mean the pipeline could not run without a network -- which is exactly what
+    section 5's L4 promise forbids -- and would put credential handling inside
+    extraction. Both belong to the caller.
     """
-    forbidden = {"sqlalchemy", "psycopg", "alembic", "fastapi", "dramatiq", "redis", "minio"}
+    forbidden = {
+        "sqlalchemy",
+        "psycopg",
+        "alembic",
+        "fastapi",
+        "dramatiq",
+        "redis",
+        "minio",
+        # Transport for the label reader's calls, and the SDKs that wrap it.
+        "httpx",
+        "requests",
+        "aiohttp",
+        "urllib3",
+        "openai",
+        "anthropic",
+        "google",
+        "boto3",
+    }
     violations: list[str] = []
     for path in _module_files("vision"):
         for root in _imported_roots(path):

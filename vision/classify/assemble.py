@@ -204,6 +204,7 @@ def classify_lines(
     lines: list[OcrLine],
     *,
     model_tier_predictions: dict[int, FieldGuess] | None = None,
+    reader_fields: dict[int, FieldGuess] | None = None,
 ) -> list[FieldGuess]:
     """Regex first, then the layout head only where regex could not resolve.
 
@@ -211,6 +212,17 @@ def classify_lines(
     are passed in rather than fetched, so the pipeline can run entirely without
     it and the comparison "how much does the head actually add?" is a matter of
     calling this function twice.
+
+    `reader_fields` overrides **unconditionally**, and that difference from
+    `model_tier_predictions` is the point rather than an inconsistency. The
+    layout head reads the recogniser's output, so where regex has already
+    resolved a line the two are looking at the same text and regex wins. The
+    label reader read the *photograph*. On the honey jar of 2026-09-19 regex
+    was not undecided -- it confidently assigned `MRP NRS. 500` to the maximum
+    retail price, from a line where the net weight and the price label had been
+    recognised as one string. The price, 335.00, was in the same picture. A
+    tier that can only fill silences cannot correct that, and a confident wrong
+    price is the one error this project cannot ship.
     """
     guesses = [regex_tier.classify_line(line) for line in lines]
 
@@ -218,7 +230,66 @@ def classify_lines(
         if 0 <= index < len(guesses) and guesses[index].field == "other":
             guesses[index] = prediction
 
-    return guesses
+    for index, prediction in (reader_fields or {}).items():
+        if 0 <= index < len(guesses):
+            guesses[index] = prediction
+
+    return _withdraw_contradictions(guesses, reader_fields)
+
+
+SINGLE_VALUED = frozenset(
+    {"mrp", "net_quantity", "mfg_date", "expiry_date", "batch", "unit_sale_price"}
+)
+"""Declarations that are one short value, where a second one is a contradiction.
+
+Not a list of important fields -- a list of fields that cannot legitimately be
+claimed twice by two different pieces of text. An address wraps over five or six
+detected regions and a consumer-care block over several more, so those are
+absent deliberately: withdrawing regex's other lines there would throw away the
+rest of the address."""
+
+
+def _withdraw_contradictions(
+    guesses: list[FieldGuess],
+    reader_fields: dict[int, FieldGuess] | None,
+) -> list[FieldGuess]:
+    """Where the reader has located a single-valued declaration, no other line
+    may go on claiming it.
+
+    Found on the honey jar, and it is the failure the reader tier was added to
+    fix reappearing one layer down. The reader correctly read `335.00` as the
+    price. Regex went on calling the merged `MRP NRS. 500` region the price
+    too, so the set came back with **two** maximum retail prices -- and
+    `DeclarationSet.first("mrp")` returns the earlier one, which is the wrong
+    one. A pack would have been assessed on its net weight as a price and then,
+    for good measure, reported for declaring its price twice.
+
+    The reader looked at the whole photograph; regex looked at one line of what
+    the recogniser made of it. Where they disagree about *where* a single
+    declaration is, the reader is the better witness, and the loser becomes
+    `other` -- which keeps it on the exhibit and in `raw_text`, so nothing is
+    hidden and the locate-then-validate path still sees it.
+    """
+    claimed = {
+        guess.field for guess in (reader_fields or {}).values() if guess.field in SINGLE_VALUED
+    }
+    if not claimed:
+        return guesses
+
+    kept = set(reader_fields or {})
+    return [
+        guess
+        if index in kept or guess.field not in claimed
+        else FieldGuess(
+            field="other",
+            confidence=guess.confidence,
+            reason=(
+                f"the label reader located the {guess.field} elsewhere on this "
+                f"pack; this line is kept as read but no longer claims it"
+            ),
+        )
+        for index, guess in enumerate(guesses)
+    ]
 
 
 def address_candidates(lines: list[OcrLine], guesses: list[FieldGuess]) -> list[int]:
@@ -244,9 +315,14 @@ def from_lines(
     model_versions: dict[str, str] | None = None,
     captured_at: datetime | None = None,
     model_tier_predictions: dict[int, FieldGuess] | None = None,
+    reader_fields: dict[int, FieldGuess] | None = None,
 ) -> DeclarationSet:
     """Build the engine's only input from recognised lines."""
-    guesses = classify_lines(lines, model_tier_predictions=model_tier_predictions)
+    guesses = classify_lines(
+        lines,
+        model_tier_predictions=model_tier_predictions,
+        reader_fields=reader_fields,
+    )
 
     # A label read as its own region, and the figure printed beside it, are one
     # declaration. See `vision.classify.associate`.

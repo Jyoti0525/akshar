@@ -76,6 +76,52 @@ class CacheLookup(Protocol):
     def __call__(self, identity: Identity) -> str | None: ...
 
 
+def _label_reader(
+    lines: list[Any],
+    rectified: Image | None,
+    versions: dict[str, str],
+) -> Any | None:
+    """The vision model's read of the label, or `None` for every reason there
+    is not one.
+
+    Returns `None` — meaning "the OCR path's own classification stands" — when
+    no reader is installed, when OpenCV cannot encode the crop, when the call
+    fails or times out, when the reply does not parse, and when nothing the
+    model said could be placed on a detected text region. Every one of those is
+    an ordinary outcome and none of them is allowed to fail a scan.
+
+    The reader's name is recorded in `model_versions` only once it has actually
+    contributed, so a scan row never claims a model that did not touch it.
+    """
+    from vision import vlm
+
+    if rectified is None or not lines:
+        return None
+    ready = vlm.availability()
+    if not ready.ready:
+        return None
+
+    started = time.perf_counter()
+    encoded = vlm.encode(rectified)
+    if encoded is None:  # pragma: no cover - OpenCV is a hard dependency
+        return None
+    reply = vlm.provider.read(encoded, prompt=vlm.build())
+    if reply is None:
+        return None
+
+    readings = vlm.parse(reply)
+    if not readings:
+        return None
+
+    height, width = rectified.shape[:2]
+    applied = vlm.apply(lines, readings, width=width, height=height)
+    if not applied.fields:
+        return None
+
+    versions["label_reader"] = ready.name
+    return replace(applied, elapsed_ms=(time.perf_counter() - started) * 1000.0)
+
+
 @dataclass(frozen=True, slots=True)
 class ScanOutcome:
     """Everything a scan produced, including how far it had to degrade."""
@@ -558,9 +604,29 @@ def scan(
     # fields well enough. It must never be able to fail a scan.
     predictions = _layout_head(ocr_result.lines, rectified.image, versions)
 
+    # -- the label reader ---------------------------------------------------
+    #
+    # A vision model reads the photograph and says which declaration each piece
+    # of text is. Everything below it is unchanged: the lines it rewrote are
+    # measured, associated, grouped and de-duplicated by exactly the same code
+    # as the lines it did not, so no millimetre in the record comes from the
+    # model. `vision/vlm/` carries the measurement that justifies it and the
+    # reason a reading with no detected text under it is dropped rather than
+    # trusted.
+    #
+    # Absent is the default. With no reader installed this is one dictionary
+    # lookup and the scan proceeds as it always did -- which is what keeps
+    # section 5's L4 promise intact on a phone with no network.
+    read_lines, reader_fields = ocr_result.lines, {}
+    applied = _label_reader(ocr_result.lines, rectified.image, versions)
+    if applied is not None:
+        read_lines, reader_fields = applied.lines, applied.fields
+        timings["label_reader"] = applied.elapsed_ms
+
     declarations = assemble.from_lines(
-        ocr_result.lines,
+        read_lines,
         scale,
+        reader_fields=reader_fields,
         source=source,
         coverage=ocr_result.coverage,
         degradation_tier=tier.tier,
@@ -588,8 +654,9 @@ def scan(
     if incoherent is not None:
         scale = tier_c.estimate(incoherent)
         declarations = assemble.from_lines(
-            ocr_result.lines,
+            read_lines,
             scale,
+            reader_fields=reader_fields,
             source=source,
             coverage=ocr_result.coverage,
             degradation_tier=tier.tier,
