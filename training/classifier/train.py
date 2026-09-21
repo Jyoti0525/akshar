@@ -474,10 +474,48 @@ def main(argv: list[str] | None = None) -> int:
         dynamic_axes={"features": {0: "batch"}, "logits": {0: "batch"}},
         opset_version=17,
     )
-    print(f"\nwrote {args.out}")
+
+    # ONE FILE, weights inside it.
+    #
+    # torch's current exporter writes tensors to a sidecar `<name>.onnx.data`
+    # and leaves the `.onnx` holding only a graph -- 3 KB of it, for a model
+    # with 338,180 parameters. It loads correctly here because onnxruntime
+    # finds the sidecar next to it, and that is exactly what makes it
+    # dangerous: `vision/runtime.py` resolves models by filename, the bundle
+    # ships them as single files, and anyone who copies the `.onnx` alone gets
+    # a model with no weights. Whether that fails loudly or quietly is the
+    # runtime's choice, not ours, and one of those two outcomes is a silent
+    # wrong answer on an enforcement tool.
+    _inline_weights(args.out)
+
+    print(f"\nwrote {args.out} ({args.out.stat().st_size / 1e6:.2f} MB, self-contained)")
     print("NOTE: exported FP32 under the INT8 filename. Quantise with mmdeploy and")
     print("record the accuracy delta in RESULTS.md before claiming INT8.")
     return 0
+
+
+def _inline_weights(path: Path) -> None:
+    """Fold any external tensor data back into the model file, and prove it."""
+    import onnx
+
+    model = onnx.load(str(path))  # follows the sidecar
+    onnx.save(model, str(path), save_as_external_data=False)
+
+    sidecar = path.with_suffix(path.suffix + ".data")
+    if sidecar.exists():
+        sidecar.unlink()
+
+    reloaded = onnx.load(str(path), load_external_data=False)
+    external = [
+        tensor.name
+        for tensor in reloaded.graph.initializer
+        if tensor.data_location == onnx.TensorProto.EXTERNAL
+    ]
+    if external:
+        raise SystemExit(
+            f"{path.name} still references external tensors {external[:4]}; refusing to "
+            f"ship a model whose weights live in another file."
+        )
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -1,0 +1,9 @@
+{
+ "same_pairs": 37,
+ "different_pairs": 399,
+ "same_mean": 0.8757,
+ "same_p5": 0.3516,
+ "different_mean": 0.0332,
+ "different_p95": 0.3103,
+ "gap": 0.0413
+}

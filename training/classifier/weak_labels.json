@@ -13,7 +13,7 @@
    283.555908203125,
    16.88507080078125
   ],
-  "cap_height_px": 11.5,
+  "cap_height_px": 10.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1600.0,
@@ -53,7 +53,7 @@
    310.60247802734375,
    34.031005859375
   ],
-  "cap_height_px": 23.0,
+  "cap_height_px": 22.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 718.0,
@@ -73,27 +73,7 @@
    419.4706115722656,
    34.63720703125
   ],
-  "cap_height_px": 22.0,
-  "script": "latin",
-  "panel_id": "unknown",
-  "label_w": 718.0,
-  "label_h": 1600.0
- },
- {
-  "image": "WhatsApp Image 2026-09-07 at 19.52.01 (2).jpeg",
-  "label": 0,
-  "field": "manufacturer",
-  "text": "Shubhkart India Pvt. Ltd.",
-  "source": "continuation",
-  "raw_text": "Shubhkart India Pvt. Ltd.",
-  "confidence": 0.8468,
-  "box": [
-   59.10118103027344,
-   697.9487915039062,
-   298.93115234375,
-   28.1024169921875
-  ],
-  "cap_height_px": 21.0,
+  "cap_height_px": 21.5,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 718.0,
@@ -113,7 +93,7 @@
    463.0552062988281,
    34.2138671875
   ],
-  "cap_height_px": 18.5,
+  "cap_height_px": 20.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 718.0,
@@ -133,7 +113,7 @@
    459.2119140625,
    32.2283935546875
   ],
-  "cap_height_px": 4.0,
+  "cap_height_px": 8.5,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 718.0,
@@ -173,7 +153,7 @@
    582.2526245117188,
    41.04450988769531
   ],
-  "cap_height_px": 19.0,
+  "cap_height_px": 18.0,
   "script": "devanagari",
   "panel_id": "unknown",
   "label_w": 1600.0,
@@ -253,7 +233,7 @@
    492.49615478515625,
    34.111328125
   ],
-  "cap_height_px": 20.0,
+  "cap_height_px": 19.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1600.0,
@@ -273,7 +253,7 @@
    326.92340087890625,
    19.299774169921875
   ],
-  "cap_height_px": 13.0,
+  "cap_height_px": 12.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1600.0,
@@ -294,6 +274,26 @@
    19.2303466796875
   ],
   "cap_height_px": 14.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1600.0,
+  "label_h": 718.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.52.23.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Karnataka-560083.",
+  "source": "continuation",
+  "raw_text": "Karnataka-560083.",
+  "confidence": 0.8689,
+  "box": [
+   390.7318420410156,
+   430.1185607910156,
+   137.53628540039062,
+   18.904937744140625
+  ],
+  "cap_height_px": 11.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1600.0,
@@ -346,14 +346,14 @@
   "text": "Nesté India Limited,",
   "source": "continuation",
   "raw_text": "Nesté India Limited,",
-  "confidence": 0.8718,
+  "confidence": 0.8717,
   "box": [
    854.8917846679688,
    382.3586120605469,
    107.198486328125,
    18.8983154296875
   ],
-  "cap_height_px": 11.0,
+  "cap_height_px": 11.5,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1536.0,
@@ -366,7 +366,7 @@
   "text": "Barakhamba Lane, New Delhi-110 001.",
   "source": "continuation",
   "raw_text": "Barakhamba Lane, New Delhi-110 001.",
-  "confidence": 0.8718,
+  "confidence": 0.8717,
   "box": [
    854.9885864257812,
    419.6588439941406,
@@ -453,11 +453,71 @@
    199.6433563232422,
    21.270599365234375
   ],
-  "cap_height_px": 14.0,
+  "cap_height_px": 13.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 642.0,
   "label_h": 939.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (4).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.866,
+  "box": [
+   880.2689819335938,
+   462.2689514160156,
+   205.46209716796875,
+   16.46209716796875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (4).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram - 122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram - 122 002,",
+  "confidence": 0.866,
+  "box": [
+   879.30419921875,
+   501.3041687011719,
+   170.3916015625,
+   16.391693115234375
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.29 (4).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Haryana, India.",
+  "source": "continuation",
+  "raw_text": "Haryana, India.",
+  "confidence": 0.866,
+  "box": [
+   878.9270629882812,
+   519.9270629882812,
+   87.1458740234375,
+   18.1458740234375
+  ],
+  "cap_height_px": 10.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
  },
  {
   "image": "WhatsApp Image 2026-09-07 at 19.56.29 (4).jpeg",
@@ -520,6 +580,126 @@
   "label_h": 1024.0
  },
  {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.8647,
+  "box": [
+   46.263526916503906,
+   476.88970947265625,
+   214.17385864257812,
+   18.5567626953125
+  ],
+  "cap_height_px": 12.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 667.0,
+  "label_h": 917.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram -122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram -122 002,",
+  "confidence": 0.8647,
+  "box": [
+   45.67792892456055,
+   534.6073608398438,
+   178.62033081054688,
+   20.7109375
+  ],
+  "cap_height_px": 12.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 667.0,
+  "label_h": 917.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Haryana, India.",
+  "source": "continuation",
+  "raw_text": "Haryana, India.",
+  "confidence": 0.8647,
+  "box": [
+   46.56006622314453,
+   556.2366943359375,
+   89.51082611083984,
+   17.96624755859375
+  ],
+  "cap_height_px": 12.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 667.0,
+  "label_h": 917.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.8051,
+  "box": [
+   888.81494140625,
+   460.5916748046875,
+   194.36767578125,
+   19.57861328125
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram - 122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram - 122 002,",
+  "confidence": 0.8051,
+  "box": [
+   887.940185546875,
+   496.9092712402344,
+   156.10791015625,
+   18.650909423828125
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 19.56.30.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Haryana, India.",
+  "source": "continuation",
+  "raw_text": "Haryana, India.",
+  "confidence": 0.8051,
+  "box": [
+   887.8247680664062,
+   514.187744140625,
+   77.268310546875,
+   19.6546630859375
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
   "image": "WhatsApp Image 2026-09-07 at 19.56.30.jpeg",
   "label": 3,
   "field": "consumer_care",
@@ -546,14 +726,14 @@
   "text": "Nesté India Limited,",
   "source": "continuation",
   "raw_text": "Nesté India Limited,",
-  "confidence": 0.8718,
+  "confidence": 0.8717,
   "box": [
    854.8917846679688,
    382.3586120605469,
    107.198486328125,
    18.8983154296875
   ],
-  "cap_height_px": 11.0,
+  "cap_height_px": 11.5,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1536.0,
@@ -566,7 +746,7 @@
   "text": "Barakhamba Lane, New Delhi-110 001.",
   "source": "continuation",
   "raw_text": "Barakhamba Lane, New Delhi-110 001.",
-  "confidence": 0.8718,
+  "confidence": 0.8717,
   "box": [
    854.9885864257812,
    419.6588439941406,
@@ -641,6 +821,66 @@
  },
  {
   "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.866,
+  "box": [
+   880.2689819335938,
+   462.2689514160156,
+   205.46209716796875,
+   16.46209716796875
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram - 122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram - 122 002,",
+  "confidence": 0.866,
+  "box": [
+   879.30419921875,
+   501.3041687011719,
+   170.3916015625,
+   16.391693115234375
+  ],
+  "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Haryana, India.",
+  "source": "continuation",
+  "raw_text": "Haryana, India.",
+  "confidence": 0.866,
+  "box": [
+   878.9270629882812,
+   519.9270629882812,
+   87.1458740234375,
+   18.1458740234375
+  ],
+  "cap_height_px": 10.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.48 (1).jpeg",
   "label": 3,
   "field": "consumer_care",
   "text": "PHASE-1, GURUGRAM - 122 002,",
@@ -693,11 +933,71 @@
    199.6433563232422,
    21.270599365234375
   ],
-  "cap_height_px": 14.0,
+  "cap_height_px": 13.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 642.0,
   "label_h": 939.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.49 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "source": "continuation",
+  "raw_text": "PEPSICO INDIA HOLDINGS PVT. LTD.",
+  "confidence": 0.8051,
+  "box": [
+   888.81494140625,
+   460.5916748046875,
+   194.36767578125,
+   19.57861328125
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.49 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Phase-1, Gurugram - 122 002,",
+  "source": "continuation",
+  "raw_text": "Phase-1, Gurugram - 122 002,",
+  "confidence": 0.8051,
+  "box": [
+   887.940185546875,
+   496.9092712402344,
+   156.10791015625,
+   18.650909423828125
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.49 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Haryana, India.",
+  "source": "continuation",
+  "raw_text": "Haryana, India.",
+  "confidence": 0.8051,
+  "box": [
+   887.8247680664062,
+   514.187744140625,
+   77.268310546875,
+   19.6546630859375
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1536.0,
+  "label_h": 1024.0
  },
  {
   "image": "WhatsApp Image 2026-09-07 at 20.04.49 (1).jpeg",
@@ -738,6 +1038,46 @@
   "panel_id": "unknown",
   "label_w": 1536.0,
   "label_h": 1024.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.55.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Ramdaspur Industrial Estate,",
+  "source": "continuation",
+  "raw_text": "Ramdaspur Industrial Estate,",
+  "confidence": 0.8653,
+  "box": [
+   384.82269287109375,
+   993.9536743164062,
+   285.288818359375,
+   28.0926513671875
+  ],
+  "cap_height_px": 19.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.04.55.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Odisha, India",
+  "source": "continuation",
+  "raw_text": "Odisha, India",
+  "confidence": 0.8653,
+  "box": [
+   463.19354248046875,
+   1052.3695068359375,
+   132.4945068359375,
+   27.260986328125
+  ],
+  "cap_height_px": 15.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
  },
  {
   "image": "WhatsApp Image 2026-09-07 at 20.04.57 (2).jpeg",
@@ -786,7 +1126,7 @@
   "text": "36 Quality Road, Singapore 618806",
   "source": "continuation",
   "raw_text": "36 Quality Road, Singapore 618806",
-  "confidence": 0.8698,
+  "confidence": 0.8703,
   "box": [
    299.563232421875,
    631.39794921875,
@@ -813,7 +1153,7 @@
    601.7457275390625,
    23.7689208984375
   ],
-  "cap_height_px": 16.0,
+  "cap_height_px": 14.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1200.0,
@@ -873,7 +1213,7 @@
    524.7193603515625,
    51.4619140625
   ],
-  "cap_height_px": 21.5,
+  "cap_height_px": 19.5,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1200.0,
@@ -1040,6 +1380,46 @@
   "label_h": 1600.0
  },
  {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.31.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Ramdaspur Industrial Estate,",
+  "source": "continuation",
+  "raw_text": "Ramdaspur Industrial Estate,",
+  "confidence": 0.8548,
+  "box": [
+   387.7844543457031,
+   1057.9549560546875,
+   284.2994689941406,
+   28.090087890625
+  ],
+  "cap_height_px": 24.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.05.31.jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Odisha, India",
+  "source": "continuation",
+  "raw_text": "Odisha, India",
+  "confidence": 0.8548,
+  "box": [
+   464.16339111328125,
+   1116.352294921875,
+   135.489013671875,
+   27.29541015625
+  ],
+  "cap_height_px": 21.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1200.0,
+  "label_h": 1600.0
+ },
+ {
   "image": "WhatsApp Image 2026-09-07 at 20.05.38.jpeg",
   "label": 3,
   "field": "consumer_care",
@@ -1053,7 +1433,7 @@
    292.0650634765625,
    37.0428466796875
   ],
-  "cap_height_px": 8.0,
+  "cap_height_px": 26.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1200.0,
@@ -1073,7 +1453,7 @@
    202.14794921875,
    14.46954345703125
   ],
-  "cap_height_px": 10.5,
+  "cap_height_px": 10.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 1280.0,
@@ -1133,7 +1513,7 @@
    261.15625,
    17.650634765625
   ],
-  "cap_height_px": 10.75,
+  "cap_height_px": 12.5,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 720.0,
@@ -1154,6 +1534,26 @@
    18.6192626953125
   ],
   "cap_height_px": 11.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 720.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.06.55 (1).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Rolkata. West Bengal-700020",
+  "source": "continuation",
+  "raw_text": "Rolkata. West Bengal-700020",
+  "confidence": 0.745,
+  "box": [
+   393.6284484863281,
+   938.7307739257812,
+   169.00332641601562,
+   19.892333984375
+  ],
+  "cap_height_px": null,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 720.0,
@@ -1213,7 +1613,7 @@
    206.4905548095703,
    17.403564453125
   ],
-  "cap_height_px": 10.25,
+  "cap_height_px": 10.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 960.0,
@@ -1233,7 +1633,27 @@
    143.08526611328125,
    21.481689453125
   ],
-  "cap_height_px": 12.25,
+  "cap_height_px": 12.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 960.0,
+  "label_h": 1280.0
+ },
+ {
+  "image": "WhatsApp Image 2026-09-07 at 20.08.16 (2).jpeg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Pt No.687. India Food",
+  "source": "continuation",
+  "raw_text": "Pt No.687. India Food",
+  "confidence": 0.7705,
+  "box": [
+   334.6861572265625,
+   691.6861572265625,
+   95.627685546875,
+   11.627685546875
+  ],
+  "cap_height_px": 7.0,
   "script": "latin",
   "panel_id": "unknown",
   "label_w": 960.0,
@@ -1298,5 +1718,485 @@
   "panel_id": "unknown",
   "label_w": 960.0,
   "label_h": 1280.0
+ },
+ {
+  "image": "IMG_0676.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Hershey India Prvt Limited, Schindler House,",
+  "source": "continuation",
+  "raw_text": "Hershey India Prvt Limited, Schindler House,",
+  "confidence": 0.8659,
+  "box": [
+   845.9384155273438,
+   2297.463623046875,
+   525.0137329101562,
+   54.093994140625
+  ],
+  "cap_height_px": 22.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0693.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "DABUR INDIA LTD.",
+  "source": "same_line",
+  "raw_text": "Marketed by: DABUR INDIA LTD.",
+  "confidence": 0.8661,
+  "box": [
+   913.701904296875,
+   2814.179931640625,
+   446.624267578125,
+   59.20849609375
+  ],
+  "cap_height_px": 38.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0696.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "RED BULLINDIAPVT. LTD., IST FLOOR B WING,",
+  "source": "continuation",
+  "raw_text": "RED BULLINDIAPVT. LTD., IST FLOOR B WING,",
+  "confidence": 0.7297,
+  "box": [
+   1020.966552734375,
+   2334.122802734375,
+   590.28564453125,
+   50.84814453125
+  ],
+  "cap_height_px": 36.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0706.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Union Ltd.), Jibhaipura, Nadiad-Ahmedabad",
+  "source": "continuation",
+  "raw_text": "Union Ltd.), Jibhaipura, Nadiad-Ahmedabad",
+  "confidence": 0.8461,
+  "box": [
+   751.1448974609375,
+   2235.12646484375,
+   773.546875,
+   47.571044921875
+  ],
+  "cap_height_px": 10.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0706.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Road, Mehmedabad, Dist.: Kheda, Gujarat",
+  "source": "continuation",
+  "raw_text": "Road, Mehmedabad, Dist.: Kheda, Gujarat",
+  "confidence": 0.8461,
+  "box": [
+   749.3994140625,
+   2270.889892578125,
+   757.367431640625,
+   47.137451171875
+  ],
+  "cap_height_px": 10.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0706.JPG",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "GCMMF Ltd., Anand - 388 001",
+  "source": "continuation",
+  "raw_text": "GCMMF Ltd., Anand - 388 001",
+  "confidence": 0.8663,
+  "box": [
+   817.486083984375,
+   2788.204833984375,
+   603.49658203125,
+   46.34033203125
+  ],
+  "cap_height_px": 32.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0718.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Dabur India Ltd.,",
+  "source": "continuation",
+  "raw_text": "Dabur India Ltd.,",
+  "confidence": 0.8685,
+  "box": [
+   882.4232788085938,
+   2052.974365234375,
+   225.50653076171875,
+   44.275146484375
+  ],
+  "cap_height_px": 8.5,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_0718.JPG",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Road, New Delhi - 110 002",
+  "source": "continuation",
+  "raw_text": "Road, New Delhi - 110 002",
+  "confidence": 0.8685,
+  "box": [
+   846.8255615234375,
+   2256.64599609375,
+   371.55419921875,
+   46.902099609375
+  ],
+  "cap_height_px": 11.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 3024.0,
+  "label_h": 4032.0
+ },
+ {
+  "image": "IMG_20260905_132651_092_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "1. Bishop Lefroy Road, Kolkata,",
+  "source": "continuation",
+  "raw_text": "1. Bishop Lefroy Road, Kolkata,",
+  "confidence": 0.8119,
+  "box": [
+   119.8542709350586,
+   1273.3480224609375,
+   414.5924987792969,
+   56.37646484375
+  ],
+  "cap_height_px": 32.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_132651_092_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "West Bengal -700 020.",
+  "source": "continuation",
+  "raw_text": "West Bengal -700 020.",
+  "confidence": 0.8119,
+  "box": [
+   122.65528106689453,
+   1323.7218017578125,
+   305.8963317871094,
+   50.556396484375
+  ],
+  "cap_height_px": 34.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_132651_092_AI.jpg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "BENGALURU - 560 024, KARNATAKA.",
+  "source": "continuation",
+  "raw_text": "BENGALURU - 560 024, KARNATAKA.",
+  "confidence": 0.8414,
+  "box": [
+   140.4131622314453,
+   1704.82568359375,
+   651.1296997070312,
+   81.38037109375
+  ],
+  "cap_height_px": 52.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_132842_284_AI.jpg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "TMBAJC BOSE ROAD KOLKATA- TOXDZO, WE",
+  "source": "continuation",
+  "raw_text": "TMBAJC BOSE ROAD KOLKATA- TOXDZO, WE",
+  "confidence": 0.8319,
+  "box": [
+   950.1741333007812,
+   2546.4365234375,
+   580.0828247070312,
+   33.126953125
+  ],
+  "cap_height_px": 17.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_133622_067_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Federation Ltd., Amul Dairy Road, Anand, Gujarat -",
+  "source": "continuation",
+  "raw_text": "Federation Ltd., Amul Dairy Road, Anand, Gujarat -",
+  "confidence": 0.8609,
+  "box": [
+   2328.33740234375,
+   341.3689270019531,
+   837.3251953125,
+   46.917327880859375
+  ],
+  "cap_height_px": 29.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 4096.0,
+  "label_h": 1840.0
+ },
+ {
+  "image": "IMG_20260905_133622_067_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "388001, India. Website: www.amul.com",
+  "source": "continuation",
+  "raw_text": "388001, India. Website: www.amul.com",
+  "confidence": 0.8609,
+  "box": [
+   2326.419189453125,
+   387.053466796875,
+   675.16162109375,
+   46.755126953125
+  ],
+  "cap_height_px": 28.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 4096.0,
+  "label_h": 1840.0
+ },
+ {
+  "image": "IMG_20260905_133622_067_AI.jpg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "GCMMF Ltd., Anand -388001",
+  "source": "continuation",
+  "raw_text": "GCMMF Ltd., Anand -388001",
+  "confidence": 0.8771,
+  "box": [
+   2405.59765625,
+   692.631591796875,
+   594.74658203125,
+   68.62689208984375
+  ],
+  "cap_height_px": 13.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 4096.0,
+  "label_h": 1840.0
+ },
+ {
+  "image": "IMG_20260905_133642_769_AI.jpg",
+  "label": 3,
+  "field": "consumer_care",
+  "text": "Bannerghatta Main Road, Bangalore, Karnataka -",
+  "source": "continuation",
+  "raw_text": "Bannerghatta Main Road, Bangalore, Karnataka -",
+  "confidence": 0.8701,
+  "box": [
+   1009.9608154296875,
+   1282.777099609375,
+   880.06494140625,
+   50.052001953125
+  ],
+  "cap_height_px": 26.5,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 4096.0,
+  "label_h": 1840.0
+ },
+ {
+  "image": "IMG_20260905_134232_286_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Ghaziabad (U.P.) - 201102 (INDIA)",
+  "source": "continuation",
+  "raw_text": "Ghaziabad (U.P.) - 201102 (INDIA)",
+  "confidence": 0.8784,
+  "box": [
+   699.6375732421875,
+   1663.66259765625,
+   635.040771484375,
+   62.130126953125
+  ],
+  "cap_height_px": 15.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_134552_254_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Anand- 388 001, India. Website: www.amul.com",
+  "source": "continuation",
+  "raw_text": "Anand- 388 001, India. Website: www.amul.com",
+  "confidence": 0.6196,
+  "box": [
+   373.7720947265625,
+   2806.635009765625,
+   818.8519287109375,
+   61.24853515625
+  ],
+  "cap_height_px": 18.0,
+  "script": "devanagari",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_135208_512_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Shubhkart India Pvt. Ltd.",
+  "source": "continuation",
+  "raw_text": "Shubhkart India Pvt. Ltd.",
+  "confidence": 0.8257,
+  "box": [
+   135.1353302001953,
+   1374.407470703125,
+   790.5221557617188,
+   78.730224609375
+  ],
+  "cap_height_px": 58.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_135208_512_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "(East), Mumbai - 400051, Maharashtra.",
+  "source": "continuation",
+  "raw_text": "(East), Mumbai - 400051, Maharashtra.",
+  "confidence": 0.8257,
+  "box": [
+   148.97447204589844,
+   1596.2698974609375,
+   1072.13720703125,
+   75.460205078125
+  ],
+  "cap_height_px": 55.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_135208_512_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Building No. RAT, Ratan Logistics Park",
+  "source": "continuation",
+  "raw_text": "Building No. RAT, Ratan Logistics Park",
+  "confidence": 0.8354,
+  "box": [
+   154.8223114013672,
+   1846.1407470703125,
+   1191.3021240234375,
+   84.59765625
+  ],
+  "cap_height_px": 54.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_135208_512_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Village Amane, Behind Indian Oil Petrol",
+  "source": "continuation",
+  "raw_text": "Village Amane, Behind Indian Oil Petrol",
+  "confidence": 0.8354,
+  "box": [
+   158.24411010742188,
+   1915.476806640625,
+   1182.4630126953125,
+   82.2412109375
+  ],
+  "cap_height_px": 20.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_135208_512_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "Maharashtra -421302.",
+  "source": "continuation",
+  "raw_text": "Maharashtra -421302.",
+  "confidence": 0.8354,
+  "box": [
+   168.49400329589844,
+   2051.359375,
+   606.8705444335938,
+   75.39453125
+  ],
+  "cap_height_px": 17.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
+ },
+ {
+  "image": "IMG_20260905_140251_992_AI.jpg",
+  "label": 0,
+  "field": "manufacturer",
+  "text": "FERERO INDIA PVT. LTD. Reg. OF & FACOY",
+  "source": "same_line",
+  "raw_text": "UACE. MFD BY: FERERO INDIA PVT. LTD. Reg. OF & FACOY",
+  "confidence": 0.6647,
+  "box": [
+   393.6177673339844,
+   2274.06689453125,
+   907.985107421875,
+   58.501953125
+  ],
+  "cap_height_px": 17.0,
+  "script": "latin",
+  "panel_id": "unknown",
+  "label_w": 1840.0,
+  "label_h": 4096.0
  }
 ]
