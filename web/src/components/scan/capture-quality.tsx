@@ -12,15 +12,30 @@ import type { CaptureQuality as Quality, FrameInfo, Framing } from "@/lib/api/ty
  *
  * **It is never shown for a usable frame.** A green "quality: fine" panel on
  * every scan is a panel people stop reading, and then they stop reading the
- * amber one too.
+ * amber one too. That now covers a frame carrying a *marginal* fault as well —
+ * one measurement a little past a provisional threshold, which the gate no
+ * longer refuses a photograph for. It is on the record and it is not worth a
+ * banner.
+ *
+ * **What is listed is `blocking_faults`, not `faults`.** They stopped being the
+ * same thing when the gate gained severity: `faults` is every measurement past
+ * its line, and a frame refused for blur routinely carries a marginal glare
+ * reading alongside it. Listing both tells the officer to tilt the pack away
+ * from the light when the actual problem is that they moved, and that is the
+ * failure mode this whole component exists to avoid — advice that sends someone
+ * back for a second photograph which fails the same way. Older API builds send
+ * no `blocking_faults`; there the frame is unusable and `faults` is the best
+ * answer available, so it is the fallback.
  */
 export function CaptureQualityNotice({ quality }: { quality: Quality | null | undefined }) {
   if (!quality || quality.usable) return null;
 
+  const blocking = quality.blocking_faults?.length ? quality.blocking_faults : quality.faults;
+
   return (
     <Alert tone="review" title="This photograph cannot be measured">
       <ul className="flex list-disc flex-col gap-1 pl-5">
-        {(quality.faults ?? []).map((fault) => (
+        {(blocking ?? []).map((fault) => (
           <li key={fault}>{ADVICE[fault] ?? fault}</li>
         ))}
       </ul>

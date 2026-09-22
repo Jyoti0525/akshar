@@ -13,6 +13,28 @@ import { ApiError, messageFrom } from "./errors";
 import { ACCESS_COOKIE, API_ORIGIN } from "./session";
 import { withQuery, type Query } from "./query";
 
+/**
+ * Deadlines for the two server-side callers below.
+ *
+ * `lib/api/client.ts` explains at length why an unbounded `fetch` is a bug and
+ * not merely slow: a server that is reachable and does not answer — a dead
+ * Postgres behind a live API is the case that actually happens — leaves the
+ * request pending forever rather than rejecting. On the browser side that cost
+ * an officer a scan. Here it costs a page: these run inside a Server Component,
+ * so an unbounded call does not fail the render, it *suspends* it, and the
+ * officer gets a browser that spins with nothing on it.
+ *
+ * `undici` has its own multi-minute defaults, which is far past the point where
+ * a human has given up and reloaded.
+ *
+ * The health probe gets the short one on purpose. It decorates the sign-in page
+ * with an optional panel, and the sign-in page is the screen someone opens
+ * *because* the system is misbehaving. It is the last page allowed to be held
+ * up by a sick API.
+ */
+const SERVER_TIMEOUT_MS = 15_000;
+const HEALTH_TIMEOUT_MS = 2_500;
+
 export async function accessToken(): Promise<string | null> {
   const jar = await cookies();
   return jar.get(ACCESS_COOKIE)?.value ?? null;
@@ -29,6 +51,10 @@ export async function serverFetch<T>(path: string, query?: Query): Promise<T> {
     // dashboard is served from a cache the reader did not ask to refresh, and
     // none of it is revalidated behind their back either.
     cache: "no-store",
+    // A bounded render. `tryServerFetch` below already turns a thrown error
+    // into an empty panel, so with a deadline in place a sick API degrades a
+    // page instead of suspending it.
+    signal: AbortSignal.timeout(SERVER_TIMEOUT_MS),
   });
 
   const text = await response.text();
@@ -115,7 +141,10 @@ export async function tryServerFetch<T>(path: string, query?: Query): Promise<T 
  *  the auth stack is broken. */
 export async function opsHealth<T>(): Promise<T | null> {
   try {
-    const response = await fetch(`${API_ORIGIN}/healthz`, { cache: "no-store" });
+    const response = await fetch(`${API_ORIGIN}/healthz`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(HEALTH_TIMEOUT_MS),
+    });
     if (!response.ok) return null;
     return (await response.json()) as T;
   } catch {

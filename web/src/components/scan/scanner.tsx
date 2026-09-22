@@ -5,10 +5,11 @@ import Link from "next/link";
 import { capture, type CaptureOutcome } from "@/lib/scan/engine";
 import { useCamera } from "@/lib/scan/use-camera";
 import { runtimeProfile, type RuntimeProfile } from "@/lib/ocr/runtime";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
-import { Input, Label, Select } from "@/components/ui/field";
+import { Hint, Input, Label, Select } from "@/components/ui/field";
+import { cn } from "@/lib/cn";
 import { VerdictHeader } from "./verdict-header";
 import { CaptureQualityNotice, FramesNotice, FramingNotice } from "./capture-quality";
 import { RuleRows } from "./rule-rows";
@@ -197,7 +198,7 @@ export function Scanner() {
     <div className="flex flex-col gap-6">
       {profile?.warning ? <Alert tone="review">{profile.warning}</Alert> : null}
 
-      <Card className="flex flex-col gap-4">
+      <Card className="flex flex-col gap-5">
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="category">Category</Label>
@@ -265,16 +266,20 @@ export function Scanner() {
             the shutter rather than after a notice.
           */}
           {heightIsUsable ? (
-            <p className="text-sm text-fg-muted">
-              The scan will measure this pack as <strong>{packHeightMm.toFixed(0)} mm</strong> tall.
-            </p>
+            <Hint>
+              The scan will measure this pack as{" "}
+              <strong className="numeric font-semibold text-fg">
+                {packHeightMm.toFixed(0)} mm
+              </strong>{" "}
+              tall.
+            </Hint>
           ) : null}
-          <p id="pack-height-help" className="text-sm text-fg-muted">
+          <Hint id="pack-height-help">
             Measure the face you are photographing with a ruler — not the tallest
             side of the box. This is what lets the printed letters be measured in
             millimetres; without it the three character-height rules cannot be
             checked.
-          </p>
+          </Hint>
           {heightValue !== "" && !heightIsUsable ? (
             <p className="text-sm text-fail">
               That is not a plausible height for a pack (
@@ -361,47 +366,71 @@ export function Scanner() {
             ) : null}
           </div>
         ) : (
-          <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={() => void startCamera()} disabled={busy}>
-              Use camera
-            </Button>
+          <div className="flex flex-col gap-3 border-t border-border pt-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <Button onClick={() => void startCamera()} disabled={busy}>
+                Use camera
+              </Button>
+              {/*
+                Disabled without a height, exactly as the shutter is. A control
+                that accepts the file and then fails is worse than one that says
+                in advance what it is waiting for.
+
+                It borrows `buttonVariants` rather than approximating it. A
+                `<label>` is unavoidable here — only a real file input opens a
+                picker — but "looks like a button" is not something to re-type
+                by hand, and the copy that was here had drifted onto the
+                decorative hairline while every outline button moved to the
+                3:1 border WCAG §1.4.11 asks of a control.
+              */}
+              {/*
+                It reports progress, because the shutter beside it does. The
+                camera path flips its button to "Reading…" the moment `busy`
+                goes true; this path changed nothing at all, so an officer who
+                chose a file saw the same screen they were already looking at
+                and reasonably concluded the upload had not worked. The scan
+                was running the whole time.
+              */}
+              <label
+                aria-disabled={!heightIsUsable || busy}
+                aria-busy={busy}
+                className={cn(
+                  buttonVariants({ variant: "outline" }),
+                  heightIsUsable && !busy
+                    ? "cursor-pointer"
+                    : "cursor-not-allowed opacity-50",
+                )}
+              >
+                {busy ? "Reading…" : "Upload photographs"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  disabled={!heightIsUsable || busy}
+                  className="sr-only"
+                  onChange={(event) => {
+                    // Several files here means several photographs of ONE pack.
+                    // A folder of different packs is the bulk upload, which is a
+                    // separate screen with a separate endpoint behind it.
+                    const files = Array.from(event.target.files ?? []);
+                    if (files.length > 0) void submit(files);
+                  }}
+                />
+              </label>
+            </div>
             {/*
-              Disabled without a height, exactly as the shutter is. A control
-              that accepts the file and then fails is worse than one that says
-              in advance what it is waiting for.
+              On its own line rather than trailing the buttons. Beside them it
+              was read as a caption on the upload control, which is wrong twice
+              over: it reports the *location* once a height is present, and the
+              thing it gates is the shutter, not the picker.
             */}
-            <label
-              aria-disabled={!heightIsUsable}
-              className={
-                "inline-flex h-touch items-center rounded-md border border-border px-4 text-base " +
-                (heightIsUsable
-                  ? "cursor-pointer hover:bg-surface-2"
-                  : "cursor-not-allowed opacity-50")
-              }
-            >
-              Upload photographs
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                disabled={!heightIsUsable || busy}
-                className="sr-only"
-                onChange={(event) => {
-                  // Several files here means several photographs of ONE pack.
-                  // A folder of different packs is the bulk upload, which is a
-                  // separate screen with a separate endpoint behind it.
-                  const files = Array.from(event.target.files ?? []);
-                  if (files.length > 0) void submit(files);
-                }}
-              />
-            </label>
-            <span className="text-sm text-fg-muted">
+            <Hint>
               {heightIsUsable
                 ? geo
-                  ? "Location captured"
-                  : "No location — the scan still records"
-                : "Enter the pack height above to enable capture"}
-            </span>
+                  ? "Location captured — it is stored with the scan."
+                  : "No location available. The scan still records."
+                : "Enter the pack height above to enable capture."}
+            </Hint>
           </div>
         )}
 

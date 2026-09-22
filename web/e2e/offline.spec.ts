@@ -36,6 +36,14 @@ test.describe("with the radio off", () => {
     await context.setOffline(true);
     await expect(page.getByText(/L1 offline/)).toBeVisible();
 
+    // The pack height first, and it is not incidental setup. Both capture
+    // controls are disabled without it — the height is what converts a printed
+    // glyph to millimetres, so a scan without one cannot answer the three
+    // character-height rules and the screen refuses to start. This test
+    // predates that gate and had been driving a disabled input ever since.
+    await page.getByLabel("Height of the side facing the camera").fill("15");
+    await expect(page.getByText(/measure this pack as 150 mm tall/)).toBeVisible();
+
     // A one-pixel JPEG stands in for the photograph. What is under test is the
     // outbox, not the camera.
     const jpeg = Buffer.from(

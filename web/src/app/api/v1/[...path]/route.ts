@@ -91,6 +91,11 @@ async function forward(request: NextRequest, context: Context): Promise<NextResp
   return out;
 }
 
+/** Long enough for a report render, which also travels this route. */
+const PROXY_TIMEOUT_MS = 60_000;
+/** Token exchange only: one signature check. */
+const AUTH_TIMEOUT_MS = 15_000;
+
 function call(
   url: string,
   method: string,
@@ -100,7 +105,22 @@ function call(
 ): Promise<Response> {
   const sent = new Headers(headers);
   if (token) sent.set("Authorization", `Bearer ${token}`);
-  return fetch(url, { method, headers: sent, body, cache: "no-store", redirect: "manual" });
+  return fetch(url, {
+    method,
+    headers: sent,
+    body,
+    cache: "no-store",
+    redirect: "manual",
+    // The browser already gives up on its own schedule (`lib/api/client.ts`),
+    // but that abort does not reach this hop — without a deadline here a hung
+    // API leaves one pending upstream request per scan inside the Next process,
+    // accumulating for as long as the officer keeps trying.
+    //
+    // 60 s rather than the client's 30 s, because report rendering also travels
+    // this route and is allowed to be slow. The bound exists to stop a leak, not
+    // to be the thing that times a scan out.
+    signal: AbortSignal.timeout(PROXY_TIMEOUT_MS),
+  });
 }
 
 interface RefreshedPair {
@@ -111,12 +131,21 @@ interface RefreshedPair {
 }
 
 async function renew(refreshToken: string): Promise<RefreshedPair | null> {
-  const response = await fetch(`${API_ORIGIN}/api/v1/auth/refresh`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refresh_token: refreshToken }),
-    cache: "no-store",
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_ORIGIN}/api/v1/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(AUTH_TIMEOUT_MS),
+    });
+  } catch {
+    // Returning null means "could not renew", which the caller already handles
+    // by clearing the session. A silent API must not hold a request open while
+    // it decides.
+    return null;
+  }
   if (!response.ok) return null;
   return (await response.json()) as RefreshedPair;
 }

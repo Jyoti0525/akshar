@@ -19,15 +19,37 @@ import {
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+/** One bcrypt verify and one audit-log insert. See the note at the call. */
+const AUTH_TIMEOUT_MS = 15_000;
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = (await request.json()) as { email?: string; password?: string };
 
-  const upstream = await fetch(`${API_ORIGIN}/api/v1/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: body.email ?? "", password: body.password ?? "" }),
-    cache: "no-store",
-  });
+  // Bounded, like every other call that leaves this process. An unbounded
+  // `fetch` against an API that is reachable and silent does not fail — it
+  // hangs, and here that means a "Signing in…" button that never comes back
+  // and never says why. `lib/api/client.ts` carries the full argument.
+  //
+  // 15 s: authentication is one bcrypt verify and one insert into `access_log`.
+  // Anything past that is not a slow login, it is a broken one.
+  let upstream: Response;
+  try {
+    upstream = await fetch(`${API_ORIGIN}/api/v1/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: body.email ?? "", password: body.password ?? "" }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(AUTH_TIMEOUT_MS),
+    });
+  } catch {
+    // 503, not 401. The credentials were never judged, and telling an officer
+    // their password is wrong when the API simply did not answer sends them to
+    // reset a password that works.
+    return NextResponse.json(
+      { detail: "The API is not answering. Sign-in cannot be completed; this is not a problem with your credentials." },
+      { status: 503 },
+    );
+  }
 
   if (!upstream.ok) {
     // The upstream deliberately does not say which of the two was wrong, and
