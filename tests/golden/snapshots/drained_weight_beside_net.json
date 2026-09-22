@@ -4,10 +4,10 @@
  "declarations": [
   {
    "box": [
-    440,
-    343,
-    371,
-    50
+    445,
+    347,
+    360,
+    40
    ],
    "field": "mrp",
    "field_confidence": 0.87,
@@ -20,15 +20,15 @@
   },
   {
    "box": [
-    437,
-    435,
-    276,
-    54
+    443,
+    441,
+    266,
+    44
    ],
    "field": "net_quantity",
    "field_confidence": 0.87,
    "height_mm": 6.57,
-   "height_mm_tolerance": 0.34,
+   "height_mm_tolerance": 0.4,
    "ocr_confidence": 0.99,
    "scale_tier": "A",
    "script": "devanagari",
@@ -36,26 +36,26 @@
   },
   {
    "box": [
-    440,
-    535,
-    208,
-    41
+    444,
+    539,
+    200,
+    31
    ],
    "field": "mfg_date",
-   "field_confidence": 0.85,
+   "field_confidence": 0.88,
    "height_mm": 5.21,
-   "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.97,
+   "height_mm_tolerance": 0.38,
+   "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "devanagari",
    "text": "MFG 03/2026"
   },
   {
    "box": [
-    441,
-    619,
-    303,
-    34
+    444,
+    623,
+    295,
+    27
    ],
    "field": "other",
    "field_confidence": 0.3,
@@ -68,16 +68,16 @@
   },
   {
    "box": [
-    440,
-    684,
-    304,
-    43
+    445,
+    688,
+    295,
+    35
    ],
    "field": "other",
-   "field_confidence": 0.83,
+   "field_confidence": 0.85,
    "height_mm": 5.66,
-   "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.97,
+   "height_mm_tolerance": 0.37,
+   "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "latin",
    "text": "DRAINED WT 350 g"
@@ -89,10 +89,12 @@
  "degradation_tier": "L0",
  "exit_path": "full",
  "quality": {
-  "blur_score": 0.85,
-  "exposure_score": 0.98,
+  "blocking_faults": [],
+  "blur_score": 0.93,
+  "exposure_score": 0.94,
   "faults": [],
-  "glare_ratio": 0.02,
+  "glare_ratio": 0.04,
+  "subject_ratio": 0.41,
   "usable": true
  },
  "source": "photo"

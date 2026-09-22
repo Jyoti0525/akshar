@@ -1,0 +1,1377 @@
+{
+ "head": "en",
+ "strings": 193,
+ "mean_cer": 0.2292,
+ "weighted_cer": 0.3521,
+ "by_script": {
+  "latin": {
+   "n": 140,
+   "mean_cer": 0.2355,
+   "weighted_cer": 0.3587
+  },
+  "devanagari": {
+   "n": 1,
+   "mean_cer": 0.0,
+   "weighted_cer": 0.0
+  }
+ },
+ "bands": {
+  "clean": 84,
+  "usable": 27,
+  "corrupt": 44,
+  "absent": 38
+ },
+ "rows": [
+  {
+   "image": "agarbati.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "agarbati.webp",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 9,
+   "cer": 0.0
+  },
+  {
+   "image": "agarbati.webp",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "agarbati.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 115,
+   "cer": 0.0261
+  },
+  {
+   "image": "agarbati.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 134,
+   "cer": 0.0075
+  },
+  {
+   "image": "agarbati.webp",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 16,
+   "cer": 0.0
+  },
+  {
+   "image": "bajaj.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 9,
+   "cer": 0.0
+  },
+  {
+   "image": "bajaj.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "bajaj.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.1429
+  },
+  {
+   "image": "bajaj.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 83,
+   "cer": 0.1687
+  },
+  {
+   "image": "bajaj.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "camlin.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 17,
+   "cer": 0.0
+  },
+  {
+   "image": "camlin.webp",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "camlin.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 109,
+   "cer": 0.055
+  },
+  {
+   "image": "camlin.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 95,
+   "cer": 0.0842
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 27,
+   "cer": 0.2222
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.5
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 136,
+   "cer": 0.3529
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 93,
+   "cer": 0.2043
+  },
+  {
+   "image": "camlinbrush.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.3077
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 15,
+   "cer": 0.0
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.1667
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.5
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.5
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 67,
+   "cer": 0.0149
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 60,
+   "cer": 0.0167
+  },
+  {
+   "image": "cheese.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 15,
+   "cer": 0.0
+  },
+  {
+   "image": "coconut_oil.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 11,
+   "cer": 0.0
+  },
+  {
+   "image": "coconut_oil.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.8571
+  },
+  {
+   "image": "coconut_oil.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.875
+  },
+  {
+   "image": "coconut_oil.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 16,
+   "cer": 0.6875
+  },
+  {
+   "image": "coconut_oil.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 16,
+   "cer": 0.25
+  },
+  {
+   "image": "doms.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 14,
+   "cer": 0.0
+  },
+  {
+   "image": "doms.webp",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "doms.webp",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "doms.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 87,
+   "cer": 0.0575
+  },
+  {
+   "image": "doms.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 125,
+   "cer": 0.064
+  },
+  {
+   "image": "doms.webp",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "frshcream.jpg",
+   "field": "generic_name",
+   "script": "devanagari",
+   "chars": 9,
+   "cer": 0.0
+  },
+  {
+   "image": "frshcream.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.1667
+  },
+  {
+   "image": "frshcream.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "frshcream.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 11,
+   "cer": 0.0909
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "mfg_date",
+   "script": "latin",
+   "chars": 11,
+   "cer": 0.0
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 11,
+   "cer": 0.0
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 100,
+   "cer": 0.29
+  },
+  {
+   "image": "ghee.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 114,
+   "cer": 0.7193
+  },
+  {
+   "image": "gillete.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "gillete.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "gillete.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 136,
+   "cer": 0.2647
+  },
+  {
+   "image": "gillete.jpg",
+   "field": "importer",
+   "script": "latin",
+   "chars": 95,
+   "cer": 0.0421
+  },
+  {
+   "image": "gillete.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 56,
+   "cer": 0.2679
+  },
+  {
+   "image": "goodday.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 26,
+   "cer": 0.5769
+  },
+  {
+   "image": "goodday.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "goodday.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.25
+  },
+  {
+   "image": "goodday.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "goodday.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 25,
+   "cer": 0.4
+  },
+  {
+   "image": "goodday_butter.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.3333
+  },
+  {
+   "image": "goodday_butter.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.125
+  },
+  {
+   "image": "goodday_butter.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.25
+  },
+  {
+   "image": "goodday_butter.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.4286
+  },
+  {
+   "image": "goodday_butter.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 25,
+   "cer": 0.72
+  },
+  {
+   "image": "gulabjal.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "gulabjal.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "gulabjal.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "gulabjal.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 108,
+   "cer": 0.7407
+  },
+  {
+   "image": "gulabjal.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 78,
+   "cer": 0.6667
+  },
+  {
+   "image": "happyhappy.png",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "happyhappy.png",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 23,
+   "cer": 0.3913
+  },
+  {
+   "image": "happyhappy.png",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.1429
+  },
+  {
+   "image": "happyhappy.png",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.3333
+  },
+  {
+   "image": "honey.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 12,
+   "cer": 0.0
+  },
+  {
+   "image": "honey.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "honey.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.1429
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 17,
+   "cer": 0.0
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 24,
+   "cer": 0.5833
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 100,
+   "cer": 0.02
+  },
+  {
+   "image": "jimjam.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 102,
+   "cer": 0.2255
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.2857
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.2857
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 181,
+   "cer": 0.4972
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 80,
+   "cer": 0.625
+  },
+  {
+   "image": "lipbalm.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "liquid_detergent.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 24,
+   "cer": 0.3333
+  },
+  {
+   "image": "liquid_detergent.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.8333
+  },
+  {
+   "image": "liquid_detergent.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 140,
+   "cer": 0.7214
+  },
+  {
+   "image": "liquid_detergent.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 108,
+   "cer": 0.75
+  },
+  {
+   "image": "liquid_detergent.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.6154
+  },
+  {
+   "image": "matches.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 18,
+   "cer": 0.0556
+  },
+  {
+   "image": "matches.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 34,
+   "cer": 0.3529
+  },
+  {
+   "image": "matches.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 99,
+   "cer": 0.7273
+  },
+  {
+   "image": "matches.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 124,
+   "cer": 0.7581
+  },
+  {
+   "image": "mdhpavmasala.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.25
+  },
+  {
+   "image": "mdhpavmasala.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 6,
+   "cer": 0.8333
+  },
+  {
+   "image": "milksoap.jpg",
+   "field": "mfg_date",
+   "script": "latin",
+   "chars": 10,
+   "cer": 0.1
+  },
+  {
+   "image": "milksoap.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 10,
+   "cer": 0.1
+  },
+  {
+   "image": "namkeen.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 15,
+   "cer": 0.0
+  },
+  {
+   "image": "namkeen.webp",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "namkeen.webp",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "namkeen.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 138,
+   "cer": 0.0072
+  },
+  {
+   "image": "namkeen.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 114,
+   "cer": 0.1053
+  },
+  {
+   "image": "namkeen.webp",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "papad.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 15,
+   "cer": 0.5333
+  },
+  {
+   "image": "papad.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "papad.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.6
+  },
+  {
+   "image": "papad.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.7
+  },
+  {
+   "image": "papad.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 127,
+   "cer": 0.4567
+  },
+  {
+   "image": "papad.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 139,
+   "cer": 0.1367
+  },
+  {
+   "image": "parleg.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 14,
+   "cer": 0.0
+  },
+  {
+   "image": "parleg.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.1429
+  },
+  {
+   "image": "parleg.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "parleg.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 77,
+   "cer": 0.3896
+  },
+  {
+   "image": "parleg.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 84,
+   "cer": 0.5833
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 16,
+   "cer": 0.0
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 8,
+   "cer": 0.0
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 87,
+   "cer": 0.2644
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 125,
+   "cer": 0.176
+  },
+  {
+   "image": "pencilbox.webp",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "pickle.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 6,
+   "cer": 0.1667
+  },
+  {
+   "image": "pickle.jpg",
+   "field": "mfg_date",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.4286
+  },
+  {
+   "image": "pickle.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.5714
+  },
+  {
+   "image": "pickle.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 38,
+   "cer": 0.7105
+  },
+  {
+   "image": "pickle.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 28,
+   "cer": 0.0
+  },
+  {
+   "image": "rice.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 11,
+   "cer": 0.4545
+  },
+  {
+   "image": "rice.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.1667
+  },
+  {
+   "image": "rice.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 21,
+   "cer": 0.0
+  },
+  {
+   "image": "rocksalt.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 34,
+   "cer": 0.2647
+  },
+  {
+   "image": "rocksalt.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.6
+  },
+  {
+   "image": "rocksalt.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 10,
+   "cer": 0.7
+  },
+  {
+   "image": "rocksalt.jpg",
+   "field": "packer",
+   "script": "latin",
+   "chars": 114,
+   "cer": 0.2632
+  },
+  {
+   "image": "rocksalt.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 108,
+   "cer": 0.3889
+  },
+  {
+   "image": "santoor.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 19,
+   "cer": 0.0526
+  },
+  {
+   "image": "santoor.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.5
+  },
+  {
+   "image": "santoor.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.4286
+  },
+  {
+   "image": "santoor.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "santoor.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 27,
+   "cer": 0.0
+  },
+  {
+   "image": "santoor1.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 25,
+   "cer": 0.0
+  },
+  {
+   "image": "santoor1.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 141,
+   "cer": 0.5461
+  },
+  {
+   "image": "santoor1.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 125,
+   "cer": 0.752
+  },
+  {
+   "image": "santoor1.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.0
+  },
+  {
+   "image": "shampoo.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "shampoo.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 35,
+   "cer": 0.3714
+  },
+  {
+   "image": "shampoo.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 192,
+   "cer": 0.6094
+  },
+  {
+   "image": "shampoo2.webp",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "shampoo2.webp",
+   "field": "mfg_date",
+   "script": "latin",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "shampoo2.webp",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "shampoo2.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 160,
+   "cer": 0.4437
+  },
+  {
+   "image": "shampoo2.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 51,
+   "cer": 0.2353
+  },
+  {
+   "image": "skin.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.6667
+  },
+  {
+   "image": "skin.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.5714
+  },
+  {
+   "image": "skin.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 30,
+   "cer": 0.1667
+  },
+  {
+   "image": "skin.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 263,
+   "cer": 0.7605
+  },
+  {
+   "image": "skin.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 102,
+   "cer": 0.2059
+  },
+  {
+   "image": "skin.jpg",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 12,
+   "cer": 0.5833
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 29,
+   "cer": 0.2759
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "batch",
+   "script": "latin",
+   "chars": 9,
+   "cer": 0.0
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 181,
+   "cer": 0.4696
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "packer",
+   "script": "latin",
+   "chars": 105,
+   "cer": 0.6857
+  },
+  {
+   "image": "sugar.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 116,
+   "cer": 0.3103
+  },
+  {
+   "image": "surfexcel.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 14,
+   "cer": 0.5714
+  },
+  {
+   "image": "surfexcel.webp",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 8,
+   "cer": 0.625
+  },
+  {
+   "image": "surfexcel.webp",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 219,
+   "cer": 0.7671
+  },
+  {
+   "image": "surfexcel.webp",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 108,
+   "cer": 0.4074
+  },
+  {
+   "image": "surfexcel.webp",
+   "field": "country_of_origin",
+   "script": "latin",
+   "chars": 13,
+   "cer": 0.6154
+  },
+  {
+   "image": "udadpapad.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "udadpapad.jpg",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "udadpapad.jpg",
+   "field": "expiry_date",
+   "script": "other",
+   "chars": 10,
+   "cer": 0.0
+  },
+  {
+   "image": "udadpapad.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 127,
+   "cer": 0.3543
+  },
+  {
+   "image": "udadpapad.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 139,
+   "cer": 0.1295
+  },
+  {
+   "image": "venus_creme.webp",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 11,
+   "cer": 0.0
+  },
+  {
+   "image": "venus_creme.webp",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 19,
+   "cer": 0.0526
+  },
+  {
+   "image": "venus_creme.webp",
+   "field": "mfg_date",
+   "script": "other",
+   "chars": 7,
+   "cer": 0.0
+  },
+  {
+   "image": "venus_creme.webp",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 51,
+   "cer": 0.0
+  },
+  {
+   "image": "whisper.jpg",
+   "field": "generic_name",
+   "script": "latin",
+   "chars": 21,
+   "cer": 0.0476
+  },
+  {
+   "image": "whisper.jpg",
+   "field": "net_quantity",
+   "script": "latin",
+   "chars": 9,
+   "cer": 0.1111
+  },
+  {
+   "image": "whisper.jpg",
+   "field": "mrp",
+   "script": "other",
+   "chars": 6,
+   "cer": 0.0
+  },
+  {
+   "image": "whisper.jpg",
+   "field": "expiry_date",
+   "script": "latin",
+   "chars": 33,
+   "cer": 0.0
+  },
+  {
+   "image": "whisper.jpg",
+   "field": "manufacturer",
+   "script": "latin",
+   "chars": 287,
+   "cer": 0.669
+  },
+  {
+   "image": "whisper.jpg",
+   "field": "consumer_care",
+   "script": "latin",
+   "chars": 116,
+   "cer": 0.0776
+  }
+ ]
+}

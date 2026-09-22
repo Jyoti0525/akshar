@@ -4,64 +4,64 @@
  "declarations": [
   {
    "box": [
-    56,
-    77,
-    347,
-    48
+    62,
+    83,
+    336,
+    36
    ],
    "field": "mrp",
-   "field_confidence": 0.86,
+   "field_confidence": 0.88,
    "height_mm": null,
    "height_mm_tolerance": null,
-   "ocr_confidence": 0.98,
+   "ocr_confidence": 1.0,
    "scale_tier": null,
    "script": "latin",
    "text": "MRP Rs. 45.00"
   },
   {
    "box": [
-    55,
-    169,
-    259,
-    48
+    61,
+    175,
+    247,
+    35
    ],
    "field": "net_quantity",
-   "field_confidence": 0.87,
+   "field_confidence": 0.84,
    "height_mm": null,
    "height_mm_tolerance": null,
-   "ocr_confidence": 0.99,
+   "ocr_confidence": 0.96,
    "scale_tier": null,
    "script": "devanagari",
    "text": "NET WT 250 g"
   },
   {
    "box": [
-    55,
-    260,
-    196,
-    44
+    60,
+    265,
+    186,
+    33
    ],
    "field": "mfg_date",
-   "field_confidence": 0.85,
+   "field_confidence": 0.88,
    "height_mm": null,
    "height_mm_tolerance": null,
-   "ocr_confidence": 0.97,
+   "ocr_confidence": 1.0,
    "scale_tier": null,
    "script": "devanagari",
    "text": "MFG 03/2026"
   },
   {
    "box": [
-    56,
-    341,
-    283,
-    36
+    60,
+    344,
+    275,
+    28
    ],
    "field": "other",
    "field_confidence": 0.3,
    "height_mm": null,
    "height_mm_tolerance": null,
-   "ocr_confidence": 0.99,
+   "ocr_confidence": 1.0,
    "scale_tier": null,
    "script": "latin",
    "text": "Parle Products Pvt Ltd"
@@ -74,10 +74,12 @@
  "degradation_tier": "L2",
  "exit_path": "full",
  "quality": {
-  "blur_score": 0.8,
+  "blocking_faults": [],
+  "blur_score": 0.91,
   "exposure_score": 1.0,
   "faults": [],
   "glare_ratio": 0.0,
+  "subject_ratio": 0.38,
   "usable": true
  },
  "source": "photo"

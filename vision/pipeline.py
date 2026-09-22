@@ -471,8 +471,14 @@ def scan(
     # tier A measures that same shape for the scale. Section 8b's claim that
     # one detection yields "the scale *and* the homography" is only true if
     # they share a detection, which is why this does not live inside either.
+    #
+    # Every marker is kept, not only the one rectification needs. Our printed
+    # card is a 5x4 ChArUco board carrying ten of them, and each is convincing
+    # text to DBNet — so the nine that are not the rectification square still
+    # have to be excluded from the read. See `tier_a.marker_quads`.
     started = time.perf_counter()
-    marker = tier_a.marker_quad(image, dictionary=marker_dictionary)
+    markers = tier_a.marker_quads(image, dictionary=marker_dictionary)
+    marker = markers[0] if markers else None
     rectified = rectify(image, marker=marker, package_box=package_box)
     timings["rectify"] = (time.perf_counter() - started) * 1000.0
 
@@ -480,11 +486,21 @@ def scan(
     # into rectified space, because every rule that uses it compares it against
     # boxes measured there.
     pdp_polygon = None
+    markers_rectified: list[list[Point]] = []
     panels = detection.panels()
-    if panels and panels[0].polygon:
+    if (panels and panels[0].polygon) or markers:
         from vision.rectify.rectify import map_point
 
-        pdp_polygon = [map_point(rectified.homography, point) for point in panels[0].polygon]
+        if panels and panels[0].polygon:
+            pdp_polygon = [
+                map_point(rectified.homography, point) for point in panels[0].polygon
+            ]
+        # Through the same homography, for the same reason the PDP polygon is:
+        # the markers were found in raw space and every region they will be
+        # compared against is measured in rectified space.
+        markers_rectified = [
+            [map_point(rectified.homography, point) for point in quad] for quad in markers
+        ]
 
     started = time.perf_counter()
     scale = resolve_scale(
@@ -513,7 +529,12 @@ def scan(
         # Detection runs once here and its lines are reused if we escalate
         # below: it costs 705 ms on a 3000 px label, against 38 ms for a crop.
         lines, detect_ms, detect_version = roi.propose_lines(
-            rectified.image, mm_per_px=scale.mm_per_px
+            rectified.image,
+            mm_per_px=scale.mm_per_px,
+            # Every marker on the card, carried into rectified space so the
+            # detector's proposals can be compared against them. A ChArUco card
+            # reads as text to DBNet; see `roi.drop_regions_on`.
+            marker_quads=markers_rectified,
         )
         ocr_result = _read_and_escalate(
             rectified.image,

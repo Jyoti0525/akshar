@@ -27,6 +27,7 @@ what they are trusting.
 from __future__ import annotations
 
 import time
+from collections.abc import Sequence
 
 import cv2
 import numpy as np
@@ -41,8 +42,26 @@ from vision.ocr import script as script_mod
 from vision.ocr.lines import merge_into_lines
 from vision.types import Box, Image, OcrLine, OcrResult, PanelId, Point, TextRegion
 
-MAX_REGIONS = 64
+MAX_REGIONS = 96
 """How many proposed regions the first pass reads.
+
+**Raised from 64 when the detector started proposing more.** Tightening
+`detect_text.BINARY_THRESHOLD` stopped densely-set lines merging into one blob,
+which is what it was for — and a panel that used to arrive as 30 merged regions
+now arrives as 38 separate ones. The budget did not move with it, so it began
+binding on **22 of the 38 hand-labelled panels**, and a budget that binds is
+back to choosing which declaration to lose.
+
+Measured on `bench/declaration_blocks.py`:
+
+                 micro F1   Rule 6(1) recall   coverage
+        64         0.8960        0.8307         0.9219
+        96         0.8983        0.8360         0.9274
+       160         0.8983        0.8360         0.9274
+
+96 and 160 are the same answer, so the returns stop at 96 and there is no case
+for paying for 160. The cost is about 9% of median scan time.
+
 
 Section 4 assumes "four to eight crops", and this was 8 to make that a fact
 rather than an aspiration. The assumption behind the number was that
@@ -436,6 +455,7 @@ def read_regions(
                 panel_id=panel,
                 engine=f"ppocrv5-rec-{script}",
                 cap_height_px=cap.cap_height_px if cap else None,
+                cap_height_confidence=cap.confidence if cap else None,
                 numeral_box=numerals_of(result.text, boxes),
                 numeral_height_px=numeral_height,
                 contrast_ratio=None if band is None else band[0],
@@ -456,8 +476,102 @@ def read_regions(
     )
 
 
+MARKER_OVERLAP = 0.5
+"""How much of a proposed region must coincide with the reference card to drop it.
+
+Measured against the **smaller** of the two areas, not against the region's.
+Dividing by the region's area only catches a region sitting *inside* the card;
+the detector also produces the opposite -- one box drawn loosely around the
+whole card, larger than the card itself, whose overlap is a minority of its own
+area and all of the card's. That is the case that survived the first version of
+this filter and put a stray `E` back into a golden scene.
+
+Half rather than "its centre is inside": a region straddling the card's edge is
+part card and part background, and neither half is a declaration."""
+
+
+def drop_regions_on(
+    regions: list[TextRegion], quads: Sequence[Sequence[Point]] | None
+) -> list[TextRegion]:
+    """Discard proposals lying on the reference card. Never on the pack.
+
+    **A ChArUco card is, to a text detector, extremely convincing text.** It is
+    a grid of high-contrast black and white blocks at printed-text scale, which
+    is what DBNet is trained to fire on, and tightening the binarisation in
+    `detect_text` made it fire reliably: every golden scene gained a region over
+    the marker that recognition returned as the single character `E`.
+
+    That costs more than one junk line. It is counted in `regions_proposed`, so
+    it lowers the coverage ratio, and coverage drives the degradation tier --
+    clean synthetic labels were being reported to the officer as L3 *because*
+    the scale card was photographed successfully.
+
+    The card's corners are already known: `vision.pipeline` detects them once
+    for rectification and the scale, so this needs no new detection and no
+    heuristic about what a marker looks like. `quads` is empty whenever there is
+    no card, and then nothing is dropped.
+
+    **Every marker, not the largest one.** This took a single quad until the
+    card was printed, which was the right shape for a card carrying one marker
+    and silently wrong for the 5x4 ChArUco board `scripts/make_marker_card.py`
+    actually renders: ten markers go in, one is excluded, nine are read as
+    declarations. Measured on the first forty photographs taken through the
+    printed card, the cost was 5 to 82 junk regions a frame against a budget of
+    96 -- on the 6 g tube, 82 of 108 proposals were the card, so the region
+    budget was almost entirely spent before the pack was reached. The board's
+    convex hull was measured too and dropped nothing further: the white
+    chessboard cells between the markers propose no regions of their own, so
+    excluding the markers themselves is both sufficient and the narrower claim.
+
+    Exact intersection area via `cv2.intersectConvexConvex` -- a region rect and
+    a marker quad are both convex, so there is no reason to approximate with
+    bounding boxes and then be wrong on a card photographed at an angle.
+    """
+    if not quads:
+        return regions
+
+    cards: list[tuple[np.ndarray, float]] = []
+    for quad in quads:
+        if quad is None or len(quad) < 3:
+            continue
+        card = np.array([[float(x), float(y)] for x, y in quad], dtype=np.float32)
+        card_area = float(cv2.contourArea(card))
+        if card_area > 0:
+            cards.append((card, card_area))
+    if not cards:
+        return regions
+
+    kept: list[TextRegion] = []
+    for region in regions:
+        box = region.box
+        area = float(box.w) * float(box.h)
+        if area <= 0:
+            continue
+        rect = np.array(
+            [
+                [box.x, box.y],
+                [box.x + box.w, box.y],
+                [box.x + box.w, box.y + box.h],
+                [box.x, box.y + box.h],
+            ],
+            dtype=np.float32,
+        )
+        on_card = False
+        for card, card_area in cards:
+            overlap, _shape = cv2.intersectConvexConvex(rect, card)
+            if float(overlap) / min(area, card_area) >= MARKER_OVERLAP:
+                on_card = True
+                break
+        if not on_card:
+            kept.append(region)
+    return kept
+
+
 def propose_lines(
-    rectified: Image, *, mm_per_px: float | None = None
+    rectified: Image,
+    *,
+    mm_per_px: float | None = None,
+    marker_quads: Sequence[Sequence[Point]] | None = None,
 ) -> tuple[list[TextRegion], float, str]:
     """Detect text and assemble it into printed lines. Returns (lines, ms, version).
 
@@ -470,6 +584,10 @@ def propose_lines(
     proposals, detect_ms, detect_version = detect_text.propose_regions(
         rectified, mm_per_px=mm_per_px
     )
+    # Before anything is merged or counted: the reference card is not text, and
+    # a region over it would otherwise be merged into a neighbouring line and
+    # counted against coverage. See `drop_regions_on`.
+    proposals = drop_regions_on(proposals, marker_quads)
     # DBNet proposes words; the declarations are lines. Joining them before the
     # crop budget is applied is what makes eight crops enough -- and it is the
     # difference between handing the classifier `'MRP Rs.'` and `'10'`, which

@@ -36,7 +36,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from scripts.fetch_models import ARTIFACTS  # noqa: E402
+from scripts.fetch_models import ARTIFACTS, OPTIONAL_GROUPS  # noqa: E402
 
 ARTIFACT_SUFFIXES = {".onnx", ".txt", ".npz", ".json"}
 
@@ -100,17 +100,52 @@ def test_every_file_the_bundle_fetches_is_opened_by_something():
     Worse than dead weight -- it reads as evidence that the capability is
     present. Somebody checks `data/models/`, sees the file, and concludes the
     feature works.
+
+    **`OPTIONAL_GROUPS` is exempt, and the exemption is the point rather than a
+    hole in it.** `_requested_filenames` scans the loaders -- the shipped
+    product -- and an artifact in an optional group is declared precisely to
+    say *this is not part of the shipped bundle*. `fetch_models.py` does not
+    download it, `--check` does not count it missing, and no loader names it.
+    The two heads in the `bench` group exist so that section 15b's "benchmark
+    whether a second English-only head earns its bundle size" can be re-run by
+    anyone rather than believed on the strength of a number in a docstring;
+    `bench/head_compare.py` is what opens them. Wiring them into a loader is
+    the one thing that must *not* happen — the benchmark's answer was no.
     """
     requested = set(_requested_filenames())
     orphans = sorted(
         a.name
         for a in ARTIFACTS
-        if a.name not in requested and not set(a.produces) & requested
+        if a.group not in OPTIONAL_GROUPS
+        and a.name not in requested
+        and not set(a.produces) & requested
     )
 
     assert not orphans, (
         "these are downloaded but no loader names them; either wire them up or "
         f"drop them from the bundle: {orphans}"
+    )
+
+
+def test_optional_artifacts_are_not_in_the_shipped_bundle():
+    """An optional artifact must stay out of the product, not merely out of a list.
+
+    The exemption above is only honest if nothing in `vision/` loads these. A
+    benchmark head that quietly became a runtime dependency would be fetched by
+    nobody and missing on every machine, and the failure would look like bad
+    recognition rather than an absent file.
+    """
+    requested = set(_requested_filenames())
+    smuggled = sorted(
+        a.name
+        for a in ARTIFACTS
+        if a.group in OPTIONAL_GROUPS
+        and (a.name in requested or set(a.produces) & requested)
+    )
+
+    assert not smuggled, (
+        "these are declared optional but a loader names them, so a clean "
+        f"machine would run without them and not say so: {smuggled}"
     )
 
 

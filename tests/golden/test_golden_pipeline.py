@@ -159,6 +159,12 @@ def snapshot_of(outcome) -> dict:
         body["quality"] = {
             "usable": outcome.quality.usable,
             "faults": sorted(outcome.quality.faults),
+            # Pinned separately from `faults`, because they are now different
+            # questions: a fault says a measurement is past its line, a blocking
+            # fault says the frame is refused. A change that quietly moved one
+            # into the other would be invisible if only `usable` were recorded.
+            "blocking_faults": sorted(outcome.quality.blocking_faults),
+            "subject_ratio": _round(outcome.quality.subject_ratio, 2),
             # One decimal: the gate's own thresholds are far coarser than this,
             # so a change big enough to matter is visible and a change smaller
             # than this cannot flip a decision.

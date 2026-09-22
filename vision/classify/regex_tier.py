@@ -211,7 +211,18 @@ _LOCAL_PATTERNS: dict[FieldName, tuple[str, ...]] = {
         # had worked: the single `[a-z]` consumed one letter and the trailing
         # `\b` landed *inside* the country name. `[a-z]+` takes the whole word,
         # so the boundary falls where a boundary exists.
-        r"(?i)\b(country\s*of\s*origin|made\s*in\s*[a-z]+|product\s*of|origin)\b",
+        #
+        # `product\s*of` was left behind by that fix and had the identical
+        # fault: `PRODUCT OF INDIA` on `agarbati.webp` reads as
+        # `'PRODUCTOFINDIA'`, `\s*` matches the vanished spaces happily, and the
+        # closing `\b` then has to fall between `F` and `I` — two word
+        # characters, so no boundary and no match. It now takes its country the
+        # same way `made in` does.
+        #
+        # `origin` keeps its boundary: it stands alone rather than introducing a
+        # value, and without `\b` it would match inside `Original`, which is on
+        # a great many wrappers.
+        r"(?i)\b(country\s*of\s*origin|made\s*in\s*[a-z]+|product\s*of\s*[a-z]+|origin)\b",
         r"(मूल\s*देश|निर्मित\s*में)",
     ),
     "mfg_date": (
@@ -645,8 +656,54 @@ def _non_statutory(text: str) -> FieldGuess | None:
     return None
 
 
+_RUN_TOGETHER = re.compile(r"(?<=[a-z])(?=[A-Z])")
+"""Where a space was printed, not read, and a change of case gives it away.
+
+CTC recognition drops the space between two words far more often than it
+invents one, and a capital letter immediately after a lower-case one is the one
+place the loss leaves a trace that is safe to act on. On the declaration panels
+this recovers `'ExpiryDate : DEC-26'` — a whole expiry declaration that reached
+`raw_text` and matched nothing, because `expiry\\s*date` needs a boundary
+between the two words and there was none.
+
+**A digit before the capital is deliberately excluded, and that costs a real
+case.** `'MRP: 250.00MFD:10/2024'` carries a manufacturing date that is lost
+for exactly the same reason, and `0` -> `M` would recover it. It is not allowed
+to, because the same transition appears in `24MRP07` — section 14's named hard
+negative, a batch code containing the literal string MRP — which respacing
+turns into `24 MRP 07`, a price. `mrp_locate` carries a deliberate
+`(?<![A-Za-z0-9])` guard against precisely that, and
+`test_the_boundary_still_blocks_on_latin_and_digits` asserts it holds for
+`1MRP 45`. A repair that defeats a guard written to stop a confident wrong
+price is not worth one manufacturing date.
+
+The guards below all see the text **as read** for the same reason; this is a
+second opinion about a line, never a rewrite of one.
+"""
+
+
+def _respace(text: str) -> str:
+    """The line as it would read if the recogniser had not dropped its spaces."""
+    return _RUN_TOGETHER.sub(" ", text)
+
+
 def classify_text(text: str, *, script: Script = "latin") -> FieldGuess:
-    """Assign a field to one line of text. Never raises; falls back to `other`."""
+    """Assign a field to one line of text. Never raises; falls back to `other`.
+
+    **A line that resolves to `other` gets one second look**, at a copy with the
+    run-together words separated -- see `_RUN_TOGETHER`. The retry is a fallback
+    rather than a preprocessing step, and the asymmetry is the safety property:
+
+      * every hard negative and every guard is evaluated on the text **as read**,
+        so no amount of respacing can talk `24MRP07` into being a price;
+      * a line the patterns already resolved is never reconsidered, so respacing
+        cannot move a declaration that was correctly identified;
+      * only a line that would otherwise have been discarded as `other` can
+        change, and the worst case is that it stays `other`.
+
+    The result is reported at a slightly lower confidence than a direct match,
+    because it rests on an inference about a space nobody saw.
+    """
     if not text or not text.strip():
         return FieldGuess("other", 0.0, "empty")
 
@@ -702,6 +759,20 @@ def classify_text(text: str, *, script: Script = "latin") -> FieldGuess:
             0.88,
             f"matched {field} locate pattern on {matched[:40]!r}",
         )
+
+    # Nothing matched the line as read. Before giving it to the model tier, ask
+    # once whether it matches with its dropped spaces restored -- see
+    # `_RUN_TOGETHER` for why this is safe and why it is last.
+    respaced = _respace(text)
+    if respaced != text:
+        second = classify_text(respaced, script=script)
+        if second.field != "other":
+            return FieldGuess(
+                second.field,
+                # Below a direct match: this rests on an inferred space.
+                0.80,
+                f"{second.reason} (after restoring a dropped space)",
+            )
 
     return FieldGuess(
         "other",

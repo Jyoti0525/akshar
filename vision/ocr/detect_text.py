@@ -97,17 +97,69 @@ detector input to 512 px (line 2021). So this ceiling is a latency decision and
 not a recall one: above it we would rather report a declaration as unread than
 miss the scan window entirely."""
 
-BINARY_THRESHOLD = 0.2
+BINARY_THRESHOLD = 0.85
 BOX_THRESHOLD = 0.45
-UNCLIP_RATIO = 1.4
-"""DBNet post-processing, taken from the values PP-OCRv6 ships beside itself.
+UNCLIP_RATIO = 1.1
+"""DBNet post-processing. **Measured against the corpus, not inherited.**
 
-`data/models/ppocrv6_small_det.yml` declares `thresh: 0.2, box_thresh: 0.45,
-unclip_ratio: 1.4`. These had been 0.3, 0.6 and 1.6 -- PP-OCRv4's defaults, and
-a reasonable guess before the model was in hand. A threshold set too high does
-not error and does not look like a bug: it silently drops the faintest regions
-on the page, which on a retail pack are exactly the declarations this project
-exists to measure."""
+`data/models/ppocrv6_small_det.yml` ships `thresh: 0.2, box_thresh: 0.45,
+unclip_ratio: 1.4`, and those were used here on the reasoning that a threshold
+set too high silently drops the faintest regions on the page. That reasoning is
+sound and it is not the failure this corpus actually has.
+
+**What the shipped values were doing.** DBNet emits a per-pixel probability of
+"this is inside a text line". `thresh` decides which pixels form the blobs that
+become contours, and `unclip_ratio` decides how far each contour is then pushed
+back out. At 0.2 the blobs are fat: on densely-set small print, the blob of one
+line touches the blob of the line above it, the two become **one contour**, and
+1.4 then expands the merged result further. The crop handed to recognition
+holds three clipped lines stacked on top of each other, and a CTC line
+recogniser returns **nothing at all** for it -- not low confidence, nothing. On
+`santoor1.jpg`, 18 of 35 regions read as the empty string this way, every one of
+them a perfectly legible block of address text.
+
+The pair that fixes it is the opposite of the intuition: take only the *core* of
+each line (0.85), where adjacent lines do not touch, and expand it back by a
+little less (1.1) than before.
+
+**Character error rate alone would have picked the wrong pair.** Weighted CER is
+dominated by the longest strings on a pack -- a 280-character manufacturer
+address outweighs an MRP forty to one -- so a setting that shaves a character
+off every short value while reading addresses better still *improves* it. This
+was very nearly shipped at 0.9/0.5, the grid's weighted-CER minimum, which is
+also the grid's **worst MRP reading**: it dropped MRP exact-match to 14/20 and
+MRP value accuracy on the real bench from 0.58 to 0.39. Getting a printed price
+wrong is the failure this project cannot have.
+
+So the choice was made on `bench/declaration_blocks.py`, which scores what a
+rule actually consumes, over all 38 hand-labelled panels:
+
+                        micro F1   precision   recall   MRP F1   MRP value
+      0.2 / 1.4  (was)    0.8426      0.9694   0.7451     0.85       0.58
+      0.9 / 0.5           0.8670      0.9573   0.7922     0.91       0.39
+      0.9 / 0.9           0.8837      0.9587   0.8196     0.91       0.58
+      0.85 / 1.1 (is)     0.8913      0.9766   0.8196     0.93       0.66
+
+0.85/1.1 beats the shipped pair on **every** column, precision included -- it is
+not a recall-for-precision trade, which is the trade a compliance tool must not
+make. Rule 6(1) mandatory recall goes 0.7619 -> 0.8307, batch precision 0.95 ->
+1.00, and empty crops across the corpus fall from 85 to 64.
+
+It also sits mid-plateau rather than at an optimum: across the whole
+0.80-0.95 x 0.80-1.10 box, weighted CER varies by 0.006 and value CER by 0.008.
+Nothing here balances on a knife edge, which is the property worth having when
+two numbers are chosen against thirty-eight photographs.
+
+Both ends of the unclip range are held by physics rather than by the fit: below
+0.4 the box closes inside the glyphs and clips the first and last character of
+every line -- which is exactly what cost 0.9/0.5 its MRPs, and what still shows
+on the 8 px synthetic `small_print` golden -- and above 1.4 it re-merges the
+neighbours. The measured curve turns at both ends, which is what tells you the
+optimum is real rather than the edge of a search.
+
+`BOX_THRESHOLD` is unchanged. It scores the mean probability *inside* a contour,
+and tightening the binarisation raises that mean for every surviving region, so
+it now rejects strictly less than it did."""
 MIN_REGION_SIDE = 3
 
 # PaddleOCR's ImageNet normalisation. Wrong constants here do not error; they
@@ -184,13 +236,24 @@ def _preprocess(image: Image, side: int) -> tuple[np.ndarray, float, float]:
     return np.ascontiguousarray(tensor), w / float(new_w), h / float(new_h)
 
 
-def _unclip(rect_points: np.ndarray, ratio: float = UNCLIP_RATIO) -> np.ndarray:
+def _unclip(rect_points: np.ndarray, ratio: float | None = None) -> np.ndarray:
     """Expand a shrunk DBNet box back to the glyph extent.
 
     Vatti's offset distance for a polygon of area A and perimeter L expanded by
     `ratio` is `A * ratio / L`. Applied to a rotated rectangle this is an exact
     outward offset of every edge.
+
+    **`ratio` defaults to `None` and is resolved here, not in the signature.**
+    A default of `UNCLIP_RATIO` is bound once, when this module is imported, so
+    assigning to `detect_text.UNCLIP_RATIO` afterwards changed nothing and did
+    so silently. `BINARY_THRESHOLD` and `BOX_THRESHOLD` are both read inside
+    `_regions_from_map`, which makes them tunable at runtime; this one looked
+    identical and was not, and a threshold sweep over it returned byte-identical
+    results for every value — the most convincing possible evidence that a
+    parameter does not matter, produced entirely by the way it was declared.
     """
+    if ratio is None:
+        ratio = UNCLIP_RATIO
     (cx, cy), (w, h), angle = cv2.minAreaRect(rect_points.astype(np.float32))
     area, perimeter = w * h, 2.0 * (w + h)
     if perimeter <= 0:  # pragma: no cover - degenerate contour

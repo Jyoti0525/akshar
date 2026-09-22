@@ -1,29 +1,29 @@
 {
- "coverage": 0.8,
+ "coverage": 0.44,
  "declaration_count": 4,
  "declarations": [
   {
    "box": [
-    439,
-    371,
-    93,
-    19
+    442,
+    373,
+    88,
+    14
    ],
    "field": "mrp",
-   "field_confidence": 0.81,
+   "field_confidence": 0.79,
    "height_mm": 2.49,
    "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.92,
+   "ocr_confidence": 0.9,
    "scale_tier": "A",
    "script": "latin",
-   "text": "MRP Rs. 45.00"
+   "text": "MRP Re. 46.00"
   },
   {
    "box": [
-    439,
-    459,
-    90,
-    23
+    442,
+    461,
+    86,
+    19
    ],
    "field": "net_quantity",
    "field_confidence": 0.82,
@@ -32,51 +32,54 @@
    "ocr_confidence": 0.93,
    "scale_tier": "A",
    "script": "latin",
-   "text": "NET WT 260 g"
+   "text": "NET WT 280 §"
   },
   {
    "box": [
-    439,
-    551,
-    88,
-    20
+    441,
+    552,
+    84,
+    17
    ],
    "field": "other",
-   "field_confidence": 0.25,
+   "field_confidence": 0.28,
    "height_mm": 3.0,
    "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.83,
+   "ocr_confidence": 0.94,
    "scale_tier": "A",
    "script": "latin",
-   "text": "lFe 03/2026"
+   "text": "MFC 03/2026"
   },
   {
    "box": [
-    439,
-    632,
-    139,
-    19
+    442,
+    634,
+    134,
+    14
    ],
    "field": "other",
-   "field_confidence": 0.26,
+   "field_confidence": 0.27,
    "height_mm": 2.49,
    "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.87,
+   "ocr_confidence": 0.89,
    "scale_tier": "A",
    "script": "latin",
-   "text": "Parie Products Pit Lid"
+   "text": "Parie Products Pvt Lid"
   }
  ],
  "degradation_reasons": [
+  "coverage 44% of proposed text regions",
   "detector weights unavailable; geometry-only region proposal"
  ],
- "degradation_tier": "L0",
+ "degradation_tier": "L3",
  "exit_path": "full",
  "quality": {
-  "blur_score": 0.69,
-  "exposure_score": 0.98,
+  "blocking_faults": [],
+  "blur_score": 0.84,
+  "exposure_score": 0.94,
   "faults": [],
-  "glare_ratio": 0.02,
+  "glare_ratio": 0.04,
+  "subject_ratio": 0.41,
   "usable": true
  },
  "source": "photo"

@@ -82,8 +82,47 @@ class CaptureQuality(BaseModel):
     one of the two sends them back for a second attempt that fails the same
     way."""
 
+    blocking_faults: tuple[QualityFault, ...] = ()
+    """The subset of `faults` bad enough to refuse the frame. `usable` is
+    exactly `not blocking_faults`.
+
+    **Failing a check and being unusable stopped being the same thing.** The
+    gate used to set `usable = not faults`, so one measurement a hair past its
+    line rejected the photograph outright, and every threshold in B1 is
+    provisional by the module's own admission. Measured on the 38 hand-labelled
+    declaration panels, that vetoed 21 frames the pipeline went on to read
+    correctly when the gate was bypassed — an officer sent back for a retake on
+    a photograph that was already good enough.
+
+    A fault is blocking when it is past its threshold by `severe_factor`, not
+    merely past it. The marginal ones stay in `faults` so the screen can still
+    say "there is some glare on this label" without refusing to scan it, and
+    the pipeline's own degradation tiers carry the frame from there, which is
+    what they exist for."""
+
+    subject_ratio: float = Field(default=1.0, ge=0.0, le=1.0)
+    """Fraction of the frame the measurements above were actually taken over.
+
+    Glare, exposure and sharpness are now measured inside the pack rather than
+    across the whole photograph. A product shot on a white backdrop is mostly
+    white backdrop, and the backdrop is bright, colourless and featureless —
+    which is character for character the definition of specular glare this gate
+    uses. One agarbati frame measured **81.7% glare across the frame and 0.8%
+    inside the pack**. Same photograph, same threshold, opposite verdict.
+
+    1.0 means no subject could be isolated and the whole frame was used, which
+    is the honest fallback rather than a guess at where the pack is."""
+
     reason: str | None = None
-    """One sentence, for the officer. None when `usable`."""
+    """One sentence, for the officer.
+
+    The worst *blocking* fault when the frame is refused, so "there is glare on
+    this label" is never the headline on a frame that was actually refused for
+    blur. On a frame that passed with a marginal fault it carries that fault's
+    advice instead — useful the next time the officer photographs a pack under
+    the same light, and **not** an error: `usable` is the field that says
+    whether the frame was refused. It is `None` only when nothing at all was
+    past its threshold."""
 
     elapsed_ms: float = 0.0
     """Section 4 budgets B1 at under 15 ms. Measured, not assumed — a gate that

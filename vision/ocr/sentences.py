@@ -355,8 +355,11 @@ def unstitch_line(line: OcrLine) -> list[OcrLine]:
             script=script_of_text(piece),
             char_boxes=list(line.char_boxes[start:end]) if aligned else [],
             # One printed line, one baseline: the cap height the parent
-            # measured is each piece's own.
+            # measured is each piece's own -- and so is how well the parent's
+            # ink agreed on that baseline, which is what the band is widened
+            # by. Splitting a line does not make its measurement surer.
             cap_height_px=line.cap_height_px,
+            cap_height_confidence=line.cap_height_confidence,
             numeral_box=line.numeral_box if index == digits else None,
             numeral_height_px=line.numeral_height_px if index == digits else None,
         )

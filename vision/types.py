@@ -350,6 +350,24 @@ class OcrLine:
     cap_height_px: float | None = None
     """Top of a capital to the baseline, descenders excluded. NOT `box.h`."""
 
+    cap_height_confidence: float | None = None
+    """How much of the crop's ink agreed on the baseline `cap_height_px` was
+    measured from, 0..1. Carried because `CapHeightResult.confidence` says what
+    to do with it and nothing was doing it:
+
+        "Low confidence means a multi-line or badly segmented crop, and the
+         caller should widen tolerance rather than assert a height."
+
+    It was computed on every crop and dropped on the floor at `roi.py`, so a
+    height measured across two printed lines claimed exactly the same precision
+    as one measured off a clean single line. `vision.measure.to_mm` now scales
+    the glyph term by its reciprocal, which is the widening that sentence asks
+    for. Measured over 787 crops of the 38 development panels: median 0.90, 41%
+    at exactly 1.0, 13% below 0.5 — a real signal rather than a constant, and
+    the low tail is the multi-line crops it was meant to catch.
+
+    `None` where no cap height was measured, and then nothing is widened."""
+
     numeral_box: Box | None = None
     """Sub-box over the digits. Its *position* feeds Rule 8(1) clear space; its
     height is not a measurement -- see `numeral_height_px`."""

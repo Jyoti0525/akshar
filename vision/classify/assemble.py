@@ -109,8 +109,18 @@ def _declaration_from_line(
         # quantity the rules mean.
         measurable_px = height_px
 
+    # The crop's own agreement travels with the measurement. A height taken
+    # across a two-line crop is not a precise number about one line, and
+    # `to_mm` widens the band rather than letting it claim otherwise.
     height_mm, tolerance = (
-        to_mm(measurable_px, scale, rectified=rectified) if measurable_px is not None else (None, None)
+        to_mm(
+            measurable_px,
+            scale,
+            rectified=rectified,
+            segmentation_confidence=line.cap_height_confidence,
+        )
+        if measurable_px is not None
+        else (None, None)
     )
 
     return Declaration(
@@ -195,6 +205,7 @@ def _joined_line(label: OcrLine, value: OcrLine) -> OcrLine:
         panel_id=value.panel_id,
         engine=value.engine,
         cap_height_px=value.cap_height_px,
+        cap_height_confidence=value.cap_height_confidence,
         numeral_box=value.numeral_box,
         numeral_height_px=value.numeral_height_px,
         contrast_ratio=value.contrast_ratio,

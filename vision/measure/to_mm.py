@@ -42,18 +42,40 @@ _UNRECTIFIED_SIGMA_MULTIPLIER = 2.0
 top of the edge uncertainty."""
 
 
+MIN_SEGMENTATION_CONFIDENCE = 0.2
+"""Floor on the divisor below, so a pathological crop widens the tolerance by
+five rather than by infinity. A crop this badly segmented should be producing
+no height at all; the floor exists so that an arithmetic edge case cannot turn
+a measurement into `inf` and a verdict into nonsense."""
+
+
 def to_mm(
     height_px: float | None,
     scale: ScaleEstimate,
     *,
     rectified: bool = True,
     glyph_sigma_px: float = GLYPH_SIGMA_PX,
+    segmentation_confidence: float | None = None,
 ) -> tuple[float | None, float | None]:
     """Convert a pixel height to millimetres. Returns (height_mm, tolerance_mm).
 
     Returns `(None, None)` at scale tier C — the honest answer, which makes the
     three `min_height_mm` rules return NO_DATA while the other twenty-eight
     carry on. Never substitutes a default scale.
+
+    **`segmentation_confidence` is how well the crop agreed with itself**, from
+    `CapHeightResult.confidence`: the share of the ink that shared the baseline
+    the cap height was measured from. `GLYPH_SIGMA_PX` models a clean single
+    line, where the only question is where the edge of a glyph falls to within
+    half a pixel. It does not model the case that actually goes wrong — a crop
+    holding two printed lines, or a caption and a value at different sizes,
+    where the measurement is not imprecise but measuring the wrong thing.
+
+    The reciprocal is the widening `CapHeightResult.confidence` was documented
+    to want, and it is a ratio rather than a picked constant: a crop where half
+    the ink agreed carries twice the uncertainty of one where all of it did,
+    and a crop where everything agreed is unchanged. `None` leaves the
+    behaviour exactly as it was.
     """
     if height_px is None or height_px <= 0 or scale.mm_per_px is None:
         return None, None
@@ -63,6 +85,8 @@ def to_mm(
 
     sigma_scale = scale.tolerance if scale.tolerance is not None else mm_per_px * 0.05
     sigma_px = glyph_sigma_px * (1.0 if rectified else _UNRECTIFIED_SIGMA_MULTIPLIER)
+    if segmentation_confidence is not None:
+        sigma_px /= max(min(segmentation_confidence, 1.0), MIN_SEGMENTATION_CONFIDENCE)
 
     tolerance = math.sqrt((height_px * sigma_scale) ** 2 + (mm_per_px * sigma_px) ** 2)
     return height_mm, tolerance

@@ -155,6 +155,73 @@ ARTIFACTS: tuple[Artifact, ...] = (
             "head — see vision/ocr/recognise.MODEL_FILENAMES."
         ),
     ),
+    # -- not shipped: the two heads section 15b's benchmark had to compare ----
+    #
+    # Section 15b left one question open -- *"benchmark whether a second
+    # English-only head earns its bundle size; do not assume it"* -- and
+    # `bench/head_compare.py` answers it. The answer is **no**, and these entries
+    # exist so that anyone can re-run the comparison and check that for
+    # themselves rather than taking the recorded number on trust.
+    #
+    # They are in their own group so `fetch_models.py` with no arguments does
+    # not pull 16 MB nobody serves: `--only bench` fetches them.
+    Artifact(
+        name="ppocrv5_rec_en.onnx",
+        group="bench",
+        approx_mb=7.8,
+        purpose="Section 15b benchmark only — English-only recognition head",
+        url="https://huggingface.co/PaddlePaddle/en_PP-OCRv5_mobile_rec_onnx/resolve/main/inference.onnx",
+        sha256="b5f833dfc5d0eb71da397b4efa06ebeee9b431b690a47d6af40d77d8eabc557f",
+        licence="Apache-2.0 (PaddlePaddle)",
+        note=(
+            "NOT SHIPPED. Same v5 mobile architecture as the Devanagari head and "
+            "within 64 KB of its size, so the comparison is between character "
+            "tables and training sets rather than model families. Measured over "
+            "1290 crops from the 38 hand-labelled panels, one head on every crop "
+            "with no script routing: weighted CER 0.3060 against the Devanagari "
+            "head's 0.2645 — and 0.3128 against 0.2708 on **Latin print alone**, "
+            "which is the comparison the second head existed to win."
+        ),
+    ),
+    Artifact(
+        name="ppocrv5_rec_en.yml",
+        group="bench",
+        approx_mb=0.004,
+        purpose="Character table for the English benchmark head",
+        url="https://huggingface.co/PaddlePaddle/en_PP-OCRv5_mobile_rec_onnx/resolve/main/inference.yml",
+        sha256="27e91d0582f40168aa218303c76e184bc78fa7a5d105aad0cfbad8458b441067",
+        licence="Apache-2.0 (PaddlePaddle)",
+        produces=("en_dict.txt",),
+        note="436 entries, 94 of them ASCII — the same 94 the Devanagari head "
+        "carries. No Devanagari at all, which is why this head reads Hindi "
+        "print at CER 0.89 rather than failing loudly.",
+    ),
+    Artifact(
+        name="ppocrv5_rec_latin.onnx",
+        group="bench",
+        approx_mb=8.0,
+        purpose="Section 15b benchmark only — Latin-family recognition head",
+        url="https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_onnx/resolve/main/inference.onnx",
+        sha256="7888113072263cb471b93f66dd5e2ad70548dc526fa1ace760d0d973dd121498",
+        licence="Apache-2.0 (PaddlePaddle)",
+        note=(
+            "NOT SHIPPED. The other way of reading 'a dedicated Latin head': the "
+            "whole Latin-script family rather than English alone. Weighted CER "
+            "0.3044, Latin-only 0.3114 — indistinguishable from the English head "
+            "and behind the shipped one on both."
+        ),
+    ),
+    Artifact(
+        name="ppocrv5_rec_latin.yml",
+        group="bench",
+        approx_mb=0.007,
+        purpose="Character table for the Latin benchmark head",
+        url="https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_onnx/resolve/main/inference.yml",
+        sha256="0bbe984570f597af3638e50bdf2e8276f3ab26a61966096538b3b0d1849f5c84",
+        licence="Apache-2.0 (PaddlePaddle)",
+        produces=("latin_dict.txt",),
+        note="836 entries covering Latin-script diacritics. Also no Devanagari.",
+    ),
     Artifact(
         name="mobilenetv3_small_embed.onnx",
         group="identity",
@@ -209,6 +276,14 @@ ARTIFACTS: tuple[Artifact, ...] = (
 )
 
 GROUPS = tuple(dict.fromkeys(artifact.group for artifact in ARTIFACTS))
+
+OPTIONAL_GROUPS = frozenset({"bench"})
+"""Groups the bare `fetch_models.py` skips, and `--check` does not call missing.
+
+Nothing in `vision/` loads these. They exist so a recorded benchmark result can
+be reproduced rather than believed, and pulling 16 MB on every fresh checkout to
+support a comparison that was already decided would be a poor trade. Fetch them
+with `--only bench` when you want to re-run `bench/head_compare.py`."""
 
 
 def digest_of(path: Path, *, chunk: int = 1 << 20) -> str:
@@ -290,15 +365,21 @@ def report() -> int:
     missing: list[Artifact] = []
     total_mb = 0.0
     for group in GROUPS:
-        print(f"  [{group}]")
+        optional = group in OPTIONAL_GROUPS
+        print(f"  [{group}]" + ("  (optional; --only bench)" if optional else ""))
         for artifact in (a for a in ARTIFACTS if a.group == group):
             if artifact.path.exists():
                 size = artifact.path.stat().st_size / 1e6
                 total_mb += size
                 print(f"    present  {artifact.name:42s} {size:6.1f} MB")
             else:
-                missing.append(artifact)
-                print(f"    MISSING  {artifact.name:42s} {artifact.approx_mb:6.1f} MB (approx)")
+                # An absent optional artifact is not a missing one: it is a
+                # benchmark input, and `report` exits non-zero on missing so
+                # that CI can gate on the models the product needs.
+                if not optional:
+                    missing.append(artifact)
+                label = "absent  " if optional else "MISSING "
+                print(f"    {label} {artifact.name:42s} {artifact.approx_mb:6.1f} MB (approx)")
             for produced in artifact.produces:
                 state = "present " if (MODELS_DIR / produced).exists() else "MISSING "
                 print(f"    {state} {produced:42s}        (derived)")
@@ -326,7 +407,10 @@ def main(argv: list[str] | None = None) -> int:
         return report()
 
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
-    selected = [a for a in ARTIFACTS if not args.only or a.group == args.only]
+    if args.only:
+        selected = [a for a in ARTIFACTS if a.group == args.only]
+    else:
+        selected = [a for a in ARTIFACTS if a.group not in OPTIONAL_GROUPS]
 
     statuses = [fetch(artifact, force=args.force) for artifact in selected]
     for status in statuses:

@@ -357,6 +357,36 @@ def marker_quad(
     return markers[0].corners if markers else None
 
 
+def marker_quads(
+    image: Image,
+    *,
+    dictionary: str = DEFAULT_DICTIONARY,
+    marker_ids: frozenset[int] | None = None,
+) -> list[tuple[Point, Point, Point, Point]]:
+    """**Every** marker's corners in raw space, largest first. Empty if none.
+
+    `marker_quad` above answers "which square do I rectify against", and one
+    marker is the right answer to that. This answers a different question —
+    "where in this photograph is there printed matter that is not the package"
+    — and there the count is whatever the card carries.
+
+    Our own card is a 5x4 ChArUco board carrying **ten** markers, which is the
+    entire reason this exists. A text detector fires on all ten; `roi` was being
+    handed one of them to exclude and counting the other nine as declarations.
+    On `40_ruler_images/moov_6g/tilt.jpg` that was 82 of 108 proposed regions
+    against a budget of 96 — the reference card consuming almost the whole read
+    while the 6 g tube it was there to measure went unread.
+
+    Ordering matches `detect_markers`, so `marker_quads(...)[0]` and
+    `marker_quad(...)` are the same square and rectification is unaffected by
+    which of the two a caller reaches for.
+    """
+    return [
+        fit.corners
+        for fit in detect_markers(image, dictionary=dictionary, marker_ids=marker_ids)
+    ]
+
+
 __all__ = [
     "DEFAULT_DICTIONARY",
     "MARKER_EDGE_MM",
@@ -364,4 +394,5 @@ __all__ = [
     "detect_markers",
     "estimate",
     "marker_quad",
+    "marker_quads",
 ]

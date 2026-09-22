@@ -389,11 +389,28 @@ def bilingual_group(
     scripts, often at different sizes. The requirement is satisfied if EITHER
     instance meets it — so with `bilingual: max` we return one group per field
     and the check takes the best member, rather than flagging the smaller one.
+
+    **Per field, and that word was doing nothing until 2026-09-22.** This
+    returned a single group holding every declaration the rule had gathered,
+    which is the same thing only while a rule names one field. Two of the three
+    `min_height_mm` rules do; `LMPC.LETTER.MIN_HEIGHT` names four — manufacturer,
+    consumer care, generic name and manufacturing date — and collapsing them let
+    the tallest declaration on the pack excuse all the others. Rule 7(3) asks
+    that every declaration's letters clear 1 mm, not that the biggest does.
+
+    Measured over the 40 ruler frames, splitting them moves two: a consumer-care
+    line at 0.90 mm that a 1.48 mm date had been covering becomes REVIEW, and a
+    `Marketed By:` line at 0.54 mm becomes FAIL. It is deliberately still
+    lenient *within* a field, because that is what Rule 9(4) grants — the same
+    declaration set twice in two scripts, judged on the larger.
     """
     if not declarations:
         return []
     if mode == "max":
-        return [declarations]
+        grouped: dict[str, list[Declaration]] = {}
+        for declaration in declarations:
+            grouped.setdefault(declaration.field, []).append(declaration)
+        return list(grouped.values())
     return [[d] for d in declarations]
 
 

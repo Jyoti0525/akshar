@@ -1,50 +1,50 @@
 {
  "coverage": 1.0,
- "declaration_count": 5,
+ "declaration_count": 4,
  "declarations": [
   {
    "box": [
-    438,
-    341,
-    373,
-    53
+    444,
+    345,
+    363,
+    43
    ],
    "field": "mrp",
    "field_confidence": 0.88,
    "height_mm": 8.15,
    "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.99,
+   "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "latin",
    "text": "MRP Rs. 45.00"
   },
   {
    "box": [
-    436,
-    434,
-    278,
-    56
+    442,
+    439,
+    268,
+    45
    ],
    "field": "net_quantity",
-   "field_confidence": 0.86,
+   "field_confidence": 0.87,
    "height_mm": 6.57,
-   "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.98,
+   "height_mm_tolerance": 0.4,
+   "ocr_confidence": 0.99,
    "scale_tier": "A",
    "script": "devanagari",
    "text": "NET WT 250 g"
   },
   {
    "box": [
-    439,
-    535,
-    209,
-    39
+    443,
+    539,
+    201,
+    31
    ],
    "field": "mfg_date",
    "field_confidence": 0.88,
    "height_mm": 5.21,
-   "height_mm_tolerance": 0.34,
+   "height_mm_tolerance": 0.38,
    "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "devanagari",
@@ -52,10 +52,10 @@
   },
   {
    "box": [
-    440,
-    619,
-    303,
-    34
+    444,
+    623,
+    296,
+    25
    ],
    "field": "other",
    "field_confidence": 0.3,
@@ -65,22 +65,6 @@
    "scale_tier": "A",
    "script": "latin",
    "text": "Parle Products Pvt Ltd"
-  },
-  {
-   "box": [
-    1081,
-    705,
-    163,
-    158
-   ],
-   "field": "other",
-   "field_confidence": 0.1,
-   "height_mm": 25.13,
-   "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.33,
-   "scale_tier": "A",
-   "script": "latin",
-   "text": "E"
   }
  ],
  "degradation_reasons": [
@@ -89,10 +73,12 @@
  "degradation_tier": "L0",
  "exit_path": "full",
  "quality": {
-  "blur_score": 0.72,
-  "exposure_score": 0.98,
+  "blocking_faults": [],
+  "blur_score": 0.86,
+  "exposure_score": 0.94,
   "faults": [],
-  "glare_ratio": 0.01,
+  "glare_ratio": 0.04,
+  "subject_ratio": 0.4,
   "usable": true
  },
  "source": "photo"

@@ -4,31 +4,31 @@
  "declarations": [
   {
    "box": [
-    439,
-    342,
-    372,
-    52
+    445,
+    347,
+    360,
+    40
    ],
    "field": "mrp",
-   "field_confidence": 0.85,
+   "field_confidence": 0.87,
    "height_mm": 8.15,
    "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.97,
+   "ocr_confidence": 0.99,
    "scale_tier": "A",
    "script": "latin",
    "text": "MRP Rs. 45.00"
   },
   {
    "box": [
-    437,
-    435,
-    277,
-    55
+    442,
+    440,
+    267,
+    44
    ],
    "field": "net_quantity",
    "field_confidence": 0.87,
    "height_mm": 6.57,
-   "height_mm_tolerance": 0.34,
+   "height_mm_tolerance": 0.4,
    "ocr_confidence": 0.99,
    "scale_tier": "A",
    "script": "devanagari",
@@ -36,15 +36,15 @@
   },
   {
    "box": [
-    439,
-    535,
-    209,
-    41
+    444,
+    539,
+    200,
+    31
    ],
    "field": "mfg_date",
    "field_confidence": 0.88,
    "height_mm": 5.21,
-   "height_mm_tolerance": 0.34,
+   "height_mm_tolerance": 0.38,
    "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "devanagari",
@@ -52,26 +52,26 @@
   },
   {
    "box": [
-    441,
-    620,
-    302,
-    32
+    444,
+    623,
+    295,
+    27
    ],
    "field": "other",
-   "field_confidence": 0.29,
+   "field_confidence": 0.3,
    "height_mm": 4.53,
    "height_mm_tolerance": 0.34,
-   "ocr_confidence": 0.97,
+   "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "latin",
    "text": "Parle Products Pvt Ltd"
   },
   {
    "box": [
-    441,
-    691,
-    217,
-    31
+    444,
+    694,
+    211,
+    26
    ],
    "field": "batch",
    "field_confidence": 0.85,
@@ -89,10 +89,12 @@
  "degradation_tier": "L0",
  "exit_path": "full",
  "quality": {
-  "blur_score": 0.84,
-  "exposure_score": 0.98,
+  "blocking_faults": [],
+  "blur_score": 0.93,
+  "exposure_score": 0.94,
   "faults": [],
-  "glare_ratio": 0.02,
+  "glare_ratio": 0.04,
+  "subject_ratio": 0.41,
   "usable": true
  },
  "source": "photo"

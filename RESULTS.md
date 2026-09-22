@@ -4391,3 +4391,358 @@ numeral unassociated on 11 of 38 frames, `associate.py` reaching 4x line height
 against observed gaps of 4.3-9.2). It is a known defect with a known cause and
 it is not the classifier failing to name text; it is two boxes that were never
 joined.
+
+---
+
+## 2026-09-21 — the pipeline finds text well and reads it badly
+
+Measured on the same 38 hand-labelled declaration panels, 255 field labels.
+Every number below comes from `bench/declaration_blocks.py`, `bench/funnel.py`
+and a new bench, `bench/read_accuracy.py`.
+
+### The measurement that was missing
+
+Every bench in this repository asked *was the declaration found*. None asked
+*were the characters we read the characters that are printed*, and those are
+different questions with different answers. `bench/read_accuracy.py` fills the
+gap: infix edit distance between the printed string and the closest substring of
+everything the frame read, so a declaration that is on the exhibit but spelled
+`Md by TC Lted 37` is scored as what it is.
+
+The first run said **31% of recognised characters were wrong** — weighted CER
+0.3116, with only 87 of 193 declarations reading clean and 32 effectively
+absent. That reframed the diagnosis: precision was already 0.97, so the system
+was not accusing anyone falsely. It was going *silent*, because the text under
+the rule was corrupt.
+
+### Headline
+
+| Metric | Target | Before | After |
+|---|---|---|---|
+| **Character error rate**, weighted | — | 0.3116 | **0.2528** |
+| — declarations read clean (CER <= 0.05) | — | 87/193 | **95/193** |
+| — declarations effectively absent | — | 32/193 | **22/193** |
+| Declaration presence, micro F1 | — | 0.8426 | **0.8983** |
+| — precision | — | 0.9694 | **0.9770** |
+| — recall | — | 0.7451 | **0.8314** |
+| Rule 6(1) mandatory recall | — | 0.7619 | **0.8360** |
+| M0 capture gate, pass rate on usable photos | *>= 98%* | 17/38 = 0.447 | **35/38 = 0.921** |
+| MRP presence F1 | *>= 0.90* | 0.85 | **0.93** |
+| MRP *value* read correctly | — | 22/38 = 0.58 | **25/38 = 0.66** |
+| Declarations missed (`funnel.py`) | — | 65 | **43** |
+| — of those, never extracted (C2) | — | 31 | **13** |
+| Median scan | < 3 s | 1837 ms | **1589 ms** |
+
+**Recall rose 8.6 points and precision rose with it.** That is the shape the
+whole exercise had to have: a compliance tool must not buy recall with
+precision, because a spurious declaration is an accusation. Batch precision went
+0.95 to 1.00, `generic_name` 0.88 to 0.96.
+
+**One number went the wrong way.** `mfg_date` *value* accuracy 15/32 to 13/32,
+while its presence F1 went 0.84 to 0.91 — we find the manufacturing date more
+often and read two of them less exactly. Recorded rather than explained; it is
+two frames and it has not been chased.
+
+### Four causes, each measured before it was changed
+
+**1. The capture gate was measuring the room, not the pack.**
+
+Glare, exposure clipping and the blur variance were all computed across the
+whole photograph. A pack shot on a white backdrop is mostly white backdrop, and
+a white backdrop is bright, unsaturated and featureless — which is, character
+for character, this module's definition of specular glare. One `agarbati` frame
+measured **81.7% glare across the frame and 0.8% inside the pack**.
+
+`vision/quality/gate.py` now isolates the subject by local contrast, fills its
+holes — so a highlight lying *on* the label still counts — and measures inside
+it. Two further changes: a fault past its threshold no longer vetoes on its own
+(`severe_factor`), and blur is exempt from that grace, because blur is the only
+fault whose failure mode is a *confident wrong answer* the recogniser cannot
+see. Rejections fell from 21/38 to 3/38, and all three remaining are real: two
+frames below the resolution floor and one at 1.79x the glare limit. The
+`overexposed` fault disappeared entirely — all ten were the backdrop.
+
+The blur threshold moved 0.18 to 0.55 as a consequence, not a retune: removing
+the featureless backdrop from the variance lifts every score. Calibrated against
+the 38 panels each smeared with a directional kernel — 0.55 passes 38/38 sharp
+frames and rejects 36/38 at a 15 px smear, and is the knee.
+
+**2. Long lines were being squashed, not resized.**
+
+`recognise._prepare` fixed the height at 48 px and *clamped* the width at 640.
+That is not a resize, it is a horizontal squash: a 490x18 address line wants
+1307 px, so every glyph in it was compressed to 49% of its correct width before
+the model saw it. **94 of 1290 detected regions (7.3%) were affected**, by up to
+1.96x, and the signature — CTC *dropping* characters rather than substituting
+them — is what merged glyphs produce.
+
+The cap is now 1280 and anything still wider is **split at the gaps between
+words** rather than squashed, with a bounded piece count so a 2000x2 sliver
+cannot cost forty recognition runs. Weighted CER 0.3116 to 0.3012 on its own.
+
+**3. The detector was merging adjacent lines, and the recogniser returned
+nothing for them.**
+
+The largest single cause. DBNet's `thresh` decides which pixels form the blobs
+that become contours; at PaddlePaddle's shipped 0.2 the blobs are fat, and on
+densely-set small print the blob of one line touches the line above it. The two
+become one contour, `unclip_ratio: 1.4` expands the merged result further, and a
+CTC *line* recogniser hands back **the empty string** — not low confidence,
+nothing. On `santoor1.jpg`, 18 of 35 regions read as nothing this way, every one
+of them a legible block of address text.
+
+0.85 / 1.1 instead. Empty crops across the corpus fell 85 to 64 and the funnel's
+"never extracted" bucket fell 31 to 13.
+
+**This is the finding that was wrongly ruled out on 2026-09-20.** It was tested
+by counting regions, saw +1, and concluded the detector was not the problem.
+Counting regions cannot see three lines merging into one while something else
+splits. Only reading the crops can.
+
+**Character error rate alone would have picked the wrong thresholds.** Weighted
+CER is dominated by the longest strings on a pack; a 280-character address
+outweighs an MRP forty to one, so a setting that shaves a character off every
+short value while reading addresses better still improves it. 0.9/0.5 is this
+grid's CER minimum and its **worst** MRP reading — value accuracy 0.58 to 0.39.
+The pair was chosen on `declaration_blocks.py` instead, which scores what a rule
+consumes, and 0.85/1.1 beats the shipped values on every column, precision
+included.
+
+**4. The ChArUco card reads as text.**
+
+A grid of high-contrast blocks at printed-text scale is what a text detector is
+trained to fire on, and tightening the binarisation made it fire reliably: every
+golden scene gained a region over the marker that recognition returned as `E`.
+That is not merely a junk line — it counts in `regions_proposed`, so it lowers
+coverage, and coverage drives the degradation tier. Clean synthetic labels were
+being reported to the officer as **L3 because the scale card was photographed
+successfully**. `roi.drop_regions_on` discards proposals coinciding with the
+card, whose corners the pipeline already knows for rectification and scale.
+Golden coverage went from 0.75-0.83 to **1.0 on every scene**.
+
+### Section 15b's open question, answered: no second recognition head
+
+    "v5's Devanagari recogniser covers Hindi and Marathi and handles English
+     too. Benchmark whether a second English-only head earns its bundle size;
+     do not assume it."
+
+`bench/head_compare.py` puts all 1290 crops through one head at a time with the
+script routing held still, because swapping a head also changes which crops are
+read twice and which confidence wins — an end-to-end comparison cannot separate
+the head from the routing around it.
+
+| head | weighted CER | on Latin print | on Devanagari |
+|---|---|---|---|
+| `devanagari` (shipped) | **0.2645** | **0.2708** | 0.0000 |
+| `en` (English-only, 436 chars) | 0.3060 | 0.3128 | 0.8889 |
+| `latin` (Latin family, 836 chars) | 0.3044 | 0.3114 | 0.8889 |
+
+The dedicated English head is worse at English than the head we already ship, on
+the same crops. Both candidates are registered in `fetch_models.py` under an
+optional `bench` group so the comparison can be re-run rather than believed;
+nothing in `vision/` loads them, and a test keeps it that way.
+
+### Where the remaining 43 misses are
+
+| bucket | n | meaning |
+|---|---|---|
+| C1 | 19 | the printed words **are** in `raw_text`; no pattern knows them |
+| C2 | 13 | the printed words never reached `raw_text` |
+| C? | 6 | ground truth records no value; cannot attribute |
+| B | 3 | read, and named `other` |
+| D | 2 | matched, then withdrawn by a guard |
+| A | 0 | never read at all |
+
+C1 is now the largest and it is **not one mechanism**. Inspected case by case it
+is: captions fused to their values (`ExpiryDate : DEC-26`, `PRODUCTOFINDIA`),
+two declarations on one line (`MRP: 250.00MFD:10/2024`), recognition too corrupt
+to match (`BRTANNA NDUSTmE ITD`), values printed with no caption at all
+(`342-00`), and two classes with one training example between them.
+
+The first of those was fixed: `regex_tier` now retries a line that resolved to
+`other` against a copy with case-change spaces restored, and `product of` takes
+its country the way `made in` already did. Worth about half a point of F1.
+
+The retry is deliberately **not** allowed to split on a digit-to-capital
+boundary. That would recover the `MRP: 250.00MFD` date, and it would also turn
+`24MRP07` — section 14's named hard negative — into `24 MRP 07`, a price. A
+repair that defeats a guard written to stop a confident wrong price is not worth
+one manufacturing date.
+
+### What is still blocked, and on what
+
+- **`importer` F1 0.00 (1 example), `packer` R 0.50 (2 examples).** Not a model
+  defect. One frame in 428 unannotated corpus frames prints an importer line;
+  the corpus cannot supply the class, and the user has confirmed they cannot
+  photograph imported goods. Two honest classes beat four claimed ones.
+- **B2 instance segmentation** still has no weights — blocked on annotation
+  volume, which is the open Label Studio session.
+- **Height rules** still need the marker card printed. A sheet of A4.
+
+---
+
+## 2026-09-22 — the height rules meet a real card, and the tolerance does not survive it
+
+The ruler set was sealed on 2026-09-09 and scored **0/40** that night, because
+no OCR model was on disk. The models are on disk now, so this is the first time
+`scripts/u1_report.py` has produced a number at all.
+
+### Headline
+
+| | result | target |
+|---|---|---|
+| frames measured | **14/40** (35%) | — |
+| MAE | 0.648 mm | <= 0.15 |
+| p95 | 2.384 mm | <= 0.25 |
+| systematic bias | +0.214 mm | — |
+| **repeatability** | **0.362 mm** | — |
+| **tolerance coverage** | **21%** | >= 90% |
+
+**U1: NOT MET**, and `u1_report` refuses to declare it either way at 35%
+coverage, which is the right refusal — a result from the readable subset is a
+statement about the easy half.
+
+**Read `repeatability` before anything else.** It is the spread between the two
+shots of one packet, computed with no ruler involved, so it is our error alone.
+At 0.362 mm it exceeds the entire U1 budget on its own. Whatever the ground
+truth's own resolution turns out to be — and 22 of the 40 truths are exactly
+1 mm or exactly 2 mm, which reads like a rule read to the nearest half — it is
+**not** what is binding. We are.
+
+### Tier A is not the problem
+
+All ten DICT_4X4_50 markers decode in 33 of the 40 frames and at least five in
+the rest; tier A resolves on **40/40**. The card printed correctly: its header
+reads *square 34 mm, marker 25 mm*, which is `MARKER_EDGE_MM` exactly. Camera
+distance, recovered by calibrating the phone from the 39 usable ChArUco views
+(reprojection RMS 2.09 px, fx 2856 px on a 3072 px frame), runs 240–470 mm.
+
+That leaves 6–12 px/mm across the set, against the plan's premise of 24. A
+1.4 mm glyph is then 8–17 px tall, and the crops look it.
+
+### Four defects, in the order they cost the most
+
+**1. Nine of the ten markers were being read as declarations.**
+
+`roi.drop_regions_on` took a single quad. `scripts/make_marker_card.py` renders a
+5x4 ChArUco board carrying **ten** markers, and a text detector fires on every
+one. It was invisible until the card was printed, because no photograph in the
+repository had ever contained a real one and every golden scene draws exactly
+one marker.
+
+Measured on the 40: the card supplied 5 to 82 junk regions a frame against a
+budget of 96. On the 6 g Moov tube, **82 of 108 proposals were the card** — the
+region budget spent on the reference object before the packet was reached. That
+frame now proposes 26 regions instead of 93.
+
+The board's convex hull was measured too and dropped nothing further: the white
+chessboard cells propose no regions of their own, so excluding the markers is
+both sufficient and the narrower claim.
+
+**2. The band that stands between a compliant pack and a wrongful FAIL covered
+21% of our error.**
+
+`min_height_mm` returns REVIEW rather than FAIL when `measured + tolerance >=
+threshold`. The median claimed tolerance was 0.197 mm against a mean absolute
+error of 0.648 mm: we were overstating our own precision by more than three
+times.
+
+`CapHeightResult.confidence` — the share of a crop's ink that agreed on the
+baseline the cap height was measured from — had been computed on every crop
+since the module was written, and documented with the instruction:
+
+> Low confidence means a multi-line or badly segmented crop, and the caller
+> should widen tolerance rather than assert a height.
+
+**No caller read it.** `roi.py` dropped it on the floor, so a height measured
+across two printed lines claimed exactly the same precision as one measured off
+a clean single line. It is now carried to `to_mm`, which divides the glyph term
+by it — a ratio, not a picked constant: half the ink agreeing is twice the
+uncertainty, all of it agreeing is unchanged.
+
+Distribution over 787 crops of the 38 **development** panels (never the sealed
+set, which would have made this a threshold picked against sealed data): median
+0.90, 41% at exactly 1.0, 13% below 0.5. A real signal, and its low tail is the
+multi-line crops it was meant to catch.
+
+Honest about what it bought: on the golden scenes it widens 30 tolerances by 6%
+to 18% and moves no verdict, and **on the ruler set it changed no verdict
+either**. The crops producing the worst heights segment *confidently* — their
+ink does agree on a baseline; the line is simply the wrong line. This fixes a
+term that was missing. It does not fix the term that dominates.
+
+**3. One tall declaration was excusing every short one on the pack.**
+
+`bilingual_group` said it returned "one group per field" and returned one group
+holding everything. That is the same thing only while a rule names one field.
+`LMPC.LETTER.MIN_HEIGHT` names four — manufacturer, consumer care, generic name,
+manufacturing date — so the tallest declaration anywhere on the pack satisfied
+Rule 7(3) for all of them. Rule 7(3) does not say the biggest declaration has to
+clear 1 mm; it says the letters do.
+
+Splitting per field moves two frames of the 40: a consumer-care line at 0.90 mm
+that a 1.48 mm date had been covering becomes REVIEW, and a `Marketed By:` line
+at 0.54 mm becomes FAIL. Still deliberately lenient *within* a field, because
+that is exactly what Rule 9(4) grants.
+
+This is the one change here that makes FAIL **more** likely, so it was measured
+before it was written rather than after.
+
+**4. The Dockerfile could not build.**
+
+`pip install .` ran before `COPY . .`, and `[tool.setuptools] packages` names
+nine packages setuptools refuses to build without. `docker compose up` from a
+clean clone — section 20's submission checklist — died on `package directory
+'rules' does not exist`. Stub packages satisfy the dependency layer, and a
+`--no-deps` reinstall after the copy replaces them with the real code.
+
+### What the height rules actually do now
+
+Over the 40 frames, with the fixes in:
+
+| rule | PASS | REVIEW | FAIL | NO_DATA |
+|---|---|---|---|---|
+| `LMPC.LETTER.MIN_HEIGHT` | 25 | 1 | 3 | 11 |
+| `LMPC.MRP.NUMERAL_HEIGHT` | 1 | 0 | 0 | **39** |
+| `LMPC.NETQTY.NUMERAL_HEIGHT` | 3 | 0 | 0 | 37 |
+
+The MRP height rule is dark on 39 of 40, and not because the height is missing:
+it `requires: [geometry.mm_per_px, declarations.net_quantity]`, because Rule
+7(2) Table I is banded on net quantity. No net quantity read, no threshold to
+compare against, NO_DATA. That is correct behaviour and it is also the single
+biggest lever on this rule — **reading the net quantity is what switches the MRP
+height rule on.**
+
+### The finding that has no fix in this session
+
+Two frames of one packet disagree about whether that packet complies.
+
+    coariander_powder_11g/front   'Manufactured & Marketed by: OMOL& FLOU'   0.73 mm  -> FAIL
+    coariander_powder_11g/tilt    'Manufactured & Markeled by'               1.43 mm  -> PASS
+
+The print did not change between the two photographs. And the direction of the
+error is **not** established: the front frame read the address block and found
+it at 0.73 mm; the tilt frame never read that block at all and passed the pack
+on a 1.48 mm `Mfg. Date`. So the FAIL may be right and the PASS may be the
+unsafe verdict — a pack excused because we failed to read its smallest print.
+
+Settling that needs one measurement nobody has: the height of the manufacturer
+address letters on the 11 g coriander sachet and the 52 ml Dettol, read with a
+rule. It is not a modelling question.
+
+### A note on the seal
+
+`data/test_split/` says nothing in it may be trained on, tuned against, or used
+to pick a threshold. Everything above that touches the set is *scoring*, which
+is what the set is for and what section 19 asks for on day 7.
+
+Two things were nonetheless discovered by looking at those frames: the ten-marker
+defect and the unwired confidence. Neither is a tuned number — the first is a
+plain miscount, and the second's magnitude was taken from the development panels
+precisely so it would not be. Both are regression-tested on synthetic scenes and
+the rendered card alone, with no sealed data.
+
+The structural problem behind it is worth stating: **every card-bearing
+photograph in this project is inside the sealed set**, so any work on the card
+has nowhere else to go. A handful of throwaway card shots of packs that are not
+in the ruler set would remove that conflict permanently.

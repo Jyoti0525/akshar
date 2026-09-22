@@ -1,13 +1,13 @@
 {
- "coverage": 0.8,
+ "coverage": 1.0,
  "declaration_count": 4,
  "declarations": [
   {
    "box": [
-    874,
-    631,
-    381,
-    60
+    880,
+    637,
+    369,
+    49
    ],
    "field": "mrp",
    "field_confidence": 0.88,
@@ -20,31 +20,31 @@
   },
   {
    "box": [
-    872,
-    729,
-    283,
-    59
+    877,
+    734,
+    273,
+    49
    ],
    "field": "net_quantity",
-   "field_confidence": 0.85,
+   "field_confidence": 0.82,
    "height_mm": 6.33,
    "height_mm_tolerance": 0.33,
-   "ocr_confidence": 0.97,
+   "ocr_confidence": 0.94,
    "scale_tier": "A",
    "script": "devanagari",
    "text": "NET WT 250 g"
   },
   {
    "box": [
-    875,
-    830,
-    214,
-    47
+    880,
+    837,
+    204,
+    34
    ],
    "field": "mfg_date",
    "field_confidence": 0.88,
    "height_mm": 5.02,
-   "height_mm_tolerance": 0.33,
+   "height_mm_tolerance": 0.36,
    "ocr_confidence": 1.0,
    "scale_tier": "A",
    "script": "devanagari",
@@ -52,16 +52,16 @@
   },
   {
    "box": [
-    876,
-    920,
-    307,
-    33
+    880,
+    924,
+    299,
+    25
    ],
    "field": "other",
    "field_confidence": 0.3,
    "height_mm": 4.59,
    "height_mm_tolerance": 0.33,
-   "ocr_confidence": 1.0,
+   "ocr_confidence": 0.99,
    "scale_tier": "A",
    "script": "latin",
    "text": "Parle Products Pvt Ltd"
@@ -73,10 +73,12 @@
  "degradation_tier": "L0",
  "exit_path": "full",
  "quality": {
-  "blur_score": 0.8,
-  "exposure_score": 0.98,
+  "blocking_faults": [],
+  "blur_score": 0.92,
+  "exposure_score": 0.93,
   "faults": [],
-  "glare_ratio": 0.02,
+  "glare_ratio": 0.05,
+  "subject_ratio": 0.34,
   "usable": true
  },
  "source": "photo"
