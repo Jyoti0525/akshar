@@ -105,6 +105,16 @@ class ScanFacts:
     degradation_tier: str
     source: str
     synced: bool
+    variant: str | None = None
+    """The SKU's variant, e.g. "Original" for a Dettol soap. Carried so the
+    review queue can name the packet a supervisor is deciding about rather than
+    only its brand — `Dettol` is not enough to pick one of nine Dettol SKUs out
+    of a worklist, and the supervisor is being asked for a compliance
+    conclusion on a specific pack."""
+    pack_size: str | None = None
+    """The SKU's declared pack size, e.g. "52 ml". Same reason as `variant`, and
+    it is the field that most often distinguishes two otherwise identical rows,
+    because Rule 7(2) Table I bands its thresholds on net quantity."""
     verdicts: tuple[VerdictFact, ...] = ()
 
     # -- derived --------------------------------------------------------
@@ -646,6 +656,8 @@ def review_queue(
             "scan_id": str(s.id),
             "captured_at": s.captured_at.isoformat(),
             "brand": s.brand,
+            "variant": s.variant,
+            "pack_size": s.pack_size,
             "district": s.district,
             "category": s.category,
             "coverage": s.coverage,

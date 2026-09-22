@@ -185,7 +185,12 @@ export function RuleRows({ verdicts }: { verdicts: Verdict[] | undefined }) {
       {toCheck.length > 0 ? (
         <section className="flex flex-col gap-2">
           <Heading>
-            {toCheck.length === 1 ? "1 thing for you to check" : `${toCheck.length} things for you to check`}
+            {/* Not "for you to check". Whoever is reading this, the person who
+                settles a REVIEW is a supervisor, and on an officer's screen the
+                old wording promised an action the role cannot perform. */}
+            {toCheck.length === 1
+              ? "1 thing a supervisor must settle"
+              : `${toCheck.length} things a supervisor must settle`}
           </Heading>
           <p className="text-sm text-fg-muted">{PLAIN_STATUS_MEANING.REVIEW ?? ""}</p>
           <ul className="flex flex-col gap-2">

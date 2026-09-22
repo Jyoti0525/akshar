@@ -537,6 +537,8 @@ class SqlScanStore:
                 t.scans,
                 t.skus.c.brand,
                 t.skus.c.brand_group,
+                t.skus.c.variant,
+                t.skus.c.pack_size,
                 t.skus.c.category.label("sku_category"),
             )
             .select_from(t.scans.outerjoin(t.skus, t.scans.c.sku_id == t.skus.c.id))
@@ -619,6 +621,8 @@ class SqlScanStore:
             category=m["category"] or m["sku_category"] or UNCLASSIFIED,
             brand=m["brand"],
             brand_group=m["brand_group"],
+            variant=m["variant"],
+            pack_size=m["pack_size"],
             officer_id=m["officer_id"],
             sku_id=m["sku_id"],
             coverage=_as_float(m["coverage"]),

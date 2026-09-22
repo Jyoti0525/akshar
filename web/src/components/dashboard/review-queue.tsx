@@ -7,7 +7,7 @@ import { apiFetch } from "@/lib/api/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
-import { dateTime, percent, ruleLabel } from "@/lib/format";
+import { dateTime, percent, productName, ruleLabel } from "@/lib/format";
 import type { ReviewRow } from "@/lib/api/types";
 
 /**
@@ -111,6 +111,7 @@ export function ReviewQueue({ rows }: { rows: ReviewRow[] }) {
             (rule) => !settled.has(`${row.scan_id}:${rule}`),
           );
           const done = outstanding.length === 0;
+          const product = productName(row);
           return (
             <li
               key={row.scan_id}
@@ -119,12 +120,27 @@ export function ReviewQueue({ rows }: { rows: ReviewRow[] }) {
               <div className="flex flex-wrap items-start gap-3">
                 <Badge tone="review">REVIEW</Badge>
                 <div className="min-w-0 flex-1">
+                  {/*
+                    Brand, variant and pack size together. A supervisor is about
+                    to record a compliance conclusion against an enforcement
+                    record, and "Dettol" does not say which of nine Dettol packs
+                    that conclusion lands on. Pack size earns its place twice
+                    over: it is what usually separates two otherwise identical
+                    rows, and Rule 7(2) Table I bands its height thresholds on
+                    net quantity, so it is often the reason the rule was
+                    marginal in the first place.
+                  */}
                   <p className="font-medium">
                     <Link href={`/scan/${row.scan_id}`} className="underline">
-                      {row.brand ?? "Unidentified brand"}
+                      {product.title}
                     </Link>
                     {row.category ? <span className="text-fg-muted"> · {row.category}</span> : null}
                   </p>
+                  {!product.identified ? (
+                    <p className="text-sm text-fg-muted">
+                      No SKU matched yet — open the scan to see the photograph before deciding.
+                    </p>
+                  ) : null}
                   <p className="text-sm text-fg-muted">
                     {dateTime(row.captured_at)}
                     {row.district ? ` · ${row.district}` : ""} · coverage {percent(row.coverage)} ·{" "}

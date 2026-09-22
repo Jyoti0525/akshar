@@ -189,7 +189,14 @@ export const PLAIN_STATUS: Record<string, string> = {
 /** One sentence per status, saying what the reader should DO about it. */
 export const PLAIN_STATUS_MEANING: Record<string, string> = {
   FAIL: "This breaks a rule. It belongs in the notice.",
-  REVIEW: "We read the declaration but cannot judge it from a photograph alone. A person decides.",
+  // "A person decides" was true and useless: it did not say WHICH person, and
+  // the officer reading it has no control to decide with. Settling a REVIEW is
+  // `POST /scans/{id}/review`, guarded by `require_role("supervisor")`, and it
+  // happens on the supervisor's dashboard queue — not here. An officer who is
+  // told to check something they cannot check goes looking for a button that
+  // does not exist for them.
+  REVIEW:
+    "We read the declaration but cannot judge it from a photograph alone. A supervisor settles it from the review queue.",
   PASS: "Checked against the rule and it complies.",
   NO_DATA: "We did not have what this check needs, so we did not guess.",
   NOT_APPLICABLE: "This rule does not cover this kind of package.",
@@ -292,4 +299,36 @@ export function fieldLabel(field: string | null | undefined): string {
   // renders oddly rather than crashing the page.
   const spaced = field.replace(/_/g, " ");
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
+
+/**
+ * What packet is this, in one line.
+ *
+ * The review queue printed `row.brand ?? "Unidentified brand"`, which fails in
+ * both directions. With a SKU it said "Dettol" and left a supervisor to pick one
+ * of nine Dettol SKUs out of a worklist. Without one it said "Unidentified
+ * brand", which reads as a defect in the packet rather than what it is — a scan
+ * the system has not matched to a known SKU yet, usually because it is the first
+ * time that pack has been photographed.
+ *
+ * Neither wording gave the person the one thing they need before recording a
+ * compliance conclusion: which pack they are deciding about.
+ *
+ * `null` for every part is a real and common state — a scan reaches the queue on
+ * its verdicts, and a verdict does not require a matched SKU.
+ */
+export function productName(parts: {
+  brand: string | null;
+  variant?: string | null;
+  pack_size?: string | null;
+}): { title: string; identified: boolean } {
+  const named = [parts.brand, parts.variant, parts.pack_size].filter(
+    (part): part is string => Boolean(part && part.trim()),
+  );
+  if (named.length === 0) {
+    // Not "unidentified brand". The pack is fine; we have not matched it. The
+    // photograph is the identification, and the row already links to it.
+    return { title: "Not yet matched to a product", identified: false };
+  }
+  return { title: named.join(" · "), identified: true };
 }

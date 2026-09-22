@@ -456,6 +456,8 @@ class InMemoryScanStore:
             category=row.get("category") or (sku.category if sku else None) or UNCLASSIFIED,
             brand=sku.brand if sku else None,
             brand_group=sku.brand_group if sku else None,
+            variant=sku.variant if sku else None,
+            pack_size=sku.pack_size if sku else None,
             officer_id=row.get("officer_id"),
             sku_id=sku_id,
             coverage=row.get("coverage"),

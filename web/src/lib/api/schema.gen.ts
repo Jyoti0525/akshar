@@ -956,6 +956,16 @@ export interface components {
              * @default []
              */
             faults: ("blur" | "glare" | "underexposed" | "overexposed" | "resolution")[];
+            /**
+             * Blocking Faults
+             * @default []
+             */
+            blocking_faults: ("blur" | "glare" | "underexposed" | "overexposed" | "resolution")[];
+            /**
+             * Subject Ratio
+             * @default 1
+             */
+            subject_ratio: number;
             /** Reason */
             reason?: string | null;
             /**

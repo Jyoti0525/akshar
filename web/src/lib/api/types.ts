@@ -125,6 +125,10 @@ export interface ReviewRow {
   scan_id: string;
   captured_at: string;
   brand: string | null;
+  /** SKU variant and pack size. Null together with `brand` when no SKU was
+   *  matched — see `productName` in `lib/format.ts` for how that is rendered. */
+  variant: string | null;
+  pack_size: string | null;
   district: string | null;
   category: string | null;
   coverage: number | null;
