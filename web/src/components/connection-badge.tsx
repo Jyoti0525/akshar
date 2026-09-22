@@ -75,8 +75,23 @@ export function ConnectionBadge() {
       {/* The tier code is monospaced because L0/L1 put a letter beside a digit,
           and a proportional zero next to a capital O is the one place this app
           can afford a slashed zero. */}
-      <span className="numeric">{tier}</span>
-      <span className="hidden sm:inline">{word}</span>
+      {/*
+        One element holding "L1 offline", not two siblings separated by a flex
+        gap. The gap is a visual space and not a textual one, so two spans read
+        as `L1offline` to anything that consumes text rather than pixels — a
+        screen reader, a text search, `getByText`. The tier keeps its own inner
+        span so it can stay monospaced.
+
+        The word is shown at every width, including a phone. It was behind
+        `hidden sm:inline` to save masthead room, and that was a false economy:
+        the phone IS the device section 5 is written for, and an officer who
+        sees only `L1` has been told the tier in a code they have no reason to
+        know. "offline" is the part that means anything. The room came back when
+        the navigation moved to its own row below the brand.
+      */}
+      <span>
+        <span className="numeric">{tier}</span> {word}
+      </span>
       {queued > 0 ? (
         <span className="numeric font-semibold">
           <span aria-hidden="true"> · </span>

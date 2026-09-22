@@ -712,7 +712,7 @@ def run_scan(
         prepared.append((index, frame_payload, frame_decision))
 
     primary_index = scan_context.primary_index or 0
-    payload, decision = prepared[primary_index][1], prepared[primary_index][2]
+    decision = prepared[primary_index][2]
 
     # -- the row ------------------------------------------------------------
     row: dict[str, Any] = {
@@ -977,8 +977,8 @@ __all__ = [
     "MAX_FRAMES",
     "MAX_UPLOAD_BYTES",
     "Enqueuer",
-    "FrameOutcome",
     "EvidenceDecision",
+    "FrameOutcome",
     "ScanRequest",
     "ScanResult",
     "prepare_annotation",

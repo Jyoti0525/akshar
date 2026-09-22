@@ -13,7 +13,7 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
-from contracts import Box, DeclarationSet, LabelGeometry
+from contracts import Box, LabelGeometry
 from rules.checks._common import measured_for
 from rules.engine import evaluate
 from tests.unit.conftest import make_declaration, make_set
@@ -239,7 +239,7 @@ def test_one_price_read_twice_is_not_a_pasted_over_price(pack, biscuit_ctx):
     assert "different photographs" in result.message
 
 
-def test_two_prices_in_ONE_photograph_still_fail(pack, biscuit_ctx):
+def test_two_prices_in_ONE_photograph_still_fail(pack, biscuit_ctx):  # noqa: N802 - the capital is the point: ONE frame, not across frames
     """The pasted-over MRP is the demo case; it must survive the fix above."""
     both = make_set(
         [

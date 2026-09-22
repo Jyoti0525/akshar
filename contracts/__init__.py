@@ -41,11 +41,11 @@ from contracts.quality import (
 )
 
 __all__ = [
-    "NON_STATUTORY_FIELDS",
     "ADVICE",
+    "FRAMING_ADVICE",
+    "NON_STATUTORY_FIELDS",
     "Box",
     "CaptureQuality",
-    "FRAMING_ADVICE",
     "ConsumerType",
     "Declaration",
     "DeclarationSet",

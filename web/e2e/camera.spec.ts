@@ -54,6 +54,13 @@ test.describe("the camera", () => {
 
   test("the stream reaches the viewfinder and a frame decodes", async ({ page }) => {
     await page.goto("/scan");
+
+    // The pack height, before the shutter is asserted on. It is what converts a
+    // printed glyph to millimetres, so `Capture` is disabled without one and
+    // this test — written before that gate existed — was asserting an enabled
+    // button that the screen is correct to keep disabled.
+    await page.getByLabel("Height of the side facing the camera").fill("15");
+
     await page.getByRole("button", { name: "Use camera" }).click();
 
     const video = page.locator("video");

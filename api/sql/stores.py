@@ -140,7 +140,7 @@ def _payload_from_row(row: Row) -> dict[str, Any]:
     only when it carries something keeps them all verifiable.
     """
     mapping = row._mapping
-    frames = mapping["frames"] if "frames" in mapping else None
+    frames = mapping.get("frames")
     payload: dict[str, Any] = {
         "id": mapping["id"],
         "sku_id": mapping["sku_id"],
