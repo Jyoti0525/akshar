@@ -47,10 +47,35 @@ WORKDIR /app
 # Dependency metadata first, so a source edit does not invalidate the pip layer.
 COPY pyproject.toml README.md ./
 COPY contracts/__init__.py contracts/__init__.py
-RUN pip install --upgrade pip \
+
+# `[tool.setuptools] packages` names nine packages by hand, and setuptools
+# refuses to build the wheel while any one of them is missing from the tree. At
+# this point in the build every one of them is missing except `contracts`, so
+# the install below died on `package directory 'rules' does not exist` — taking
+# the whole image with it, and with it section 20's "`docker compose up` from a
+# clean clone". Empty stubs satisfy the check so the dependency layer can still
+# be built and cached before any source arrives.
+#
+# They are placeholders for exactly one layer. `COPY . .` puts the real modules
+# at /app, and the `--no-deps` reinstall below replaces the stub copies in
+# site-packages with the real code — so nothing can import an empty package by
+# resolving the installed distribution instead of the working directory.
+RUN mkdir -p rules/checks vision evidence retrieval api workers reports \
+    && touch rules/__init__.py rules/checks/__init__.py vision/__init__.py \
+             evidence/__init__.py retrieval/__init__.py api/__init__.py \
+             workers/__init__.py reports/__init__.py
+# `setuptools` explicitly: the source-only reinstall after `COPY . .` runs with
+# `--no-build-isolation`, which means the build backend named in
+# `[build-system]` has to already be importable here rather than fetched into a
+# throwaway environment. python:3.12-slim ships pip without it.
+RUN pip install --upgrade pip setuptools \
     && pip install ".[api,vision,reports,retrieval]"
 
 COPY . .
+
+# Source only. Every dependency was resolved in the cached layer above, so this
+# is a file copy rather than a second resolve.
+RUN pip install --no-deps --no-build-isolation "."
 
 # Fail the build if the PDF renderer cannot actually render. The whole point of
 # installing those libraries is defeated if a version bump silently breaks them,

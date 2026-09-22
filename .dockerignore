@@ -1,0 +1,95 @@
+# What must never reach the build context.
+#
+# There was no such file until 2026-09-22, which meant `docker compose build`
+# sent the entire working tree to the daemon and `COPY . .` wrote all of it into
+# a layer. Three separate problems, in descending order of seriousness.
+#
+# 1. **`.env` was going into the image.** It is gitignored, so it never reaches
+#    the repository — but gitignore says nothing to Docker, and an image is a
+#    more distributable artefact than a working tree. Real credentials were
+#    being baked into a layer that anyone who can pull the image can read with
+#    `docker history`. That is the reason this file exists.
+#
+# 2. **`data/test_split/` was going into the image.** Section 19 seals it: never
+#    trained on, never tuned against, never used to pick a threshold. Shipping
+#    it inside the artefact under test is not a breach of the seal by itself,
+#    but it puts the answer key in the same box as the exam.
+#
+# 3. The build was enormously slow. The tree carries seven directories of
+#    photographs, a `.venv`, a `.git` and a `web/node_modules`, none of which
+#    the wheel needs. `du` on the working tree does not finish in three minutes.
+#
+# `docker-compose.yml` bind-mounts `./:/app` over the api and worker containers,
+# so everything excluded here is still present at runtime for local development.
+# What the image itself needs is the nine packages named in `[tool.setuptools]`
+# plus `pyproject.toml` and `README.md`, and every one of those is kept.
+#
+# Deny by name rather than allow by name: an allowlist that misses one package
+# fails the `pip install --no-deps .` at the end of the Dockerfile, and it fails
+# it confusingly.
+
+# --- credentials -------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- version control and tooling ---------------------------------------------
+.git
+.gitignore
+.github
+.claude
+.vscode
+.idea
+.playwright-mcp
+
+# --- Python build and runtime artefacts --------------------------------------
+.venv
+venv
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+.ruff_cache
+.mypy_cache
+htmlcov
+.coverage
+
+# --- the web app ---------------------------------------------------------
+# The api image does not build or serve the frontend; `docker-compose.yml` has a
+# separate `web` service for that.
+web/node_modules
+web/.next
+web/out
+web/playwright-report
+web/test-results
+
+# --- the sealed evaluation set (section 19) ----------------------------------
+data/test_split
+40_ruler_images
+
+# --- corpora and annotation exports ------------------------------------------
+# Photographs, not code. The pipeline reads whatever is mounted or uploaded.
+38_images_asked withproperlabelling
+all_images
+dataset034
+dataset034_withoutlabelboxes
+new images (1)
+new original images
+data/annotations
+data/declaration_blocks
+data/corpus
+project-*.json
+
+# --- training ----------------------------------------------------------------
+# Section 14's toolchain is CUDA- and torch-specific and is deliberately not
+# installed in this image; its checkpoints and COCO exports are large.
+training
+bench/*.json
+
+# --- documentation and local scratch -----------------------------------------
+docs
+rules_and_acts_docs
+*.log
+*.tmp

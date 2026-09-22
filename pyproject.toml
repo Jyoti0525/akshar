@@ -68,6 +68,14 @@ vision = [
 # --- reports (section 13) ----------------------------------------------------
 reports = [
     "weasyprint>=62,<63",         # rejected ReportLab: one HTML template renders both formats
+    # WeasyPrint's own floor is `pydyf>=0.10.0` with no ceiling, and pydyf
+    # 0.12.0 deleted `Stream.transform` -- which `weasyprint/pdf/stream.py:246`
+    # calls through `super()`. So a resolver left to itself picks 0.12.1 and
+    # every PDF raises `'super' object has no attribute 'transform'`. The
+    # `pdf_available()` guard in `docker/api.Dockerfile` caught it on a clean
+    # image build; the dev machines never saw it because they had an older
+    # pydyf already resolved. Upstream's missing ceiling is ours to supply.
+    "pydyf>=0.10,<0.12",
     "python-docx>=1.1,<2",        # editable format is explicitly required by the PS
     "jinja2>=3.1,<4",
     # The floor under WeasyPrint, not a competitor to it. WeasyPrint needs
