@@ -403,6 +403,8 @@ export function Scanner() {
               >
                 {busy ? "Reading…" : "Upload photographs"}
                 <input
+                  // Extensions stamp `fdprocessedid` here before hydration; see ui/button.tsx.
+                  suppressHydrationWarning
                   type="file"
                   accept="image/*"
                   multiple

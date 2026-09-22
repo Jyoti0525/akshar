@@ -176,7 +176,9 @@ export function OutboxPanel() {
                     <TD>{scan.district ?? "—"}</TD>
                     <TD>
                       {scan.photo_state === "held" ? (
+                        // Extensions stamp `fdprocessedid` here before hydration; see ui/button.tsx.
                         <button
+                          suppressHydrationWarning
                           type="button"
                           className="underline"
                           onClick={async () => {

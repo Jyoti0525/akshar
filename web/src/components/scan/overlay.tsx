@@ -266,6 +266,8 @@ export function Overlay({
             {counts.unread > 0 ? (
               <label className="inline-flex items-center gap-2">
                 <input
+                  // Extensions stamp `fdprocessedid` here before hydration; see ui/button.tsx.
+                  suppressHydrationWarning
                   type="checkbox"
                   checked={showUnread}
                   onChange={(event) => setShowUnread(event.target.checked)}

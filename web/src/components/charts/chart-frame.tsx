@@ -40,7 +40,9 @@ export function ChartFrame({
         </div>
         <div role="tablist" aria-label={`${title} view`} className="no-print flex gap-1">
           {(["chart", "table"] as const).map((option) => (
+            // Extensions stamp `fdprocessedid` here before hydration; see ui/button.tsx.
             <button
+              suppressHydrationWarning
               key={option}
               role="tab"
               type="button"

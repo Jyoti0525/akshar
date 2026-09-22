@@ -125,7 +125,9 @@ export function GlobalFilters({
           {active
             .filter((key) => DRILL_KEYS.includes(key))
             .map((key) => (
+              // Extensions stamp `fdprocessedid` here before hydration; see ui/button.tsx.
               <button
+                suppressHydrationWarning
                 key={key}
                 type="button"
                 onClick={() => set(key, "")}

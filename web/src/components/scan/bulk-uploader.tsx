@@ -61,6 +61,8 @@ export function BulkUploader() {
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="files">Photographs</Label>
             <input
+              // Extensions stamp `fdprocessedid` here before hydration; see ui/button.tsx.
+              suppressHydrationWarning
               id="files"
               type="file"
               accept="image/*"
