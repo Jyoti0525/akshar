@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import "./globals.css";
+import { fontVariables } from "./fonts";
 import { Providers } from "@/components/providers";
 import { Nav } from "@/components/nav";
 import { BrandDefs } from "@/components/brand";
@@ -25,12 +26,15 @@ export const viewport: Viewport = {
   // officer must be able to enlarge a measurement they are about to write into
   // a notice.
   //
-  // The two `--bg` values. The browser paints the address bar and the
-  // task-switcher card with this, so a stale value here is a white seam above a
-  // cream masthead on every phone that installs the PWA.
+  // These are the two `--bg` values from `globals.css`, and they have to be
+  // kept in step by hand — the browser paints the address bar and the
+  // task-switcher card with this, so a stale value here is a visible seam above
+  // the masthead on every phone that installs the PWA. `npm run check:contrast`
+  // parses the stylesheet; nothing parses this, so changing a `--bg` means
+  // changing it here in the same commit.
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#fdfaf7" },
-    { media: "(prefers-color-scheme: dark)", color: "#1a0f13" },
+    { media: "(prefers-color-scheme: dark)", color: "#15100f" },
   ],
 };
 
@@ -39,7 +43,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const role = (jar.get(ROLE_COOKIE)?.value ?? null) as Role | null;
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
         {/*
           The display mode is read before first paint. Deferring it to an effect
@@ -61,12 +65,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Providers>
           <div className="flex min-h-dvh flex-col">
             <Nav role={role} />
-            <main id="main" className="flex-1 px-4 py-6 md:px-6">
+            {/*
+              One content column, one gutter, defined here and nowhere else.
+              Pages previously each chose their own `max-w-*`, so the masthead,
+              the scan card and the dashboard tables all started at different
+              left edges and the app read as three apps.
+            */}
+            <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:px-6 md:py-10">
               {children}
             </main>
-            <footer className="no-print border-t border-border px-4 py-4 text-xs text-fg-muted md:px-6">
-              AKSHAR · verdicts cite the gazette clause that produced them ·
-              rules are data, not code
+            <footer className="no-print mt-auto border-t border-border">
+              <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-3 gap-y-1 px-4 py-5 text-xs text-fg-muted md:px-6">
+                <span className="font-semibold tracking-wide text-fg">AKSHAR</span>
+                <span aria-hidden="true">·</span>
+                <span>verdicts cite the gazette clause that produced them</span>
+                <span aria-hidden="true">·</span>
+                <span>rules are data, not code</span>
+              </div>
             </footer>
           </div>
         </Providers>

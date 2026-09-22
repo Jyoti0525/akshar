@@ -8,6 +8,7 @@
     "build": "next build && node scripts/build-sw.mjs",
     "start": "next start",
     "lint": "eslint .",
+    "check:contrast": "node scripts/check-contrast.mjs",
     "typecheck": "tsc --noEmit",
     "gen:api": "openapi-typescript ../web_openapi.json -o src/lib/api/schema.gen.ts",
     "sw": "node scripts/build-sw.mjs",

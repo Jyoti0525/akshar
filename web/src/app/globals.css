@@ -25,19 +25,60 @@
  *      FAIL is SCARLET (#c2261b — orange-shifted). They are two hue steps
  *      apart, and the wine only ever appears as a solid fill on a control the
  *      officer pressed; the scarlet only ever appears as a tint behind text.
- *   2. Status is never carried by hue alone. Every verdict already ships a
- *      glyph (see `ui/badge.tsx`), and the scan record adds a left rule, so a
- *      row's state survives greyscale, a photocopy, and deuteranopia.
+ *   2. Status is never carried by hue alone. Every verdict ships a glyph (see
+ *      `ui/badge.tsx`) and the scan record adds a left rule, so a row's state
+ *      survives greyscale, a photocopy, and deuteranopia.
  *   3. The gradient is reserved for identity — the mark and the wordmark.
  *      Nothing that reports a fact is ever painted in it.
  *
- * Every pairing below was checked against WCAG AA (4.5:1) on its own ground.
- * The measured ratios are in the comments; if you change a value, recheck it.
+ * ---------------------------------------------------------------------------
+ * RULE 2 IS DOING MORE WORK THAN THIS FILE USED TO ADMIT
+ * ---------------------------------------------------------------------------
+ * The previous version of this comment claimed the three verdict colours were
+ * "distinguishable in deuteranopia by lightness as well as hue — the amber is
+ * markedly lighter than the scarlet." That was measured and it is false. The
+ * luminance ratio between FAIL and REVIEW is 1.07:1 as a solid, 1.04:1 as a
+ * tint and 1.18:1 as text. They are the same lightness.
+ *
+ * It is not fixable by picking better colours either, and the reason is worth
+ * writing down so nobody spends an afternoon on it: two pale tints on a light
+ * ground are both near-white, so their luminances cannot be far apart, and
+ * deepening FAIL's tint far enough to separate them is what turns a page with
+ * four failing rules into a page that looks like an emergency.
+ *
+ * So the glyph is not a belt-and-braces nicety. **It is the only channel that
+ * separates FAIL from REVIEW without colour vision**, and anything that renders
+ * a verdict without one is a bug, not a style choice. `npm run check:contrast`
+ * asserts every ratio quoted in this file, including this one.
+ *
+ * ---------------------------------------------------------------------------
+ * BORDERS COME IN TWO STRENGTHS, AND THE DIFFERENCE IS A WCAG REQUIREMENT
+ * ---------------------------------------------------------------------------
+ * `--border` is a hairline: card edges, table rules, the masthead underline.
+ * Decoration, and WCAG asks nothing of it.
+ *
+ * `--border-strong` is for the outline of a form control. WCAG 2.1 §1.4.11
+ * requires 3:1 for "visual information required to identify user interface
+ * components", and an input's edge is exactly that. Every input, select and
+ * textarea in this app used `--border` and sat at **1.42:1** — three-quarters
+ * short, and the reason the forms read as flat grey slabs rather than as things
+ * you can type into.
  */
 
 @theme {
-  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+  /* Typography — IBM Plex, in four cuts, self-hosted by `next/font` in
+     `layout.tsx` so the PWA still has them on a phone with no signal.
+     Loading from a CDN would have made the type disappear at exactly tier L1.
+
+     Plex is not a neutral default here. It was picked for one decisive reason:
+     it is the only technical superfamily with a real Devanagari companion cut
+     by the same foundry, and this app renders Hindi package declarations beside
+     Latin ones in the same table cell. A Latin face plus an unrelated
+     Devanagari fallback gives two different colours of text on one line. */
+  --font-sans: var(--font-plex-sans), var(--font-plex-devanagari), ui-sans-serif, system-ui,
+    "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-plex-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "Cascadia Mono", monospace;
 
   /* 16 px floor. `text-sm` in stock Tailwind is 14 px, which section 11 forbids,
      so the scale is shifted rather than trusting every author to avoid it. */
@@ -50,6 +91,14 @@
   --text-3xl: 2.25rem;
 
   --spacing-touch: 2.75rem;   /* 44px — the minimum touch target */
+
+  /* One radius scale. Everything used `rounded-md` and `rounded-lg`
+     interchangeably, which is why a card, a button and a badge all looked like
+     the same component at three sizes. */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
 :root {
@@ -57,58 +106,88 @@
 
   /* Cream rather than white. The logo sits on it, and a warm ground keeps the
      scarlet FAIL tint from reading as "the whole page is angry" the way a red
-     tint on pure white does. */
+     tint on pure white does.
+
+     The surface ladder runs bg → surface → surface-2 → surface-3, and the
+     chroma is deliberately lower than it was: the old #f8efe9 and #e6d5cb were
+     pink enough to read as a tint that meant something, which on a screen whose
+     only tints are verdicts is a false signal. */
   --bg: #fdfaf7;
   --surface: #ffffff;
-  --surface-2: #f8efe9;
-  --border: #e6d5cb;
-  --fg: #2b1219;          /* 15.7:1 on --bg */
-  --fg-muted: #6d4a50;    /* 7.3:1  — passes AA for body text */
+  --surface-2: #f6f1ed;
+  --surface-3: #ece4de;
+  --border: #e7ded7;          /* hairline; decorative */
+  --border-strong: #9c8a82;   /* 3.30:1 on white — form controls */
+  --fg: #2b1219;              /* 16.8:1 on --bg */
+  --fg-muted: #6d4a50;        /* 7.4:1  — passes AA for body text */
 
-  --accent: #8e1b3a;      /* 7.6:1 — the logo's deep crimson */
-  --accent-fg: #ffffff;   /* 8.1:1 on --accent */
-  --accent-soft: #fbeaee; /* wash behind the current nav item, selected rows */
+  --accent: #8e1b3a;          /* 8.5:1 on --bg — the logo's deep crimson */
+  --accent-fg: #ffffff;       /* 8.9:1 on --accent */
+  --accent-soft: #fbeaee;     /* wash behind the current nav item, selected rows */
+  --ring: #8e1b3a;
 
   /* Identity only — the mark and the wordmark. Never a status. */
   --brand-from: #a8163a;
   --brand-to: #f0713d;
 
   /* Verdict palette. Section 11: "REVIEW rows render amber, never red,
-     distinguishable at a glance from a definite failure." Chosen for 4.5:1
-     against their own ground, and distinguishable in deuteranopia by lightness
-     as well as hue — the amber is markedly lighter than the scarlet. */
-  --pass: #166534;   --pass-bg: #e5f4e9;   --pass-fg: #0f3d20;   /* 6.7:1 */
-  --fail: #c2261b;   --fail-bg: #fdeae7;   --fail-fg: #7d1610;   /* 5.5:1 */
-  --review: #9a5a08; --review-bg: #fdf1dc; --review-fg: #6d3f04; /* 5.1:1 */
-  --nodata: #6d4a50; --nodata-bg: #f4ece8; --nodata-fg: #3a2126; /* 7.3:1 */
+     distinguishable at a glance from a definite failure." Each pairing clears
+     4.5:1 on its own ground; the FAIL/REVIEW distinction is carried by the
+     glyph, for the reason argued at the top of this file. */
+  --pass: #166534;   --pass-bg: #e5f4e9;   --pass-fg: #0f3d20;   /* 10.8:1 */
+  --fail: #c2261b;   --fail-bg: #fdeae7;   --fail-fg: #7d1610;   /*  9.1:1 */
+  --review: #9a5a08; --review-bg: #fdf1dc; --review-fg: #6d3f04; /*  8.0:1 */
+  --nodata: #6d4a50; --nodata-bg: #f4ece8; --nodata-fg: #3a2126; /* 12.6:1 */
+
+  /* Elevation. Warm-tinted rather than neutral black, so a raised surface on a
+     cream ground does not develop a grey halo. */
+  --shadow-sm: 0 1px 2px rgb(60 24 20 / 0.06);
+  --shadow-md: 0 1px 2px rgb(60 24 20 / 0.06), 0 4px 12px rgb(60 24 20 / 0.07);
+  --shadow-lg: 0 2px 4px rgb(60 24 20 / 0.06), 0 12px 32px rgb(60 24 20 / 0.12);
 }
 
 :root[data-mode="dark"] {
   color-scheme: dark;
 
   /* Warm dark, not slate. A cream-and-crimson identity that turns blue-grey in
-     dark mode reads as a different product. */
-  --bg: #1a0f13;
-  --surface: #241519;
-  --surface-2: #331d23;
-  --border: #4b2b33;
-  --fg: #fbf0ec;          /* 16.1:1 */
-  --fg-muted: #d9b6ad;    /* 10.2:1 */
+     dark mode reads as a different product.
 
-  /* The orange end of the gradient, not the wine one: #8e1b3a on #1a0f13 is
+     The chroma is pulled well back from the old values (#1a0f13 / #241519 /
+     #331d23): those were saturated enough that the maroon ground competed with
+     the FAIL tint sitting on top of it. This is the same hue family, desaturated
+     to near-neutral, so the ground reads as "dark" and the tints read as
+     "something happened". */
+  --bg: #15100f;
+  --surface: #1e1715;
+  --surface-2: #2a211e;
+  --surface-3: #372b27;
+  --border: #3a2e2a;
+  --border-strong: #7d6862;   /* 3.39:1 on --surface */
+  --fg: #f7efea;              /* 16.6:1 */
+  --fg-muted: #c6b1a8;        /*  9.2:1 */
+
+  /* The orange end of the gradient, not the wine one: #8e1b3a on this ground is
      2.3:1 and unreadable. Dark mode takes the accent from the other end of the
      same gradient, which keeps the identity and passes AA at 8.0:1. */
   --accent: #f98b5e;
   --accent-fg: #2b1219;
-  --accent-soft: #3a1d20;
+  --accent-soft: #33211c;
+  --ring: #f98b5e;
 
   --brand-from: #f0713d;
   --brand-to: #f9a97e;
 
-  --pass: #5ed37f;   --pass-bg: #0d2c18;   --pass-fg: #bdf0cd;
-  --fail: #ff7a6b;   --fail-bg: #3a110c;   --fail-fg: #ffd2ca;
-  --review: #f5b73f; --review-bg: #3a2606; --review-fg: #fbe3ac;
-  --nodata: #b39a95; --nodata-bg: #2c1b20; --nodata-fg: #e6d5d0;
+  --pass: #5ed37f;   --pass-bg: #0f2a1a;   --pass-fg: #bdf0cd;   /* 12.1:1 */
+  --fail: #ff7a6b;   --fail-bg: #3a1511;   --fail-fg: #ffd2ca;   /* 11.8:1 */
+  --review: #f5b73f; --review-bg: #38280c; --review-fg: #fbe3ac; /* 11.3:1 */
+  --nodata: #b39a95; --nodata-bg: #2a211e; --nodata-fg: #e6d5d0; /* 11.1:1 */
+
+  /* A shadow on a near-black ground is invisible, so depth is carried by the
+     surface ladder above and a one-pixel top highlight (see `.card`). These
+     stay defined and near-black so the same utility classes keep working. */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 2px 4px rgb(0 0 0 / 0.4), 0 8px 20px rgb(0 0 0 / 0.35);
+  --shadow-lg: 0 4px 8px rgb(0 0 0 / 0.45), 0 16px 40px rgb(0 0 0 / 0.5);
 }
 
 :root[data-mode="daylight"] {
@@ -122,12 +201,15 @@
   --bg: #ffffff;
   --surface: #ffffff;
   --surface-2: #ffffff;
+  --surface-3: #ffffff;
   --border: #000000;
+  --border-strong: #000000;
   --fg: #000000;
   --fg-muted: #000000;
   --accent: #8a0020;      /* 10.0:1 */
   --accent-fg: #ffffff;
   --accent-soft: #ffffff;
+  --ring: #000000;
 
   --brand-from: #8a0020;
   --brand-to: #8a0020;
@@ -136,6 +218,13 @@
   --fail: #a80000;   --fail-bg: #ffffff;   --fail-fg: #6b0000;
   --review: #7a4100; --review-bg: #ffffff; --review-fg: #4a2700;
   --nodata: #000000; --nodata-bg: #ffffff; --nodata-fg: #000000;
+
+  /* No shadows at all. A soft drop shadow is the first thing a sunlit screen
+     loses, and a layout that depends on one to separate two panels becomes one
+     undifferentiated white field. Daylight separates panels with rule width. */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
 }
 
 /* Daylight mode carries its contrast in weight and rule width, since it has no
@@ -155,7 +244,9 @@
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
   --color-accent: var(--accent);
@@ -188,6 +279,48 @@ body {
   font-size: 1rem;
   line-height: 1.55;
   min-height: 100dvh;
+  /* Plex ships proportional figures by default. Every number on this screen is
+     a measurement, a count or an ID that sits in a column, and proportional
+     digits make a column of millimetres jitter as it updates. */
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings take the serif. It is the one place this app allows itself a voice:
+   the register of the thing being produced is a statutory notice, and a serif
+   masthead over a technical sans body is what that document already looks like
+   on paper. Tight tracking keeps it from reading as editorial. */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Running prose gets a measure. Tables and dashboards opt out by not being
+   prose; this only binds the paragraph-shaped parts of the scan record. */
+.prose-measure {
+  max-width: 68ch;
+}
+
+/* A label above a value, used throughout the dashboard tiles and the scan
+   record. Uppercase needs tracking or it sets as a solid block. */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* Measurements, IDs, latency figures, rule codes. Anything the officer might
+   read aloud or copy into a notice. */
+.numeric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "zero" 1;  /* slashed zero — 0 and O appear together in rule ids */
 }
 
 /* The wordmark, and nothing else. The solid `--brand-from` is set first so the
@@ -207,12 +340,29 @@ body {
   -webkit-text-fill-color: currentColor;
 }
 
+/* Cards carry a hairline plus a one-pixel inner highlight along the top edge.
+   On the dark ground that highlight is the whole of the elevation cue, because
+   a drop shadow against #15100f is not visible at any opacity worth paying for. */
+.card {
+  box-shadow: var(--shadow-sm);
+}
+:root[data-mode="dark"] .card {
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgb(255 255 255 / 0.04);
+}
+:root[data-mode="daylight"] .card {
+  box-shadow: none;
+}
+
 /* Keyboard navigation is a section 11 requirement, so the focus ring is defined
-   once, globally, and never removed. */
+   once, globally, and never removed. Two rings, not one: the accent sits inside
+   a ground-coloured halo so the ring stays visible whether the control is on
+   the page ground, on a card, or on a filled accent button — a single-colour
+   ring disappears the moment it lands on its own colour. */
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
-  border-radius: 2px;
+  box-shadow: 0 0 0 2px var(--bg);
+  border-radius: var(--radius-sm);
 }
 
 /* Skip link — the first tab stop on every page. */
@@ -230,6 +380,7 @@ body {
   background: var(--accent);
   color: var(--accent-fg);
   padding: 0.75rem 1rem;
+  font-weight: 600;
 }
 .skip-link:focus {
   left: 0;
@@ -267,4 +418,6 @@ body {
     -webkit-text-fill-color: #000 !important;
     color: #000 !important;
   }
+  /* Shadows print as grey smudges on a laser printer. */
+  .card { box-shadow: none !important; border: 1px solid #000 !important; }
 }
