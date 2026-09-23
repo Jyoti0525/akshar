@@ -25,6 +25,21 @@ from __future__ import annotations
 
 import os
 
+# `spaces` FIRST, before gradio and before anything that imports torch.
+#
+# It patches both at import time, and ZeroGPU's startup detection runs off that
+# patching — importing it last meant the decorator below was applied to an
+# unpatched gradio and the Space reported "No @spaces.GPU function detected"
+# twice despite the function being right there. Import order is load-bearing
+# here, which is unusual enough to be worth the comment.
+try:
+    import spaces
+
+    _ON_SPACE = True
+except ImportError:  # not running on a Space
+    spaces = None  # type: ignore[assignment]
+    _ON_SPACE = False
+
 import gradio as gr
 
 from api.main import app as api
@@ -80,22 +95,18 @@ the weights, and about 10 seconds once they are resident.*
 #
 # Off-Space — locally, and in the Docker image — `spaces` is not installed, so
 # `GPU` below is a passthrough and the decorator does nothing at all.
-try:
-    from spaces import GPU
-except ImportError:  # not running on a Space
+def _gpu(duration: int):
+    """`spaces.GPU` on a Space, a passthrough anywhere else."""
+    if _ON_SPACE and spaces is not None:
+        return spaces.GPU(duration=duration)
 
-    def GPU(*args, **kwargs):  # noqa: N802 - it stands in for spaces.GPU, whose name this is
-        """A no-op stand-in, so the same file runs off-Space."""
-        if args and callable(args[0]):
-            return args[0]
+    def decorate(function):
+        return function
 
-        def decorate(function):
-            return function
-
-        return decorate
+    return decorate
 
 
-@GPU(duration=15)
+@_gpu(duration=15)
 def gpu_probe() -> str:
     """Report the attached device. Declared for ZeroGPU; never on the scan path."""
     try:
