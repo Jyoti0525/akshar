@@ -128,12 +128,24 @@ class Settings(BaseSettings):
                 "AKSHAR_JWT_SECRET is still the development default; anyone with "
                 "the repository can mint an admin token"
             )
-        if self.minio_secret_key == "akshar-secret":
-            problems.append("AKSHAR_MINIO_SECRET_KEY is still the development default")
-        if not self.minio_secure and self.environment == "production":
-            problems.append(
-                "AKSHAR_MINIO_SECURE is false; evidence would move over plain HTTP"
-            )
+        # Only if object storage is actually configured. `get_minio()` returns
+        # None on an empty endpoint and the evidence bucket is simply not used —
+        # a deployment without object storage is a supported, degraded one, and
+        # it was being refused for holding a development password to a service
+        # it never contacts. That is not a security check, it is a spurious one,
+        # and a spurious check on a startup path is how a correct deployment
+        # gets blocked at the worst moment.
+        #
+        # The moment an endpoint IS set both conditions bite again, which is
+        # when they mean something: evidence would really be moving, and really
+        # be moving in the clear.
+        if self.minio_endpoint:
+            if self.minio_secret_key == "akshar-secret":
+                problems.append("AKSHAR_MINIO_SECRET_KEY is still the development default")
+            if not self.minio_secure:
+                problems.append(
+                    "AKSHAR_MINIO_SECURE is false; evidence would move over plain HTTP"
+                )
         if problems:
             raise RuntimeError(
                 "refusing to start in "
