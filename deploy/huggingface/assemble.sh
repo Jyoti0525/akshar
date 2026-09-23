@@ -27,8 +27,14 @@
 set -euo pipefail
 
 DEST="${1:-}"
+SDK="${2:-gradio}"
 if [[ -z "$DEST" ]]; then
-    echo "usage: bash deploy/huggingface/assemble.sh <path-to-cloned-space>" >&2
+    echo "usage: bash deploy/huggingface/assemble.sh <path-to-cloned-space> [gradio|docker]" >&2
+    echo "  gradio (default) — the free SDK. Docker Spaces are paid on some accounts." >&2
+    exit 2
+fi
+if [[ "$SDK" != "gradio" && "$SDK" != "docker" ]]; then
+    echo "error: sdk must be 'gradio' or 'docker', not '$SDK'" >&2
     exit 2
 fi
 if [[ ! -d "$DEST/.git" ]]; then
@@ -40,14 +46,27 @@ fi
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
-echo "Assembling a Space in $DEST"
+echo "Assembling a $SDK Space in $DEST"
 
-# 1. The Dockerfile has to sit at the Space root and be named `Dockerfile`.
-cp deploy/huggingface/Dockerfile "$DEST/Dockerfile"
+# 1. What makes it a Space, and it differs by SDK.
+#
+#    A Docker Space builds a `Dockerfile` at its root. A Gradio Space installs
+#    `requirements.txt`, apt-installs `packages.txt`, and runs `app_file` — so
+#    the same API is reached two ways, and only the wrapper changes.
+if [[ "$SDK" == "docker" ]]; then
+    cp deploy/huggingface/Dockerfile "$DEST/Dockerfile"
+    cp deploy/huggingface/SPACE_README.md "$DEST/README.md"
+    rm -f "$DEST/app.py" "$DEST/requirements.txt" "$DEST/packages.txt"
+else
+    cp deploy/huggingface/gradio/app.py "$DEST/app.py"
+    cp deploy/huggingface/gradio/requirements.txt "$DEST/requirements.txt"
+    cp deploy/huggingface/gradio/packages.txt "$DEST/packages.txt"
+    cp deploy/huggingface/gradio/SPACE_README.md "$DEST/README.md"
+    rm -f "$DEST/Dockerfile"
+fi
 
-# 2. The Space README carries the YAML front matter that configures the Space —
-#    `sdk: docker` and `app_port: 7860`. Without it the Space will not build.
-cp deploy/huggingface/SPACE_README.md "$DEST/README.md"
+# 2. The README's YAML front matter is what actually configures a Space. Without
+#    it the Space will not build, whichever SDK it is.
 
 # 3. The nine packages named in `[tool.setuptools]`, plus the build metadata.
 cp pyproject.toml "$DEST/pyproject.toml"

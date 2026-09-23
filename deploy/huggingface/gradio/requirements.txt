@@ -1,0 +1,12 @@
+# Dependencies for a Hugging Face Gradio Space.
+#
+# One line, deliberately. `pyproject.toml` already pins every version with the
+# reasoning in AKSHAR.md section 15b beside it, and a second hand-maintained
+# list would drift from it silently — the deployed API would then be running
+# something nobody chose. `pip` accepts a local path with extras, so this
+# installs exactly what `docker/api.Dockerfile` installs.
+#
+# `gradio` itself is NOT listed. The Space image already provides it at the
+# version named by `sdk_version` in README.md, and pinning a second one here is
+# how you get a resolver conflict on somebody else's build machine.
+.[api,vision,reports,retrieval]
