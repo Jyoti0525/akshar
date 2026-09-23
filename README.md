@@ -133,6 +133,41 @@ database, and `/healthz` says `DEMONSTRATION DATA` while it is on.
 | `--dev` | `next dev` instead of a production build: faster to start, but no service worker, so the offline demonstration will not work |
 | `--api-only` | skip the web app |
 
+### The models, and what runs without them
+
+**No weights are in this repository.** `.gitignore` excludes `models/`, because
+fifty megabytes of binary makes every clone slow and every diff useless. A fresh
+clone therefore has no models, and that is a supported state rather than a
+broken one: `vision/runtime.py` treats a missing model as a first-class
+condition — `ModelUnavailableError`, caught by the pipeline and reported as a
+degradation tier — so the system runs, and degrades honestly, before this has
+ever been executed.
+
+```bash
+python scripts/fetch_models.py            # everything with a public source
+python scripts/fetch_models.py --check    # report what is present, download nothing
+```
+
+That fetches the OCR bundle — PP-OCRv6 detection and the PP-OCRv5 Devanagari
+recogniser, about 32 MB — from their published HuggingFace artifacts. With those
+present the scan path reads text end to end.
+
+**Four artifacts have no public source, and `--check` will list them as
+missing.** Three are ours and are produced by `training/`; the fourth is public
+but not yet mirrored here:
+
+| Artifact | What is lost without it |
+|---|---|
+| `detector_rtmdet_ins_tiny_int8.onnx` | B2 segmentation. **Not yet trained** — see §14; the corpus is still short of what it needs |
+| `field_classifier_int8.onnx` | B8 tier 2 only. The regex tier already separates every field and all six hard negatives, so this is optional by design |
+| `mobilenetv3_small_embed.onnx` + `sku_pca_512.npz` | SKU near-duplicate matching, so no cache hit on a pack seen before |
+| `bge-small-en-v1.5.onnx` | Free-text rule search. Tier 1 — the citation lookup officers actually use — is a dict keyed on `rule_ref` and needs no model |
+
+What still works with every one of them absent: capture quality, rectification,
+scale recovery, millimetre measurement, the rules engine and all 13 check types,
+the `listing_text` channel end to end, and every report format. Nothing raises;
+each scan reports the tier it ran at.
+
 ### The rules engine alone — no models, no database, no Docker
 
 The legal layer is testable on its own, which is the point of the split:
