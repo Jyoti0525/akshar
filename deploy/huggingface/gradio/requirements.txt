@@ -1,12 +1,46 @@
 # Dependencies for a Hugging Face Gradio Space.
 #
-# One line, deliberately. `pyproject.toml` already pins every version with the
-# reasoning in AKSHAR.md section 15b beside it, and a second hand-maintained
-# list would drift from it silently — the deployed API would then be running
-# something nobody chose. `pip` accepts a local path with extras, so this
-# installs exactly what `docker/api.Dockerfile` installs.
+# GENERATED from `pyproject.toml` by `deploy/huggingface/gen-requirements.py`.
+# Regenerate rather than edit: every pin here is argued for in AKSHAR.md
+# section 15b, and a hand-kept copy drifts from it silently — the deployed API
+# would then be running versions nobody chose.
 #
-# `gradio` itself is NOT listed. The Space image already provides it at the
-# version named by `sdk_version` in README.md, and pinning a second one here is
-# how you get a resolver conflict on somebody else's build machine.
-.[api,vision,reports,retrieval]
+# This was one line once: `.[api,vision,reports,retrieval]`, which is what
+# `docker/api.Dockerfile` effectively installs and is far harder to get wrong.
+# It does not work here. A Space resolves `requirements.txt` in a separate
+# build stage that does not carry the repository, so a local path install has
+# no `pyproject.toml` to read and the build fails before the source is ever
+# copied. Hence the expansion.
+#
+# `gradio` is deliberately absent: the Space image provides it at the version
+# named by `sdk_version` in README.md, and a second pin here is how you get a
+# resolver conflict on somebody else's build machine.
+pydantic>=2.9,<3
+pydantic-settings>=2.6,<3
+PyYAML>=6.0,<7
+uuid6>=2024.7.10
+fastapi>=0.115,<0.116
+uvicorn[standard]>=0.32,<0.35
+python-multipart>=0.0.12
+sqlalchemy>=2.0.36,<2.1
+alembic>=1.14,<2
+psycopg[binary,pool]>=3.2,<4
+pgvector>=0.3.6,<0.4
+dramatiq[redis]>=1.17,<2
+redis>=5.2,<6
+minio>=7.2,<8
+python-jose[cryptography]>=3.3,<4
+bcrypt>=4.1,<6
+prometheus-client>=0.21,<1
+opencv-python-headless>=4.10,<5
+numpy>=1.26,<3
+Pillow>=11.0,<12
+onnxruntime>=1.20,<2
+scipy>=1.14,<2
+pyzbar>=0.1.9
+weasyprint>=62,<63
+pydyf>=0.10,<0.12
+python-docx>=1.1,<2
+jinja2>=3.1,<4
+fpdf2>=2.8,<3
+rank-bm25>=0.2.2

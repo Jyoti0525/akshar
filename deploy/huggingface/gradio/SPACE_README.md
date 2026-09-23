@@ -4,7 +4,8 @@ emoji: 📏
 colorFrom: red
 colorTo: yellow
 sdk: gradio
-sdk_version: 6.28.0
+sdk_version: 5.9.1
+python_version: "3.12"
 app_file: app.py
 pinned: false
 license: apache-2.0
@@ -56,6 +57,20 @@ Set these as **Space secrets**, never as public variables:
 
 Both optional services return `None` when unset rather than raising, so the API
 starts and reports what it can do instead of failing.
+
+## Two pins that are not arbitrary
+
+**`sdk_version: 5.9.1`, not 6.x.** Gradio 6 requires `starlette>=1.0.1`, and
+FastAPI 0.115 — which `pyproject.toml` pins for reasons in AKSHAR.md section
+15b — requires `starlette<0.47`. Those ranges do not overlap, and a Space
+installs `gradio[oauth,mcp]==<sdk_version>` alongside `requirements.txt`, so the
+resolver fails outright. Gradio 5.9.1 sits on Starlette 0.4x and resolves with
+our pin; checked with `pip install --dry-run` rather than assumed.
+
+**`python_version: "3.12"`.** A Space defaults to 3.10 and `pyproject.toml`
+requires 3.12. No 3.12-only syntax is currently used, so 3.10 might work by
+accident — but "might work by accident" is not a deployment, and the version
+that runs in production should be the version the test suite runs on.
 
 ## First request
 
