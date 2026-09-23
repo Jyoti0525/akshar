@@ -50,14 +50,32 @@ async def healthz() -> HealthResponse:
             detail=[f"rulepack failed to load: {exc}"],
         )
 
-    from scripts.fetch_models import ARTIFACTS
-
-    present = sum(1 for artifact in ARTIFACTS if (runtime.MODELS_DIR / artifact.name).exists())
-    if present < len(ARTIFACTS):
+    # `scripts/` is a directory of entry points, not one of the nine packages in
+    # `[tool.setuptools]`, so it is absent from any image built from the wheel
+    # alone — a Hugging Face Space, for one. A health endpoint that returns 500
+    # because a helper module is missing is the worst possible failure: it is
+    # the endpoint whose whole job is to answer "is this alive", and the
+    # container orchestrator believes it.
+    #
+    # So the manifest is optional and its absence is reported rather than
+    # raised. The count is the only thing lost, and the count is advisory.
+    try:
+        from scripts.fetch_models import ARTIFACTS
+    except ModuleNotFoundError:
+        expected = 0
+        present = 0
         detail.append(
-            f"{len(ARTIFACTS) - present} model artifact(s) absent; scans will "
-            f"degrade and report a tier rather than fail"
+            "model manifest unavailable (scripts/ is not in this image), so the "
+            "count below is not a check; the pipeline still reports a tier per scan"
         )
+    else:
+        expected = len(ARTIFACTS)
+        present = sum(1 for artifact in ARTIFACTS if (runtime.MODELS_DIR / artifact.name).exists())
+        if present < expected:
+            detail.append(
+                f"{expected - present} model artifact(s) absent; scans will "
+                f"degrade and report a tier rather than fail"
+            )
 
     from reports.render import pdf_available
 
@@ -105,7 +123,7 @@ async def healthz() -> HealthResponse:
         rulepack_version=rulepack_version,
         rules_loaded=rules_loaded,
         models_present=present,
-        models_expected=len(ARTIFACTS),
+        models_expected=expected,
         storage=storage,
         detail=detail,
     )
