@@ -56,66 +56,68 @@ minute to wake the container. A cold scan is roughly 25 seconds while ONNX loads
 the weights, and about 10 seconds once they are resident.*
 """
 
-def _declare_gpu_function():
-    """Satisfy ZeroGPU's startup check, and be honest about what this is.
+# ---------------------------------------------------------------------------
+# ZeroGPU's startup requirement
+# ---------------------------------------------------------------------------
+# ZeroGPU refuses to start a Space in which no function carries `@spaces.GPU` —
+# *"No @spaces.GPU function detected during startup"*. It is the only free
+# hardware this account can select: Docker Spaces and CPU Basic are both PRO.
+#
+# **The decorator is declared at module level, plainly.** A first attempt built
+# it inside a helper and behind an `if`, and ZeroGPU did not see it — the
+# detection wants the decorated function where every published example puts it,
+# not returned from a factory. That cost a build, so it is written the boring
+# way now and should stay that way.
+#
+# **This project's inference is CPU-bound.** `onnxruntime` is installed with no
+# CUDA provider and the scan path never asks for a device, so this is a
+# declaration rather than a workload. It reports which device was attached,
+# which is true, and nothing in the request path calls it. The landing page
+# says the same thing where a visitor can read it, because the honest answer to
+# "why is an OCR project on GPU hardware" is "it is the free tier with enough
+# memory" — a scan peaks at 1.8 GB on a 9 MP photograph and 0.93 GB on a
+# 1.4 MP one, measured 2026-09-23, and every 512 MB tier is short of both.
+#
+# Off-Space — locally, and in the Docker image — `spaces` is not installed, so
+# `GPU` below is a passthrough and the decorator does nothing at all.
+try:
+    from spaces import GPU
+except ImportError:  # not running on a Space
 
-    ZeroGPU refuses to start a Space in which no function is decorated with
-    `@spaces.GPU` — *"No @spaces.GPU function detected during startup"*. The
-    check exists because ZeroGPU exists to share GPUs between Spaces that use
-    them, and it is the only free hardware this account can select: Docker
-    Spaces and CPU Basic are both paid on it.
+    def GPU(*args, **kwargs):  # noqa: N802 - it stands in for spaces.GPU, whose name this is
+        """A no-op stand-in, so the same file runs off-Space."""
+        if args and callable(args[0]):
+            return args[0]
 
-    **This project's inference is CPU-bound.** `onnxruntime` is installed
-    without a CUDA provider and the scan path never asks for a device, so the
-    decorated function below is a declaration and not a workload. It reports
-    whether a GPU was attached, which is true and occasionally useful, and it is
-    not called by anything in the request path.
+        def decorate(function):
+            return function
 
-    Recorded plainly rather than buried, because it is a workaround for a
-    platform constraint rather than a design decision, and because the honest
-    answer to "why is this on ZeroGPU" is "it is the free tier that had enough
-    memory", not "it needs a GPU". A scan peaks at 1.8 GB resident on a 9 MP
-    photograph and 0.93 GB on a 1.4 MP one — measured 2026-09-23 — and 512 MB
-    tiers cannot hold either.
+        return decorate
 
-    If the account ever gains CPU Basic or a Docker Space, delete this and
-    switch the hardware; nothing else depends on it.
-    """
+
+@GPU(duration=15)
+def gpu_probe() -> str:
+    """Report the attached device. Declared for ZeroGPU; never on the scan path."""
     try:
-        import spaces
-    except ImportError:
-        # Not on a Space — running locally or in the Docker image. There is
-        # nothing to satisfy and nothing to declare.
-        return None
+        import torch
 
-    @spaces.GPU(duration=15)
-    def gpu_probe() -> str:
-        try:
-            import torch
-
-            if torch.cuda.is_available():
-                return f"GPU attached: {torch.cuda.get_device_name(0)}"
-            return "No GPU attached; inference here is CPU-bound by design."
-        except Exception as exc:  # pragma: no cover - diagnostic only
-            return f"Could not query the device: {exc}"
-
-    return gpu_probe
-
-
-_gpu_probe = _declare_gpu_function()
+        if torch.cuda.is_available():
+            return f"GPU attached: {torch.cuda.get_device_name(0)}"
+        return "No GPU attached. Inference here is CPU-bound by design."
+    except Exception as exc:  # pragma: no cover - diagnostic only
+        return f"Could not query the device: {exc}"
 
 
 with gr.Blocks(title="AKSHAR API", analytics_enabled=False) as landing:
     gr.Markdown(_LANDING)
-    if _gpu_probe is not None:
-        with gr.Accordion("Runtime device", open=False):
-            gr.Markdown(
-                "This Space runs on ZeroGPU because it is the free tier with "
-                "enough memory — a scan needs about 1.8 GB. The inference "
-                "itself is CPU-bound; no GPU is used in the scan path."
-            )
-            _device_out = gr.Textbox(label="Device", interactive=False)
-            gr.Button("Check the device").click(_gpu_probe, outputs=_device_out)
+    with gr.Accordion("Runtime device", open=False):
+        gr.Markdown(
+            "This Space runs on ZeroGPU because it is the free tier with enough "
+            "memory — a scan needs about 1.8 GB. The inference itself is "
+            "CPU-bound; no GPU is used in the scan path."
+        )
+        _device_out = gr.Textbox(label="Device", interactive=False)
+        gr.Button("Check the device").click(gpu_probe, outputs=_device_out)
 
 # Gradio is mounted ONTO the API, not in front of it.
 app = gr.mount_gradio_app(api, landing, path="/ui")
