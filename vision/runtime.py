@@ -137,6 +137,44 @@ def load(name: str, *, providers: tuple[str, ...] | None = None) -> LoadedModel:
         # throughput worse, not better.
         options.intra_op_num_threads = int(os.environ.get("AKSHAR_ORT_THREADS", "2"))
 
+        # ------------------------------------------------------------------
+        # The CPU memory arena, and why a 512 MB host must switch it off
+        # ------------------------------------------------------------------
+        # onnxruntime allocates intermediate tensors from a pool it grows to
+        # the high-water mark and **never returns to the OS**. For the text
+        # detector that is not a rounding error: the model file is 9.5 MB and
+        # the pool it ends up holding is roughly a gigabyte, because
+        # `detect_text.input_side` runs the frame at up to 2048 px and DBNet's
+        # feature maps scale with input area.
+        #
+        # Measured 2026-09-24, detector alone, three runs at 2048x1536:
+        #
+        #     arena on    peak 1085 MB   settles at  974 MB   ~1.0 s
+        #     arena off   peak  467 MB   settles at   77 MB   ~1.6 s
+        #
+        # **That does not carry to a whole scan, and the knob is not a fix for
+        # the deployment footprint.** Measured the same day through
+        # `pipeline.scan` on a 1.6 MP frame, peak RSS was 1196 MB with the arena
+        # and 1191 MB without it: a 5 MB difference. Roughly a gigabyte of the
+        # real scan is native allocation that is not this pool, and it has not
+        # been attributed yet. The isolated figure above is therefore true and
+        # misleading on its own -- it is kept here precisely so the next person
+        # does not rediscover it and draw the conclusion it invites.
+        #
+        # What it is still good for is a detector-dominated process, which is
+        # what the bulk worker is between batches.
+        #
+        # **It cannot change a verdict.** The arena decides where a tensor's
+        # bytes come from, not what is computed into them; outputs either way
+        # are bit-identical, checked with `np.array_equal` on the detector's
+        # probability map rather than assumed. The cost is latency alone.
+        #
+        # Default on, because a developer machine has the memory and would
+        # rather have the second back. Nothing sets it to 0 today: by the
+        # measurement above, no deployment of the whole API would gain from it.
+        if os.environ.get("AKSHAR_ORT_ARENA", "1") == "0":
+            options.enable_cpu_mem_arena = False
+
         wanted = providers or _PREFERRED_PROVIDERS
         usable = [p for p in wanted if p in ort.get_available_providers()]
         if not usable:  # pragma: no cover - CPU EP is always present
