@@ -105,7 +105,13 @@ async function DemonstrationPanel() {
           {!apiAnswered
             ? "The API is not answering, so signing in will fail until it is up. These are the accounts to use once it is."
             : !demo
-              ? "These accounts exist only if the database has been seeded with them — see api/demo.py. Shown because this is a development build."
+              ? dev
+                ? "These accounts exist only if the database has been seeded with them — see api/demo.py. Shown because this is a development build."
+                : // `forced` on a production build: a hosted demonstration
+                  // against a real database. The development sentence above
+                  // was the only one this branch had, and it told a reviewer on
+                  // the public link that they were looking at a dev build.
+                  "A demonstration deployment for review. Each account sees the application as that role would; the verdicts come from the real rulepack."
               : seeded
                 ? "This API was started with a synthetic shelf. The packets are invented; the verdicts are not — every one comes from the rulepack."
                 : "This API is empty and holds nothing in a database. Scan or upload a photograph to put the first record in it."}
