@@ -93,4 +93,14 @@ EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=3 \
     CMD curl -fsS http://localhost:8000/healthz || exit 1
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Shell form on purpose, so `$PORT` expands.
+#
+# Compose sets no PORT and gets 8000, which is what `docker-compose.yml`,
+# the healthcheck above and `EXPOSE` all assume. A managed host — Cloud Run,
+# Render, Heroku — assigns a port at boot, injects it as `$PORT`, and kills any
+# container that listens somewhere else. The exec form cannot expand a variable,
+# so the JSON array that used to be here made this image undeployable on every
+# one of them, and the symptom is a startup timeout that never mentions ports.
+#
+# `exec` keeps uvicorn as PID 1 so it still receives SIGTERM directly.
+CMD exec uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}
